@@ -21,8 +21,8 @@
 #define FCITXQTCONFIGPLUGIN_H
 
 #include "fcitx5qt5widgetsaddons_export.h"
-#include <QString>
 #include <QObject>
+#include <QString>
 #include <QStringList>
 
 class FcitxQtConfigUIWidget;
@@ -30,8 +30,7 @@ class FcitxQtConfigUIWidget;
 /**
  * interface for qt config ui
  */
-struct FCITX5QT5WIDGETSADDONS_EXPORT FcitxQtConfigUIFactoryInterface
-{
+struct FCITX5QT5WIDGETSADDONS_EXPORT FcitxQtConfigUIFactoryInterface {
     /**
      *  return the name for plugin
      */
@@ -44,7 +43,7 @@ struct FCITX5QT5WIDGETSADDONS_EXPORT FcitxQtConfigUIFactoryInterface
      *
      * @return plugin name
      */
-    virtual FcitxQtConfigUIWidget *create( const QString &key ) = 0;
+    virtual FcitxQtConfigUIWidget *create(const QString &key) = 0;
 
     /**
      * return a list that this plugin will handle, need to be consist with
@@ -55,19 +54,22 @@ struct FCITX5QT5WIDGETSADDONS_EXPORT FcitxQtConfigUIFactoryInterface
     virtual QStringList files() = 0;
 };
 
-#define FcitxQtConfigUIFactoryInterface_iid "org.fcitx.Fcitx.FcitxQtConfigUIFactoryInterface"
-Q_DECLARE_INTERFACE(FcitxQtConfigUIFactoryInterface, FcitxQtConfigUIFactoryInterface_iid)
+#define FcitxQtConfigUIFactoryInterface_iid                                    \
+    "org.fcitx.Fcitx.FcitxQtConfigUIFactoryInterface"
+Q_DECLARE_INTERFACE(FcitxQtConfigUIFactoryInterface,
+                    FcitxQtConfigUIFactoryInterface_iid)
 
 /**
  * base class for qt config ui
  */
-class FCITX5QT5WIDGETSADDONS_EXPORT FcitxQtConfigUIPlugin : public QObject, public FcitxQtConfigUIFactoryInterface {
+class FCITX5QT5WIDGETSADDONS_EXPORT FcitxQtConfigUIPlugin
+    : public QObject,
+      public FcitxQtConfigUIFactoryInterface {
     Q_OBJECT
     Q_INTERFACES(FcitxQtConfigUIFactoryInterface)
 public:
-    explicit FcitxQtConfigUIPlugin(QObject* parent = 0);
+    explicit FcitxQtConfigUIPlugin(QObject *parent = 0);
     virtual ~FcitxQtConfigUIPlugin();
 };
-
 
 #endif // FCITXCONFIGPLUGIN_H

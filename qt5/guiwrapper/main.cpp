@@ -19,11 +19,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <libintl.h>
 #include "wrapperapp.h"
+#include <libintl.h>
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char *argv[]) {
     QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     WrapperApp app(argc, argv);
     return app.exec();

@@ -18,40 +18,32 @@
  ***************************************************************************/
 
 #include "fcitxqtconfiguifactory.h"
-#include "fcitxqtconfiguiplugin.h"
 #include "fcitxqtconfiguifactory_p.h"
+#include "fcitxqtconfiguiplugin.h"
 
-#include <QDir>
 #include <QDebug>
+#include <QDir>
 #include <QLibrary>
 #include <QPluginLoader>
 #include <QStandardPaths>
-#include <libintl.h>
 #include <fcitx-utils/standardpath.h>
+#include <libintl.h>
 
-FcitxQtConfigUIFactoryPrivate::FcitxQtConfigUIFactoryPrivate(FcitxQtConfigUIFactory* factory) : QObject(factory)
-    ,q_ptr(factory)
-{
-}
+FcitxQtConfigUIFactoryPrivate::FcitxQtConfigUIFactoryPrivate(
+    FcitxQtConfigUIFactory *factory)
+    : QObject(factory), q_ptr(factory) {}
 
-FcitxQtConfigUIFactoryPrivate::~FcitxQtConfigUIFactoryPrivate()
-{
-}
+FcitxQtConfigUIFactoryPrivate::~FcitxQtConfigUIFactoryPrivate() {}
 
-FcitxQtConfigUIFactory::FcitxQtConfigUIFactory(QObject* parent): QObject(parent)
-    ,d_ptr(new FcitxQtConfigUIFactoryPrivate(this))
-{
+FcitxQtConfigUIFactory::FcitxQtConfigUIFactory(QObject *parent)
+    : QObject(parent), d_ptr(new FcitxQtConfigUIFactoryPrivate(this)) {
     Q_D(FcitxQtConfigUIFactory);
     d->scan();
 }
 
-FcitxQtConfigUIFactory::~FcitxQtConfigUIFactory()
-{
+FcitxQtConfigUIFactory::~FcitxQtConfigUIFactory() {}
 
-}
-
-FcitxQtConfigUIWidget* FcitxQtConfigUIFactory::create(const QString& file)
-{
+FcitxQtConfigUIWidget *FcitxQtConfigUIFactory::create(const QString &file) {
     Q_D(FcitxQtConfigUIFactory);
 
     if (!d->plugins.contains(file))
@@ -60,41 +52,43 @@ FcitxQtConfigUIWidget* FcitxQtConfigUIFactory::create(const QString& file)
     return d->plugins[file]->create(file);
 }
 
-bool FcitxQtConfigUIFactory::test(const QString& file) {
+bool FcitxQtConfigUIFactory::test(const QString &file) {
     Q_D(FcitxQtConfigUIFactory);
 
     return d->plugins.contains(file);
 }
 
-void FcitxQtConfigUIFactoryPrivate::scan()
-{
-    fcitx::StandardPath::global().scanFiles(fcitx::StandardPath::Type::Addon, "qt5", [this] (const std::string &path, const std::string &dirPath, bool user) {
-        do {
-            if (user) {
-                break;
-            }
-
-            QDir dir(QString::fromLocal8Bit(dirPath.c_str()));
-            QFileInfo fi (dir.filePath (QString::fromLocal8Bit(path.c_str())));
-
-            QString filePath = fi.filePath(); // file name with path
-            QString fileName = fi.fileName(); // just file name
-
-            if (!QLibrary::isLibrary (filePath)) {
-                break;
-            }
-
-            QPluginLoader* loader = new QPluginLoader (filePath, this);
-            // qDebug() << loader->load();
-            // qDebug() << loader->errorString();
-            FcitxQtConfigUIFactoryInterface* plugin = qobject_cast< FcitxQtConfigUIFactoryInterface* > (loader->instance());
-            if (plugin) {
-                QStringList list = plugin->files();
-                Q_FOREACH(const QString& s, list) {
-                    plugins[s] = plugin;
+void FcitxQtConfigUIFactoryPrivate::scan() {
+    fcitx::StandardPath::global().scanFiles(
+        fcitx::StandardPath::Type::Addon, "qt5",
+        [this](const std::string &path, const std::string &dirPath, bool user) {
+            do {
+                if (user) {
+                    break;
                 }
-            }
-        } while(0);
-        return true;
-    });
+
+                QDir dir(QString::fromLocal8Bit(dirPath.c_str()));
+                QFileInfo fi(
+                    dir.filePath(QString::fromLocal8Bit(path.c_str())));
+
+                QString filePath = fi.filePath(); // file name with path
+                QString fileName = fi.fileName(); // just file name
+
+                if (!QLibrary::isLibrary(filePath)) {
+                    break;
+                }
+
+                QPluginLoader *loader = new QPluginLoader(filePath, this);
+                // qDebug() << loader->load();
+                // qDebug() << loader->errorString();
+                FcitxQtConfigUIFactoryInterface *plugin =
+                    qobject_cast<FcitxQtConfigUIFactoryInterface *>(
+                        loader->instance());
+                if (plugin) {
+                    QStringList list = plugin->files();
+                    Q_FOREACH (const QString &s, list) { plugins[s] = plugin; }
+                }
+            } while (0);
+            return true;
+        });
 }

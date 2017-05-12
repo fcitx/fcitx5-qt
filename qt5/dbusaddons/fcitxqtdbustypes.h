@@ -21,20 +21,21 @@
 
 #include "fcitx5qt5dbusaddons_export.h"
 
+#include <QDBusArgument>
 #include <QList>
 #include <QMetaType>
-#include <QDBusArgument>
 
 class FCITX5QT5DBUSADDONS_EXPORT FcitxQtFormattedPreedit {
 public:
-    const QString& string() const;
+    const QString &string() const;
     qint32 format() const;
-    void setString(const QString& str);
+    void setString(const QString &str);
     void setFormat(qint32 format);
 
     static void registerMetaType();
 
-    bool operator ==(const FcitxQtFormattedPreedit& preedit) const;
+    bool operator==(const FcitxQtFormattedPreedit &preedit) const;
+
 private:
     QString m_string;
     qint32 m_format;
@@ -42,8 +43,10 @@ private:
 
 typedef QList<FcitxQtFormattedPreedit> FcitxQtFormattedPreeditList;
 
-QDBusArgument& operator<<(QDBusArgument& argument, const FcitxQtFormattedPreedit& im);
-const QDBusArgument& operator>>(const QDBusArgument& argument, FcitxQtFormattedPreedit& im);
+QDBusArgument &operator<<(QDBusArgument &argument,
+                          const FcitxQtFormattedPreedit &im);
+const QDBusArgument &operator>>(const QDBusArgument &argument,
+                                FcitxQtFormattedPreedit &im);
 
 Q_DECLARE_METATYPE(FcitxQtFormattedPreedit)
 Q_DECLARE_METATYPE(FcitxQtFormattedPreeditList)
@@ -51,14 +54,15 @@ Q_DECLARE_METATYPE(FcitxQtFormattedPreeditList)
 class FCITX5QT5DBUSADDONS_EXPORT FcitxQtInputContextArgument {
 public:
     FcitxQtInputContextArgument() {}
-    FcitxQtInputContextArgument(const QString &name, const QString &value) : m_name(name), m_value(value) { }
+    FcitxQtInputContextArgument(const QString &name, const QString &value)
+        : m_name(name), m_value(value) {}
 
     static void registerMetaType();
 
-    const QString& name() const;
-    const QString& value() const;
-    void setName(const QString&);
-    void setValue(const QString& );
+    const QString &name() const;
+    const QString &value() const;
+    void setName(const QString &);
+    void setValue(const QString &);
 
 private:
     QString m_name;
@@ -67,8 +71,10 @@ private:
 
 typedef QList<FcitxQtInputContextArgument> FcitxQtInputContextArgumentList;
 
-QDBusArgument& operator<<(QDBusArgument& argument, const FcitxQtInputContextArgument& im);
-const QDBusArgument& operator>>(const QDBusArgument& argument, FcitxQtInputContextArgument& im);
+QDBusArgument &operator<<(QDBusArgument &argument,
+                          const FcitxQtInputContextArgument &im);
+const QDBusArgument &operator>>(const QDBusArgument &argument,
+                                FcitxQtInputContextArgument &im);
 Q_DECLARE_METATYPE(FcitxQtInputContextArgument)
 Q_DECLARE_METATYPE(FcitxQtInputContextArgumentList)
 

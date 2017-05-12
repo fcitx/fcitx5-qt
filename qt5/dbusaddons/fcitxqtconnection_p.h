@@ -28,13 +28,14 @@ class QDBusServiceWatcher;
 class FcitxQtConnectionPrivate : public QObject {
     Q_OBJECT
 public:
-    FcitxQtConnectionPrivate(FcitxQtConnection* conn);
+    FcitxQtConnectionPrivate(FcitxQtConnection *conn);
     virtual ~FcitxQtConnectionPrivate();
-    FcitxQtConnection * const q_ptr;
+    FcitxQtConnection *const q_ptr;
     Q_DECLARE_PUBLIC(FcitxQtConnection);
 
 private Q_SLOTS:
-    void imChanged(const QString& service, const QString& oldowner, const QString& newowner);
+    void imChanged(const QString &service, const QString &oldowner,
+                   const QString &newowner);
     void dbusDisconnected();
     void cleanUp();
     void newServiceAppear();
@@ -46,13 +47,12 @@ private:
     void finalize();
 
     QString m_serviceName;
-    QDBusConnection* m_connection;
-    QDBusServiceWatcher* m_serviceWatcher;
+    QDBusConnection *m_connection;
+    QDBusServiceWatcher *m_serviceWatcher;
     QString m_socketFile;
     bool m_autoReconnect;
     bool m_connectedOnce;
     bool m_initialized;
 };
-
 
 #endif // FCITXCONNECTION_P_H
