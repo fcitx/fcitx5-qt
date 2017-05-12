@@ -1,24 +1,23 @@
-/***************************************************************************
- *   Copyright (C) 2012~2012 by CSSlayer                                   *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.              *
- ***************************************************************************/
-
-#ifndef FCITXQTCONFIGPLUGIN_H
-#define FCITXQTCONFIGPLUGIN_H
+/*
+ * Copyright (C) 2012~2017 by CSSlayer
+ * wengxt@gmail.com
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; see the file COPYING. If not,
+ * see <http://www.gnu.org/licenses/>.
+ */
+#ifndef _WIDGETSADDONS_FCITXQTCONFIGUIPLUGIN_H_
+#define _WIDGETSADDONS_FCITXQTCONFIGUIPLUGIN_H_
 
 #include "fcitx5qt5widgetsaddons_export.h"
 #include <QObject>
@@ -72,4 +71,4 @@ public:
     virtual ~FcitxQtConfigUIPlugin();
 };
 
-#endif // FCITXCONFIGPLUGIN_H
+#endif // _WIDGETSADDONS_FCITXQTCONFIGUIPLUGIN_H_

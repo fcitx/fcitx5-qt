@@ -1,3 +1,23 @@
+/*
+ * Copyright (C) 2017~2017 by CSSlayer
+ * wengxt@gmail.com
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; see the file COPYING. If not,
+ * see <http://www.gnu.org/licenses/>.
+ */
+#ifndef _WIDGETSADDONS_QTKEYTRANSDATA_H_
+#define _WIDGETSADDONS_QTKEYTRANSDATA_H_
 
 int unicodeHasKey[] = {
     300,   301,   372,   373,   374,   375,   399,   415,   416,   417,   431,
@@ -1448,3 +1468,5 @@ QtCode2Key qtCodeToKey[] = {
     {16781916, 65116}, {16781917, 65117}, {16781918, 65118}, {16781919, 65119},
     {16781920, 65120}, {16781921, 65121}, {16781922, 65122},
 };
+
+#endif // _WIDGETSADDONS_QTKEYTRANSDATA_H_

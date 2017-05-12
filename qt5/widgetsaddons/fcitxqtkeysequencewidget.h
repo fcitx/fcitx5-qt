@@ -1,21 +1,23 @@
-/***************************************************************************
- *   Copyright (C) 2013~2013 by CSSlayer                                   *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.              *
- ***************************************************************************/
+/*
+ * Copyright (C) 2013~2017 by CSSlayer
+ * wengxt@gmail.com
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; see the file COPYING. If not,
+ * see <http://www.gnu.org/licenses/>.
+ */
+#ifndef _WIDGETSADDONS_FCITXQTKEYSEQUENCEWIDGET_H_
+#define _WIDGETSADDONS_FCITXQTKEYSEQUENCEWIDGET_H_
 
 /* this is forked from kdelibs/kdeui/kkeysequencewidget.h */
 
@@ -41,9 +43,6 @@
     Boston, MA 02110-1301, USA.
 */
 
-#ifndef KKEYSEQUENCEWIDGET_H
-#define KKEYSEQUENCEWIDGET_H
-
 #include <QList>
 #include <QtWidgets/QPushButton>
 
@@ -66,8 +65,6 @@ class FCITX5QT5WIDGETSADDONS_EXPORT FcitxQtKeySequenceWidget : public QWidget {
                    setModifierOnlyAllowed)
 
 public:
-    enum Validation { Validate = 0, NoValidate = 1 };
-
     /**
     * Constructor.
     */
@@ -107,8 +104,7 @@ Q_SIGNALS:
 public Q_SLOTS:
     void captureKeySequence();
     void setKeySequence(const QKeySequence &seq,
-                        FcitxQtModifierSide side = MS_Unknown,
-                        Validation val = NoValidate);
+                        FcitxQtModifierSide side = MS_Unknown);
     void clearKeySequence();
 
 private:
@@ -118,4 +114,4 @@ private:
     Q_DISABLE_COPY(FcitxQtKeySequenceWidget)
 };
 
-#endif // KKEYSEQUENCEWIDGET_H
+#endif // _WIDGETSADDONS_FCITXQTKEYSEQUENCEWIDGET_H_
