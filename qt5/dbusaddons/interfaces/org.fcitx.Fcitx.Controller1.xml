@@ -1,0 +1,46 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+"http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+ <interface name="org.fcitx.Fcitx.Controller1">
+  <method name="Exit">
+  </method>
+  <method name="Restart">
+  </method>
+  <method name="Configure">
+  </method>
+  <method name="ConfigureAddon">
+   <arg type="s" direction="in"/>
+  </method>
+  <method name="ConfigureIM">
+   <arg type="s" direction="in"/>
+  </method>
+  <method name="CurrentUI">
+   <arg type="s" direction="out"/>
+  </method>
+  <method name="AddonForIM">
+   <arg type="s" direction="in"/>
+   <arg type="s" direction="out"/>
+  </method>
+  <method name="Activate">
+  </method>
+  <method name="Toggle">
+  </method>
+  <method name="ResetIMList">
+  </method>
+  <method name="State">
+   <arg type="i" direction="out"/>
+  </method>
+  <method name="ReloadConfig">
+  </method>
+  <method name="ReloadAddonConfig">
+   <arg type="s" direction="in"/>
+  </method>
+  <method name="CurrentInputMethod">
+   <arg type="s" direction="out"/>
+  </method>
+  <method name="SetCurrentIM">
+   <arg type="s" direction="in"/>
+  </method>
+ </interface>
+</node>
+

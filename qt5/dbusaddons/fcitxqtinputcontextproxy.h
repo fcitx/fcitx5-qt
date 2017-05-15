@@ -11,14 +11,14 @@
 #ifndef FCITXQTINPUTCONTEXTPROXY_H
 #define FCITXQTINPUTCONTEXTPROXY_H
 
-#include <QObject>
-#include <QByteArray>
-#include <QList>
-#include <QMap>
-#include <QString>
-#include <QStringList>
-#include <QVariant>
-#include <QtDBus>
+#include <QtCore/QObject>
+#include <QtCore/QByteArray>
+#include <QtCore/QList>
+#include <QtCore/QMap>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <QtCore/QVariant>
+#include <QtDBus/QtDBus>
 #include "fcitxqtdbustypes.h"
 #include "fcitx5qt5dbusaddons_export.h"
 

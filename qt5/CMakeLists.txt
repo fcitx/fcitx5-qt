@@ -1,4 +1,4 @@
 add_subdirectory(dbusaddons)
-#add_subdirectory(guiwrapper)
+add_subdirectory(guiwrapper)
 add_subdirectory(platforminputcontext)
 add_subdirectory(widgetsaddons)
