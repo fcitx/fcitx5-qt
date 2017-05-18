@@ -17,8 +17,8 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QFCITXPLATFORMINPUTCONTEXT_H
-#define QFCITXPLATFORMINPUTCONTEXT_H
+#ifndef QFCITXINPUTCONTEXT_H
+#define QFCITXINPUTCONTEXT_H
 
 #include "fcitxqtinputcontextproxy.h"
 #include <QDBusConnection>
@@ -27,9 +27,9 @@
 #include <QKeyEvent>
 #include <QPointer>
 #include <QRect>
-#include <QWindow>
+#include <QWidget>
 #include <fcitx-utils/capabilityflags.h>
-#include <qpa/qplatforminputcontext.h>
+#include <QInputContext>
 #include <unordered_map>
 #include <xkbcommon/xkbcommon-compose.h>
 
@@ -59,24 +59,26 @@ struct FcitxQtICData {
 class ProcessKeyWatcher : public QDBusPendingCallWatcher {
     Q_OBJECT
 public:
-    ProcessKeyWatcher(const QKeyEvent &event, QWindow *window,
+    ProcessKeyWatcher(const QKeyEvent &event, QWidget *window,
                       const QDBusPendingCall &call, QObject *parent = 0)
         : QDBusPendingCallWatcher(call, parent),
-          m_event(event.type(), event.key(), event.modifiers(),
+          m_event(QKeyEvent::createExtendedKeyEvent(event.type(), event.key(), event.modifiers(),
                   event.nativeScanCode(), event.nativeVirtualKey(),
                   event.nativeModifiers(), event.text(), event.isAutoRepeat(),
-                  event.count()),
+                  event.count())),
           m_window(window) {}
 
-    virtual ~ProcessKeyWatcher() {}
+    virtual ~ProcessKeyWatcher() {
+        delete m_event;
+    }
 
-    const QKeyEvent &keyEvent() { return m_event; }
+    QKeyEvent &keyEvent() { return *m_event; }
 
-    QWindow *window() { return m_window.data(); }
+    QWidget *window() { return m_window.data(); }
 
 private:
-    QKeyEvent m_event;
-    QPointer<QWindow> m_window;
+    QKeyEvent *m_event;
+    QPointer<QWidget> m_window;
 };
 
 struct XkbContextDeleter {
@@ -102,21 +104,23 @@ struct XkbComposeStateDeleter {
 
 class FcitxQtInputMethodProxy;
 
-class QFcitxPlatformInputContext : public QPlatformInputContext {
+class QFcitxInputContext : public QInputContext {
     Q_OBJECT
 public:
-    QFcitxPlatformInputContext();
-    virtual ~QFcitxPlatformInputContext();
+    QFcitxInputContext();
+    virtual ~QFcitxInputContext();
 
-    virtual bool filterEvent(const QEvent *event) Q_DECL_OVERRIDE;
-    virtual bool isValid() const Q_DECL_OVERRIDE;
-    virtual void invokeAction(QInputMethod::Action,
-                              int cursorPosition) Q_DECL_OVERRIDE;
-    virtual void reset() Q_DECL_OVERRIDE;
-    virtual void commit() Q_DECL_OVERRIDE;
-    virtual void update(Qt::InputMethodQueries quries) Q_DECL_OVERRIDE;
-    virtual void setFocusObject(QObject *object) Q_DECL_OVERRIDE;
-    virtual QLocale locale() const Q_DECL_OVERRIDE;
+    QString identifierName() override;
+    QString language() override;
+    void reset() override;
+    bool isComposing() const override { return false; };
+    void update() override;
+    void setFocusWidget(QWidget *w) override;
+
+    void widgetDestroyed(QWidget *w) override;
+
+    bool filterEvent(const QEvent* event) override;
+    void mouseHandler(int x, QMouseEvent* event) override;
 
 public Q_SLOTS:
     void cursorRectChanged();
@@ -129,11 +133,9 @@ public Q_SLOTS:
     void connected();
     void cleanUp();
     void windowDestroyed(QObject *object);
-    void updateCurrentIM(const QString &name, const QString &uniqueName,
-                         const QString &langCode);
 
 private:
-    void createInputContext(QWindow *w);
+    void createInputContext(QWidget *w);
     bool processCompose(uint keyval, uint state, bool isRelaese);
     QKeyEvent *createKeyEvent(uint keyval, uint state, bool isRelaese);
 
@@ -157,9 +159,9 @@ private:
 
     void updateCapacity(const FcitxQtICData &data);
     void commitPreedit();
-    void createICData(QWindow *w);
+    void createICData(QWidget *w);
     FcitxQtInputContextProxy *validIC();
-    FcitxQtInputContextProxy *validICByWindow(QWindow *window);
+    FcitxQtInputContextProxy *validICByWindow(QWidget *window);
     bool filterEventFallback(uint keyval, uint keycode, uint state,
                              bool isRelaese);
 
@@ -174,8 +176,8 @@ private:
     QString m_lastSurroundingText;
     int m_lastSurroundingAnchor = 0;
     int m_lastSurroundingCursor = 0;
-    std::unordered_map<QWindow *, FcitxQtICData> m_icMap;
-    QPointer<QWindow> m_lastWindow;
+    std::unordered_map<QWidget *, FcitxQtICData> m_icMap;
+    QPointer<QWidget> m_lastWindow;
     bool m_destroy;
     QScopedPointer<struct xkb_context, XkbContextDeleter> m_xkbContext;
     QScopedPointer<struct xkb_compose_table, XkbComposeTableDeleter>
@@ -187,4 +189,4 @@ private slots:
     void processKeyEventFinished(QDBusPendingCallWatcher *);
 };
 
-#endif // QFCITXPLATFORMINPUTCONTEXT_H
+#endif // QFCITXINPUTCONTEXT_H

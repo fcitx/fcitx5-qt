@@ -1,4 +1,4 @@
-ecm_setup_version(${Fcitx5Qt5_VERSION} VARIABLE_PREFIX FCITX5QT5WIDGETSADDONS
+ecm_setup_version(PROJECT VARIABLE_PREFIX FCITX5QT5WIDGETSADDONS
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/fcitx5qt5widgetsaddons_version.h"
                         PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Qt5WidgetsAddonsConfigVersion.cmake"
                         SOVERSION 1)

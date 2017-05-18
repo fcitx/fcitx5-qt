@@ -1,1 +1,2 @@
-
+add_subdirectory(dbusaddons)
+add_subdirectory(inputcontext)

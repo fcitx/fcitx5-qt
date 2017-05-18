@@ -1,4 +1,4 @@
-ecm_setup_version(${Fcitx5Qt5_VERSION} VARIABLE_PREFIX FCITX5QT5DBUSADDONS
+ecm_setup_version(PROJECT VARIABLE_PREFIX FCITX5QT5DBUSADDONS
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/fcitx5qt5dbusaddons_version.h"
                         PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Qt5DBusAddonsConfigVersion.cmake"
                         SOVERSION 1)

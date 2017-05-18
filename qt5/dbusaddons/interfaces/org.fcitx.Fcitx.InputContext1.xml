@@ -47,6 +47,8 @@
     <signal name="UpdateFormattedPreedit">
       <arg name="str" type="a(si)" />
       <arg name="cursorpos" type="i"/>
+      <!-- qt4 / 5 seems use in/out differently -->
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="FcitxQtFormattedPreeditList" />
       <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="FcitxQtFormattedPreeditList" />
     </signal>
     <signal name="DeleteSurroundingText">
