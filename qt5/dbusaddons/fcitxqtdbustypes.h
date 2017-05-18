@@ -38,7 +38,7 @@ public:
 
 private:
     QString m_string;
-    qint32 m_format;
+    qint32 m_format = 0;
 };
 
 typedef QList<FcitxQtFormattedPreedit> FcitxQtFormattedPreeditList;

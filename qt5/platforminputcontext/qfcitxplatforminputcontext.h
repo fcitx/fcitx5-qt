@@ -172,8 +172,8 @@ private:
     bool m_useSurroundingText;
     bool m_syncMode;
     QString m_lastSurroundingText;
-    int m_lastSurroundingAnchor;
-    int m_lastSurroundingCursor;
+    int m_lastSurroundingAnchor = 0;
+    int m_lastSurroundingCursor = 0;
     std::unordered_map<QWindow *, FcitxQtICData> m_icMap;
     QPointer<QWindow> m_lastWindow;
     bool m_destroy;

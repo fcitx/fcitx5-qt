@@ -114,7 +114,7 @@ FcitxQtKeySequenceWidgetPrivate::FcitxQtKeySequenceWidgetPrivate(
     : q(q), layout(nullptr), keyButton(nullptr), clearButton(nullptr),
       allowModifierless(false), nKey(0), modifierKeys(0), isRecording(false),
       multiKeyShortcutsAllowed(true), allowModifierOnly(false),
-      side(MS_Unknown) {}
+      side(MS_Unknown), oldSide(MS_Unknown) {}
 
 FcitxQtKeySequenceWidget::FcitxQtKeySequenceWidget(QWidget *parent)
     : QWidget(parent), d(new FcitxQtKeySequenceWidgetPrivate(this)) {

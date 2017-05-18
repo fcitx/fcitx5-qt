@@ -768,7 +768,7 @@ void QFcitxPlatformInputContext::processKeyEventFinished(
 
     if (result.isError() || !result.value()) {
         filtered =
-            filterEventFallback(sym, code, state, type == QEvent::KeyPress);
+            filterEventFallback(sym, code, state, type == QEvent::KeyRelease);
     } else {
         filtered = true;
     }
