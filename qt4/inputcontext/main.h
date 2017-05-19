@@ -20,15 +20,14 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <QStringList>
 #include <QInputContextPlugin>
+#include <QStringList>
 
 #include "qfcitxinputcontext.h"
 
 class QFcitxInputContextPlugin : public QInputContextPlugin {
     Q_OBJECT
 public:
-
     QStringList keys() const override;
 
     QStringList languages(const QString &key) override;
@@ -38,7 +37,6 @@ public:
     QInputContext *create(const QString &key) override;
 
     QString displayName(const QString &key) override;
-
 };
 
 #endif // MAIN_H

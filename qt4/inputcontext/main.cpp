@@ -23,9 +23,7 @@ QStringList QFcitxInputContextPlugin::keys() const {
     return QStringList("fcitx5");
 }
 
-QInputContext *
-QFcitxInputContextPlugin::create(const QString &key)
-{
+QInputContext *QFcitxInputContextPlugin::create(const QString &key) {
     if (key.toLower() != "fcitx5") {
         return nullptr;
     }
@@ -33,10 +31,7 @@ QFcitxInputContextPlugin::create(const QString &key)
     return static_cast<QInputContext *>(new QFcitxInputContext());
 }
 
-
-QString
-QFcitxInputContextPlugin::description(const QString &key)
-{
+QString QFcitxInputContextPlugin::description(const QString &key) {
     if (key.toLower() != "fcitx5") {
         return QString("");
     }
@@ -44,10 +39,7 @@ QFcitxInputContextPlugin::description(const QString &key)
     return QString::fromUtf8("Qt immodule plugin for Fcitx");
 }
 
-
-QStringList
-QFcitxInputContextPlugin::languages(const QString & key)
-{
+QStringList QFcitxInputContextPlugin::languages(const QString &key) {
     QStringList result;
     if (key.toLower() == "fcitx5") {
         result << "zh";
@@ -58,9 +50,7 @@ QFcitxInputContextPlugin::languages(const QString & key)
     return result;
 }
 
-
-QString QFcitxInputContextPlugin::displayName(const QString &key)
-{
+QString QFcitxInputContextPlugin::displayName(const QString &key) {
     return key;
 }
 

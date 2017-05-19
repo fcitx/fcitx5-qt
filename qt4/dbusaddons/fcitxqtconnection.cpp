@@ -108,13 +108,15 @@ void FcitxQtConnectionPrivate::createConnection() {
         return;
     }
 
-    disconnect(m_serviceWatcher, SIGNAL(serviceOwnerChanged(QString,QString,QString)),
-               this, SLOT(imChanged(QString,QString,QString)));
+    disconnect(m_serviceWatcher,
+               SIGNAL(serviceOwnerChanged(QString, QString, QString)), this,
+               SLOT(imChanged(QString, QString, QString)));
     if (!m_connection) {
         QDBusConnection *connection =
             new QDBusConnection(QDBusConnection::sessionBus());
-        connect(m_serviceWatcher, SIGNAL(serviceOwnerChanged(QString,QString,QString)),
-                this, SLOT(imChanged(QString,QString,QString)));
+        connect(m_serviceWatcher,
+                SIGNAL(serviceOwnerChanged(QString, QString, QString)), this,
+                SLOT(imChanged(QString, QString, QString)));
         QDBusReply<bool> registered =
             connection->interface()->isServiceRegistered(m_serviceName);
         if (!registered.isValid() || !registered.value()) {
@@ -152,8 +154,7 @@ void FcitxQtConnectionPrivate::imChanged(const QString &service,
 
         /* new rise */
         if (newowner.length() > 0) {
-            QTimer::singleShot(100, this,
-                               SLOT(newServiceAppear()));
+            QTimer::singleShot(100, this, SLOT(newServiceAppear()));
         }
     }
 }

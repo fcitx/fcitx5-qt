@@ -17,8 +17,8 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <QDBusConnection>
 #include <QApplication>
+#include <QDBusConnection>
 #include <QKeyEvent>
 #include <QPalette>
 #include <QTextCharFormat>
@@ -40,8 +40,8 @@
 #include <fcitx-utils/textformatflags.h>
 #include <fcitx-utils/utf8.h>
 
-#include <memory>
 #include <X11/Xlib.h>
+#include <memory>
 #undef KeyPress
 #undef KeyRelease
 #undef FocusIn
@@ -52,7 +52,7 @@ void setFocusGroupForX11(const QByteArray &uuid) {
         return;
     }
 
-    Display* xdisplay = QX11Info::display();
+    Display *xdisplay = QX11Info::display();
     if (!xdisplay) {
         return;
     }
@@ -131,10 +131,8 @@ QFcitxInputContext::QFcitxInputContext()
     FcitxQtFormattedPreedit::registerMetaType();
     FcitxQtInputContextArgument::registerMetaType();
 
-    connect(m_connection, SIGNAL(connected()), this,
-            SLOT(connected()));
-    connect(m_connection, SIGNAL(disconnected()), this,
-            SLOT(cleanUp()));
+    connect(m_connection, SIGNAL(connected()), this, SLOT(connected()));
+    connect(m_connection, SIGNAL(disconnected()), this, SLOT(cleanUp()));
 
     m_connection->startConnection();
 }
@@ -175,7 +173,7 @@ void QFcitxInputContext::cleanUp() {
     }
 }
 
-void QFcitxInputContext::mouseHandler(int cursorPosition, QMouseEvent* event) {
+void QFcitxInputContext::mouseHandler(int cursorPosition, QMouseEvent *event) {
     if (event->type() == QEvent::MouseButtonPress &&
         (cursorPosition <= 0 || cursorPosition >= m_preedit.length())) {
         // qDebug() << action << cursorPosition;
@@ -314,8 +312,7 @@ void QFcitxInputContext::setFocusWidget(QWidget *object) {
     QInputContext::setFocusWidget(object);
 }
 
-void QFcitxInputContext::widgetDestroyed(QWidget* w)
-{
+void QFcitxInputContext::widgetDestroyed(QWidget *w) {
     QInputContext::widgetDestroyed(w);
 
     m_icMap.erase(w);
@@ -406,12 +403,14 @@ void QFcitxInputContext::createInputContextFinished(
                                 qVariantFromValue(static_cast<void *>(&data)));
         connect(data.proxy, SIGNAL(CommitString(QString)), this,
                 SLOT(commitString(QString)));
-        connect(data.proxy, SIGNAL(ForwardKey(uint,uint,bool)), this,
-                SLOT(forwardKey(uint,uint,bool)));
-        connect(data.proxy, SIGNAL(UpdateFormattedPreedit(FcitxQtFormattedPreeditList,int)),
-                this, SLOT(updateFormattedPreedit(FcitxQtFormattedPreeditList,int)));
-        connect(data.proxy, SIGNAL(DeleteSurroundingText(int,uint)),
-                this, SLOT(deleteSurroundingText(int,uint)));
+        connect(data.proxy, SIGNAL(ForwardKey(uint, uint, bool)), this,
+                SLOT(forwardKey(uint, uint, bool)));
+        connect(data.proxy, SIGNAL(UpdateFormattedPreedit(
+                                FcitxQtFormattedPreeditList, int)),
+                this,
+                SLOT(updateFormattedPreedit(FcitxQtFormattedPreeditList, int)));
+        connect(data.proxy, SIGNAL(DeleteSurroundingText(int, uint)), this,
+                SLOT(deleteSurroundingText(int, uint)));
 
         if (data.proxy->isValid()) {
             QWidget *window = qApp->focusWidget();
@@ -508,8 +507,7 @@ void QFcitxInputContext::updateFormattedPreedit(
     update();
 }
 
-void QFcitxInputContext::deleteSurroundingText(int offset,
-                                                       uint _nchar) {
+void QFcitxInputContext::deleteSurroundingText(int offset, uint _nchar) {
     QWidget *input = qApp->focusWidget();
     if (!input)
         return;
@@ -583,14 +581,14 @@ void QFcitxInputContext::createICData(QWidget *w) {
     if (iter == m_icMap.end()) {
         m_icMap.emplace(std::piecewise_construct, std::forward_as_tuple(w),
                         std::forward_as_tuple());
-        connect(w, SIGNAL(destroyed(QObject*)), this,
-                SLOT(windowDestroyed(QObject*)));
+        connect(w, SIGNAL(destroyed(QObject *)), this,
+                SLOT(windowDestroyed(QObject *)));
     }
     createInputContext(w);
 }
 
 QKeyEvent *QFcitxInputContext::createKeyEvent(uint keyval, uint _state,
-                                                      bool isRelease) {
+                                              bool isRelease) {
     Qt::KeyboardModifiers qstate = Qt::NoModifier;
 
     fcitx::KeyStates state(_state);
@@ -685,8 +683,7 @@ bool QFcitxInputContext::filterEvent(const QEvent *event) {
     return QInputContext::filterEvent(event);
 }
 
-void QFcitxInputContext::processKeyEventFinished(
-    QDBusPendingCallWatcher *w) {
+void QFcitxInputContext::processKeyEventFinished(QDBusPendingCallWatcher *w) {
     ProcessKeyWatcher *watcher = static_cast<ProcessKeyWatcher *>(w);
     QDBusPendingReply<bool> result(*watcher);
     bool filtered = false;
@@ -705,7 +702,6 @@ void QFcitxInputContext::processKeyEventFinished(
     quint32 sym = keyEvent.nativeVirtualKey();
     quint32 state = keyEvent.nativeModifiers();
     QString string = keyEvent.text();
-
 
     if (result.isError() || !result.value()) {
         filtered =
@@ -728,8 +724,7 @@ void QFcitxInputContext::processKeyEventFinished(
 }
 
 bool QFcitxInputContext::filterEventFallback(uint keyval, uint keycode,
-                                                     uint state,
-                                                     bool isRelease) {
+                                             uint state, bool isRelease) {
     Q_UNUSED(keycode);
     if (processCompose(keyval, state, isRelease)) {
         return true;
@@ -745,8 +740,7 @@ FcitxQtInputContextProxy *QFcitxInputContext::validIC() {
     return validICByWindow(window);
 }
 
-FcitxQtInputContextProxy *
-QFcitxInputContext::validICByWindow(QWidget *w) {
+FcitxQtInputContextProxy *QFcitxInputContext::validICByWindow(QWidget *w) {
     if (!w) {
         return nullptr;
     }
@@ -765,7 +759,7 @@ QFcitxInputContext::validICByWindow(QWidget *w) {
 }
 
 bool QFcitxInputContext::processCompose(uint keyval, uint state,
-                                                bool isRelease) {
+                                        bool isRelease) {
     Q_UNUSED(state);
 
     if (!m_xkbComposeTable || isRelease)
@@ -799,14 +793,8 @@ bool QFcitxInputContext::processCompose(uint keyval, uint state,
     return true;
 }
 
-QString QFcitxInputContext::identifierName()
-{
-    return "fcitx5";
-}
+QString QFcitxInputContext::identifierName() { return "fcitx5"; }
 
-QString QFcitxInputContext::language()
-{
-    return "";
-}
+QString QFcitxInputContext::language() { return ""; }
 
 // kate: indent-mode cstyle; space-indent on; indent-width 0;

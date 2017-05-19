@@ -384,7 +384,8 @@ void QFcitxPlatformInputContext::cursorRectChanged() {
     qreal scale = inputWindow->devicePixelRatio();
     auto screenGeometry = inputWindow->screen()->geometry();
     auto point = inputWindow->mapToGlobal(r.topLeft());
-    auto native = (point - screenGeometry.topLeft()) * scale + screenGeometry.topLeft();
+    auto native =
+        (point - screenGeometry.topLeft()) * scale + screenGeometry.topLeft();
     QRect newRect(native, r.size() * scale);
 
     if (data.rect != newRect) {
@@ -614,11 +615,13 @@ void QFcitxPlatformInputContext::deleteSurroundingText(int offset,
     }
 }
 
-void QFcitxPlatformInputContext::forwardKey(uint keyval, uint state, bool type) {
+void QFcitxPlatformInputContext::forwardKey(uint keyval, uint state,
+                                            bool type) {
     QObject *input = qApp->focusObject();
     if (input != nullptr) {
         key_filtered = true;
         QKeyEvent *keyevent = createKeyEvent(keyval, state, type);
+
         QCoreApplication::sendEvent(input, keyevent);
         delete keyevent;
         key_filtered = false;
@@ -674,10 +677,11 @@ QKeyEvent *QFcitxPlatformInputContext::createKeyEvent(uint keyval, uint _state,
 
     int key;
     symToKeyQt(keyval, key);
+    auto c = fcitx::Key::keySymToUnicode(static_cast<fcitx::KeySym>(keyval));
 
-    QKeyEvent *keyevent =
-        new QKeyEvent(isRelease ? (QEvent::KeyRelease) : (QEvent::KeyPress),
-                      key, qstate, QString(), false, count);
+    QKeyEvent *keyevent = new QKeyEvent(
+        isRelease ? (QEvent::KeyRelease) : (QEvent::KeyPress), key, qstate, 0,
+        keyval, _state, QString::fromUcs4(&c, 1), false, count);
 
     return keyevent;
 }

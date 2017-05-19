@@ -24,12 +24,12 @@
 #include <QDBusConnection>
 #include <QDBusServiceWatcher>
 #include <QFileSystemWatcher>
+#include <QInputContext>
 #include <QKeyEvent>
 #include <QPointer>
 #include <QRect>
 #include <QWidget>
 #include <fcitx-utils/capabilityflags.h>
-#include <QInputContext>
 #include <unordered_map>
 #include <xkbcommon/xkbcommon-compose.h>
 
@@ -62,15 +62,14 @@ public:
     ProcessKeyWatcher(const QKeyEvent &event, QWidget *window,
                       const QDBusPendingCall &call, QObject *parent = 0)
         : QDBusPendingCallWatcher(call, parent),
-          m_event(QKeyEvent::createExtendedKeyEvent(event.type(), event.key(), event.modifiers(),
-                  event.nativeScanCode(), event.nativeVirtualKey(),
-                  event.nativeModifiers(), event.text(), event.isAutoRepeat(),
-                  event.count())),
+          m_event(QKeyEvent::createExtendedKeyEvent(
+              event.type(), event.key(), event.modifiers(),
+              event.nativeScanCode(), event.nativeVirtualKey(),
+              event.nativeModifiers(), event.text(), event.isAutoRepeat(),
+              event.count())),
           m_window(window) {}
 
-    virtual ~ProcessKeyWatcher() {
-        delete m_event;
-    }
+    virtual ~ProcessKeyWatcher() { delete m_event; }
 
     QKeyEvent &keyEvent() { return *m_event; }
 
@@ -119,8 +118,8 @@ public:
 
     void widgetDestroyed(QWidget *w) override;
 
-    bool filterEvent(const QEvent* event) override;
-    void mouseHandler(int x, QMouseEvent* event) override;
+    bool filterEvent(const QEvent *event) override;
+    void mouseHandler(int x, QMouseEvent *event) override;
 
 public Q_SLOTS:
     void cursorRectChanged();
