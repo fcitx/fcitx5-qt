@@ -297,7 +297,7 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
 /* we don't want to waste too much memory here */
 #define SURROUNDING_THRESHOLD 4096
         if (text.length() < SURROUNDING_THRESHOLD) {
-            if (fcitx::utf8::validate(text.toUtf8().data())) {
+            if (fcitx::utf8::validate(text.toUtf8())) {
                 addCapacity(data, fcitx::CapabilityFlag::SurroundingText);
 
                 int cursor = var1.toInt();
