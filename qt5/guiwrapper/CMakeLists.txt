@@ -12,12 +12,12 @@ link_directories(${FCITX4_FCITX_UTILS_LIBRARY_DIRS})
 
 qt5_wrap_ui(QT_WRAPPER_SRCS mainwindow.ui)
 
-add_executable(fcitx-qt5-gui-wrapper ${QT_WRAPPER_SRCS})
+add_executable(fcitx5-qt5-gui-wrapper ${QT_WRAPPER_SRCS})
 
-set_target_properties(fcitx-qt5-gui-wrapper
+set_target_properties(fcitx5-qt5-gui-wrapper
   PROPERTIES AUTOMOC TRUE)
 
-target_link_libraries(fcitx-qt5-gui-wrapper
+target_link_libraries(fcitx5-qt5-gui-wrapper
       Qt5::Core
       Qt5::Gui
       Qt5::Widgets
@@ -27,4 +27,4 @@ target_link_libraries(fcitx-qt5-gui-wrapper
       Fcitx5::Utils
 )
 
-install(TARGETS fcitx-qt5-gui-wrapper DESTINATION "${CMAKE_INSTALL_LIBDIR}/fcitx/libexec")
+install(TARGETS fcitx5-qt5-gui-wrapper DESTINATION "${CMAKE_INSTALL_LIBDIR}/fcitx5/libexec")
