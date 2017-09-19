@@ -55,7 +55,6 @@ private:
     bool m_connectedOnce;
     bool m_initialized;
 };
-
 }
 
 #endif // _DBUSADDONS_FCITXQTCONNECTION_P_H_

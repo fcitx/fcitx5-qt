@@ -562,7 +562,6 @@ int FcitxQtKeySequenceWidget::keyFcitxToQt(int sym, uint state) {
 
     return key | qstate;
 }
-
 }
 
 #include "moc_fcitxqtkeysequencewidget.cpp"

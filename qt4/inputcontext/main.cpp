@@ -55,7 +55,6 @@ QStringList QFcitxInputContextPlugin::languages(const QString &key) {
 QString QFcitxInputContextPlugin::displayName(const QString &key) {
     return key;
 }
-
 }
 
 Q_EXPORT_PLUGIN2(QFcitxInputContextPlugin, fcitx::QFcitxInputContextPlugin)

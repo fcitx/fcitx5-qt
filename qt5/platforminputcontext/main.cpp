@@ -34,5 +34,4 @@ QFcitxPlatformInputContextPlugin::create(const QString &system,
         return new QFcitxPlatformInputContext;
     return 0;
 }
-
 }

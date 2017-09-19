@@ -171,5 +171,4 @@ static bool symToKeyQt(uint keySym, int &keyQt) {
 }
 
 #endif
-
 }

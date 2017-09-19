@@ -40,7 +40,6 @@ public:
 
     QString displayName(const QString &key) override;
 };
-
 }
 
 #endif // MAIN_H

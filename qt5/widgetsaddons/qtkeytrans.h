@@ -28,7 +28,6 @@ bool keyQtToSym(int qtcode, Qt::KeyboardModifiers mod, int &sym,
 
 bool symToKeyQt(int sym, unsigned int state, int &qtcode,
                 Qt::KeyboardModifiers &mod);
-
 }
 
 #endif // _WIDGETSADDONS_QTKEYTRANS_H_

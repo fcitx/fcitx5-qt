@@ -109,5 +109,4 @@ const QDBusArgument &operator>>(const QDBusArgument &argument,
     arg.setValue(value);
     return argument;
 }
-
 }

@@ -96,5 +96,4 @@ void MainWindow::changed(bool changed) {
 }
 
 MainWindow::~MainWindow() { delete m_ui; }
-
 }

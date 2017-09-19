@@ -70,7 +70,6 @@ protected:
 private:
     FcitxQtKeySequenceWidgetPrivate *const d;
 };
-
 }
 
 #endif // _WIDGETSADDONS_FCITXQTKEYSEQUENCEWIDGET_P_H_

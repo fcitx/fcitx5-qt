@@ -773,5 +773,4 @@ bool keyQtToSym(int qtcode, Qt::KeyboardModifiers mod, int &sym,
 
     return sym >= 0;
 }
-
 }

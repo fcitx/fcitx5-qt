@@ -798,7 +798,6 @@ bool QFcitxInputContext::processCompose(uint keyval, uint state,
 QString QFcitxInputContext::identifierName() { return "fcitx5"; }
 
 QString QFcitxInputContext::language() { return ""; }
-
 }
 
 // kate: indent-mode cstyle; space-indent on; indent-width 0;

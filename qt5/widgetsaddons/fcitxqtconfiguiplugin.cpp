@@ -25,5 +25,4 @@ FcitxQtConfigUIPlugin::FcitxQtConfigUIPlugin(QObject *parent)
     : QObject(parent) {}
 
 FcitxQtConfigUIPlugin::~FcitxQtConfigUIPlugin() {}
-
 }

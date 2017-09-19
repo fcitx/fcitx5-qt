@@ -75,7 +75,6 @@ public:
     explicit FcitxQtConfigUIPlugin(QObject *parent = 0);
     virtual ~FcitxQtConfigUIPlugin();
 };
-
 }
 
 #endif // _WIDGETSADDONS_FCITXQTCONFIGUIPLUGIN_H_

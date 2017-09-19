@@ -190,7 +190,6 @@ private:
 private slots:
     void processKeyEventFinished(QDBusPendingCallWatcher *);
 };
-
 }
 
 #endif // QFCITXINPUTCONTEXT_H

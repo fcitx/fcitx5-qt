@@ -184,5 +184,4 @@ void FcitxQtConnectionPrivate::newServiceAppear() {
         createConnection();
     }
 }
-
 }

@@ -36,7 +36,6 @@ private:
     void scan();
     QMap<QString, FcitxQtConfigUIFactoryInterface *> plugins;
 };
-
 }
 
 #endif // _WIDGETSADDONS_FCITXQTCONFIGUIFACTORY_P_H_

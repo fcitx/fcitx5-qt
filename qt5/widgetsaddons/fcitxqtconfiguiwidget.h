@@ -93,7 +93,6 @@ Q_SIGNALS:
      **/
     void saveFinished();
 };
-
 }
 
 #endif // _WIDGETSADDONS_FCITXQTCONFIGUIWIDGET_H_

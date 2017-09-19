@@ -94,5 +94,4 @@ void FcitxQtConfigUIFactoryPrivate::scan() {
             return true;
         });
 }
-
 }

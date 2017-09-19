@@ -70,5 +70,4 @@ WrapperApp::~WrapperApp() {
 }
 
 void WrapperApp::errorExit() { exit(1); }
-
 }

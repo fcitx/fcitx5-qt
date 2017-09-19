@@ -74,7 +74,6 @@ QDBusArgument &operator<<(QDBusArgument &argument,
                           const FcitxQtInputContextArgument &im);
 const QDBusArgument &operator>>(const QDBusArgument &argument,
                                 FcitxQtInputContextArgument &im);
-
 }
 
 Q_DECLARE_METATYPE(fcitx::FcitxQtFormattedPreedit)

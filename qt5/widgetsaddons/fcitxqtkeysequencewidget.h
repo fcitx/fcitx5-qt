@@ -115,7 +115,6 @@ private:
 
     Q_DISABLE_COPY(FcitxQtKeySequenceWidget)
 };
-
 }
 
 #endif // _WIDGETSADDONS_FCITXQTKEYSEQUENCEWIDGET_H_

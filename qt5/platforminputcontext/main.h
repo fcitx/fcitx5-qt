@@ -36,7 +36,6 @@ public:
     QFcitxPlatformInputContext *create(const QString &system,
                                        const QStringList &paramList);
 };
-
 }
 
 #endif // MAIN_H
