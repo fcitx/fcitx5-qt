@@ -19,6 +19,8 @@
 
 #include "main.h"
 
+namespace fcitx {
+
 QStringList QFcitxInputContextPlugin::keys() const {
     return QStringList("fcitx5");
 }
@@ -54,4 +56,6 @@ QString QFcitxInputContextPlugin::displayName(const QString &key) {
     return key;
 }
 
-Q_EXPORT_PLUGIN2(QFcitxInputContextPlugin, QFcitxInputContextPlugin)
+}
+
+Q_EXPORT_PLUGIN2(QFcitxInputContextPlugin, fcitx::QFcitxInputContextPlugin)

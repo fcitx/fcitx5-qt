@@ -25,6 +25,8 @@
 #include <QList>
 #include <QMetaType>
 
+namespace fcitx {
+
 class FCITX5QT4DBUSADDONS_EXPORT FcitxQtFormattedPreedit {
 public:
     const QString &string() const;
@@ -47,9 +49,6 @@ QDBusArgument &operator<<(QDBusArgument &argument,
                           const FcitxQtFormattedPreedit &im);
 const QDBusArgument &operator>>(const QDBusArgument &argument,
                                 FcitxQtFormattedPreedit &im);
-
-Q_DECLARE_METATYPE(FcitxQtFormattedPreedit)
-Q_DECLARE_METATYPE(FcitxQtFormattedPreeditList)
 
 class FCITX5QT4DBUSADDONS_EXPORT FcitxQtInputContextArgument {
 public:
@@ -75,7 +74,12 @@ QDBusArgument &operator<<(QDBusArgument &argument,
                           const FcitxQtInputContextArgument &im);
 const QDBusArgument &operator>>(const QDBusArgument &argument,
                                 FcitxQtInputContextArgument &im);
-Q_DECLARE_METATYPE(FcitxQtInputContextArgument)
-Q_DECLARE_METATYPE(FcitxQtInputContextArgumentList)
+
+}
+
+Q_DECLARE_METATYPE(fcitx::FcitxQtFormattedPreedit)
+Q_DECLARE_METATYPE(fcitx::FcitxQtFormattedPreeditList)
+Q_DECLARE_METATYPE(fcitx::FcitxQtInputContextArgument)
+Q_DECLARE_METATYPE(fcitx::FcitxQtInputContextArgumentList)
 
 #endif // _DBUSADDONS_FCITXQTDBUSTYPES_H_

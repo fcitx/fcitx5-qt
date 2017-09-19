@@ -25,6 +25,8 @@
 
 #include "qfcitxplatforminputcontext.h"
 
+namespace fcitx {
+
 class QFcitxPlatformInputContextPlugin : public QPlatformInputContextPlugin {
     Q_OBJECT
 public:
@@ -34,5 +36,7 @@ public:
     QFcitxPlatformInputContext *create(const QString &system,
                                        const QStringList &paramList);
 };
+
+}
 
 #endif // MAIN_H

@@ -11,6 +11,8 @@
 
 #include "fcitxqtinputcontextproxy.h"
 
+namespace fcitx {
+
 /*
  * Implementation of interface class FcitxQtInputContextProxy
  */
@@ -24,3 +26,4 @@ FcitxQtInputContextProxy::~FcitxQtInputContextProxy()
 {
 }
 
+}

@@ -30,12 +30,7 @@
 #include <errno.h>
 #include <signal.h>
 
-// utils function in fcitx-utils and fcitx-config
-bool _pid_exists(pid_t pid) {
-    if (pid <= 0)
-        return 0;
-    return !(kill(pid, 0) && (errno == ESRCH));
-}
+namespace fcitx {
 
 FcitxQtConnection::FcitxQtConnection(QObject *parent)
     : QObject(parent), d_ptr(new FcitxQtConnectionPrivate(this)) {}
@@ -189,4 +184,6 @@ void FcitxQtConnectionPrivate::newServiceAppear() {
 
         createConnection();
     }
+}
+
 }

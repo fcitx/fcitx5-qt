@@ -27,6 +27,8 @@
 #define _ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 #define _ARRAY_END(a) (a + _ARRAY_SIZE(a))
 
+namespace fcitx {
+
 void qEventToSym(int key, const QString &text, Qt::KeyboardModifiers mod,
                  int &outsym, unsigned int &outstate) {
     int sym = 0;
@@ -770,4 +772,6 @@ bool keyQtToSym(int qtcode, Qt::KeyboardModifiers mod, int &sym,
     qEventToSym(qtcode, QString(), mod, sym, state);
 
     return sym >= 0;
+}
+
 }

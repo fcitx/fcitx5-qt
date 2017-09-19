@@ -11,6 +11,8 @@
 
 #include "fcitxqtcontrollerproxy.h"
 
+namespace fcitx {
+
 /*
  * Implementation of interface class FcitxQtControllerProxy
  */
@@ -24,3 +26,4 @@ FcitxQtControllerProxy::~FcitxQtControllerProxy()
 {
 }
 
+}

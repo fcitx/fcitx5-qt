@@ -25,6 +25,8 @@
 
 #include <X11/keysym.h>
 
+namespace fcitx {
+
 struct TransKey {
     int keySymQt;
     uint keySymX;
@@ -169,3 +171,5 @@ static bool symToKeyQt(uint keySym, int &keyQt) {
 }
 
 #endif
+
+}

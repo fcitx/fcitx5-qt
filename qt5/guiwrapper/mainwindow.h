@@ -27,6 +27,8 @@
 #include "fcitxqtconfiguiwidget.h"
 #include "ui_mainwindow.h"
 
+namespace fcitx {
+
 class FcitxQtControllerProxy;
 class FcitxQtConnection;
 class MainWindow : public QMainWindow {
@@ -47,5 +49,7 @@ private:
     FcitxQtConfigUIWidget *m_pluginWidget;
     FcitxQtControllerProxy *m_proxy;
 };
+
+}
 
 #endif // FCITXQT5_GUIWRAPPER_MAINWINDOW_H

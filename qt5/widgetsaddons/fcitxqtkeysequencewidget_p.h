@@ -46,6 +46,8 @@
 #include <QPushButton>
 #include <QToolButton>
 
+namespace fcitx {
+
 class FcitxQtKeySequenceWidgetPrivate;
 class FcitxQtKeySequenceButton : public QPushButton {
     Q_OBJECT
@@ -68,5 +70,7 @@ protected:
 private:
     FcitxQtKeySequenceWidgetPrivate *const d;
 };
+
+}
 
 #endif // _WIDGETSADDONS_FCITXQTKEYSEQUENCEWIDGET_P_H_

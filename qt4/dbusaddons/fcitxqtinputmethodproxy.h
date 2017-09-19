@@ -22,6 +22,8 @@
 #include "fcitxqtdbustypes.h"
 #include "fcitx5qt4dbusaddons_export.h"
 
+namespace fcitx {
+
 /*
  * Proxy class for interface org.fcitx.Fcitx.InputMethod1
  */
@@ -57,5 +59,7 @@ public Q_SLOTS: // METHODS
 
 Q_SIGNALS: // SIGNALS
 };
+
+}
 
 #endif

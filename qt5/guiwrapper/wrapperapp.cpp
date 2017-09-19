@@ -30,6 +30,8 @@
 #include "wrapperapp.h"
 #include <fcitx-utils/standardpath.h>
 
+namespace fcitx {
+
 WrapperApp::WrapperApp(int &argc, char **argv)
     : QApplication(argc, argv), m_factory(new FcitxQtConfigUIFactory(this)),
       m_mainWindow(0) {
@@ -68,3 +70,5 @@ WrapperApp::~WrapperApp() {
 }
 
 void WrapperApp::errorExit() { exit(1); }
+
+}

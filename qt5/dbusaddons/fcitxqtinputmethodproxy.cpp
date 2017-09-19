@@ -11,6 +11,8 @@
 
 #include "fcitxqtinputmethodproxy.h"
 
+namespace fcitx {
+
 /*
  * Implementation of interface class FcitxQtInputMethodProxy
  */
@@ -24,3 +26,4 @@ FcitxQtInputMethodProxy::~FcitxQtInputMethodProxy()
 {
 }
 
+}

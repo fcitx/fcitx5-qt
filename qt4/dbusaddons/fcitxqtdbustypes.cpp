@@ -21,6 +21,8 @@
 
 #include "fcitxqtdbustypes.h"
 
+namespace fcitx {
+
 void FcitxQtFormattedPreedit::registerMetaType() {
     qRegisterMetaType<FcitxQtFormattedPreedit>("FcitxQtFormattedPreedit");
     qDBusRegisterMetaType<FcitxQtFormattedPreedit>();
@@ -106,4 +108,6 @@ const QDBusArgument &operator>>(const QDBusArgument &argument,
     arg.setName(name);
     arg.setValue(value);
     return argument;
+}
+
 }

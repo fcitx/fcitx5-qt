@@ -24,6 +24,8 @@
 #include <QString>
 #include <QStringList>
 
+namespace fcitx {
+
 class FcitxQtConfigUIWidget;
 
 /**
@@ -55,8 +57,11 @@ struct FCITX5QT5WIDGETSADDONS_EXPORT FcitxQtConfigUIFactoryInterface {
 
 #define FcitxQtConfigUIFactoryInterface_iid                                    \
     "org.fcitx.Fcitx.FcitxQtConfigUIFactoryInterface"
-Q_DECLARE_INTERFACE(FcitxQtConfigUIFactoryInterface,
+}
+
+Q_DECLARE_INTERFACE(fcitx::FcitxQtConfigUIFactoryInterface,
                     FcitxQtConfigUIFactoryInterface_iid)
+namespace fcitx {
 
 /**
  * base class for qt config ui
@@ -65,10 +70,12 @@ class FCITX5QT5WIDGETSADDONS_EXPORT FcitxQtConfigUIPlugin
     : public QObject,
       public FcitxQtConfigUIFactoryInterface {
     Q_OBJECT
-    Q_INTERFACES(FcitxQtConfigUIFactoryInterface)
+    Q_INTERFACES(fcitx::FcitxQtConfigUIFactoryInterface)
 public:
     explicit FcitxQtConfigUIPlugin(QObject *parent = 0);
     virtual ~FcitxQtConfigUIPlugin();
 };
+
+}
 
 #endif // _WIDGETSADDONS_FCITXQTCONFIGUIPLUGIN_H_

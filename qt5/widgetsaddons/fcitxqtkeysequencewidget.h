@@ -48,6 +48,8 @@
 
 #include "fcitx5qt5widgetsaddons_export.h"
 
+namespace fcitx {
+
 enum FcitxQtModifierSide { MS_Unknown = 0, MS_Left = 1, MS_Right = 2 };
 
 class FcitxQtKeySequenceWidgetPrivate;
@@ -113,5 +115,7 @@ private:
 
     Q_DISABLE_COPY(FcitxQtKeySequenceWidget)
 };
+
+}
 
 #endif // _WIDGETSADDONS_FCITXQTKEYSEQUENCEWIDGET_H_

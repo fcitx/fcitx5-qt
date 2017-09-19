@@ -30,6 +30,8 @@
 #include "fcitxqtcontrollerproxy.h"
 #include "mainwindow.h"
 
+namespace fcitx {
+
 MainWindow::MainWindow(FcitxQtConfigUIWidget *pluginWidget, QWidget *parent)
     : QMainWindow(parent), m_ui(new Ui::MainWindow),
       m_connection(new FcitxQtConnection(this)), m_pluginWidget(pluginWidget),
@@ -94,3 +96,5 @@ void MainWindow::changed(bool changed) {
 }
 
 MainWindow::~MainWindow() { delete m_ui; }
+
+}

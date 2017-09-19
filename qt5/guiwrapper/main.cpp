@@ -24,6 +24,6 @@
 
 int main(int argc, char *argv[]) {
     QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
-    WrapperApp app(argc, argv);
+    fcitx::WrapperApp app(argc, argv);
     return app.exec();
 }

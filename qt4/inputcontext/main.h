@@ -25,6 +25,8 @@
 
 #include "qfcitxinputcontext.h"
 
+namespace fcitx {
+
 class QFcitxInputContextPlugin : public QInputContextPlugin {
     Q_OBJECT
 public:
@@ -38,5 +40,7 @@ public:
 
     QString displayName(const QString &key) override;
 };
+
+}
 
 #endif // MAIN_H

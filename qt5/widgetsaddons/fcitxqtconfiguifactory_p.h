@@ -22,6 +22,8 @@
 #include "fcitxqtconfiguifactory.h"
 #include <QObject>
 
+namespace fcitx {
+
 class FcitxQtConfigUIFactoryPrivate : public QObject {
     Q_OBJECT
 public:
@@ -34,5 +36,7 @@ private:
     void scan();
     QMap<QString, FcitxQtConfigUIFactoryInterface *> plugins;
 };
+
+}
 
 #endif // _WIDGETSADDONS_FCITXQTCONFIGUIFACTORY_P_H_

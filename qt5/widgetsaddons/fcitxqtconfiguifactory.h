@@ -27,6 +27,8 @@
 #include "fcitxqtconfiguiplugin.h"
 #include "fcitxqtconfiguiwidget.h"
 
+namespace fcitx {
+
 class FcitxQtConfigUIFactoryPrivate;
 /**
  * ui plugin factory.
@@ -61,5 +63,7 @@ private:
     FcitxQtConfigUIFactoryPrivate *d_ptr;
     Q_DECLARE_PRIVATE(FcitxQtConfigUIFactory);
 };
+
+}
 
 #endif // _WIDGETSADDONS_FCITXQTCONFIGUIFACTORY_H_

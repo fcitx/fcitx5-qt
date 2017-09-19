@@ -19,6 +19,8 @@
 
 #include "main.h"
 
+namespace fcitx {
+
 QStringList QFcitxPlatformInputContextPlugin::keys() const {
     return QStringList(QStringLiteral("fcitx5"));
 }
@@ -31,4 +33,6 @@ QFcitxPlatformInputContextPlugin::create(const QString &system,
         0)
         return new QFcitxPlatformInputContext;
     return 0;
+}
+
 }

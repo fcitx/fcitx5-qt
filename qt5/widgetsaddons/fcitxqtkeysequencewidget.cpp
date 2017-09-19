@@ -59,6 +59,8 @@
 
 #define _(x) QString::fromUtf8(dgettext("fcitx", x))
 
+namespace fcitx {
+
 class FcitxQtKeySequenceWidgetPrivate {
 public:
     FcitxQtKeySequenceWidgetPrivate(FcitxQtKeySequenceWidget *q);
@@ -559,6 +561,8 @@ int FcitxQtKeySequenceWidget::keyFcitxToQt(int sym, uint state) {
     symToKeyQt((int)sym, state, key, qstate);
 
     return key | qstate;
+}
+
 }
 
 #include "moc_fcitxqtkeysequencewidget.cpp"

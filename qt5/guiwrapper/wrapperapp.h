@@ -24,6 +24,8 @@
 #include "mainwindow.h"
 #include <QApplication>
 
+namespace fcitx {
+
 class FcitxQtConfigUIFactory;
 class WrapperApp : public QApplication {
     Q_OBJECT
@@ -38,5 +40,7 @@ private:
     FcitxQtConfigUIFactory *m_factory;
     MainWindow *m_mainWindow;
 };
+
+}
 
 #endif // _GUIWRAPPER_WRAPPERAPP_H_

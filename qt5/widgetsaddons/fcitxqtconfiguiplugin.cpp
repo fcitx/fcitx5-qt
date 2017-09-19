@@ -19,7 +19,11 @@
 
 #include "fcitxqtconfiguiplugin.h"
 
+namespace fcitx {
+
 FcitxQtConfigUIPlugin::FcitxQtConfigUIPlugin(QObject *parent)
     : QObject(parent) {}
 
 FcitxQtConfigUIPlugin::~FcitxQtConfigUIPlugin() {}
+
+}

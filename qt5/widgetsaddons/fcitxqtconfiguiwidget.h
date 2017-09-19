@@ -22,6 +22,8 @@
 #include "fcitx5qt5widgetsaddons_export.h"
 #include <QtWidgets/QWidget>
 
+namespace fcitx {
+
 /**
  * embedded gui for custom configuration
  **/
@@ -91,5 +93,7 @@ Q_SIGNALS:
      **/
     void saveFinished();
 };
+
+}
 
 #endif // _WIDGETSADDONS_FCITXQTCONFIGUIWIDGET_H_

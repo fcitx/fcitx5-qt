@@ -29,6 +29,8 @@
 #include <fcitx-utils/standardpath.h>
 #include <libintl.h>
 
+namespace fcitx {
+
 FcitxQtConfigUIFactoryPrivate::FcitxQtConfigUIFactoryPrivate(
     FcitxQtConfigUIFactory *factory)
     : QObject(factory), q_ptr(factory) {}
@@ -91,4 +93,6 @@ void FcitxQtConfigUIFactoryPrivate::scan() {
             } while (0);
             return true;
         });
+}
+
 }

@@ -25,6 +25,8 @@
 
 class QDBusConnection;
 
+namespace fcitx {
+
 class FcitxQtConnectionPrivate;
 
 /**
@@ -105,5 +107,7 @@ private:
     FcitxQtConnectionPrivate *const d_ptr;
     Q_DECLARE_PRIVATE(FcitxQtConnection);
 };
+
+}
 
 #endif // _DBUSADDONS_FCITXQTCONNECTION_H_

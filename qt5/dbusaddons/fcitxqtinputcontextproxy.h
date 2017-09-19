@@ -22,6 +22,8 @@
 #include "fcitxqtdbustypes.h"
 #include "fcitx5qt5dbusaddons_export.h"
 
+namespace fcitx {
+
 /*
  * Proxy class for interface org.fcitx.Fcitx.InputContext1
  */
@@ -104,5 +106,7 @@ Q_SIGNALS: // SIGNALS
     void ForwardKey(uint keyval, uint state, bool type);
     void UpdateFormattedPreedit(FcitxQtFormattedPreeditList str, int cursorpos);
 };
+
+}
 
 #endif

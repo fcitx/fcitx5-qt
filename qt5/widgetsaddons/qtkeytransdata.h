@@ -19,6 +19,8 @@
 #ifndef _WIDGETSADDONS_QTKEYTRANSDATA_H_
 #define _WIDGETSADDONS_QTKEYTRANSDATA_H_
 
+namespace fcitx {
+
 int unicodeHasKey[] = {
     300,   301,   372,   373,   374,   375,   399,   415,   416,   417,   431,
     432,   437,   438,   465,   466,   486,   487,   601,   629,   1170,  1171,
@@ -1468,5 +1470,7 @@ QtCode2Key qtCodeToKey[] = {
     {16781916, 65116}, {16781917, 65117}, {16781918, 65118}, {16781919, 65119},
     {16781920, 65120}, {16781921, 65121}, {16781922, 65122},
 };
+
+}
 
 #endif // _WIDGETSADDONS_QTKEYTRANSDATA_H_

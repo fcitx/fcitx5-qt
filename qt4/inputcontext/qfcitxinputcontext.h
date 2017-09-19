@@ -33,8 +33,11 @@
 #include <unordered_map>
 #include <xkbcommon/xkbcommon-compose.h>
 
-class FcitxQtConnection;
 class QFileSystemWatcher;
+
+namespace fcitx {
+
+class FcitxQtConnection;
 
 struct FcitxQtICData {
     FcitxQtICData()
@@ -187,5 +190,7 @@ private:
 private slots:
     void processKeyEventFinished(QDBusPendingCallWatcher *);
 };
+
+}
 
 #endif // QFCITXINPUTCONTEXT_H

@@ -47,6 +47,8 @@
 #include <memory>
 #include <xcb/xcb.h>
 
+namespace fcitx {
+
 template <typename T>
 using XCBReply = std::unique_ptr<T, decltype(&std::free)>;
 
@@ -878,6 +880,8 @@ bool QFcitxPlatformInputContext::processCompose(uint keyval, uint state,
     }
 
     return true;
+}
+
 }
 
 // kate: indent-mode cstyle; space-indent on; indent-width 0;
