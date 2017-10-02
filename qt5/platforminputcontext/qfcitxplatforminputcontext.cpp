@@ -526,7 +526,7 @@ void QFcitxPlatformInputContext::updateFormattedPreedit(
             commitStr += preedit.string();
         QTextCharFormat format;
         if (fcitx::TextFormatFlags(preedit.format()) &
-            fcitx::TextFormatFlag::UnderLine) {
+            fcitx::TextFormatFlag::Underline) {
             format.setUnderlineStyle(QTextCharFormat::DashUnderline);
         }
         if (fcitx::TextFormatFlags(preedit.format()) &
