@@ -264,9 +264,9 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
 
 #define CHECK_HINTS(_HINTS, _CAPABILITY)                                       \
     if (hints & _HINTS)                                                        \
-        addCapacity(data, fcitx::CapabilityFlag::_CAPABILITY);                 \
+        addCapability(data, fcitx::CapabilityFlag::_CAPABILITY);               \
     else                                                                       \
-        removeCapacity(data, fcitx::CapabilityFlag::_CAPABILITY);
+        removeCapability(data, fcitx::CapabilityFlag::_CAPABILITY);
 
         CHECK_HINTS(Qt::ImhNoAutoUppercase, NoAutoUpperCase)
         CHECK_HINTS(Qt::ImhPreferNumbers, Number)
@@ -300,7 +300,7 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
 #define SURROUNDING_THRESHOLD 4096
         if (text.length() < SURROUNDING_THRESHOLD) {
             if (fcitx::utf8::validate(text.toUtf8())) {
-                addCapacity(data, fcitx::CapabilityFlag::SurroundingText);
+                addCapability(data, fcitx::CapabilityFlag::SurroundingText);
 
                 int cursor = var1.toInt();
                 int anchor;
@@ -331,7 +331,7 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
             data.surroundingAnchor = -1;
             data.surroundingCursor = -1;
             data.surroundingText = QString::null;
-            removeCapacity(data, fcitx::CapabilityFlag::SurroundingText);
+            removeCapability(data, fcitx::CapabilityFlag::SurroundingText);
         }
     } while (0);
 }
@@ -481,12 +481,12 @@ void QFcitxPlatformInputContext::createInputContextFinished(
         if (m_useSurroundingText)
             flag |= fcitx::CapabilityFlag::SurroundingText;
 
-        addCapacity(data, flag, true);
+        addCapability(data, flag, true);
     } while (0);
     delete watcher;
 }
 
-void QFcitxPlatformInputContext::updateCapacity(const FcitxQtICData &data) {
+void QFcitxPlatformInputContext::updateCapability(const FcitxQtICData &data) {
     if (!data.proxy || !data.proxy->isValid())
         return;
 
@@ -528,6 +528,14 @@ void QFcitxPlatformInputContext::updateFormattedPreedit(
         if (fcitx::TextFormatFlags(preedit.format()) &
             fcitx::TextFormatFlag::Underline) {
             format.setUnderlineStyle(QTextCharFormat::DashUnderline);
+        }
+        if (fcitx::TextFormatFlags(preedit.format()) &
+            fcitx::TextFormatFlag::Strike) {
+            format.setFontStrikeOut(true);
+        }
+        if (fcitx::TextFormatFlags(preedit.format()) &
+            fcitx::TextFormatFlag::Bold) {
+            format.setFontWeight(QFont::Bold);
         }
         if (fcitx::TextFormatFlags(preedit.format()) &
             fcitx::TextFormatFlag::HighLight) {

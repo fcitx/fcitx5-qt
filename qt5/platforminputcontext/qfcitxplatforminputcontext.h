@@ -23,7 +23,6 @@
 #include "fcitxqtinputcontextproxy.h"
 #include <QDBusConnection>
 #include <QDBusServiceWatcher>
-#include <QFileSystemWatcher>
 #include <QKeyEvent>
 #include <QPointer>
 #include <QRect>
@@ -32,8 +31,6 @@
 #include <qpa/qplatforminputcontext.h>
 #include <unordered_map>
 #include <xkbcommon/xkbcommon-compose.h>
-
-class QFileSystemWatcher;
 
 namespace fcitx {
 
@@ -140,25 +137,26 @@ private:
     bool processCompose(uint keyval, uint state, bool isRelaese);
     QKeyEvent *createKeyEvent(uint keyval, uint state, bool isRelaese);
 
-    void addCapacity(FcitxQtICData &data, fcitx::CapabilityFlags capability,
-                     bool forceUpdate = false) {
+    void addCapability(FcitxQtICData &data, fcitx::CapabilityFlags capability,
+                       bool forceUpdate = false) {
         auto newcaps = data.capability | capability;
         if (data.capability != newcaps || forceUpdate) {
             data.capability = newcaps;
-            updateCapacity(data);
+            updateCapability(data);
         }
     }
 
-    void removeCapacity(FcitxQtICData &data, fcitx::CapabilityFlags capability,
-                        bool forceUpdate = false) {
+    void removeCapability(FcitxQtICData &data,
+                          fcitx::CapabilityFlags capability,
+                          bool forceUpdate = false) {
         auto newcaps = data.capability & (~capability);
         if (data.capability != newcaps || forceUpdate) {
             data.capability = newcaps;
-            updateCapacity(data);
+            updateCapability(data);
         }
     }
 
-    void updateCapacity(const FcitxQtICData &data);
+    void updateCapability(const FcitxQtICData &data);
     void commitPreedit();
     void createICData(QWindow *w);
     FcitxQtInputContextProxy *validIC();
