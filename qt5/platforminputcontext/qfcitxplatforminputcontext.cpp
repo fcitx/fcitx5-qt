@@ -541,6 +541,10 @@ void QFcitxPlatformInputContext::updateFormattedPreedit(
             format.setFontWeight(QFont::Bold);
         }
         if (fcitx::TextFormatFlags(preedit.format()) &
+            fcitx::TextFormatFlag::Italic) {
+            format.setFontItalic(true);
+        }
+        if (fcitx::TextFormatFlags(preedit.format()) &
             fcitx::TextFormatFlag::HighLight) {
             QBrush brush;
             QPalette palette;
