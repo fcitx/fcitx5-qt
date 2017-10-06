@@ -23,6 +23,7 @@
 #include "fcitxqtinputcontextproxy.h"
 #include <QDBusConnection>
 #include <QDBusServiceWatcher>
+#include <QGuiApplication>
 #include <QKeyEvent>
 #include <QPointer>
 #include <QRect>
@@ -157,7 +158,7 @@ private:
     }
 
     void updateCapability(const FcitxQtICData &data);
-    void commitPreedit();
+    void commitPreedit(QPointer<QObject> input = qApp->focusObject());
     void createICData(QWindow *w);
     FcitxQtInputContextProxy *validIC();
     FcitxQtInputContextProxy *validICByWindow(QWindow *window);
@@ -177,6 +178,7 @@ private:
     int m_lastSurroundingCursor = 0;
     std::unordered_map<QWindow *, FcitxQtICData> m_icMap;
     QPointer<QWindow> m_lastWindow;
+    QPointer<QObject> m_lastObject;
     bool m_destroy;
     QScopedPointer<struct xkb_context, XkbContextDeleter> m_xkbContext;
     QScopedPointer<struct xkb_compose_table, XkbComposeTableDeleter>

@@ -216,8 +216,7 @@ void QFcitxPlatformInputContext::invokeAction(QInputMethod::Action action,
     }
 }
 
-void QFcitxPlatformInputContext::commitPreedit() {
-    QObject *input = qApp->focusObject();
+void QFcitxPlatformInputContext::commitPreedit(QPointer<QObject> input) {
     if (!input)
         return;
     if (m_commitPreedit.length() <= 0)
@@ -226,6 +225,8 @@ void QFcitxPlatformInputContext::commitPreedit() {
     e.setCommitString(m_commitPreedit);
     QCoreApplication::sendEvent(input, &e);
     m_commitPreedit.clear();
+
+    m_preeditList.clear();
 }
 
 void QFcitxPlatformInputContext::reset() {
@@ -341,12 +342,14 @@ void QFcitxPlatformInputContext::commit() { QPlatformInputContext::commit(); }
 void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
     Q_UNUSED(object);
     FcitxQtInputContextProxy *proxy = validICByWindow(m_lastWindow);
+    commitPreedit(m_lastObject);
     if (proxy) {
         proxy->FocusOut();
     }
 
     QWindow *window = qApp->focusWindow();
     m_lastWindow = window;
+    m_lastObject = object;
     if (!window) {
         return;
     }
