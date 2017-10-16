@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-#include "keyserver_x11.h"
+#include "qtkey.h"
 
 #include "fcitxqtconnection.h"
 #include "fcitxqtinputcontextproxy.h"
@@ -193,6 +193,16 @@ void QFcitxInputContext::commitPreedit() {
     e.setCommitString(m_commitPreedit);
     QCoreApplication::sendEvent(input, &e);
     m_commitPreedit.clear();
+
+    m_preeditList.clear();
+}
+
+bool checkUtf8(const QByteArray &byteArray) {
+    QTextCodec::ConverterState state;
+    QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+    const QString text =
+        codec->toUnicode(byteArray.constData(), byteArray.size(), &state);
+    return state.invalidChars == 0;
 }
 
 void QFcitxInputContext::reset() {
@@ -256,7 +266,7 @@ void QFcitxInputContext::update() {
 /* we don't want to waste too much memory here */
 #define SURROUNDING_THRESHOLD 4096
         if (text.length() < SURROUNDING_THRESHOLD) {
-            if (fcitx::utf8::validate(text.toUtf8())) {
+            if (checkUtf8(text.toUtf8())) {
                 addCapability(data, fcitx::CapabilityFlag::SurroundingText);
 
                 int cursor = var1.toInt();
@@ -366,6 +376,7 @@ void QFcitxInputContext::createInputContext(QWidget *w) {
     QFileInfo info(QCoreApplication::applicationFilePath());
     FcitxQtInputContextArgumentList args;
     args << FcitxQtInputContextArgument("program", info.fileName());
+    args << FcitxQtInputContextArgument("display", "x11:");
     auto result = m_improxy->CreateInputContext(args);
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(result);
     watcher->setProperty("wid", qVariantFromValue(static_cast<void *>(w)));
@@ -623,8 +634,13 @@ QKeyEvent *QFcitxInputContext::createKeyEvent(uint keyval, uint _state,
         count++;
     }
 
-    int key;
-    symToKeyQt(keyval, key);
+    auto unicode = xkb_keysym_to_utf32(keyval);
+    QString text;
+    if (unicode) {
+        text = QString::fromUcs4(&unicode, 1);
+    }
+
+    int key = keysymToQtKey(keyval, text);
 
     QKeyEvent *keyevent =
         new QKeyEvent(isRelease ? (QEvent::KeyRelease) : (QEvent::KeyPress),

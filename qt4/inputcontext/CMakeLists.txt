@@ -1,12 +1,8 @@
 
 set(plugin_SRCS
     qfcitxinputcontext.cpp
+    qtkey.cpp
     main.cpp
-)
-
-set(plugin_MOC_HDRS
-    qfcitxinputcontext.h
-    main.h
 )
 
 add_library(qtim-fcitx5 MODULE ${plugin_SRCS})

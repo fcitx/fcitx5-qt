@@ -23,6 +23,7 @@
 #include <QKeyEvent>
 #include <QPalette>
 #include <QTextCharFormat>
+#include <QTextCodec>
 #include <QWindow>
 #include <QX11Info>
 #include <qpa/qplatformcursor.h>
@@ -33,7 +34,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-#include "keyserver_x11.h"
+#include "qtkey.h"
 
 #include "fcitxqtconnection.h"
 #include "fcitxqtinputcontextproxy.h"
@@ -229,6 +230,14 @@ void QFcitxPlatformInputContext::commitPreedit(QPointer<QObject> input) {
     m_preeditList.clear();
 }
 
+bool checkUtf8(const QByteArray &byteArray) {
+    QTextCodec::ConverterState state;
+    QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+    const QString text =
+        codec->toUnicode(byteArray.constData(), byteArray.size(), &state);
+    return state.invalidChars == 0;
+}
+
 void QFcitxPlatformInputContext::reset() {
     commitPreedit();
     FcitxQtInputContextProxy *proxy = validIC();
@@ -300,7 +309,7 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
 /* we don't want to waste too much memory here */
 #define SURROUNDING_THRESHOLD 4096
         if (text.length() < SURROUNDING_THRESHOLD) {
-            if (fcitx::utf8::validate(text.toUtf8())) {
+            if (checkUtf8(text.toUtf8())) {
                 addCapability(data, fcitx::CapabilityFlag::SurroundingText);
 
                 int cursor = var1.toInt();
@@ -418,6 +427,11 @@ void QFcitxPlatformInputContext::createInputContext(QWindow *w) {
     QFileInfo info(QCoreApplication::applicationFilePath());
     FcitxQtInputContextArgumentList args;
     args << FcitxQtInputContextArgument("program", info.fileName());
+    if (QGuiApplication::platformName() == QLatin1String("xcb")) {
+        args << FcitxQtInputContextArgument("display", "x11:");
+    } else if (QGuiApplication::platformName() == QLatin1String("wayland")) {
+        args << FcitxQtInputContextArgument("display", "wayland:");
+    }
     auto result = m_improxy->CreateInputContext(args);
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(result);
     watcher->setProperty("wid", qVariantFromValue(static_cast<void *>(w)));
@@ -692,13 +706,17 @@ QKeyEvent *QFcitxPlatformInputContext::createKeyEvent(uint keyval, uint _state,
         count++;
     }
 
-    int key;
-    symToKeyQt(keyval, key);
-    auto c = fcitx::Key::keySymToUnicode(static_cast<fcitx::KeySym>(keyval));
+    auto unicode = xkb_keysym_to_utf32(keyval);
+    QString text;
+    if (unicode) {
+        text = QString::fromUcs4(&unicode, 1);
+    }
+
+    int key = keysymToQtKey(keyval, text);
 
     QKeyEvent *keyevent = new QKeyEvent(
         isRelease ? (QEvent::KeyRelease) : (QEvent::KeyPress), key, qstate, 0,
-        keyval, _state, QString::fromUcs4(&c, 1), false, count);
+        keyval, _state, text, false, count);
 
     return keyevent;
 }
@@ -779,6 +797,7 @@ void QFcitxPlatformInputContext::processKeyEventFinished(
     QWindow *window = watcher->window();
     // if window is already destroyed, we can only throw this event away.
     if (!window) {
+        delete watcher;
         return;
     }
 
@@ -802,7 +821,7 @@ void QFcitxPlatformInputContext::processKeyEventFinished(
         filtered = true;
     }
 
-    if (!result.isError()) {
+    if (!watcher->isError()) {
         update(Qt::ImCursorRectangle);
     }
 

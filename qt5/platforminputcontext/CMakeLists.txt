@@ -3,6 +3,7 @@ include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 
 set(plugin_SRCS
     qfcitxplatforminputcontext.cpp
+    qtkey.cpp
     main.cpp
 )
 
