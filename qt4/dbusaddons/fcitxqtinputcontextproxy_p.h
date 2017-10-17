@@ -34,7 +34,7 @@ public:
         : q_ptr(q), m_fcitxWatcher(watcher), m_watcher(q) {
         FcitxQtFormattedPreedit::registerMetaType();
         FcitxQtInputContextArgument::registerMetaType();
-        QObject::connect(m_fcitxWatcher, SIGNAL(availibilityChanged(bool)), q,
+        QObject::connect(m_fcitxWatcher, SIGNAL(availabilityChanged(bool)), q,
                          SLOT(availabilityChanged()));
         m_watcher.setWatchMode(QDBusServiceWatcher::WatchForUnregistration);
         QObject::connect(&m_watcher, SIGNAL(serviceUnregistered(QString)), q,

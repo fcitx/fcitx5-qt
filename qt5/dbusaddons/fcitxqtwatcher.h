@@ -47,7 +47,7 @@ public:
     QString serviceName() const;
 
 signals:
-    void availibilityChanged(bool);
+    void availabilityChanged(bool);
 
 private slots:
     void imChanged(const QString &service, const QString &oldOwner,
@@ -55,7 +55,7 @@ private slots:
 
 private:
     void setAvailability(bool availability);
-    void updateAvailbility();
+    void updateAvailability();
 
     FcitxQtWatcherPrivate *const d_ptr;
     Q_DECLARE_PRIVATE(FcitxQtWatcher);

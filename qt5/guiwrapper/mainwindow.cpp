@@ -53,13 +53,13 @@ MainWindow::MainWindow(FcitxQtConfigUIWidget *pluginWidget, QWidget *parent)
                 SLOT(saveFinished()));
     connect(m_ui->buttonBox, SIGNAL(clicked(QAbstractButton *)), this,
             SLOT(clicked(QAbstractButton *)));
-    connect(m_watcher, &FcitxQtWatcher::availibilityChanged, this,
-            &MainWindow::availibilityChanged);
+    connect(m_watcher, &FcitxQtWatcher::availabilityChanged, this,
+            &MainWindow::availabilityChanged);
 
     m_watcher->watch();
 }
 
-void MainWindow::availibilityChanged(bool avail) {
+void MainWindow::availabilityChanged(bool avail) {
     if (!avail) {
         return;
     }

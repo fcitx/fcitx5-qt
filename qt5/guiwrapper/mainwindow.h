@@ -40,7 +40,7 @@ public:
 public slots:
     void changed(bool changed);
     void clicked(QAbstractButton *button);
-    void availibilityChanged(bool avail);
+    void availabilityChanged(bool avail);
     void saveFinished();
 
 private:

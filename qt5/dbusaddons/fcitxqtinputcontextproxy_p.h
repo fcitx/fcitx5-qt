@@ -34,15 +34,15 @@ public:
         : q_ptr(q), m_fcitxWatcher(watcher), m_watcher(q) {
         FcitxQtFormattedPreedit::registerMetaType();
         FcitxQtInputContextArgument::registerMetaType();
-        QObject::connect(m_fcitxWatcher, &FcitxQtWatcher::availibilityChanged,
-                         q, [this]() { availibilityChanged(); });
+        QObject::connect(m_fcitxWatcher, &FcitxQtWatcher::availabilityChanged,
+                         q, [this]() { availabilityChanged(); });
         m_watcher.setWatchMode(QDBusServiceWatcher::WatchForUnregistration);
         QObject::connect(&m_watcher, &QDBusServiceWatcher::serviceUnregistered,
                          q, [this]() {
                              cleanUp();
-                             availibilityChanged();
+                             availabilityChanged();
                          });
-        availibilityChanged();
+        availabilityChanged();
     }
 
     ~FcitxQtInputContextProxyPrivate() {
@@ -53,7 +53,7 @@ public:
 
     bool isValid() const { return (m_icproxy && m_icproxy->isValid()); }
 
-    void availibilityChanged() {
+    void availabilityChanged() {
         QTimer::singleShot(100, q_ptr, [this]() { recheck(); });
     }
 

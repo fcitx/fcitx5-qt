@@ -76,7 +76,7 @@ void FcitxQtWatcher::setAvailability(bool availability) {
     Q_D(FcitxQtWatcher);
     if (d->m_availability != availability) {
         d->m_availability = availability;
-        emit availibilityChanged(d->m_availability);
+        emit availabilityChanged(d->m_availability);
     }
 }
 
@@ -104,7 +104,7 @@ void FcitxQtWatcher::watch() {
         d->m_portalPresent = true;
     }
 
-    updateAvailbility();
+    updateAvailability();
 
     d->m_watched = true;
 }
@@ -120,7 +120,7 @@ void FcitxQtWatcher::unwatch() {
     d->m_mainPresent = false;
     d->m_portalPresent =false;
     d->m_watched = false;
-    updateAvailbility();
+    updateAvailability();
 }
 
 bool FcitxQtWatcher::isWatching() const {
@@ -145,10 +145,10 @@ void FcitxQtWatcher::imChanged(const QString &service, const QString &,
         }
     }
 
-    updateAvailbility();
+    updateAvailability();
 }
 
-void FcitxQtWatcher::updateAvailbility() {
+void FcitxQtWatcher::updateAvailability() {
     Q_D(FcitxQtWatcher);
     setAvailability(d->m_mainPresent || d->m_portalPresent);
 }
