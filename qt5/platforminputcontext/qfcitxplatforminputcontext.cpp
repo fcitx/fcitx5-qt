@@ -135,6 +135,19 @@ static inline const char *get_locale() {
     return locale;
 }
 
+static bool objectAcceptsInputMethod()
+{
+    bool enabled = false;
+    QObject *object = qApp->focusObject();
+    if (object) {
+        QInputMethodQueryEvent query(Qt::ImEnabled);
+        QGuiApplication::sendEvent(object, &query);
+        enabled = query.value(Qt::ImEnabled).toBool();
+    }
+
+    return enabled;
+}
+
 struct xkb_context *_xkb_context_new_helper() {
     struct xkb_context *context = xkb_context_new(XKB_CONTEXT_NO_FLAGS);
     if (context) {
@@ -675,7 +688,7 @@ bool QFcitxPlatformInputContext::filterEvent(const QEvent *event) {
             break;
         }
 
-        if (!inputMethodAccepted())
+        if (!inputMethodAccepted() && !objectAcceptsInputMethod())
             break;
 
         QObject *input = qApp->focusObject();
