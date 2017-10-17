@@ -115,6 +115,10 @@ void FcitxQtWatcher::unwatch() {
     }
     disconnect(&d->m_serviceWatcher, &QDBusServiceWatcher::serviceOwnerChanged,
                this, &FcitxQtWatcher::imChanged);
+    d->m_mainPresent = false;
+    d->m_portalPresent =false;
+    d->m_watched = false;
+    updateAvailbility();
 }
 
 bool FcitxQtWatcher::isWatching() const {

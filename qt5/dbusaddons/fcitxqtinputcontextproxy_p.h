@@ -38,7 +38,10 @@ public:
                          q, [this]() { availibilityChanged(); });
         m_watcher.setWatchMode(QDBusServiceWatcher::WatchForUnregistration);
         QObject::connect(&m_watcher, &QDBusServiceWatcher::serviceUnregistered,
-                         q, [this]() { availibilityChanged(); });
+                         q, [this]() {
+                             cleanUp();
+                             availibilityChanged();
+                         });
         availibilityChanged();
     }
 

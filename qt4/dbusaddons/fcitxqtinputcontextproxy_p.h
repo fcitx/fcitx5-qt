@@ -38,7 +38,7 @@ public:
                          SLOT(availabilityChanged()));
         m_watcher.setWatchMode(QDBusServiceWatcher::WatchForUnregistration);
         QObject::connect(&m_watcher, SIGNAL(serviceUnregistered(QString)), q,
-                         SLOT(availabilityChanged()));
+                         SLOT(serviceUnregistered()));
         availabilityChanged();
     }
 
@@ -49,6 +49,11 @@ public:
     }
 
     bool isValid() const { return (m_icproxy && m_icproxy->isValid()); }
+
+    void serviceUnregistered() {
+        cleanUp();
+        availabilityChanged();
+    }
 
     void availabilityChanged() {
         QTimer::singleShot(100, q_ptr, SLOT(recheck()));

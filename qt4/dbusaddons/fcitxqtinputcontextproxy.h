@@ -66,6 +66,7 @@ private:
     Q_PRIVATE_SLOT(d_func(), void availabilityChanged());
     Q_PRIVATE_SLOT(d_func(), void recheck());
     Q_PRIVATE_SLOT(d_func(), void cleanUp());
+    Q_PRIVATE_SLOT(d_func(), void serviceUnregistered());
     Q_PRIVATE_SLOT(d_func(), void createInputContextFinished());
 
     FcitxQtInputContextProxyPrivate *const d_ptr;
