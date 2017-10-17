@@ -21,6 +21,7 @@
 #define QFCITXPLATFORMINPUTCONTEXT_H
 
 #include "fcitxqtinputcontextproxy.h"
+#include "fcitxqtwatcher.h"
 #include <QDBusConnection>
 #include <QDBusServiceWatcher>
 #include <QGuiApplication>
@@ -38,17 +39,11 @@ namespace fcitx {
 class FcitxQtConnection;
 
 struct FcitxQtICData {
-    FcitxQtICData()
-        : proxy(nullptr), surroundingAnchor(-1), surroundingCursor(-1) {}
+    FcitxQtICData(FcitxQtWatcher *watcher)
+        : proxy(new FcitxQtInputContextProxy(watcher, watcher)),
+          surroundingAnchor(-1), surroundingCursor(-1) {}
     FcitxQtICData(const FcitxQtICData &that) = delete;
-    ~FcitxQtICData() {
-        if (proxy) {
-            if (proxy->isValid()) {
-                proxy->DestroyIC();
-            }
-            delete proxy;
-        }
-    }
+    ~FcitxQtICData() { delete proxy; }
     fcitx::CapabilityFlags capability;
     FcitxQtInputContextProxy *proxy;
     QRect rect;
@@ -101,8 +96,6 @@ struct XkbComposeStateDeleter {
     }
 };
 
-class FcitxQtInputMethodProxy;
-
 class QFcitxPlatformInputContext : public QPlatformInputContext {
     Q_OBJECT
 public:
@@ -126,15 +119,13 @@ public Q_SLOTS:
                                 int cursorPos);
     void deleteSurroundingText(int offset, uint nchar);
     void forwardKey(uint keyval, uint state, bool type);
-    void createInputContextFinished(QDBusPendingCallWatcher *watcher);
-    void connected();
+    void createInputContextFinished(const QByteArray &uuid);
     void cleanUp();
     void windowDestroyed(QObject *object);
     void updateCurrentIM(const QString &name, const QString &uniqueName,
                          const QString &langCode);
 
 private:
-    void createInputContext(QWindow *w);
     bool processCompose(uint keyval, uint state, bool isRelaese);
     QKeyEvent *createKeyEvent(uint keyval, uint state, bool isRelaese);
 
@@ -165,8 +156,7 @@ private:
     bool filterEventFallback(uint keyval, uint keycode, uint state,
                              bool isRelaese);
 
-    FcitxQtConnection *m_connection;
-    FcitxQtInputMethodProxy *m_improxy;
+    FcitxQtWatcher *m_watcher;
     QString m_preedit;
     QString m_commitPreedit;
     FcitxQtFormattedPreeditList m_preeditList;

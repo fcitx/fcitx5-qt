@@ -21,6 +21,8 @@
 #define QFCITXINPUTCONTEXT_H
 
 #include "fcitxqtinputcontextproxy.h"
+#include "fcitxqtwatcher.h"
+#include <QApplication>
 #include <QDBusConnection>
 #include <QDBusServiceWatcher>
 #include <QInputContext>
@@ -37,17 +39,11 @@ namespace fcitx {
 class FcitxQtConnection;
 
 struct FcitxQtICData {
-    FcitxQtICData()
-        : proxy(nullptr), surroundingAnchor(-1), surroundingCursor(-1) {}
+    FcitxQtICData(FcitxQtWatcher *watcher)
+        : proxy(new FcitxQtInputContextProxy(watcher, watcher)),
+          surroundingAnchor(-1), surroundingCursor(-1) {}
     FcitxQtICData(const FcitxQtICData &that) = delete;
-    ~FcitxQtICData() {
-        if (proxy) {
-            if (proxy->isValid()) {
-                proxy->DestroyIC();
-            }
-            delete proxy;
-        }
-    }
+    ~FcitxQtICData() { delete proxy; }
     fcitx::CapabilityFlags capability;
     FcitxQtInputContextProxy *proxy;
     QRect rect;
@@ -128,13 +124,11 @@ public Q_SLOTS:
                                 int cursorPos);
     void deleteSurroundingText(int offset, uint nchar);
     void forwardKey(uint keyval, uint state, bool type);
-    void createInputContextFinished(QDBusPendingCallWatcher *watcher);
-    void connected();
+    void createInputContextFinished(const QByteArray &uuid);
     void cleanUp();
     void windowDestroyed(QObject *object);
 
 private:
-    void createInputContext(QWidget *w);
     bool processCompose(uint keyval, uint state, bool isRelaese);
     QKeyEvent *createKeyEvent(uint keyval, uint state, bool isRelaese);
 
@@ -158,15 +152,14 @@ private:
     }
 
     void updateCapability(const FcitxQtICData &data);
-    void commitPreedit();
+    void commitPreedit(QPointer<QWidget> input = qApp->focusWidget());
     void createICData(QWidget *w);
     FcitxQtInputContextProxy *validIC();
     FcitxQtInputContextProxy *validICByWindow(QWidget *window);
     bool filterEventFallback(uint keyval, uint keycode, uint state,
                              bool isRelaese);
 
-    FcitxQtConnection *m_connection;
-    FcitxQtInputMethodProxy *m_improxy;
+    FcitxQtWatcher *m_watcher;
     QString m_preedit;
     QString m_commitPreedit;
     FcitxQtFormattedPreeditList m_preeditList;
@@ -184,7 +177,6 @@ private:
         m_xkbComposeTable;
     QScopedPointer<struct xkb_compose_state, XkbComposeStateDeleter>
         m_xkbComposeState;
-    QLocale m_locale;
 private slots:
     void processKeyEventFinished(QDBusPendingCallWatcher *);
 };

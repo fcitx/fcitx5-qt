@@ -22,15 +22,16 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/fcitx5qt4dbusaddons_version.h
         DESTINATION ${Fcitx5Qt4_INCLUDE_INSTALL_DIR} COMPONENT Devel )
 
 set(dbusaddons_SOURCES
-    fcitxqtconnection.cpp
+    fcitxqtwatcher.cpp
     fcitxqtdbustypes.cpp
     fcitxqtinputcontextproxy.cpp
+    fcitxqtinputcontextproxyimpl.cpp
     fcitxqtinputmethodproxy.cpp
     fcitxqtcontrollerproxy.cpp
     )
 
 set(dbusaddons_HEADERS
-    fcitxqtconnection.h
+    fcitxqtwatcher.h
     fcitxqtdbustypes.h
     fcitxqtinputcontextproxy.h
     fcitxqtinputmethodproxy.h

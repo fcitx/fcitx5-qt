@@ -30,7 +30,7 @@
 namespace fcitx {
 
 class FcitxQtControllerProxy;
-class FcitxQtConnection;
+class FcitxQtWatcher;
 class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
@@ -40,12 +40,12 @@ public:
 public slots:
     void changed(bool changed);
     void clicked(QAbstractButton *button);
-    void connected();
+    void availibilityChanged(bool avail);
     void saveFinished();
 
 private:
     Ui::MainWindow *m_ui;
-    FcitxQtConnection *m_connection;
+    FcitxQtWatcher *m_watcher;
     FcitxQtConfigUIWidget *m_pluginWidget;
     FcitxQtControllerProxy *m_proxy;
 };

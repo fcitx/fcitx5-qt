@@ -25,7 +25,6 @@
 #include <QDebug>
 
 #include "fcitxqtconfiguifactory.h"
-#include "fcitxqtconnection.h"
 #include "mainwindow.h"
 #include "wrapperapp.h"
 #include <fcitx-utils/standardpath.h>

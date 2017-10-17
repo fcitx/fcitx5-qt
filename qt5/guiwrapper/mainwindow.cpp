@@ -26,16 +26,17 @@
 
 #include "common.h"
 #include "fcitxqtconfiguifactory.h"
-#include "fcitxqtconnection.h"
 #include "fcitxqtcontrollerproxy.h"
+#include "fcitxqtwatcher.h"
 #include "mainwindow.h"
 
 namespace fcitx {
 
 MainWindow::MainWindow(FcitxQtConfigUIWidget *pluginWidget, QWidget *parent)
     : QMainWindow(parent), m_ui(new Ui::MainWindow),
-      m_connection(new FcitxQtConnection(this)), m_pluginWidget(pluginWidget),
+      m_watcher(new FcitxQtWatcher(this)), m_pluginWidget(pluginWidget),
       m_proxy(0) {
+    m_watcher->setConnection(QDBusConnection::sessionBus());
     m_ui->setupUi(this);
     m_ui->verticalLayout->insertWidget(0, m_pluginWidget);
     m_ui->buttonBox->button(QDialogButtonBox::Save)->setText(_("&Save"));
@@ -52,18 +53,22 @@ MainWindow::MainWindow(FcitxQtConfigUIWidget *pluginWidget, QWidget *parent)
                 SLOT(saveFinished()));
     connect(m_ui->buttonBox, SIGNAL(clicked(QAbstractButton *)), this,
             SLOT(clicked(QAbstractButton *)));
-    connect(m_connection, SIGNAL(connected()), this, SLOT(connected()));
+    connect(m_watcher, &FcitxQtWatcher::availibilityChanged, this,
+            &MainWindow::availibilityChanged);
 
-    m_connection->startConnection();
+    m_watcher->watch();
 }
 
-void MainWindow::connected() {
+void MainWindow::availibilityChanged(bool avail) {
+    if (!avail) {
+        return;
+    }
     if (m_proxy) {
         delete m_proxy;
     }
-    m_proxy = new FcitxQtControllerProxy(m_connection->serviceName(),
+    m_proxy = new FcitxQtControllerProxy(m_watcher->serviceName(),
                                          QLatin1String("/controller"),
-                                         *m_connection->connection(), this);
+                                         m_watcher->connection(), this);
 }
 
 void MainWindow::clicked(QAbstractButton *button) {
