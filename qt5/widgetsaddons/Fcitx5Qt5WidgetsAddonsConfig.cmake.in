@@ -5,4 +5,4 @@ find_dependency(Qt5Gui @REQUIRED_QT_VERSION@)
 find_dependency(Qt5Widgets @REQUIRED_QT_VERSION@)
 
 
-include("${CMAKE_CURRENT_LIST_DIR}/FcitxQt5WidgetsAddonsTargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/Fcitx5Qt5WidgetsAddonsTargets.cmake")
