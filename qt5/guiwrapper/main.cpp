@@ -23,6 +23,7 @@
 #include <libintl.h>
 
 int main(int argc, char *argv[]) {
+    setlocale(LC_ALL, "");
     QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     fcitx::WrapperApp app(argc, argv);
     return app.exec();

@@ -34,12 +34,7 @@ namespace fcitx {
 WrapperApp::WrapperApp(int &argc, char **argv)
     : QApplication(argc, argv), m_factory(new FcitxQtConfigUIFactory(this)),
       m_mainWindow(0) {
-    auto localedir = fcitx::StandardPath::fcitxPath("localedir");
     setlocale(LC_ALL, "");
-    bindtextdomain("fcitx", localedir.c_str());
-    bind_textdomain_codeset("fcitx", "UTF-8");
-    textdomain("fcitx");
-
     FcitxQtConfigUIWidget *widget = 0;
 
     if (argc == 3 && strcmp(argv[1], "--test") == 0) {
