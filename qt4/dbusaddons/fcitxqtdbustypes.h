@@ -24,61 +24,89 @@
 #include <QDBusArgument>
 #include <QList>
 #include <QMetaType>
+#include <type_traits>
 
 namespace fcitx {
 
-class FCITX5QT4DBUSADDONS_EXPORT FcitxQtFormattedPreedit {
+FCITX5QT4DBUSADDONS_EXPORT void registerFcitxQtDBusTypes();
+
+#define FCITX5_QT_BEGIN_DECLARE_DBUS_TYPE(TYPE)                                \
+    class FCITX5QT4DBUSADDONS_EXPORT TYPE {                                    \
+    public:
+
+#define FCITX5_QT_DECLARE_FIELD(TYPE, GETTER, SETTER)                          \
+public:                                                                        \
+    std::conditional_t<std::is_class<TYPE>::value, const TYPE &, TYPE>         \
+    GETTER() const {                                                           \
+        return m_##GETTER;                                                     \
+    }                                                                          \
+    void SETTER(                                                               \
+        std::conditional_t<std::is_class<TYPE>::value, const TYPE &, TYPE>     \
+            value) {                                                           \
+        m_##GETTER = value;                                                    \
+    }                                                                          \
+                                                                               \
+private:                                                                       \
+    TYPE m_##GETTER;
+
+#define FCITX5_QT_END_DECLARE_DBUS_TYPE(TYPE)                                  \
+    }                                                                          \
+    ;                                                                          \
+    typedef QList<TYPE> TYPE##List;                                            \
+    FCITX5QT4DBUSADDONS_EXPORT QDBusArgument &operator<<(                      \
+        QDBusArgument &argument, const TYPE &value);                           \
+    FCITX5QT4DBUSADDONS_EXPORT const QDBusArgument &operator>>(                \
+        const QDBusArgument &argument, TYPE &value);
+
+FCITX5_QT_BEGIN_DECLARE_DBUS_TYPE(FcitxQtFormattedPreedit);
+FCITX5_QT_DECLARE_FIELD(QString, string, setString);
+FCITX5_QT_DECLARE_FIELD(qint32, format, setFormat);
+
 public:
-    const QString &string() const;
-    qint32 format() const;
-    void setString(const QString &str);
-    void setFormat(qint32 format);
+bool operator==(const FcitxQtFormattedPreedit &preedit) const;
+FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtFormattedPreedit);
 
-    static void registerMetaType();
+FCITX5_QT_BEGIN_DECLARE_DBUS_TYPE(FcitxQtStringKeyValue);
+FCITX5_QT_DECLARE_FIELD(QString, key, setKey);
+FCITX5_QT_DECLARE_FIELD(QString, value, setValue);
+FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtStringKeyValue);
 
-    bool operator==(const FcitxQtFormattedPreedit &preedit) const;
+FCITX5_QT_BEGIN_DECLARE_DBUS_TYPE(FcitxQtInputMethodEntry);
+FCITX5_QT_DECLARE_FIELD(QString, uniqueName, setUniqueName);
+FCITX5_QT_DECLARE_FIELD(QString, name, setName);
+FCITX5_QT_DECLARE_FIELD(QString, nativeName, setNativeName);
+FCITX5_QT_DECLARE_FIELD(QString, icon, setIcon);
+FCITX5_QT_DECLARE_FIELD(QString, label, setLabel);
+FCITX5_QT_DECLARE_FIELD(QString, languageCode, setLanguageCode);
+FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtInputMethodEntry);
 
-private:
-    QString m_string;
-    qint32 m_format = 0;
-};
+FCITX5_QT_BEGIN_DECLARE_DBUS_TYPE(FcitxQtVariantInfo);
+FCITX5_QT_DECLARE_FIELD(QString, variant, setVariant);
+FCITX5_QT_DECLARE_FIELD(QString, description, setDescription);
+FCITX5_QT_DECLARE_FIELD(QStringList, languages, setLanguages);
+FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtVariantInfo);
 
-typedef QList<FcitxQtFormattedPreedit> FcitxQtFormattedPreeditList;
-
-QDBusArgument &operator<<(QDBusArgument &argument,
-                          const FcitxQtFormattedPreedit &im);
-const QDBusArgument &operator>>(const QDBusArgument &argument,
-                                FcitxQtFormattedPreedit &im);
-
-class FCITX5QT4DBUSADDONS_EXPORT FcitxQtInputContextArgument {
-public:
-    FcitxQtInputContextArgument() {}
-    FcitxQtInputContextArgument(const QString &name, const QString &value)
-        : m_name(name), m_value(value) {}
-
-    static void registerMetaType();
-
-    const QString &name() const;
-    const QString &value() const;
-    void setName(const QString &);
-    void setValue(const QString &);
-
-private:
-    QString m_name;
-    QString m_value;
-};
-
-typedef QList<FcitxQtInputContextArgument> FcitxQtInputContextArgumentList;
-
-QDBusArgument &operator<<(QDBusArgument &argument,
-                          const FcitxQtInputContextArgument &im);
-const QDBusArgument &operator>>(const QDBusArgument &argument,
-                                FcitxQtInputContextArgument &im);
+FCITX5_QT_BEGIN_DECLARE_DBUS_TYPE(FcitxQtLayoutInfo);
+FCITX5_QT_DECLARE_FIELD(QString, layout, setLayout);
+FCITX5_QT_DECLARE_FIELD(QString, description, setDescription);
+FCITX5_QT_DECLARE_FIELD(QStringList, languages, setLanguages);
+FCITX5_QT_DECLARE_FIELD(FcitxQtVariantInfoList, variants, setVariants);
+FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtLayoutInfo);
 }
 
 Q_DECLARE_METATYPE(fcitx::FcitxQtFormattedPreedit)
 Q_DECLARE_METATYPE(fcitx::FcitxQtFormattedPreeditList)
-Q_DECLARE_METATYPE(fcitx::FcitxQtInputContextArgument)
-Q_DECLARE_METATYPE(fcitx::FcitxQtInputContextArgumentList)
+
+Q_DECLARE_METATYPE(fcitx::FcitxQtStringKeyValue)
+Q_DECLARE_METATYPE(fcitx::FcitxQtStringKeyValueList)
+
+Q_DECLARE_METATYPE(fcitx::FcitxQtInputMethodEntry)
+Q_DECLARE_METATYPE(fcitx::FcitxQtInputMethodEntryList)
+
+Q_DECLARE_METATYPE(fcitx::FcitxQtVariantInfo)
+Q_DECLARE_METATYPE(fcitx::FcitxQtVariantInfoList)
+
+Q_DECLARE_METATYPE(fcitx::FcitxQtLayoutInfo)
+Q_DECLARE_METATYPE(fcitx::FcitxQtLayoutInfoList)
 
 #endif // _DBUSADDONS_FCITXQTDBUSTYPES_H_

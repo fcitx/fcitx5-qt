@@ -23,28 +23,25 @@
 
 namespace fcitx {
 
-void FcitxQtFormattedPreedit::registerMetaType() {
-    qRegisterMetaType<FcitxQtFormattedPreedit>("FcitxQtFormattedPreedit");
-    qDBusRegisterMetaType<FcitxQtFormattedPreedit>();
-    qRegisterMetaType<FcitxQtFormattedPreeditList>(
-        "FcitxQtFormattedPreeditList");
-    qDBusRegisterMetaType<FcitxQtFormattedPreeditList>();
+#define FCITX5_QT_DEFINE_DBUS_TYPE(TYPE)                                       \
+    qRegisterMetaType<TYPE>(#TYPE);                                            \
+    qDBusRegisterMetaType<TYPE>();                                             \
+    qRegisterMetaType<TYPE##List>(#TYPE "List");                               \
+    qDBusRegisterMetaType<TYPE##List>();
+
+void registerFcitxQtDBusTypes() {
+    FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtFormattedPreedit);
+    FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtStringKeyValue);
+    FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtInputMethodEntry);
+    FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtLayoutInfo);
+    FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtVariantInfo);
 }
-
-qint32 FcitxQtFormattedPreedit::format() const { return m_format; }
-
-const QString &FcitxQtFormattedPreedit::string() const { return m_string; }
-
-void FcitxQtFormattedPreedit::setFormat(qint32 format) { m_format = format; }
-
-void FcitxQtFormattedPreedit::setString(const QString &str) { m_string = str; }
 
 bool FcitxQtFormattedPreedit::
 operator==(const FcitxQtFormattedPreedit &preedit) const {
     return (preedit.m_format == m_format) && (preedit.m_string == m_string);
 }
 
-FCITX5QT5DBUSADDONS_EXPORT
 QDBusArgument &operator<<(QDBusArgument &argument,
                           const FcitxQtFormattedPreedit &preedit) {
     argument.beginStructure();
@@ -54,7 +51,6 @@ QDBusArgument &operator<<(QDBusArgument &argument,
     return argument;
 }
 
-FCITX5QT5DBUSADDONS_EXPORT
 const QDBusArgument &operator>>(const QDBusArgument &argument,
                                 FcitxQtFormattedPreedit &preedit) {
     QString str;
@@ -67,46 +63,101 @@ const QDBusArgument &operator>>(const QDBusArgument &argument,
     return argument;
 }
 
-void FcitxQtInputContextArgument::registerMetaType() {
-    qRegisterMetaType<FcitxQtInputContextArgument>(
-        "FcitxQtInputContextArgument");
-    qDBusRegisterMetaType<FcitxQtInputContextArgument>();
-    qRegisterMetaType<FcitxQtInputContextArgumentList>(
-        "FcitxQtInputContextArgumentList");
-    qDBusRegisterMetaType<FcitxQtInputContextArgumentList>();
-}
-
-const QString &FcitxQtInputContextArgument::name() const { return m_name; }
-
-void FcitxQtInputContextArgument::setName(const QString &name) {
-    m_name = name;
-}
-
-const QString &FcitxQtInputContextArgument::value() const { return m_value; }
-
-void FcitxQtInputContextArgument::setValue(const QString &value) {
-    m_value = value;
-}
-
-FCITX5QT5DBUSADDONS_EXPORT
 QDBusArgument &operator<<(QDBusArgument &argument,
-                          const FcitxQtInputContextArgument &arg) {
+                          const FcitxQtStringKeyValue &arg) {
     argument.beginStructure();
-    argument << arg.name();
+    argument << arg.key();
     argument << arg.value();
     argument.endStructure();
     return argument;
 }
 
-FCITX5QT5DBUSADDONS_EXPORT
 const QDBusArgument &operator>>(const QDBusArgument &argument,
-                                FcitxQtInputContextArgument &arg) {
-    QString name, value;
+                                FcitxQtStringKeyValue &arg) {
+    QString key, value;
     argument.beginStructure();
-    argument >> name >> value;
+    argument >> key >> value;
     argument.endStructure();
-    arg.setName(name);
+    arg.setKey(key);
     arg.setValue(value);
+    return argument;
+}
+
+QDBusArgument &operator<<(QDBusArgument &argument,
+                          const FcitxQtInputMethodEntry &arg) {
+    argument.beginStructure();
+    argument << arg.uniqueName();
+    argument << arg.name();
+    argument << arg.nativeName();
+    argument << arg.icon();
+    argument << arg.label();
+    argument << arg.languageCode();
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument,
+                                FcitxQtInputMethodEntry &arg) {
+    QString uniqueName, name, nativeName, icon, label, languageCode;
+    argument.beginStructure();
+    argument >> uniqueName >> name >> nativeName >> icon >> label >>
+        languageCode;
+    argument.endStructure();
+    arg.setUniqueName(uniqueName);
+    arg.setName(name);
+    arg.setNativeName(nativeName);
+    arg.setIcon(icon);
+    arg.setLabel(label);
+    arg.setLanguageCode(languageCode);
+    return argument;
+}
+
+QDBusArgument &operator<<(QDBusArgument &argument,
+                          const FcitxQtVariantInfo &arg) {
+    argument.beginStructure();
+    argument << arg.variant();
+    argument << arg.description();
+    argument << arg.languages();
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument,
+                                FcitxQtVariantInfo &arg) {
+    QString variant, description;
+    QStringList languages;
+    argument.beginStructure();
+    argument >> variant >> description >> languages;
+    argument.endStructure();
+    arg.setVariant(variant);
+    arg.setDescription(description);
+    arg.setLanguages(languages);
+    return argument;
+}
+
+QDBusArgument &operator<<(QDBusArgument &argument,
+                          const FcitxQtLayoutInfo &arg) {
+    argument.beginStructure();
+    argument << arg.layout();
+    argument << arg.description();
+    argument << arg.languages();
+    argument << arg.variants();
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument,
+                                FcitxQtLayoutInfo &arg) {
+    QString layout, description;
+    QStringList languages;
+    FcitxQtVariantInfoList variants;
+    argument.beginStructure();
+    argument >> layout >> description >> languages >> variants;
+    argument.endStructure();
+    arg.setLayout(layout);
+    arg.setDescription(description);
+    arg.setLanguages(languages);
+    arg.setVariants(variants);
     return argument;
 }
 }

@@ -32,8 +32,7 @@ public:
     FcitxQtInputContextProxyPrivate(FcitxQtWatcher *watcher,
                                     FcitxQtInputContextProxy *q)
         : q_ptr(q), m_fcitxWatcher(watcher), m_watcher(q) {
-        FcitxQtFormattedPreedit::registerMetaType();
-        FcitxQtInputContextArgument::registerMetaType();
+        registerFcitxQtDBusTypes();
         QObject::connect(m_fcitxWatcher, &FcitxQtWatcher::availabilityChanged,
                          q, [this]() { availabilityChanged(); });
         m_watcher.setWatchMode(QDBusServiceWatcher::WatchForUnregistration);
@@ -108,14 +107,14 @@ public:
         m_portal = true;
         m_improxy =
             new FcitxQtInputMethodProxy(owner, "/inputmethod", connection, q);
-        FcitxQtInputContextArgumentList list;
-        FcitxQtInputContextArgument arg;
-        arg.setName("program");
+        FcitxQtStringKeyValueList list;
+        FcitxQtStringKeyValue arg;
+        arg.setKey("program");
         arg.setValue(info.fileName());
         list << arg;
         if (!m_display.isEmpty()) {
-            FcitxQtInputContextArgument arg2;
-            arg2.setName("display");
+            FcitxQtStringKeyValue arg2;
+            arg2.setKey("display");
             arg2.setValue(m_display);
             list << arg2;
         }

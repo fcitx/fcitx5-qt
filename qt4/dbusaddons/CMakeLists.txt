@@ -27,7 +27,6 @@ set(dbusaddons_SOURCES
     fcitxqtinputcontextproxy.cpp
     fcitxqtinputcontextproxyimpl.cpp
     fcitxqtinputmethodproxy.cpp
-    fcitxqtcontrollerproxy.cpp
     )
 
 set(dbusaddons_HEADERS
@@ -35,7 +34,6 @@ set(dbusaddons_HEADERS
     fcitxqtdbustypes.h
     fcitxqtinputcontextproxy.h
     fcitxqtinputmethodproxy.h
-    fcitxqtcontrollerproxy.h
 )
 
 set(fcitxqtdbusaddons_INCLUDE_DIRS

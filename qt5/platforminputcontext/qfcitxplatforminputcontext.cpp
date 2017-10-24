@@ -135,8 +135,7 @@ static inline const char *get_locale() {
     return locale;
 }
 
-static bool objectAcceptsInputMethod()
-{
+static bool objectAcceptsInputMethod() {
     bool enabled = false;
     QObject *object = qApp->focusObject();
     if (object) {
@@ -170,8 +169,7 @@ QFcitxPlatformInputContext::QFcitxPlatformInputContext()
                             ? xkb_compose_state_new(m_xkbComposeTable.data(),
                                                     XKB_COMPOSE_STATE_NO_FLAGS)
                             : 0) {
-    FcitxQtFormattedPreedit::registerMetaType();
-    FcitxQtInputContextArgument::registerMetaType();
+    registerFcitxQtDBusTypes();
     m_watcher->setWatchPortal(true);
     m_watcher->watch();
 }

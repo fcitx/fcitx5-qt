@@ -41,6 +41,37 @@
   <method name="SetCurrentIM">
    <arg type="s" direction="in"/>
   </method>
+  <method name="InputMethodGroupInfo">
+      <arg type="s" direction="in"/>
+      <arg type="s" name="layout" direction="out"/>
+      <arg type="a(ss)" name="items" direction="out"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.Out1" value="FcitxQtStringKeyValueList" />
+  </method>
+  <method name="InputMethodGroups">
+   <arg type="as" direction="out"/>
+  </method>
+  <method name="AvailableInputMethods">
+   <arg type="a(ssssss)" direction="out"/>
+   <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="FcitxQtInputMethodEntryList" />
+  </method>
+  <signal name="InputMethodGroupsChanged">
+  </signal>
+  <method name="AvailableKeyboardLayouts">
+      <arg type="a(ssasa(ssas))" direction="out" />
+   <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="FcitxQtLayoutInfoList" />
+  </method>
+  <method name="SetInputMethodGroupInfo">
+      <arg type="s" name="name" direction="in"/>
+      <arg type="s" name="layout" direction="in"/>
+      <arg type="a(ss)" name="entries" direction="in"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In2" value="FcitxQtStringKeyValueList" />
+  </method>
+  <method name="AddInputMethodGroup">
+      <arg type="s"/>
+  </method>
+  <method name="RemoveInputMethodGroup">
+      <arg type="s"/>
+  </method>
  </interface>
 </node>
 

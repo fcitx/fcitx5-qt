@@ -40,13 +40,13 @@ public:
     ~FcitxQtInputMethodProxy();
 
 public Q_SLOTS: // METHODS
-    inline QDBusPendingReply<QDBusObjectPath, QByteArray> CreateInputContext(FcitxQtInputContextArgumentList in0)
+    inline QDBusPendingReply<QDBusObjectPath, QByteArray> CreateInputContext(FcitxQtStringKeyValueList in0)
     {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(in0);
         return asyncCallWithArgumentList(QStringLiteral("CreateInputContext"), argumentList);
     }
-    inline QDBusReply<QDBusObjectPath> CreateInputContext(FcitxQtInputContextArgumentList in0, QByteArray &out1)
+    inline QDBusReply<QDBusObjectPath> CreateInputContext(FcitxQtStringKeyValueList in0, QByteArray &out1)
     {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(in0);

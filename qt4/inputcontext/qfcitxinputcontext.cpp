@@ -131,8 +131,7 @@ QFcitxInputContext::QFcitxInputContext()
                             ? xkb_compose_state_new(m_xkbComposeTable.data(),
                                                     XKB_COMPOSE_STATE_NO_FLAGS)
                             : 0) {
-    FcitxQtFormattedPreedit::registerMetaType();
-    FcitxQtInputContextArgument::registerMetaType();
+    registerFcitxQtDBusTypes();
     m_watcher->setWatchPortal(true);
     m_watcher->watch();
 }

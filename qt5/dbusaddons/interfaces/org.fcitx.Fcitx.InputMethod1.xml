@@ -6,7 +6,7 @@
    <arg type="a(ss)" direction="in"/>
    <arg type="o" direction="out"/>
    <arg type="ay" direction="out"/>
-   <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="FcitxQtInputContextArgumentList" />
+   <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="FcitxQtStringKeyValueList" />
   </method>
  </interface>
 </node>

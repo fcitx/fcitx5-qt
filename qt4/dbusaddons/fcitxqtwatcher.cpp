@@ -118,7 +118,7 @@ void FcitxQtWatcher::unwatch() {
                SIGNAL(serviceOwnerChanged(QString, QString, QString)), this,
                SLOT(imChanged(QString, QString, QString)));
     d->m_mainPresent = false;
-    d->m_portalPresent =false;
+    d->m_portalPresent = false;
     d->m_watched = false;
     updateAvailability();
 }
