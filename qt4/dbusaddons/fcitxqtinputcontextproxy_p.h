@@ -168,8 +168,8 @@ public:
     FcitxQtInputContextProxyImpl *m_icproxy = nullptr;
     QDBusPendingCallWatcher *m_createInputContextWatcher = nullptr;
     QString m_display;
-    bool m_portal;
-    qulonglong m_capability;
+    bool m_portal = false;
+    qulonglong m_capability = 0;
 };
 }
 

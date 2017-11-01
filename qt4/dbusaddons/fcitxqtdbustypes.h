@@ -47,7 +47,7 @@ public:                                                                        \
     }                                                                          \
                                                                                \
 private:                                                                       \
-    TYPE m_##GETTER;
+    TYPE m_##GETTER = TYPE();
 
 #define FCITX5_QT_END_DECLARE_DBUS_TYPE(TYPE)                                  \
     }                                                                          \
