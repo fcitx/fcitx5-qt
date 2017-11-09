@@ -16,7 +16,7 @@ include(ECMSetupVersion)
 include(ECMGenerateHeaders)
 include(ECMUninstallTarget)
 
-find_package(Qt5 ${REQUIRED_QT5_VERSION} CONFIG REQUIRED Core DBus Widgets X11Extras)
+find_package(Qt5 ${REQUIRED_QT5_VERSION} CONFIG REQUIRED Core DBus Widgets X11Extras QuickWidgets)
 find_package(XCB REQUIRED COMPONENTS XCB)
 find_package(Qt5Gui ${REQUIRED_QT5_VERSION} REQUIRED Private)
 find_package(XKBCommon 0.5.0 REQUIRED COMPONENTS XKBCommon)
