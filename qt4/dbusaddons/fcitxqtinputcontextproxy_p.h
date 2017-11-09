@@ -149,10 +149,10 @@ public:
                          SIGNAL(forwardKey(uint, uint, bool)));
         QObject::connect(
             m_icproxy,
-            SIGNAL(UpdateFormattedPreedit(FcitxFormattedPreeditList, int)), q,
-            SIGNAL(updateFormattedPreedit(FcitxFormattedPreeditList, int)));
+            SIGNAL(UpdateFormattedPreedit(FcitxQtFormattedPreeditList, int)), q,
+            SIGNAL(updateFormattedPreedit(FcitxQtFormattedPreeditList, int)));
         QObject::connect(m_icproxy, SIGNAL(DeleteSurroundingText(int, uint)), q,
-                         SLOT(deleteSurroundingText(int, uint)));
+                         SIGNAL(deleteSurroundingText(int, uint)));
 
         delete m_createInputContextWatcher;
         m_createInputContextWatcher = nullptr;
