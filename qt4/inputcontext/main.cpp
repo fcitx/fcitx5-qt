@@ -21,12 +21,18 @@
 
 namespace fcitx {
 
+namespace {
+bool isFcitx(const QString &key) {
+    return key.toLower() == "fcitx5" || key.toLower() == "fcitx";
+}
+}
+
 QStringList QFcitxInputContextPlugin::keys() const {
-    return QStringList("fcitx5");
+    return QStringList{"fcitx5", "fcitx"};
 }
 
 QInputContext *QFcitxInputContextPlugin::create(const QString &key) {
-    if (key.toLower() != "fcitx5") {
+    if (!isFcitx(key)) {
         return nullptr;
     }
 
@@ -34,16 +40,16 @@ QInputContext *QFcitxInputContextPlugin::create(const QString &key) {
 }
 
 QString QFcitxInputContextPlugin::description(const QString &key) {
-    if (key.toLower() != "fcitx5") {
+    if (!isFcitx(key)) {
         return QString("");
     }
 
-    return QString::fromUtf8("Qt immodule plugin for Fcitx");
+    return QString::fromUtf8("Qt immodule plugin for Fcitx 5");
 }
 
 QStringList QFcitxInputContextPlugin::languages(const QString &key) {
     QStringList result;
-    if (key.toLower() == "fcitx5") {
+    if (!isFcitx(key)) {
         result << "zh";
         result << "ja";
         result << "ko";
