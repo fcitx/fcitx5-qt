@@ -440,8 +440,13 @@ void QFcitxPlatformInputContext::createInputContextFinished(
     flag |= fcitx::CapabilityFlag::GetIMInfoOnFocus;
     m_useSurroundingText =
         get_boolean_env("FCITX_QT_ENABLE_SURROUNDING_TEXT", true);
-    if (m_useSurroundingText)
+    if (m_useSurroundingText) {
         flag |= fcitx::CapabilityFlag::SurroundingText;
+    }
+
+    if (qApp && qApp->platformName() == "wayland") {
+        flag |= fcitx::CapabilityFlag::RelativeRect;
+    }
 
     addCapability(*data, flag, true);
 }
