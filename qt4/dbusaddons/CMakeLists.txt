@@ -11,16 +11,6 @@ configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/Fcitx5Qt4DBusAddonsCo
                               INSTALL_DESTINATION  ${CMAKECONFIG_INSTALL_DIR}
                               )
 
-install(FILES  "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Qt4DBusAddonsConfig.cmake"
-               "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Qt4DBusAddonsConfigVersion.cmake"
-        DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
-        COMPONENT Devel )
-
-install(EXPORT Fcitx5Qt4DBusAddonsTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}" FILE Fcitx5Qt4DBusAddonsTargets.cmake NAMESPACE Fcitx5Qt4:: )
-
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/fcitx5qt4dbusaddons_version.h
-        DESTINATION ${Fcitx5Qt4_INCLUDE_INSTALL_DIR} COMPONENT Devel )
-
 set(dbusaddons_SOURCES
     fcitxqtwatcher.cpp
     fcitxqtdbustypes.cpp
@@ -41,7 +31,7 @@ set(fcitxqtdbusaddons_INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_library(Fcitx5Qt4DBusAddons SHARED ${dbusaddons_SOURCES})
+add_library(Fcitx5Qt4DBusAddons ${LIBRARY_TYPE} ${dbusaddons_SOURCES})
 generate_export_header(Fcitx5Qt4DBusAddons BASE_NAME Fcitx5Qt4DBusAddons)
 add_library(Fcitx5Qt4::DBusAddons ALIAS Fcitx5Qt4DBusAddons)
 
@@ -52,7 +42,7 @@ set_target_properties(Fcitx5Qt4DBusAddons
                       PROPERTIES VERSION 1.0
                       AUTOMOC TRUE
                       SOVERSION 1
-                      COMPILE_FLAGS "-fvisibility=hidden"
+                      COMPILE_FLAGS "${LIBRARY_COMPILE_FLAGS}"
                       LINK_FLAGS "-Wl,--no-undefined"
                       EXPORT_NAME DBusAddons
 )
@@ -64,10 +54,26 @@ target_link_libraries(
         Qt4::QtDBus
 )
 
-install(TARGETS Fcitx5Qt4DBusAddons EXPORT Fcitx5Qt4DBusAddonsTargets LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+if(BUILD_ONLY_PLUGIN)
+  set_target_properties(Fcitx5Qt4DBusAddons PROPERTIES
+                        COMPILE_DEFINITIONS "FCITX5QT4DBUSADDONS_STATIC_DEFINE")
 
-install(FILES ${dbusaddons_HEADERS}
-              ${CMAKE_CURRENT_BINARY_DIR}/fcitx5qt4dbusaddons_export.h
-              DESTINATION "${Fcitx5Qt4_INCLUDE_INSTALL_DIR}/Fcitx5Qt4DBusAddons")
+else()
+  install(FILES  "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Qt4DBusAddonsConfig.cmake"
+                "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Qt4DBusAddonsConfigVersion.cmake"
+          DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
+          COMPONENT Devel )
+
+  install(EXPORT Fcitx5Qt4DBusAddonsTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}" FILE Fcitx5Qt4DBusAddonsTargets.cmake NAMESPACE Fcitx5Qt4:: )
+
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/fcitx5qt4dbusaddons_version.h
+          DESTINATION ${Fcitx5Qt4_INCLUDE_INSTALL_DIR} COMPONENT Devel )
+
+  install(TARGETS Fcitx5Qt4DBusAddons EXPORT Fcitx5Qt4DBusAddonsTargets LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+
+  install(FILES ${dbusaddons_HEADERS}
+                ${CMAKE_CURRENT_BINARY_DIR}/fcitx5qt4dbusaddons_export.h
+                DESTINATION "${Fcitx5Qt4_INCLUDE_INSTALL_DIR}/Fcitx5Qt4DBusAddons")
+endif()
 
 

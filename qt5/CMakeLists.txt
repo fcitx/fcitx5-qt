@@ -1,4 +1,7 @@
 add_subdirectory(dbusaddons)
-add_subdirectory(guiwrapper)
 add_subdirectory(platforminputcontext)
-add_subdirectory(widgetsaddons)
+
+if(NOT BUILD_ONLY_PLUGIN)
+  add_subdirectory(guiwrapper)
+  add_subdirectory(widgetsaddons)
+endif()
