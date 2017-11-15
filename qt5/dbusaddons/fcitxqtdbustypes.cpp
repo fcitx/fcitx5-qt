@@ -36,6 +36,10 @@ void registerFcitxQtDBusTypes() {
     FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtInputMethodEntry);
     FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtLayoutInfo);
     FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtVariantInfo);
+    FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtConfigOption);
+    FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtConfigType);
+    FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtAddonInfo);
+    FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtAddonState);
 }
 
 bool FcitxQtFormattedPreedit::
@@ -159,6 +163,106 @@ const QDBusArgument &operator>>(const QDBusArgument &argument,
     arg.setDescription(description);
     arg.setLanguages(languages);
     arg.setVariants(variants);
+    return argument;
+}
+
+QDBusArgument &operator<<(QDBusArgument &argument,
+                          const FcitxQtConfigOption &arg) {
+    argument.beginStructure();
+    argument << arg.name();
+    argument << arg.type();
+    argument << arg.description();
+    argument << arg.defaultValue();
+    argument << arg.properties();
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument,
+                                FcitxQtConfigOption &arg) {
+    QString name, description, type;
+    QDBusVariant defaultValue;
+    QVariantMap properties;
+    argument.beginStructure();
+    argument >> name >> type >> description >> defaultValue >> properties;
+    argument.endStructure();
+    arg.setName(name);
+    arg.setType(type);
+    arg.setDescription(description);
+    arg.setDefaultValue(defaultValue);
+    arg.setProperties(properties);
+    return argument;
+}
+
+QDBusArgument &operator<<(QDBusArgument &argument,
+                          const FcitxQtConfigType &arg) {
+    argument.beginStructure();
+    argument << arg.name();
+    argument << arg.description();
+    argument << arg.options();
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument,
+                                FcitxQtConfigType &arg) {
+    QString name, description;
+    FcitxQtConfigOptionList options;
+    argument.beginStructure();
+    argument >> name >> description >> options;
+    argument.endStructure();
+    arg.setName(name);
+    arg.setDescription(description);
+    arg.setOptions(options);
+    return argument;
+}
+
+QDBusArgument &operator<<(QDBusArgument &argument,
+                          const FcitxQtAddonInfo &arg) {
+    argument.beginStructure();
+    argument << arg.uniqueName();
+    argument << arg.name();
+    argument << arg.comment();
+    argument << arg.category();
+    argument << arg.enabled();
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument,
+                                FcitxQtAddonInfo &arg) {
+    QString uniqueName, name, comment;
+    int category;
+    bool enabled;
+    argument.beginStructure();
+    argument >> uniqueName >> name >> comment >> category >> enabled;
+    argument.endStructure();
+    arg.setUniqueName(uniqueName);
+    arg.setName(name);
+    arg.setComment(comment);
+    arg.setCategory(category);
+    arg.setEnabled(enabled);
+    return argument;
+}
+
+QDBusArgument &operator<<(QDBusArgument &argument,
+                          const FcitxQtAddonState &arg) {
+    argument.beginStructure();
+    argument << arg.uniqueName();
+    argument << arg.enabled();
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument,
+                                FcitxQtAddonState &arg) {
+    QString uniqueName;
+    bool enabled;
+    argument.beginStructure();
+    argument >> uniqueName >> enabled;
+    argument.endStructure();
+    arg.setUniqueName(uniqueName);
+    arg.setEnabled(enabled);
     return argument;
 }
 }

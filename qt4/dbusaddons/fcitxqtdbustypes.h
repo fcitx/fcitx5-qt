@@ -94,6 +94,33 @@ FCITX5_QT_DECLARE_FIELD(QString, description, setDescription);
 FCITX5_QT_DECLARE_FIELD(QStringList, languages, setLanguages);
 FCITX5_QT_DECLARE_FIELD(FcitxQtVariantInfoList, variants, setVariants);
 FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtLayoutInfo);
+
+FCITX5_QT_BEGIN_DECLARE_DBUS_TYPE(FcitxQtConfigOption);
+FCITX5_QT_DECLARE_FIELD(QString, name, setName);
+FCITX5_QT_DECLARE_FIELD(QString, type, setType);
+FCITX5_QT_DECLARE_FIELD(QString, description, setDescription);
+FCITX5_QT_DECLARE_FIELD(QDBusVariant, defaultValue, setDefaultValue);
+FCITX5_QT_DECLARE_FIELD(QVariantMap, properties, setProperties);
+FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtConfigOption);
+
+FCITX5_QT_BEGIN_DECLARE_DBUS_TYPE(FcitxQtConfigType);
+FCITX5_QT_DECLARE_FIELD(QString, name, setName);
+FCITX5_QT_DECLARE_FIELD(QString, description, setDescription);
+FCITX5_QT_DECLARE_FIELD(FcitxQtConfigOptionList, options, setOptions);
+FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtConfigType);
+
+FCITX5_QT_BEGIN_DECLARE_DBUS_TYPE(FcitxQtAddonInfo);
+FCITX5_QT_DECLARE_FIELD(QString, uniqueName, setUniqueName);
+FCITX5_QT_DECLARE_FIELD(QString, name, setName);
+FCITX5_QT_DECLARE_FIELD(QString, comment, setComment);
+FCITX5_QT_DECLARE_FIELD(int, category, setCategory);
+FCITX5_QT_DECLARE_FIELD(bool, enabled, setEnabled);
+FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtAddonInfo);
+
+FCITX5_QT_BEGIN_DECLARE_DBUS_TYPE(FcitxQtAddonState);
+FCITX5_QT_DECLARE_FIELD(QString, uniqueName, setUniqueName);
+FCITX5_QT_DECLARE_FIELD(bool, enabled, setEnabled);
+FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtAddonState);
 }
 
 Q_DECLARE_METATYPE(fcitx::FcitxQtFormattedPreedit)
@@ -110,5 +137,17 @@ Q_DECLARE_METATYPE(fcitx::FcitxQtVariantInfoList)
 
 Q_DECLARE_METATYPE(fcitx::FcitxQtLayoutInfo)
 Q_DECLARE_METATYPE(fcitx::FcitxQtLayoutInfoList)
+
+Q_DECLARE_METATYPE(fcitx::FcitxQtConfigOption)
+Q_DECLARE_METATYPE(fcitx::FcitxQtConfigOptionList)
+
+Q_DECLARE_METATYPE(fcitx::FcitxQtConfigType)
+Q_DECLARE_METATYPE(fcitx::FcitxQtConfigTypeList)
+
+Q_DECLARE_METATYPE(fcitx::FcitxQtAddonInfo)
+Q_DECLARE_METATYPE(fcitx::FcitxQtAddonInfoList)
+
+Q_DECLARE_METATYPE(fcitx::FcitxQtAddonState)
+Q_DECLARE_METATYPE(fcitx::FcitxQtAddonStateList)
 
 #endif // _DBUSADDONS_FCITXQTDBUSTYPES_H_

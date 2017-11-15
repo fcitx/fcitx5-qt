@@ -18,7 +18,6 @@
 //    software without specific prior written permission.
 //
 
-
 #include <QDBusConnection>
 #include <QDebug>
 #include <QGuiApplication>

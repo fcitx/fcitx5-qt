@@ -67,10 +67,28 @@
       <annotation name="org.qtproject.QtDBus.QtTypeName.In2" value="FcitxQtStringKeyValueList" />
   </method>
   <method name="AddInputMethodGroup">
-      <arg type="s"/>
+      <arg type="s" direction="in"/>
   </method>
   <method name="RemoveInputMethodGroup">
-      <arg type="s"/>
+      <arg type="s" direction="in"/>
+  </method>
+  <method name="GetConfig">
+      <arg type="s" direction="in"/>
+      <arg type="v" direction="out"/>
+      <arg type="a(sa(sssva{sv}))" direction="out"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.Out1" value="FcitxQtConfigTypeList" />
+  </method>
+  <method name="SetConfig">
+      <arg type="s" direction="in"/>
+      <arg type="v" direction="in"/>
+  </method>
+  <method name="GetAddons">
+      <arg type="a(sssib)" direction="out"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="FcitxQtAddonInfoList" />
+  </method>
+  <method name="SetAddonsState">
+      <arg type="a(sb)" direction="in"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="FcitxQtAddonStateList" />
   </method>
  </interface>
 </node>

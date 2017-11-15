@@ -110,6 +110,29 @@ public Q_SLOTS: // METHODS
         return asyncCallWithArgumentList(QStringLiteral("Exit"), argumentList);
     }
 
+    inline QDBusPendingReply<FcitxQtAddonInfoList> GetAddons()
+    {
+        QList<QVariant> argumentList;
+        return asyncCallWithArgumentList(QStringLiteral("GetAddons"), argumentList);
+    }
+
+    inline QDBusPendingReply<QDBusVariant, FcitxQtConfigTypeList> GetConfig(const QString &in0)
+    {
+        QList<QVariant> argumentList;
+        argumentList << QVariant::fromValue(in0);
+        return asyncCallWithArgumentList(QStringLiteral("GetConfig"), argumentList);
+    }
+    inline QDBusReply<QDBusVariant> GetConfig(const QString &in0, FcitxQtConfigTypeList &out1)
+    {
+        QList<QVariant> argumentList;
+        argumentList << QVariant::fromValue(in0);
+        QDBusMessage reply = callWithArgumentList(QDBus::Block, QStringLiteral("GetConfig"), argumentList);
+        if (reply.type() == QDBusMessage::ReplyMessage && reply.arguments().count() == 2) {
+            out1 = qdbus_cast<FcitxQtConfigTypeList>(reply.arguments().at(1));
+        }
+        return reply;
+    }
+
     inline QDBusPendingReply<QString, FcitxQtStringKeyValueList> InputMethodGroupInfo(const QString &in0)
     {
         QList<QVariant> argumentList;
@@ -163,6 +186,20 @@ public Q_SLOTS: // METHODS
     {
         QList<QVariant> argumentList;
         return asyncCallWithArgumentList(QStringLiteral("Restart"), argumentList);
+    }
+
+    inline QDBusPendingReply<> SetAddonsState(FcitxQtAddonStateList in0)
+    {
+        QList<QVariant> argumentList;
+        argumentList << QVariant::fromValue(in0);
+        return asyncCallWithArgumentList(QStringLiteral("SetAddonsState"), argumentList);
+    }
+
+    inline QDBusPendingReply<> SetConfig(const QString &in0, const QDBusVariant &in1)
+    {
+        QList<QVariant> argumentList;
+        argumentList << QVariant::fromValue(in0) << QVariant::fromValue(in1);
+        return asyncCallWithArgumentList(QStringLiteral("SetConfig"), argumentList);
     }
 
     inline QDBusPendingReply<> SetCurrentIM(const QString &in0)
