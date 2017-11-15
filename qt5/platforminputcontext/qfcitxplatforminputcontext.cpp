@@ -265,6 +265,8 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
     else                                                                       \
         removeCapability(data, fcitx::CapabilityFlag::_CAPABILITY);
 
+        CHECK_HINTS(Qt::ImhHiddenText, Password)
+        CHECK_HINTS(Qt::ImhSensitiveData, Sensitive)
         CHECK_HINTS(Qt::ImhNoAutoUppercase, NoAutoUpperCase)
         CHECK_HINTS(Qt::ImhPreferNumbers, Number)
         CHECK_HINTS(Qt::ImhPreferUppercase, Uppercase)
@@ -276,6 +278,9 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
         CHECK_HINTS(Qt::ImhLowercaseOnly, Lowercase)
         CHECK_HINTS(Qt::ImhDialableCharactersOnly, Dialable)
         CHECK_HINTS(Qt::ImhEmailCharactersOnly, Email)
+        CHECK_HINTS(Qt::ImhPreferLatin, Alpha)
+        CHECK_HINTS(Qt::ImhUrlCharactersOnly, Url)
+        CHECK_HINTS(Qt::ImhMultiLine, Multiline)
     }
 
     bool setSurrounding = false;
@@ -285,7 +290,8 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
         if (!((queries & Qt::ImSurroundingText) &&
               (queries & Qt::ImCursorPosition)))
             break;
-        if (data.capability.test(fcitx::CapabilityFlag::Password))
+        if (data.capability.test(fcitx::CapabilityFlag::Password) ||
+            data.capability.test(fcitx::CapabilityFlag::Sensitive))
             break;
         QVariant var = query.value(Qt::ImSurroundingText);
         QVariant var1 = query.value(Qt::ImCursorPosition);
@@ -731,6 +737,7 @@ bool QFcitxPlatformInputContext::filterEvent(const QEvent *event) {
         }
 
         proxy->focusIn();
+        update(Qt::ImHints);
 
         auto reply =
             proxy->processKeyEvent(keyval, keycode, state, isRelease,
