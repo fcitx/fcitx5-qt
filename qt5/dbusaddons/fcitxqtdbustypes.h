@@ -80,6 +80,7 @@ FCITX5_QT_DECLARE_FIELD(QString, nativeName, setNativeName);
 FCITX5_QT_DECLARE_FIELD(QString, icon, setIcon);
 FCITX5_QT_DECLARE_FIELD(QString, label, setLabel);
 FCITX5_QT_DECLARE_FIELD(QString, languageCode, setLanguageCode);
+FCITX5_QT_DECLARE_FIELD(bool, configurable, setConfigurable);
 FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtInputMethodEntry);
 
 FCITX5_QT_BEGIN_DECLARE_DBUS_TYPE(FcitxQtVariantInfo);
@@ -105,7 +106,6 @@ FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtConfigOption);
 
 FCITX5_QT_BEGIN_DECLARE_DBUS_TYPE(FcitxQtConfigType);
 FCITX5_QT_DECLARE_FIELD(QString, name, setName);
-FCITX5_QT_DECLARE_FIELD(QString, description, setDescription);
 FCITX5_QT_DECLARE_FIELD(FcitxQtConfigOptionList, options, setOptions);
 FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtConfigType);
 
@@ -114,6 +114,7 @@ FCITX5_QT_DECLARE_FIELD(QString, uniqueName, setUniqueName);
 FCITX5_QT_DECLARE_FIELD(QString, name, setName);
 FCITX5_QT_DECLARE_FIELD(QString, comment, setComment);
 FCITX5_QT_DECLARE_FIELD(int, category, setCategory);
+FCITX5_QT_DECLARE_FIELD(bool, configurable, setConfigurable);
 FCITX5_QT_DECLARE_FIELD(bool, enabled, setEnabled);
 FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtAddonInfo);
 

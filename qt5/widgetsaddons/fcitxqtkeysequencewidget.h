@@ -44,7 +44,8 @@
 */
 
 #include <QList>
-#include <QtWidgets/QPushButton>
+#include <QPushButton>
+#include <fcitx-utils/key.h>
 
 #include "fcitx5qt5widgetsaddons_export.h"
 
@@ -86,27 +87,19 @@ public:
     void setModifierOnlyAllowed(bool allow);
     bool isModifierOnlyAllowed();
 
-    /*
-     * only useful when modifierOnlyAllowed is true
-     * and the key is modifierOnly.
-     */
-    FcitxQtModifierSide modifierSide();
-
     void setClearButtonShown(bool show);
 
-    QKeySequence keySequence() const;
+    const QList<Key> &keySequence() const;
 
-    static void keyQtToFcitx(int keyQt, FcitxQtModifierSide side, int &outsym,
-                             uint &outstate);
-    static int keyFcitxToQt(int sym, uint state);
+    static bool keyQtToFcitx(int keyQt, FcitxQtModifierSide side, Key &outkey);
+    static int keyFcitxToQt(Key key);
 
 Q_SIGNALS:
-    void keySequenceChanged(const QKeySequence &seq, FcitxQtModifierSide side);
+    void keySequenceChanged(const QList<Key> &seq);
 
 public Q_SLOTS:
     void captureKeySequence();
-    void setKeySequence(const QKeySequence &seq,
-                        FcitxQtModifierSide side = MS_Unknown);
+    void setKeySequence(const QList<Key> &seq);
     void clearKeySequence();
 
 private:

@@ -51,7 +51,7 @@
    <arg type="as" direction="out"/>
   </method>
   <method name="AvailableInputMethods">
-   <arg type="a(ssssss)" direction="out"/>
+   <arg type="a(ssssssb)" direction="out"/>
    <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="FcitxQtInputMethodEntryList" />
   </method>
   <signal name="InputMethodGroupsChanged">
@@ -83,7 +83,7 @@
       <arg type="v" direction="in"/>
   </method>
   <method name="GetAddons">
-      <arg type="a(sssib)" direction="out"/>
+      <arg type="a(sssibb)" direction="out"/>
       <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="FcitxQtAddonInfoList" />
   </method>
   <method name="SetAddonsState">

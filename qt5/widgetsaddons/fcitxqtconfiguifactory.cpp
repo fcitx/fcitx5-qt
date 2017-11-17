@@ -26,8 +26,8 @@
 #include <QLibrary>
 #include <QPluginLoader>
 #include <QStandardPaths>
+#include <fcitx-utils/i18n.h>
 #include <fcitx-utils/standardpath.h>
-#include <libintl.h>
 
 namespace fcitx {
 

@@ -97,6 +97,7 @@ QDBusArgument &operator<<(QDBusArgument &argument,
     argument << arg.icon();
     argument << arg.label();
     argument << arg.languageCode();
+    argument << arg.configurable();
     argument.endStructure();
     return argument;
 }
@@ -104,9 +105,10 @@ QDBusArgument &operator<<(QDBusArgument &argument,
 const QDBusArgument &operator>>(const QDBusArgument &argument,
                                 FcitxQtInputMethodEntry &arg) {
     QString uniqueName, name, nativeName, icon, label, languageCode;
+    bool configurable;
     argument.beginStructure();
     argument >> uniqueName >> name >> nativeName >> icon >> label >>
-        languageCode;
+        languageCode >> configurable;
     argument.endStructure();
     arg.setUniqueName(uniqueName);
     arg.setName(name);
@@ -114,6 +116,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument,
     arg.setIcon(icon);
     arg.setLabel(label);
     arg.setLanguageCode(languageCode);
+    arg.setConfigurable(configurable);
     return argument;
 }
 
@@ -198,7 +201,6 @@ QDBusArgument &operator<<(QDBusArgument &argument,
                           const FcitxQtConfigType &arg) {
     argument.beginStructure();
     argument << arg.name();
-    argument << arg.description();
     argument << arg.options();
     argument.endStructure();
     return argument;
@@ -206,13 +208,12 @@ QDBusArgument &operator<<(QDBusArgument &argument,
 
 const QDBusArgument &operator>>(const QDBusArgument &argument,
                                 FcitxQtConfigType &arg) {
-    QString name, description;
+    QString name;
     FcitxQtConfigOptionList options;
     argument.beginStructure();
-    argument >> name >> description >> options;
+    argument >> name >> options;
     argument.endStructure();
     arg.setName(name);
-    arg.setDescription(description);
     arg.setOptions(options);
     return argument;
 }
@@ -224,6 +225,7 @@ QDBusArgument &operator<<(QDBusArgument &argument,
     argument << arg.name();
     argument << arg.comment();
     argument << arg.category();
+    argument << arg.configurable();
     argument << arg.enabled();
     argument.endStructure();
     return argument;
@@ -233,14 +235,16 @@ const QDBusArgument &operator>>(const QDBusArgument &argument,
                                 FcitxQtAddonInfo &arg) {
     QString uniqueName, name, comment;
     int category;
-    bool enabled;
+    bool configurable, enabled;
     argument.beginStructure();
-    argument >> uniqueName >> name >> comment >> category >> enabled;
+    argument >> uniqueName >> name >> comment >> category >> configurable >>
+        enabled;
     argument.endStructure();
     arg.setUniqueName(uniqueName);
     arg.setName(name);
     arg.setComment(comment);
     arg.setCategory(category);
+    arg.setConfigurable(configurable);
     arg.setEnabled(enabled);
     return argument;
 }

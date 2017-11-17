@@ -22,13 +22,12 @@
 #include <QDebug>
 #include <QLocale>
 #include <QPushButton>
-#include <libintl.h>
 
-#include "common.h"
 #include "fcitxqtconfiguifactory.h"
 #include "fcitxqtcontrollerproxy.h"
 #include "fcitxqtwatcher.h"
 #include "mainwindow.h"
+#include <fcitx-utils/i18n.h>
 
 namespace fcitx {
 

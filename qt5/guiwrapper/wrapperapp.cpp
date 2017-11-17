@@ -19,9 +19,6 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <libintl.h>
-#include <locale.h>
-
 #include <QDebug>
 
 #include "fcitxqtconfiguifactory.h"
@@ -34,7 +31,6 @@ namespace fcitx {
 WrapperApp::WrapperApp(int &argc, char **argv)
     : QApplication(argc, argv), m_factory(new FcitxQtConfigUIFactory(this)),
       m_mainWindow(0) {
-    setlocale(LC_ALL, "");
     FcitxQtConfigUIWidget *widget = 0;
 
     if (argc == 3 && strcmp(argv[1], "--test") == 0) {

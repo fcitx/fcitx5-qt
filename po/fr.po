@@ -1,0 +1,53 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Riwan BEN EZZEDDINE <riwan.benezzeddine@gmail.com>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: fcitx\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-16 16:56-0800\n"
+"PO-Revision-Date: 2017-08-03 16:57+0000\n"
+"Last-Translator: Riwan BEN EZZEDDINE <riwan.benezzeddine@gmail.com>\n"
+"Language-Team: French (http://www.transifex.com/fcitx/fcitx/language/fr/)\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: qt5/guiwrapper/mainwindow.cpp:43
+msgid "&Close"
+msgstr ""
+
+#: qt5/guiwrapper/mainwindow.cpp:42
+msgid "&Reset"
+msgstr ""
+
+#: qt5/guiwrapper/mainwindow.cpp:41
+msgid "&Save"
+msgstr ""
+
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:269
+msgid "Empty"
+msgstr ""
+
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:307
+msgid "The key you just pressed is not supported by Qt."
+msgstr ""
+
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:308
+msgid "Unsupported Key"
+msgstr ""
+
+#~ msgid ""
+#~ "You're currently running KDE, but KCModule for fcitx couldn't be found, "
+#~ "the package name of this KCModule is usually kcm-fcitx or kde-config-"
+#~ "fcitx. Now it will open config file with default text editor."
+#~ msgstr ""
+#~ "Vous utilisez actuellement KDE, en revanche le KCModule pour fcitx ne "
+#~ "peut être trouvé, le nom du groupe de ce KCModule est généralement kcm-"
+#~ "fcitx ou kde-config-fcitx. Il va maintenant ouvrir le fichier de "
+#~ "configuration avec le texte par défaut."
