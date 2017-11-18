@@ -127,10 +127,6 @@ FcitxQtKeySequenceWidget::FcitxQtKeySequenceWidget(QWidget *parent)
             &FcitxQtKeySequenceWidget::clearKeySequence);
     connect(&d->modifierlessTimeout_, &QTimer::timeout, this,
             [this]() { d->doneRecording(); });
-    // TODO: how to adopt style changes at runtime?
-    /*QFont modFont = d->clearButton->font();
-    modFont.setStyleHint(QFont::TypeWriter);
-    d->clearButton->setFont(modFont);*/
     d->updateShortcutDisplay();
 }
 
@@ -208,7 +204,12 @@ void FcitxQtKeySequenceWidget::setKeySequence(const QList<Key> &seq) {
         d->oldKeySequence_ = d->keySequence_;
     }
 
-    d->keySequence_ = seq;
+    d->keySequence_ = QList<Key>();
+    for (auto key : seq) {
+        if (key.isValid()) {
+            d->keySequence_ << key;
+        }
+    }
     d->doneRecording();
 }
 
