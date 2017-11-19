@@ -136,6 +136,7 @@ void FcitxQtKeySequenceWidgetPrivate::init() {
 
     keyButton_ = new FcitxQtKeySequenceButton(this, q);
     keyButton_->setFocusPolicy(Qt::StrongFocus);
+    keyButton_->setIcon(QIcon::fromTheme("configure"));
     layout_->addWidget(keyButton_);
 
     clearButton_ = new QToolButton(q);
@@ -147,11 +148,12 @@ void FcitxQtKeySequenceWidgetPrivate::init() {
     q->setContextMenuPolicy(Qt::ActionsContextMenu);
     q->addAction(keyCodeModeAction_);
 
-    keyButton_->setIcon(QIcon::fromTheme("configure"));
     if (qApp->isLeftToRight())
         clearButton_->setIcon(QIcon::fromTheme("edit-clear-locationbar-rtl"));
     else
         clearButton_->setIcon(QIcon::fromTheme("edit-clear-locationbar-ltr"));
+
+    q->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
 }
 
 FcitxQtKeySequenceWidget::~FcitxQtKeySequenceWidget() { delete d; }
