@@ -20,13 +20,13 @@ set_target_properties(fcitx5platforminputcontextplugin PROPERTIES
                         )
 
 target_link_libraries(fcitx5platforminputcontextplugin
+                          Fcitx5::Utils
                           Qt5::Core
                           Qt5::Gui
                           Qt5::DBus
                           Qt5::X11Extras
                           Qt5::QuickWidgets
                           XCB::XCB
-                          Fcitx5::Utils
                           Fcitx5Qt5::DBusAddons
                           XKBCommon::XKBCommon
                          )
