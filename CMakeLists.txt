@@ -31,9 +31,13 @@ include(ECMUninstallTarget)
 
 find_package(XCB REQUIRED COMPONENTS XCB)
 find_package(XKBCommon 0.5.0 REQUIRED COMPONENTS XKBCommon)
-find_package(LibIntl REQUIRED)
 find_package(Fcitx5Utils REQUIRED)
 find_package(X11 REQUIRED)
+
+add_library(X11Import UNKNOWN IMPORTED)
+set_target_properties(X11Import PROPERTIES
+    IMPORTED_LOCATION "${X11_X11_LIB}"
+    INTERFACE_INCLUDE_DIRECTORIES "${X11_X11_INCLUDE_PATH}")
 
 include("${FCITX_INSTALL_CMAKECONFIG_DIR}/Fcitx5Utils/Fcitx5CompilerSettings.cmake")
 

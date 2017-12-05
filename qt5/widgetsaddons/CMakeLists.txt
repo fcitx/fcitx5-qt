@@ -60,11 +60,11 @@ set_target_properties(Fcitx5Qt5WidgetsAddons
 )
 
 target_link_libraries(Fcitx5Qt5WidgetsAddons
+    PRIVATE
+        Fcitx5::Utils
     PUBLIC
         Qt5::Core
         Qt5::Widgets
-    PRIVATE
-        Fcitx5::Utils
 )
 
 install(TARGETS Fcitx5Qt5WidgetsAddons EXPORT Fcitx5Qt5WidgetsAddonsTargets LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")

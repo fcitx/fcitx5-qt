@@ -11,17 +11,16 @@ set_target_properties(qtim-fcitx5 PROPERTIES
                          COMPILE_FLAGS "-fvisibility=hidden"
                          LINK_FLAGS "-Wl,--no-undefined"
                         )
-target_include_directories(qtim-fcitx5 PRIVATE ${X11_X11_INCLUDE_PATH})
 
 target_link_libraries(qtim-fcitx5
+                          Fcitx5::Utils
                           Qt4::QtCore
                           Qt4::QtGui
                           Qt4::QtDBus
                           XCB::XCB
-                          Fcitx5::Utils
                           Fcitx5Qt4::DBusAddons
                           XKBCommon::XKBCommon
-                          ${X11_LIBRARIES}
+                          X11Import
                          )
 
 if (NOT CMAKE_INSTALL_QT4PLUGINDIR)
