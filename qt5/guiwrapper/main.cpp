@@ -19,6 +19,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include <locale.h>
 #include "wrapperapp.h"
 
 int main(int argc, char *argv[]) {
