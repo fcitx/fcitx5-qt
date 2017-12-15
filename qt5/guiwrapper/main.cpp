@@ -19,8 +19,8 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <locale.h>
 #include "wrapperapp.h"
+#include <locale.h>
 
 int main(int argc, char *argv[]) {
     setlocale(LC_ALL, "");

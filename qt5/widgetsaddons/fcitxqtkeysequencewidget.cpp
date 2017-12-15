@@ -254,7 +254,8 @@ void FcitxQtKeySequenceWidgetPrivate::doneRecording() {
 }
 
 void FcitxQtKeySequenceWidgetPrivate::updateShortcutDisplay() {
-    QString s = QString::fromUtf8(Key::keyListToString(keySequence_).c_str());
+    QString s = QString::fromUtf8(
+        Key::keyListToString(keySequence_, KeyStringFormat::Localized).c_str());
     s.replace('&', QLatin1String("&&"));
 
     if (isRecording_) {
