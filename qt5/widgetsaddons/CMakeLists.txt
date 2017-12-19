@@ -60,9 +60,8 @@ set_target_properties(Fcitx5Qt5WidgetsAddons
 )
 
 target_link_libraries(Fcitx5Qt5WidgetsAddons
-    PRIVATE
-        Fcitx5::Utils
     PUBLIC
+        Fcitx5::Utils
         Qt5::Core
         Qt5::Widgets
 )
