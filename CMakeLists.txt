@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.6.0)
-
+set(FCITX5_QT_VERSION 0.0.1)
 project(fcitx5-qt VERSION 0.0.1)
 
 set(REQUIRED_QT4_VERSION 4.8.0)
@@ -21,6 +21,7 @@ else()
   set(LIBRARY_COMPILE_FLAGS "-fvisibility=hidden")
   add_definitions(-DFCITX_GETTEXT_DOMAIN=\"fcitx5-qt\")
 endif()
+add_definitions(-DFCITX5_QT_VERSION=\"${FCITX5_QT_VERSION}\")
 
 include(GNUInstallDirs)
 include(FeatureSummary)

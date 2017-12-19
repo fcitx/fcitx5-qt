@@ -22,7 +22,7 @@
 #ifndef FCITXQT5_GUIWRAPPER_MAINWINDOW_H
 #define FCITXQT5_GUIWRAPPER_MAINWINDOW_H
 
-#include <QMainWindow>
+#include <QDialog>
 
 #include "fcitxqtconfiguiwidget.h"
 #include "ui_mainwindow.h"
@@ -31,23 +31,28 @@ namespace fcitx {
 
 class FcitxQtControllerProxy;
 class FcitxQtWatcher;
-class MainWindow : public QMainWindow {
+class MainWindow : public QDialog, public Ui::MainWindow {
     Q_OBJECT
 public:
     explicit MainWindow(FcitxQtConfigUIWidget *pluginWidget,
                         QWidget *parent = 0);
     virtual ~MainWindow();
+
+    void setParentWindow(WId id);
 public slots:
     void changed(bool changed);
     void clicked(QAbstractButton *button);
     void availabilityChanged(bool avail);
     void saveFinished();
 
+protected:
+    void showEvent(QShowEvent *event) override;
+
 private:
-    Ui::MainWindow *m_ui;
     FcitxQtWatcher *m_watcher;
     FcitxQtConfigUIWidget *m_pluginWidget;
     FcitxQtControllerProxy *m_proxy;
+    WId wid_ = 0;
 };
 }
 

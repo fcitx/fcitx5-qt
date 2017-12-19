@@ -24,6 +24,9 @@
 #include "fcitxqtconfiguifactory.h"
 #include "mainwindow.h"
 #include "wrapperapp.h"
+#include <QCommandLineParser>
+#include <QWindow>
+#include <fcitx-utils/i18n.h>
 #include <fcitx-utils/standardpath.h>
 
 namespace fcitx {
@@ -33,23 +36,49 @@ WrapperApp::WrapperApp(int &argc, char **argv)
       m_mainWindow(0) {
     FcitxQtConfigUIWidget *widget = 0;
 
-    if (argc == 3 && strcmp(argv[1], "--test") == 0) {
-        if (m_factory->test(QString::fromLocal8Bit(argv[2]))) {
+    setApplicationName(QLatin1String("fcitx5-qt5-gui-wrapper"));
+    setApplicationVersion(QLatin1String(FCITX5_QT_VERSION));
+
+    QCommandLineParser parser;
+    parser.setApplicationDescription(_("A launcher for Fcitx Gui plugin."));
+    parser.addHelpOption();
+    parser.addOptions({
+        {{"w", "winid"}, _("Parent window ID"), _("winid")},
+        {{"t", "test"}, _("Test if config exists")},
+    });
+    parser.addPositionalArgument(_("path"), _("Config path"));
+    parser.process(*this);
+
+    auto args = parser.positionalArguments();
+    if (args.empty()) {
+        qWarning("Missing path argument.");
+        QMetaObject::invokeMethod(this, "errorExit", Qt::QueuedConnection);
+        return;
+    }
+
+    if (parser.isSet("test")) {
+        if (m_factory->test(args[0])) {
             QMetaObject::invokeMethod(this, "quit", Qt::QueuedConnection);
         } else {
             QMetaObject::invokeMethod(this, "errorExit", Qt::QueuedConnection);
         }
     } else {
-        if (argc == 2) {
-            widget = m_factory->create(QString::fromLocal8Bit(argv[1]));
+        WId winid = 0;
+        bool ok;
+        if (parser.isSet("winid")) {
+            winid = parser.value("winid").toLong(&ok, 0);
         }
+        widget = m_factory->create(args[0]);
         if (!widget) {
             qWarning("Could not find plugin for file.");
             QMetaObject::invokeMethod(this, "errorExit", Qt::QueuedConnection);
-        } else {
-            m_mainWindow = new MainWindow(widget);
-            m_mainWindow->show();
+            return;
         }
+        m_mainWindow = new MainWindow(widget);
+        if (ok && winid) {
+            m_mainWindow->setParentWindow(winid);
+        }
+        m_mainWindow->exec();
     }
 }
 

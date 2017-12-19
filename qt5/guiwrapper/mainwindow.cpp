@@ -19,41 +19,47 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <QDebug>
-#include <QLocale>
-#include <QPushButton>
-
+#include "mainwindow.h"
 #include "fcitxqtconfiguifactory.h"
 #include "fcitxqtcontrollerproxy.h"
 #include "fcitxqtwatcher.h"
-#include "mainwindow.h"
+#include <QDebug>
+#include <QLocale>
+#include <QPushButton>
+#include <QWindow>
 #include <fcitx-utils/i18n.h>
 
 namespace fcitx {
 
 MainWindow::MainWindow(FcitxQtConfigUIWidget *pluginWidget, QWidget *parent)
-    : QMainWindow(parent), m_ui(new Ui::MainWindow),
+    : QDialog(parent),
       m_watcher(new FcitxQtWatcher(this)), m_pluginWidget(pluginWidget),
       m_proxy(0) {
+    setupUi(this);
     m_watcher->setConnection(QDBusConnection::sessionBus());
-    m_ui->setupUi(this);
-    m_ui->verticalLayout->insertWidget(0, m_pluginWidget);
-    m_ui->buttonBox->button(QDialogButtonBox::Save)->setText(_("&Save"));
-    m_ui->buttonBox->button(QDialogButtonBox::Reset)->setText(_("&Reset"));
-    m_ui->buttonBox->button(QDialogButtonBox::Close)->setText(_("&Close"));
-    m_ui->buttonBox->button(QDialogButtonBox::Save)->setEnabled(false);
-    m_ui->buttonBox->button(QDialogButtonBox::Reset)->setEnabled(false);
+    verticalLayout->insertWidget(0, m_pluginWidget);
+    buttonBox->button(QDialogButtonBox::Save)->setText(_("&Save"));
+    buttonBox->button(QDialogButtonBox::Reset)->setText(_("&Reset"));
+    buttonBox->button(QDialogButtonBox::Close)->setText(_("&Close"));
+    buttonBox->button(QDialogButtonBox::Save)->setEnabled(false);
+    buttonBox->button(QDialogButtonBox::Reset)->setEnabled(false);
     setWindowIcon(QIcon::fromTheme(m_pluginWidget->icon()));
     setWindowTitle(m_pluginWidget->title());
 
-    connect(m_pluginWidget, SIGNAL(changed(bool)), this, SLOT(changed(bool)));
-    if (m_pluginWidget->asyncSave())
-        connect(m_pluginWidget, SIGNAL(saveFinished()), this,
-                SLOT(saveFinished()));
-    connect(m_ui->buttonBox, SIGNAL(clicked(QAbstractButton *)), this,
-            SLOT(clicked(QAbstractButton *)));
+    connect(m_pluginWidget, &FcitxQtConfigUIWidget::changed, this,
+            &MainWindow::changed);
+    if (m_pluginWidget->asyncSave()) {
+        connect(m_pluginWidget, &FcitxQtConfigUIWidget::saveFinished, this,
+                &MainWindow::saveFinished);
+    }
+    connect(buttonBox, &QDialogButtonBox::clicked, this,
+            &MainWindow::clicked);
     connect(m_watcher, &FcitxQtWatcher::availabilityChanged, this,
             &MainWindow::availabilityChanged);
+    connect(buttonBox, &QDialogButtonBox::accepted, this,
+            &QDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this,
+            &QDialog::reject);
 
     m_watcher->watch();
 }
@@ -72,7 +78,7 @@ void MainWindow::availabilityChanged(bool avail) {
 
 void MainWindow::clicked(QAbstractButton *button) {
     QDialogButtonBox::StandardButton standardButton =
-        m_ui->buttonBox->standardButton(button);
+        buttonBox->standardButton(button);
     if (standardButton == QDialogButtonBox::Save) {
         if (m_pluginWidget->asyncSave())
             m_pluginWidget->setEnabled(false);
@@ -95,9 +101,31 @@ void MainWindow::saveFinished() {
 }
 
 void MainWindow::changed(bool changed) {
-    m_ui->buttonBox->button(QDialogButtonBox::Save)->setEnabled(changed);
-    m_ui->buttonBox->button(QDialogButtonBox::Reset)->setEnabled(changed);
+    buttonBox->button(QDialogButtonBox::Save)->setEnabled(changed);
+    buttonBox->button(QDialogButtonBox::Reset)->setEnabled(changed);
 }
 
-MainWindow::~MainWindow() { delete m_ui; }
+MainWindow::~MainWindow() {}
+
+void MainWindow::setParentWindow(WId id) { wid_ = id; }
+
+void MainWindow::showEvent(QShowEvent *event) {
+    if (!wid_) {
+        return;
+    }
+    setAttribute(Qt::WA_NativeWindow, true);
+    QWindow *subWindow = windowHandle();
+    Q_ASSERT(subWindow);
+
+    QWindow *mainWindow = QWindow::fromWinId(wid_);
+    wid_ = 0;
+    if (!mainWindow) {
+        // foreign windows not supported on all platforms
+        return;
+    }
+    connect(this, &QObject::destroyed, mainWindow, &QObject::deleteLater);
+    subWindow->setTransientParent(mainWindow);
+
+    QDialog::showEvent(event);
+}
 }
