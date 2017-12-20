@@ -37,19 +37,7 @@ ListEditor::ListEditor(QWidget *parent)
     : FcitxQtConfigUIWidget(parent), m_model(new QuickPhraseModel(this)),
       m_fileListModel(new FileListModel(this)) {
     setupUi(this);
-    addButton->setText(_("&Add"));
-    batchEditButton->setText(_("&Batch Edit"));
-    deleteButton->setText(_("&Delete"));
-    clearButton->setText(_("De&lete All"));
-    importButton->setText(_("&Import"));
-    exportButton->setText(_("E&xport"));
-    operationButton->setText(_("&Operation"));
-    macroTableView->setSelectionMode(QAbstractItemView::SingleSelection);
-    macroTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    macroTableView->setEditTriggers(QAbstractItemView::DoubleClicked);
 
-    macroTableView->horizontalHeader()->setStretchLastSection(true);
-    macroTableView->verticalHeader()->setVisible(false);
     macroTableView->setModel(m_model);
     fileListComboBox->setModel(m_fileListModel);
 

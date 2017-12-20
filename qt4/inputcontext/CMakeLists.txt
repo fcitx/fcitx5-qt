@@ -9,7 +9,6 @@ add_library(qtim-fcitx5 MODULE ${plugin_SRCS})
 set_target_properties(qtim-fcitx5 PROPERTIES
                          AUTOMOC TRUE
                          COMPILE_FLAGS "-fvisibility=hidden"
-                         LINK_FLAGS "-Wl,--no-undefined"
                         )
 
 target_link_libraries(qtim-fcitx5

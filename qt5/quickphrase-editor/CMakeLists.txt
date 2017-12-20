@@ -12,8 +12,7 @@ set(QUICKPHRASE_EDITOR_SRCS
 add_library(fcitx-quickphrase-editor5
   MODULE ${QUICKPHRASE_EDITOR_SRCS})
 set_target_properties(fcitx-quickphrase-editor5 PROPERTIES
-                      LINK_FLAGS "-Wl,--no-undefined"
-                      AUTOMOC TRUE AUTOUIC TRUE
+                      AUTOMOC TRUE AUTOUIC TRUE AUTOUIC_OPTIONS "-tr=fcitx::tr2fcitx;--include=fcitxqti18nhelper.h"
 )
 target_link_libraries(fcitx-quickphrase-editor5
   Fcitx5::Utils

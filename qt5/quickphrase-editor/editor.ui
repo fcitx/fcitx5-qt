@@ -17,7 +17,23 @@
       <widget class="QComboBox" name="fileListComboBox"/>
      </item>
      <item>
-      <widget class="QTableView" name="macroTableView"/>
+      <widget class="QTableView" name="macroTableView">
+       <property name="editTriggers">
+        <set>QAbstractItemView::DoubleClicked</set>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SingleSelection</enum>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectRows</enum>
+       </property>
+       <attribute name="horizontalHeaderStretchLastSection">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+      </widget>
      </item>
     </layout>
    </item>
@@ -26,55 +42,51 @@
      <item>
       <widget class="QPushButton" name="operationButton">
        <property name="text">
-        <string/>
+        <string>&amp;Operation</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="addButton">
        <property name="text">
-        <string/>
+        <string>&amp;Add</string>
        </property>
        <property name="icon">
         <iconset theme="list-add">
-         <normaloff/>
-        </iconset>
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="batchEditButton">
        <property name="text">
-        <string/>
+        <string>&amp;Batch Edit</string>
        </property>
        <property name="icon">
         <iconset theme="document-edit">
-         <normaloff/>
-        </iconset>
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="deleteButton">
        <property name="text">
-        <string/>
+        <string>&amp;Delete</string>
        </property>
        <property name="icon">
         <iconset theme="list-remove">
-         <normaloff/>
-        </iconset>
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="clearButton">
        <property name="text">
-        <string/>
+        <string>De&amp;lete All</string>
        </property>
        <property name="icon">
         <iconset theme="edit-delete">
-         <normaloff/>
-        </iconset>
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
@@ -88,24 +100,22 @@
      <item>
       <widget class="QPushButton" name="importButton">
        <property name="text">
-        <string/>
+        <string>&amp;Import</string>
        </property>
        <property name="icon">
         <iconset theme="document-import">
-         <normaloff/>
-        </iconset>
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="exportButton">
        <property name="text">
-        <string/>
+        <string>E&amp;xport</string>
        </property>
        <property name="icon">
         <iconset theme="document-export">
-         <normaloff/>
-        </iconset>
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>

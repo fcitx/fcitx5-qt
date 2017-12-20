@@ -16,7 +16,6 @@ add_library(fcitx5platforminputcontextplugin MODULE ${plugin_SRCS})
 set_target_properties(fcitx5platforminputcontextplugin PROPERTIES
                          AUTOMOC TRUE
                          COMPILE_FLAGS "-fvisibility=hidden"
-                         LINK_FLAGS "-Wl,--no-undefined"
                         )
 
 target_link_libraries(fcitx5platforminputcontextplugin

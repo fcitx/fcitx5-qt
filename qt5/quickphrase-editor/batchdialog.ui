@@ -44,7 +44,7 @@
      <item>
       <widget class="QLabel" name="infoLabel">
        <property name="text">
-        <string/>
+        <string>Use &lt;Keyword&gt; &lt;Phrase&gt; format on every line.</string>
        </property>
       </widget>
      </item>

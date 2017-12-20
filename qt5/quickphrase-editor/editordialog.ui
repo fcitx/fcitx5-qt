@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>334</width>
-    <height>91</height>
+    <height>133</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -19,7 +19,7 @@
      <item row="0" column="0">
       <widget class="QLabel" name="keyLabel">
        <property name="text">
-        <string notr="true"/>
+        <string notr="true">Keyword:</string>
        </property>
       </widget>
      </item>
@@ -29,7 +29,7 @@
      <item row="1" column="0">
       <widget class="QLabel" name="valueLabel">
        <property name="text">
-        <string notr="true"/>
+        <string notr="true">Phrase:</string>
        </property>
       </widget>
      </item>

@@ -43,7 +43,6 @@ set_target_properties(Fcitx5Qt4DBusAddons
                       AUTOMOC TRUE
                       SOVERSION 1
                       COMPILE_FLAGS "${LIBRARY_COMPILE_FLAGS}"
-                      LINK_FLAGS "-Wl,--no-undefined"
                       EXPORT_NAME DBusAddons
 )
 

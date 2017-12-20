@@ -21,11 +21,7 @@
 #include <fcitx-utils/i18n.h>
 
 namespace fcitx {
-EditorDialog::EditorDialog(QWidget *parent) : QDialog(parent) {
-    setupUi(this);
-    keyLabel->setText(_("Keyword:"));
-    valueLabel->setText(_("Phrase:"));
-}
+EditorDialog::EditorDialog(QWidget *parent) : QDialog(parent) { setupUi(this); }
 
 EditorDialog::~EditorDialog() {}
 

@@ -34,6 +34,7 @@ set(widgetsaddons_HEADERS
     fcitxqtconfiguiplugin.h
     fcitxqtconfiguiwidget.h
     fcitxqtkeysequencewidget.h
+    fcitxqti18nhelper.h
 )
 
 set(fcitxqtwidgetsaddons_INCLUDE_DIRS
@@ -54,8 +55,6 @@ set_target_properties(Fcitx5Qt5WidgetsAddons
                       AUTOMOC TRUE
                       SOVERSION 1
                       COMPILE_FLAGS "-fvisibility=hidden"
-                      LINK_FLAGS "-Wl,--no-undefined"
-                      CXX_STANDARD 14
                       EXPORT_NAME WidgetsAddons
 )
 

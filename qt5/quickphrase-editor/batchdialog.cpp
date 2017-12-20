@@ -25,7 +25,6 @@ namespace fcitx {
 BatchDialog::BatchDialog(QWidget *parent) : QDialog(parent) {
     setupUi(this);
     iconLabel->setPixmap(QIcon::fromTheme("dialog-information").pixmap(22, 22));
-    infoLabel->setText(_("Use <Keyword> <Phrase> format on every line."));
 }
 
 BatchDialog::~BatchDialog() {}
