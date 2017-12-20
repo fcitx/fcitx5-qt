@@ -22,21 +22,19 @@
 
 #include "fcitxqtconfiguiwidget.h"
 #include "model.h"
+#include "ui_editor.h"
 #include <QDir>
 #include <QMainWindow>
 #include <QMutex>
 
 class QAbstractItemModel;
 class CMacroTable;
-namespace Ui {
-class Editor;
-}
 
 namespace fcitx {
 
 class FileListModel;
 
-class ListEditor : public FcitxQtConfigUIWidget {
+class ListEditor : public FcitxQtConfigUIWidget, Ui::Editor {
     Q_OBJECT
 public:
     explicit ListEditor(QWidget *parent = 0);
@@ -74,7 +72,6 @@ private:
     void save(const QString &file);
     QString currentFile();
     QString currentName();
-    Ui::Editor *m_ui;
     QuickPhraseModel *m_model;
     FileListModel *m_fileListModel;
     QMenu *m_operationMenu;

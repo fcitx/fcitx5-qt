@@ -1,28 +1,26 @@
-/***************************************************************************
- *   Copyright (C) 2012~2012 by CSSlayer                                   *
- *   wengxt@gmail.com                                                      *
- *                                                                         *
- *  This program is free software: you can redistribute it and/or modify   *
- *  it under the terms of the GNU General Public License as published by   *
- *  the Free Software Foundation, either version 3 of the License, or      *
- *  (at your option) any later version.                                    *
- *                                                                         *
- *  This program is distributed in the hope that it will be useful,        *
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of         *
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          *
- *  GNU General Public License for more details.                           *
- *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
- *                                                                         *
- ***************************************************************************/
-
+//
+// Copyright (C) 2017~2017 by CSSlayer
+// wengxt@gmail.com
+//
+// This library is free software; you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; either version 2.1 of the
+// License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; see the file COPYING. If not,
+// see <http://www.gnu.org/licenses/>.
+//
 #include "editor.h"
 #include "batchdialog.h"
 #include "editordialog.h"
 #include "filelistmodel.h"
 #include "model.h"
-#include "ui_editor.h"
 #include <QCloseEvent>
 #include <QDebug>
 #include <QFileDialog>
@@ -30,68 +28,63 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QtConcurrentRun>
-#include <cassert>
-#include <cstdio>
 #include <fcitx-utils/i18n.h>
 #include <fcitx-utils/standardpath.h>
 
 namespace fcitx {
 
 ListEditor::ListEditor(QWidget *parent)
-    : FcitxQtConfigUIWidget(parent), m_ui(new Ui::Editor),
-      m_model(new QuickPhraseModel(this)),
+    : FcitxQtConfigUIWidget(parent), m_model(new QuickPhraseModel(this)),
       m_fileListModel(new FileListModel(this)) {
-    m_ui->setupUi(this);
-    m_ui->addButton->setText(_("&Add"));
-    m_ui->batchEditButton->setText(_("&Batch Edit"));
-    m_ui->deleteButton->setText(_("&Delete"));
-    m_ui->clearButton->setText(_("De&lete All"));
-    m_ui->importButton->setText(_("&Import"));
-    m_ui->exportButton->setText(_("E&xport"));
-    m_ui->operationButton->setText(_("&Operation"));
-    m_ui->macroTableView->setSelectionMode(QAbstractItemView::SingleSelection);
-    m_ui->macroTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    m_ui->macroTableView->setEditTriggers(QAbstractItemView::DoubleClicked);
+    setupUi(this);
+    addButton->setText(_("&Add"));
+    batchEditButton->setText(_("&Batch Edit"));
+    deleteButton->setText(_("&Delete"));
+    clearButton->setText(_("De&lete All"));
+    importButton->setText(_("&Import"));
+    exportButton->setText(_("E&xport"));
+    operationButton->setText(_("&Operation"));
+    macroTableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    macroTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    macroTableView->setEditTriggers(QAbstractItemView::DoubleClicked);
 
-    m_ui->macroTableView->horizontalHeader()->setStretchLastSection(true);
-    m_ui->macroTableView->verticalHeader()->setVisible(false);
-    m_ui->macroTableView->setModel(m_model);
-    m_ui->fileListComboBox->setModel(m_fileListModel);
+    macroTableView->horizontalHeader()->setStretchLastSection(true);
+    macroTableView->verticalHeader()->setVisible(false);
+    macroTableView->setModel(m_model);
+    fileListComboBox->setModel(m_fileListModel);
 
     m_operationMenu = new QMenu(this);
-    m_operationMenu->addAction(_("Add File"), this, SLOT(addFileTriggered()));
+    m_operationMenu->addAction(_("Add File"), this,
+                               &ListEditor::addFileTriggered);
     m_operationMenu->addAction(_("Remove File"), this,
-                               SLOT(removeFileTriggered()));
+                               &ListEditor::removeFileTriggered);
     m_operationMenu->addAction(_("Refresh List"), this,
-                               SLOT(refreshListTriggered()));
-    m_ui->operationButton->setMenu(m_operationMenu);
+                               &ListEditor::refreshListTriggered);
+    operationButton->setMenu(m_operationMenu);
 
     loadFileList();
     itemFocusChanged();
 
-    connect(m_ui->addButton, SIGNAL(clicked(bool)), this, SLOT(addWord()));
-    connect(m_ui->batchEditButton, SIGNAL(clicked(bool)), this,
-            SLOT(batchEditWord()));
-    connect(m_ui->deleteButton, SIGNAL(clicked(bool)), this,
-            SLOT(deleteWord()));
-    connect(m_ui->clearButton, SIGNAL(clicked(bool)), this,
-            SLOT(deleteAllWord()));
-    connect(m_ui->importButton, SIGNAL(clicked(bool)), this,
-            SLOT(importData()));
-    connect(m_ui->exportButton, SIGNAL(clicked(bool)), this,
-            SLOT(exportData()));
+    connect(addButton, &QPushButton::clicked, this, &ListEditor::addWord);
+    connect(batchEditButton, &QPushButton::clicked, this,
+            &ListEditor::batchEditWord);
+    connect(deleteButton, &QPushButton::clicked, this, &ListEditor::deleteWord);
+    connect(clearButton, &QPushButton::clicked, this,
+            &ListEditor::deleteAllWord);
+    connect(importButton, &QPushButton::clicked, this, &ListEditor::importData);
+    connect(exportButton, &QPushButton::clicked, this, &ListEditor::exportData);
 
-    connect(m_ui->fileListComboBox, SIGNAL(activated(int)), this,
-            SLOT(changeFile(int)));
+    connect(fileListComboBox, qOverload<int>(&QComboBox::activated), this,
+            &ListEditor::changeFile);
 
-    connect(m_ui->macroTableView->selectionModel(),
-            SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this,
-            SLOT(itemFocusChanged()));
-    connect(m_model, SIGNAL(needSaveChanged(bool)), this,
-            SIGNAL(changed(bool)));
+    connect(macroTableView->selectionModel(),
+            &QItemSelectionModel::selectionChanged, this,
+            &ListEditor::itemFocusChanged);
+    connect(m_model, &QuickPhraseModel::needSaveChanged, this,
+            &ListEditor::changed);
 }
 
-ListEditor::~ListEditor() { delete m_ui; }
+ListEditor::~ListEditor() {}
 
 void ListEditor::load() {
     m_lastFile = currentFile();
@@ -106,7 +99,8 @@ void ListEditor::save() {
     // QFutureWatcher< bool >* futureWatcher =
     // m_model->save("data/QuickPhrase.mb");
     QFutureWatcher<bool> *futureWatcher = m_model->save(currentFile());
-    connect(futureWatcher, SIGNAL(finished()), this, SIGNAL(saveFinished()));
+    connect(futureWatcher, &QFutureWatcherBase::finished, this,
+            &ListEditor::saveFinished);
 }
 
 QString ListEditor::addon() { return "fcitx-quickphrase"; }
@@ -121,10 +115,10 @@ void ListEditor::changeFile(int) {
               "Do you want to save the changes or discard them?"),
             QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
         if (ret == QMessageBox::Save) {
-            // save(m_ui->fileListComboBox->itemText(lastFileIndex));
+            // save(fileListComboBox->itemText(lastFileIndex));
             save(m_lastFile);
         } else if (ret == QMessageBox::Cancel) {
-            m_ui->fileListComboBox->setCurrentIndex(
+            fileListComboBox->setCurrentIndex(
                 m_fileListModel->findFile(m_lastFile));
             return;
         }
@@ -135,14 +129,13 @@ void ListEditor::changeFile(int) {
 QString ListEditor::title() { return _("Quick Phrase Editor"); }
 
 void ListEditor::itemFocusChanged() {
-    m_ui->deleteButton->setEnabled(
-        m_ui->macroTableView->currentIndex().isValid());
+    deleteButton->setEnabled(macroTableView->currentIndex().isValid());
 }
 
 void ListEditor::deleteWord() {
-    if (!m_ui->macroTableView->currentIndex().isValid())
+    if (!macroTableView->currentIndex().isValid())
         return;
-    int row = m_ui->macroTableView->currentIndex().row();
+    int row = macroTableView->currentIndex().row();
     m_model->deleteItem(row);
 }
 
@@ -152,7 +145,7 @@ void ListEditor::addWord() {
     EditorDialog *dialog = new EditorDialog(this);
     dialog->setAttribute(Qt::WA_DeleteOnClose, true);
     dialog->open();
-    connect(dialog, SIGNAL(accepted()), this, SLOT(addWordAccepted()));
+    connect(dialog, &QDialog::accepted, this, &ListEditor::addWordAccepted);
 }
 
 void ListEditor::batchEditWord() {
@@ -163,7 +156,7 @@ void ListEditor::batchEditWord() {
     dialog->setAttribute(Qt::WA_DeleteOnClose, true);
     dialog->setText(text);
     dialog->open();
-    connect(dialog, SIGNAL(accepted()), this, SLOT(batchEditAccepted()));
+    connect(dialog, &QDialog::accepted, this, &ListEditor::batchEditAccepted);
 }
 
 void ListEditor::addWordAccepted() {
@@ -172,8 +165,8 @@ void ListEditor::addWordAccepted() {
 
     m_model->addItem(dialog->key(), dialog->value());
     QModelIndex last = m_model->index(m_model->rowCount() - 1, 0);
-    m_ui->macroTableView->setCurrentIndex(last);
-    m_ui->macroTableView->scrollTo(last);
+    macroTableView->setCurrentIndex(last);
+    macroTableView->scrollTo(last);
 }
 
 void ListEditor::batchEditAccepted() {
@@ -185,8 +178,8 @@ void ListEditor::batchEditAccepted() {
 
     m_model->loadData(stream);
     QModelIndex last = m_model->index(m_model->rowCount() - 1, 0);
-    m_ui->macroTableView->setCurrentIndex(last);
-    m_ui->macroTableView->scrollTo(last);
+    macroTableView->setCurrentIndex(last);
+    macroTableView->scrollTo(last);
 }
 
 void ListEditor::importData() {
@@ -195,7 +188,7 @@ void ListEditor::importData() {
     dialog->setFileMode(QFileDialog::ExistingFile);
     dialog->setAcceptMode(QFileDialog::AcceptOpen);
     dialog->open();
-    connect(dialog, SIGNAL(accepted()), this, SLOT(importFileSelected()));
+    connect(dialog, &QDialog::accepted, this, &ListEditor::importFileSelected);
 }
 
 void ListEditor::exportData() {
@@ -203,7 +196,7 @@ void ListEditor::exportData() {
     dialog->setAttribute(Qt::WA_DeleteOnClose, true);
     dialog->setAcceptMode(QFileDialog::AcceptSave);
     dialog->open();
-    connect(dialog, SIGNAL(accepted()), this, SLOT(exportFileSelected()));
+    connect(dialog, &QDialog::accepted, this, &ListEditor::exportFileSelected);
 }
 
 void ListEditor::importFileSelected() {
@@ -225,27 +218,26 @@ void ListEditor::exportFileSelected() {
 }
 
 void ListEditor::loadFileList() {
-    int row = m_ui->fileListComboBox->currentIndex();
-    int col = m_ui->fileListComboBox->modelColumn();
+    int row = fileListComboBox->currentIndex();
+    int col = fileListComboBox->modelColumn();
     QString lastFileName =
         m_fileListModel->data(m_fileListModel->index(row, col), Qt::UserRole)
             .toString();
     m_fileListModel->loadFileList();
-    m_ui->fileListComboBox->setCurrentIndex(
-        m_fileListModel->findFile(lastFileName));
+    fileListComboBox->setCurrentIndex(m_fileListModel->findFile(lastFileName));
     load();
 }
 
 QString ListEditor::currentFile() {
-    int row = m_ui->fileListComboBox->currentIndex();
-    int col = m_ui->fileListComboBox->modelColumn();
+    int row = fileListComboBox->currentIndex();
+    int col = fileListComboBox->modelColumn();
     return m_fileListModel->data(m_fileListModel->index(row, col), Qt::UserRole)
         .toString();
 }
 
 QString ListEditor::currentName() {
-    int row = m_ui->fileListComboBox->currentIndex();
-    int col = m_ui->fileListComboBox->modelColumn();
+    int row = fileListComboBox->currentIndex();
+    int col = fileListComboBox->modelColumn();
     return m_fileListModel
         ->data(m_fileListModel->index(row, col), Qt::DisplayRole)
         .toString();
@@ -276,7 +268,7 @@ void ListEditor::addFileTriggered() {
     }
 
     m_fileListModel->loadFileList();
-    m_ui->fileListComboBox->setCurrentIndex(m_fileListModel->findFile(
+    fileListComboBox->setCurrentIndex(m_fileListModel->findFile(
         filename.prepend(QUICK_PHRASE_CONFIG_DIR "/")));
     load();
 }
@@ -286,8 +278,9 @@ void ListEditor::refreshListTriggered() { loadFileList(); }
 void ListEditor::removeFileTriggered() {
     QString filename = currentFile();
     QString curName = currentName();
-    auto fullname = stringutils::joinPath(StandardPath::global().userDirectory(
-        StandardPath::Type::PkgData), filename.toLocal8Bit().constData());
+    auto fullname = stringutils::joinPath(
+        StandardPath::global().userDirectory(StandardPath::Type::PkgData),
+        filename.toLocal8Bit().constData());
     QFile f(fullname.data());
     if (!f.exists()) {
         int ret = QMessageBox::question(

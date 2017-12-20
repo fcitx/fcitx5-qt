@@ -77,7 +77,8 @@ void MainWindow::availabilityChanged(bool avail) {
 void MainWindow::clicked(QAbstractButton *button) {
     QDialogButtonBox::StandardButton standardButton =
         buttonBox->standardButton(button);
-    if (standardButton == QDialogButtonBox::Apply || standardButton == QDialogButtonBox::Ok) {
+    if (standardButton == QDialogButtonBox::Apply ||
+        standardButton == QDialogButtonBox::Ok) {
         if (m_pluginWidget->asyncSave())
             m_pluginWidget->setEnabled(false);
         m_pluginWidget->save();

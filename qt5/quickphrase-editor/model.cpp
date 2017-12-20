@@ -142,7 +142,8 @@ void QuickPhraseModel::load(const QString &file, bool append) {
     m_futureWatcher = new QFutureWatcher<QStringPairList>(this);
     m_futureWatcher->setFuture(QtConcurrent::run<QStringPairList>(
         this, &QuickPhraseModel::parse, file));
-    connect(m_futureWatcher, SIGNAL(finished()), this, SLOT(loadFinished()));
+    connect(m_futureWatcher, &QFutureWatcherBase::finished, this,
+            &QuickPhraseModel::loadFinished);
 }
 
 QStringPairList QuickPhraseModel::parse(const QString &file) {
@@ -190,7 +191,8 @@ QFutureWatcher<bool> *QuickPhraseModel::save(const QString &file) {
     QFutureWatcher<bool> *futureWatcher = new QFutureWatcher<bool>(this);
     futureWatcher->setFuture(QtConcurrent::run<bool>(
         this, &QuickPhraseModel::saveData, file, m_list));
-    connect(futureWatcher, SIGNAL(finished()), this, SLOT(saveFinished()));
+    connect(futureWatcher, &QFutureWatcherBase::finished, this,
+            &QuickPhraseModel::saveFinished);
     return futureWatcher;
 }
 
