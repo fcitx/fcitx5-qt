@@ -1,34 +1,29 @@
-/***************************************************************************
- *   Copyright (C) 2013~2013 by CSSlayer                                   *
- *   wengxt@gmail.com                                                      *
- *                                                                         *
- *  This program is free software: you can redistribute it and/or modify   *
- *  it under the terms of the GNU General Public License as published by   *
- *  the Free Software Foundation, either version 3 of the License, or      *
- *  (at your option) any later version.                                    *
- *                                                                         *
- *  This program is distributed in the hope that it will be useful,        *
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of         *
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          *
- *  GNU General Public License for more details.                           *
- *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
- *                                                                         *
- ***************************************************************************/
+//
+// Copyright (C) 2013~2017 by CSSlayer
+// wengxt@gmail.com
+//
+// This library is free software; you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; either version 2.1 of the
+// License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; see the file COPYING. If not,
+// see <http://www.gnu.org/licenses/>.
+//
+#ifndef _QUICKPHRASE_EDITOR_BATCHDIALOG_H_
+#define _QUICKPHRASE_EDITOR_BATCHDIALOG_H_
 
-#ifndef FCITX_TOOLS_GUI_BATCHDIALOG_H
-#define FCITX_TOOLS_GUI_BATCHDIALOG_H
-
+#include "ui_batchdialog.h"
 #include <QDialog>
 
-class CMacroTable;
-namespace Ui {
-class BatchDialog;
-}
-
 namespace fcitx {
-class BatchDialog : public QDialog {
+class BatchDialog : public QDialog, public Ui::BatchDialog {
     Q_OBJECT
 public:
     explicit BatchDialog(QWidget *parent = 0);
@@ -36,10 +31,7 @@ public:
 
     QString text() const;
     void setText(const QString &s);
-
-private:
-    Ui::BatchDialog *m_ui;
 };
 }
 
-#endif // FCITX_TOOLS_GUI_
+#endif // _QUICKPHRASE_EDITOR_BATCHDIALOG_H_

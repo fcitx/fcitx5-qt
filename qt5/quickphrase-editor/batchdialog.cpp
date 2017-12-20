@@ -1,40 +1,36 @@
-/***************************************************************************
- *   Copyright (C) 2013~2013 by CSSlayer                                   *
- *   wengxt@gmail.com                                                      *
- *                                                                         *
- *  This program is free software: you can redistribute it and/or modify   *
- *  it under the terms of the GNU General Public License as published by   *
- *  the Free Software Foundation, either version 3 of the License, or      *
- *  (at your option) any later version.                                    *
- *                                                                         *
- *  This program is distributed in the hope that it will be useful,        *
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of         *
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          *
- *  GNU General Public License for more details.                           *
- *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
- *                                                                         *
- ***************************************************************************/
+//
+// Copyright (C) 2013~2017 by CSSlayer
+// wengxt@gmail.com
+//
+// This library is free software; you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; either version 2.1 of the
+// License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; see the file COPYING. If not,
+// see <http://www.gnu.org/licenses/>.
+//
 
 #include "batchdialog.h"
 #include "ui_batchdialog.h"
 #include <fcitx-utils/i18n.h>
 
 namespace fcitx {
-BatchDialog::BatchDialog(QWidget *parent)
-    : QDialog(parent), m_ui(new Ui::BatchDialog) {
-    m_ui->setupUi(this);
-    m_ui->iconLabel->setPixmap(
-        QIcon::fromTheme("dialog-information").pixmap(22, 22));
-    m_ui->infoLabel->setText(_("Use <Keyword> <Phrase> format on every line."));
+BatchDialog::BatchDialog(QWidget *parent) : QDialog(parent) {
+    setupUi(this);
+    iconLabel->setPixmap(QIcon::fromTheme("dialog-information").pixmap(22, 22));
+    infoLabel->setText(_("Use <Keyword> <Phrase> format on every line."));
 }
 
-BatchDialog::~BatchDialog() { delete m_ui; }
+BatchDialog::~BatchDialog() {}
 
-void BatchDialog::setText(const QString &s) {
-    m_ui->plainTextEdit->setPlainText(s);
-}
+void BatchDialog::setText(const QString &s) { plainTextEdit->setPlainText(s); }
 
-QString BatchDialog::text() const { return m_ui->plainTextEdit->toPlainText(); }
+QString BatchDialog::text() const { return plainTextEdit->toPlainText(); }
 }
