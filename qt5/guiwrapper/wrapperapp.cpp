@@ -79,6 +79,7 @@ WrapperApp::WrapperApp(int &argc, char **argv)
             m_mainWindow->setParentWindow(winid);
         }
         m_mainWindow->exec();
+        QMetaObject::invokeMethod(this, "quit", Qt::QueuedConnection);
     }
 }
 

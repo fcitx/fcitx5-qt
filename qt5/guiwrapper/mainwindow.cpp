@@ -32,16 +32,17 @@
 namespace fcitx {
 
 MainWindow::MainWindow(FcitxQtConfigUIWidget *pluginWidget, QWidget *parent)
-    : QDialog(parent),
-      m_watcher(new FcitxQtWatcher(this)), m_pluginWidget(pluginWidget),
-      m_proxy(0) {
+    : QDialog(parent), m_watcher(new FcitxQtWatcher(this)),
+      m_pluginWidget(pluginWidget), m_proxy(0) {
     setupUi(this);
     m_watcher->setConnection(QDBusConnection::sessionBus());
     verticalLayout->insertWidget(0, m_pluginWidget);
-    buttonBox->button(QDialogButtonBox::Save)->setText(_("&Save"));
+    buttonBox->button(QDialogButtonBox::Ok)->setText(_("&Ok"));
+    buttonBox->button(QDialogButtonBox::Apply)->setText(_("&Apply"));
     buttonBox->button(QDialogButtonBox::Reset)->setText(_("&Reset"));
     buttonBox->button(QDialogButtonBox::Close)->setText(_("&Close"));
-    buttonBox->button(QDialogButtonBox::Save)->setEnabled(false);
+    buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     buttonBox->button(QDialogButtonBox::Reset)->setEnabled(false);
     setWindowIcon(QIcon::fromTheme(m_pluginWidget->icon()));
     setWindowTitle(m_pluginWidget->title());
@@ -52,14 +53,11 @@ MainWindow::MainWindow(FcitxQtConfigUIWidget *pluginWidget, QWidget *parent)
         connect(m_pluginWidget, &FcitxQtConfigUIWidget::saveFinished, this,
                 &MainWindow::saveFinished);
     }
-    connect(buttonBox, &QDialogButtonBox::clicked, this,
-            &MainWindow::clicked);
+    connect(buttonBox, &QDialogButtonBox::clicked, this, &MainWindow::clicked);
     connect(m_watcher, &FcitxQtWatcher::availabilityChanged, this,
             &MainWindow::availabilityChanged);
-    connect(buttonBox, &QDialogButtonBox::accepted, this,
-            &QDialog::accept);
-    connect(buttonBox, &QDialogButtonBox::rejected, this,
-            &QDialog::reject);
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
     m_watcher->watch();
 }
@@ -79,7 +77,7 @@ void MainWindow::availabilityChanged(bool avail) {
 void MainWindow::clicked(QAbstractButton *button) {
     QDialogButtonBox::StandardButton standardButton =
         buttonBox->standardButton(button);
-    if (standardButton == QDialogButtonBox::Save) {
+    if (standardButton == QDialogButtonBox::Apply || standardButton == QDialogButtonBox::Ok) {
         if (m_pluginWidget->asyncSave())
             m_pluginWidget->setEnabled(false);
         m_pluginWidget->save();
@@ -101,7 +99,8 @@ void MainWindow::saveFinished() {
 }
 
 void MainWindow::changed(bool changed) {
-    buttonBox->button(QDialogButtonBox::Save)->setEnabled(changed);
+    buttonBox->button(QDialogButtonBox::Ok)->setEnabled(changed);
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(changed);
     buttonBox->button(QDialogButtonBox::Reset)->setEnabled(changed);
 }
 
