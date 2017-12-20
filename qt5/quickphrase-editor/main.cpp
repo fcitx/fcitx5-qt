@@ -19,7 +19,6 @@
 #include "main.h"
 #include "editor.h"
 #include "model.h"
-#include <fcitx-utils/utils.h>
 
 QuickPhraseEditorPlugin::QuickPhraseEditorPlugin(QObject *parent)
     : fcitx::FcitxQtConfigUIPlugin(parent) {}

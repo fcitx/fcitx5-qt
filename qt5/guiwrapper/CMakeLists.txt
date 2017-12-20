@@ -4,12 +4,10 @@ set(QT_WRAPPER_SRCS
   mainwindow.cpp
   )
 
-qt5_wrap_ui(QT_WRAPPER_SRCS mainwindow.ui)
-
 add_executable(fcitx5-qt5-gui-wrapper ${QT_WRAPPER_SRCS})
 
 set_target_properties(fcitx5-qt5-gui-wrapper
-  PROPERTIES AUTOMOC TRUE)
+  PROPERTIES AUTOMOC TRUE AUTOUIC TRUE)
 
 target_link_libraries(fcitx5-qt5-gui-wrapper
       Fcitx5::Utils
@@ -19,7 +17,5 @@ target_link_libraries(fcitx5-qt5-gui-wrapper
       Fcitx5Qt5::DBusAddons
       Fcitx5Qt5::WidgetsAddons
 )
-
-target_include_directories(fcitx5-qt5-gui-wrapper PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 install(TARGETS fcitx5-qt5-gui-wrapper DESTINATION "${CMAKE_INSTALL_LIBDIR}/fcitx5/libexec")

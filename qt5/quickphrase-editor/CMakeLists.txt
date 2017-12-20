@@ -9,16 +9,11 @@ set(QUICKPHRASE_EDITOR_SRCS
   filelistmodel.cpp
   )
 
-qt5_wrap_ui(QUICKPHRASE_EDITOR_SRCS editordialog.ui batchdialog.ui editor.ui)
 add_library(fcitx-quickphrase-editor5
   MODULE ${QUICKPHRASE_EDITOR_SRCS})
-
-target_include_directories(fcitx-quickphrase-editor5 PRIVATE
-  ${CMAKE_CURRENT_BINARY_DIR}
-  )
 set_target_properties(fcitx-quickphrase-editor5 PROPERTIES
                       LINK_FLAGS "-Wl,--no-undefined"
-                      AUTOMOC TRUE
+                      AUTOMOC TRUE AUTOUIC TRUE
 )
 target_link_libraries(fcitx-quickphrase-editor5
   Fcitx5::Utils
