@@ -4,13 +4,14 @@
 #
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
+# scootergrisen <scootergrisen@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-19 18:55-0800\n"
+"POT-Creation-Date: 2017-12-21 00:01-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
+"Last-Translator: scootergrisen <scootergrisen@gmail.com>, 2017\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: qt5/quickphrase-editor/editor.cpp:276
 msgid "%1 is a system file, do you want to delete all phrases instead?"
-msgstr ""
+msgstr "%1 er en systemfil. Vil du slette alle fraser i stedet?"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:52
 #. i18n: ectx: property (text), widget (QPushButton, addButton)
@@ -31,7 +32,7 @@ msgstr "&Tilføj"
 
 #: qt5/guiwrapper/mainwindow.cpp:41
 msgid "&Apply"
-msgstr ""
+msgstr "&Anvend"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:63
 #. i18n: ectx: property (text), widget (QPushButton, batchEditButton)
@@ -60,7 +61,7 @@ msgstr "&Importér"
 
 #: qt5/guiwrapper/mainwindow.cpp:40
 msgid "&Ok"
-msgstr ""
+msgstr "&OK"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:45
 #. i18n: ectx: property (text), widget (QPushButton, operationButton)
@@ -75,7 +76,7 @@ msgstr "&Nulstil"
 
 #: qt5/guiwrapper/wrapperapp.cpp:43
 msgid "A launcher for Fcitx Gui plugin."
-msgstr ""
+msgstr "En starter til Fcitx grafisk brugerflade-plugin."
 
 #: qt5/quickphrase-editor/editor.cpp:45
 msgid "Add File"
@@ -95,7 +96,7 @@ msgstr "Kan ikke fjerne systemfil"
 
 #: qt5/guiwrapper/wrapperapp.cpp:49
 msgid "Config path"
-msgstr ""
+msgstr "Konfigurationssti"
 
 #: qt5/quickphrase-editor/editor.cpp:287
 msgid "Confirm deletion"
@@ -123,7 +124,7 @@ msgstr "Standard"
 msgid "E&xport"
 msgstr "&Eksportér"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:282
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:283
 msgid "Empty"
 msgstr "Tøm"
 
@@ -143,9 +144,9 @@ msgstr "Filnavn må ikke indeholde '/'."
 msgid "Invalid filename"
 msgstr "Ugyldigt filnavn"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:145
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:146
 msgid "Key code mode"
-msgstr ""
+msgstr "Tastekode-tilstand"
 
 #: qt5/quickphrase-editor/model.cpp:45
 msgid "Keyword"
@@ -153,19 +154,19 @@ msgstr "Nøgleord"
 
 #: qt5/guiwrapper/wrapperapp.cpp:46
 msgid "Parent window ID"
-msgstr ""
+msgstr "Forælder vinduets id"
 
 #: qt5/quickphrase-editor/model.cpp:47
 msgid "Phrase"
-msgstr ""
+msgstr "Frase"
 
 #: qt5/quickphrase-editor/editor.cpp:237
 msgid "Please input a filename for newfile"
-msgstr ""
+msgstr "Skriv venligst et filnavn til den nye fil"
 
 #: qt5/quickphrase-editor/editor.cpp:117
 msgid "Quick Phrase Editor"
-msgstr ""
+msgstr "Hurtig fraseredigering"
 
 #: qt5/quickphrase-editor/editor.cpp:49
 msgid "Refresh List"
@@ -181,19 +182,21 @@ msgstr "Gem ændringer"
 
 #: qt5/guiwrapper/wrapperapp.cpp:47
 msgid "Test if config exists"
-msgstr ""
+msgstr "Test om konfiguration findes"
 
 #: qt5/quickphrase-editor/editor.cpp:102
 msgid ""
 "The content has changed.\n"
 "Do you want to save the changes or discard them?"
 msgstr ""
-
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:319
-msgid "The key you just pressed is not supported by Qt."
-msgstr ""
+"Indholdet er blevet ændret.\n"
+"Vil du gemme ændringerne eller forkaste dem?"
 
 #: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:320
+msgid "The key you just pressed is not supported by Qt."
+msgstr "Tasten du lige har trykket på understøttes ikke af Qt."
+
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:321
 msgid "Unsupported Key"
 msgstr "Ikke-understøttet tast"
 
@@ -202,12 +205,12 @@ msgstr "Ikke-understøttet tast"
 #: rc.cpp:24
 #, kde-format
 msgid "Use <Keyword> <Phrase> format on every line."
-msgstr ""
+msgstr "Brug <Keyword> <Phrase>-format på hver linje."
 
 #: qt5/guiwrapper/wrapperapp.cpp:49
 msgid "path"
-msgstr ""
+msgstr "sti"
 
 #: qt5/guiwrapper/wrapperapp.cpp:46
 msgid "winid"
-msgstr ""
+msgstr "winid"

@@ -4,13 +4,14 @@
 #
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
+# Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-19 18:55-0800\n"
+"POT-Creation-Date: 2017-12-21 00:01-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
+"Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2017\n"
 "Language-Team: Catalan (https://www.transifex.com/fcitx/teams/12005/ca/)\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
@@ -31,14 +32,14 @@ msgstr "&Afegeix"
 
 #: qt5/guiwrapper/mainwindow.cpp:41
 msgid "&Apply"
-msgstr ""
+msgstr "&Aplica"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:63
 #. i18n: ectx: property (text), widget (QPushButton, batchEditButton)
 #: rc.cpp:9
 #, kde-format
 msgid "&Batch Edit"
-msgstr "Edita en &batch"
+msgstr "Edita per &lots"
 
 #: qt5/guiwrapper/mainwindow.cpp:43
 msgid "&Close"
@@ -60,7 +61,7 @@ msgstr "&Importa"
 
 #: qt5/guiwrapper/mainwindow.cpp:40
 msgid "&Ok"
-msgstr ""
+msgstr "D'ac&ord"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:45
 #. i18n: ectx: property (text), widget (QPushButton, operationButton)
@@ -75,7 +76,7 @@ msgstr "%Restableix"
 
 #: qt5/guiwrapper/wrapperapp.cpp:43
 msgid "A launcher for Fcitx Gui plugin."
-msgstr ""
+msgstr "Un llançador per al connector de la interfície gràfica de Fcitx."
 
 #: qt5/quickphrase-editor/editor.cpp:45
 msgid "Add File"
@@ -110,7 +111,7 @@ msgstr "Crea un fitxer nou"
 #: rc.cpp:15
 #, kde-format
 msgid "De&lete All"
-msgstr "E&limina tot"
+msgstr "E&limina-ho tot"
 
 #: qt5/quickphrase-editor/filelistmodel.cpp:43
 msgid "Default"
@@ -123,9 +124,9 @@ msgstr "Per defecte"
 msgid "E&xport"
 msgstr "E&xporta"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:282
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:283
 msgid "Empty"
-msgstr "Vuit"
+msgstr "Buit"
 
 #: qt5/quickphrase-editor/editor.cpp:296
 msgid "Error while deleting %1."
@@ -137,13 +138,13 @@ msgstr "Ha fallat l'operació de fitxer"
 
 #: qt5/quickphrase-editor/editor.cpp:242
 msgid "File name should not contain '/'."
-msgstr "El nom de fitxer no hauria de contenir «'»."
+msgstr "El nom de fitxer no hauria de contenir «/»."
 
 #: qt5/quickphrase-editor/editor.cpp:241
 msgid "Invalid filename"
 msgstr "Nom de fitxer no vàlid"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:145
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:146
 msgid "Key code mode"
 msgstr ""
 
@@ -161,7 +162,7 @@ msgstr "Frase"
 
 #: qt5/quickphrase-editor/editor.cpp:237
 msgid "Please input a filename for newfile"
-msgstr "Si us plau entre un nom de fitxer per al fitxer nou"
+msgstr "Si us plau, introduïu un nom de fitxer per al fitxer nou"
 
 #: qt5/quickphrase-editor/editor.cpp:117
 msgid "Quick Phrase Editor"
@@ -169,7 +170,7 @@ msgstr "Editor ràpid de frases"
 
 #: qt5/quickphrase-editor/editor.cpp:49
 msgid "Refresh List"
-msgstr "Actualitza la llista"
+msgstr "Refresca la llista"
 
 #: qt5/quickphrase-editor/editor.cpp:47
 msgid "Remove File"
@@ -191,11 +192,11 @@ msgstr ""
 "El contingut ha canviat.\n"
 "Voleu desar els canvis o descartar-los?"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:319
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:320
 msgid "The key you just pressed is not supported by Qt."
 msgstr "La tecla que acabeu de prémer no té suport de Qt."
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:320
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:321
 msgid "Unsupported Key"
 msgstr "Tecla sense suport"
 
@@ -208,7 +209,7 @@ msgstr "Useu el format <Paraula clau><Frase> a cada línia."
 
 #: qt5/guiwrapper/wrapperapp.cpp:49
 msgid "path"
-msgstr ""
+msgstr "camí"
 
 #: qt5/guiwrapper/wrapperapp.cpp:46
 msgid "winid"
