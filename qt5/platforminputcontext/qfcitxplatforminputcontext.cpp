@@ -24,8 +24,6 @@
 #include <QInputMethod>
 #include <QKeyEvent>
 #include <QPalette>
-#include <QQuickItem>
-#include <QQuickWidget>
 #include <QTextCharFormat>
 #include <QTextCodec>
 #include <QWindow>
@@ -387,22 +385,6 @@ void QFcitxPlatformInputContext::cursorRectChanged() {
     // not sure if this is necessary but anyway, qt's screen used to be buggy.
     if (!inputWindow->screen()) {
         return;
-    }
-
-    // QQuickWidget workaround.
-    auto obj = qApp->focusObject();
-    if (auto quickwidget = qobject_cast<QQuickWidget *>(obj)) {
-        auto realObj = quickwidget->quickWindow()->focusObject();
-
-        if (auto quickitem = qobject_cast<QQuickItem *>(realObj)) {
-            QInputMethodQueryEvent query(Qt::ImCursorRectangle);
-            QGuiApplication::sendEvent(realObj, &query);
-            auto rect = query.value(Qt::ImCursorRectangle).toRectF();
-            r = qApp->inputMethod()
-                    ->inputItemTransform()
-                    .mapRect(quickitem->mapRectToScene(rect))
-                    .toRect();
-        }
     }
 
     qreal scale = inputWindow->devicePixelRatio();
