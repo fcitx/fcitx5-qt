@@ -225,11 +225,12 @@ bool QuickPhraseModel::saveData(const QString &file,
     fs::makePath(stringutils::joinPath(
         StandardPath::global().userDirectory(StandardPath::Type::PkgData),
         QUICK_PHRASE_CONFIG_DIR));
+    qDebug() << filenameArray;
     return StandardPath::global().safeSave(
         StandardPath::Type::PkgData, filenameArray.constData(),
         [&list](int fd) {
             QFile tempFile;
-            if (!tempFile.open(fd, QIODevice::ReadOnly)) {
+            if (!tempFile.open(fd, QIODevice::WriteOnly)) {
                 return false;
             }
             for (int i = 0; i < list.size(); i++) {
