@@ -62,6 +62,6 @@ private:
     FcitxQtWatcherPrivate *const d_ptr;
     Q_DECLARE_PRIVATE(FcitxQtWatcher);
 };
-}
+} // namespace fcitx
 
 #endif // _DBUSADDONS_FCITXQTWATCHER_H_

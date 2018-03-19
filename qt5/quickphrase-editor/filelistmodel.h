@@ -43,6 +43,6 @@ public:
 private:
     QStringList m_fileList;
 };
-}
+} // namespace fcitx
 
 #endif // _QUICKPHRASE_EDITOR_FILELISTMODEL_H_

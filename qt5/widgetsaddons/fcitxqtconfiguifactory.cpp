@@ -48,16 +48,23 @@ FcitxQtConfigUIFactory::~FcitxQtConfigUIFactory() {}
 FcitxQtConfigUIWidget *FcitxQtConfigUIFactory::create(const QString &file) {
     Q_D(FcitxQtConfigUIFactory);
 
-    if (!d->plugins.contains(file))
-        return 0;
+    auto loader = d->plugins_.value(file);
+    if (!loader) {
+        return nullptr;
+    }
 
-    return d->plugins[file]->create(file);
+    auto instance =
+        qobject_cast<FcitxQtConfigUIFactoryInterface *>(loader->instance());
+    if (!instance) {
+        return nullptr;
+    }
+    return instance->create(file);
 }
 
 bool FcitxQtConfigUIFactory::test(const QString &file) {
     Q_D(FcitxQtConfigUIFactory);
 
-    return d->plugins.contains(file);
+    return d->plugins_.contains(file);
 }
 
 void FcitxQtConfigUIFactoryPrivate::scan() {
@@ -81,17 +88,17 @@ void FcitxQtConfigUIFactoryPrivate::scan() {
                 }
 
                 QPluginLoader *loader = new QPluginLoader(filePath, this);
-                // qDebug() << loader->load();
-                // qDebug() << loader->errorString();
-                FcitxQtConfigUIFactoryInterface *plugin =
-                    qobject_cast<FcitxQtConfigUIFactoryInterface *>(
-                        loader->instance());
-                if (plugin) {
-                    QStringList list = plugin->files();
-                    Q_FOREACH (const QString &s, list) { plugins[s] = plugin; }
+                auto files = loader->metaData()
+                                 .value("MetaData")
+                                 .toObject()
+                                 .value("files")
+                                 .toVariant()
+                                 .toStringList();
+                for (const auto &file : files) {
+                    plugins_[file] = loader;
                 }
             } while (0);
             return true;
         });
 }
-}
+} // namespace fcitx

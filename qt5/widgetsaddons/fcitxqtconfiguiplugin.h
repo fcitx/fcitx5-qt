@@ -33,11 +33,6 @@ class FcitxQtConfigUIWidget;
  */
 struct FCITX5QT5WIDGETSADDONS_EXPORT FcitxQtConfigUIFactoryInterface {
     /**
-     *  return the name for plugin
-     */
-    virtual QString name() = 0;
-
-    /**
      * create new widget based on key
      *
      * @see FcitxQtConfigUIPlugin::files
@@ -45,19 +40,11 @@ struct FCITX5QT5WIDGETSADDONS_EXPORT FcitxQtConfigUIFactoryInterface {
      * @return plugin name
      */
     virtual FcitxQtConfigUIWidget *create(const QString &key) = 0;
-
-    /**
-     * return a list that this plugin will handle, need to be consist with
-     * the file path in config file
-     *
-     * @return support file list
-     */
-    virtual QStringList files() = 0;
 };
 
 #define FcitxQtConfigUIFactoryInterface_iid                                    \
     "org.fcitx.Fcitx.FcitxQtConfigUIFactoryInterface"
-}
+} // namespace fcitx
 
 Q_DECLARE_INTERFACE(fcitx::FcitxQtConfigUIFactoryInterface,
                     FcitxQtConfigUIFactoryInterface_iid)
@@ -75,6 +62,6 @@ public:
     explicit FcitxQtConfigUIPlugin(QObject *parent = 0);
     virtual ~FcitxQtConfigUIPlugin();
 };
-}
+} // namespace fcitx
 
 #endif // _WIDGETSADDONS_FCITXQTCONFIGUIPLUGIN_H_

@@ -69,13 +69,13 @@ class FCITX5QT5WIDGETSADDONS_EXPORT FcitxQtKeySequenceWidget : public QWidget {
 
 public:
     /**
-    * Constructor.
-    */
+     * Constructor.
+     */
     explicit FcitxQtKeySequenceWidget(QWidget *parent = 0);
 
     /**
-    * Destructs the widget.
-    */
+     * Destructs the widget.
+     */
     virtual ~FcitxQtKeySequenceWidget();
 
     void setMultiKeyShortcutsAllowed(bool);
@@ -108,6 +108,6 @@ private:
 
     Q_DISABLE_COPY(FcitxQtKeySequenceWidget)
 };
-}
+} // namespace fcitx
 
 #endif // _WIDGETSADDONS_FCITXQTKEYSEQUENCEWIDGET_H_

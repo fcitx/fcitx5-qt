@@ -62,8 +62,8 @@ public:
 
 protected:
     /**
-    * Reimplemented for internal reasons.
-    */
+     * Reimplemented for internal reasons.
+     */
     virtual bool event(QEvent *event);
     virtual void keyPressEvent(QKeyEvent *event);
     virtual void keyReleaseEvent(QKeyEvent *event);
@@ -71,6 +71,6 @@ protected:
 private:
     FcitxQtKeySequenceWidgetPrivate *const d;
 };
-}
+} // namespace fcitx
 
 #endif // _WIDGETSADDONS_FCITXQTKEYSEQUENCEWIDGET_P_H_

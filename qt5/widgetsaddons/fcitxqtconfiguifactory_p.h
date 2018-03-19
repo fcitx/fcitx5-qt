@@ -21,6 +21,8 @@
 
 #include "fcitxqtconfiguifactory.h"
 #include <QObject>
+#include <QPluginLoader>
+#include <qpluginloader.h>
 
 namespace fcitx {
 
@@ -34,8 +36,8 @@ public:
 
 private:
     void scan();
-    QMap<QString, FcitxQtConfigUIFactoryInterface *> plugins;
+    QMap<QString, QPluginLoader *> plugins_;
 };
-}
+} // namespace fcitx
 
 #endif // _WIDGETSADDONS_FCITXQTCONFIGUIFACTORY_P_H_

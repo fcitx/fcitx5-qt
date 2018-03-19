@@ -876,6 +876,6 @@ bool QFcitxPlatformInputContext::processCompose(uint keyval, uint state,
 
     return true;
 }
-}
+} // namespace fcitx
 
 // kate: indent-mode cstyle; space-indent on; indent-width 0;

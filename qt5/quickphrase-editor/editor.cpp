@@ -299,4 +299,4 @@ void ListEditor::removeFileTriggered() {
     loadFileList();
     load();
 }
-}
+} // namespace fcitx

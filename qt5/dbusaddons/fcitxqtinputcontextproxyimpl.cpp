@@ -33,4 +33,4 @@ FcitxQtInputContextProxyImpl::FcitxQtInputContextProxyImpl(
                              parent) {}
 
 FcitxQtInputContextProxyImpl::~FcitxQtInputContextProxyImpl() {}
-}
+} // namespace fcitx

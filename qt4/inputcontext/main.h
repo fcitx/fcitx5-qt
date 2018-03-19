@@ -41,6 +41,6 @@ public:
 
     QString displayName(const QString &key) override;
 };
-}
+} // namespace fcitx
 
 #endif // MAIN_H

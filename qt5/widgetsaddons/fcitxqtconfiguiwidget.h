@@ -93,6 +93,6 @@ Q_SIGNALS:
      **/
     void saveFinished();
 };
-}
+} // namespace fcitx
 
 #endif // _WIDGETSADDONS_FCITXQTCONFIGUIWIDGET_H_

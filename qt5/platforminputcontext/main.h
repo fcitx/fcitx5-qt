@@ -37,6 +37,6 @@ public:
     QFcitxPlatformInputContext *create(const QString &system,
                                        const QStringList &paramList);
 };
-}
+} // namespace fcitx
 
 #endif // MAIN_H

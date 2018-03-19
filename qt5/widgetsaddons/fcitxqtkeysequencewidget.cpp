@@ -512,6 +512,6 @@ int FcitxQtKeySequenceWidget::keyFcitxToQt(Key key) {
 
     return qtkey | qstate;
 }
-}
+} // namespace fcitx
 
 #include "moc_fcitxqtkeysequencewidget.cpp"

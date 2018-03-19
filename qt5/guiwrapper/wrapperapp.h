@@ -40,6 +40,6 @@ private:
     FcitxQtConfigUIFactory *m_factory;
     MainWindow *m_mainWindow;
 };
-}
+} // namespace fcitx
 
 #endif // _GUIWRAPPER_WRAPPERAPP_H_

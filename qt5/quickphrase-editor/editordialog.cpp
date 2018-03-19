@@ -32,4 +32,4 @@ void EditorDialog::setValue(const QString &s) { valueLineEdit->setText(s); }
 QString EditorDialog::key() const { return keyLineEdit->text(); }
 
 QString EditorDialog::value() const { return valueLineEdit->text(); }
-}
+} // namespace fcitx

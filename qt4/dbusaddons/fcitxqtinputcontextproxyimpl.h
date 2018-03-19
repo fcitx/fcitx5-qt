@@ -120,6 +120,6 @@ Q_SIGNALS: // SIGNALS
     void ForwardKey(uint keyval, uint state, bool type);
     void UpdateFormattedPreedit(FcitxQtFormattedPreeditList str, int cursorpos);
 };
-}
+} // namespace fcitx
 
 #endif

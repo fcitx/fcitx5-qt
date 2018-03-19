@@ -32,4 +32,4 @@ BatchDialog::~BatchDialog() {}
 void BatchDialog::setText(const QString &s) { plainTextEdit->setPlainText(s); }
 
 QString BatchDialog::text() const { return plainTextEdit->toPlainText(); }
-}
+} // namespace fcitx

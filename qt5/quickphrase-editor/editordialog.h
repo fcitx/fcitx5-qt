@@ -34,6 +34,6 @@ public:
     void setValue(const QString &s);
     void setKey(const QString &s);
 };
-}
+} // namespace fcitx
 
 #endif // _QUICKPHRASE_EDITOR_EDITORDIALOG_H_

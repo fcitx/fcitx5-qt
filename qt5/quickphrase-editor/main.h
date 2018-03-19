@@ -27,10 +27,7 @@ public:
     Q_PLUGIN_METADATA(IID FcitxQtConfigUIFactoryInterface_iid FILE
                       "quickphrase-editor.json")
     explicit QuickPhraseEditorPlugin(QObject *parent = 0);
-    virtual QString name();
-    virtual QStringList files();
-    virtual QString domain();
-    virtual fcitx::FcitxQtConfigUIWidget *create(const QString &key);
+    fcitx::FcitxQtConfigUIWidget *create(const QString &key) override;
 };
 
 #endif // _QUICKPHRASE_EDITOR_MAIN_H_

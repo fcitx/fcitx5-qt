@@ -544,10 +544,11 @@ void QFcitxInputContext::createICData(QWidget *w) {
                 SLOT(commitString(QString)));
         connect(data.proxy, SIGNAL(forwardKey(uint, uint, bool)), this,
                 SLOT(forwardKey(uint, uint, bool)));
-        connect(data.proxy, SIGNAL(updateFormattedPreedit(
-                                FcitxQtFormattedPreeditList, int)),
-                this,
-                SLOT(updateFormattedPreedit(FcitxQtFormattedPreeditList, int)));
+        connect(
+            data.proxy,
+            SIGNAL(updateFormattedPreedit(FcitxQtFormattedPreeditList, int)),
+            this,
+            SLOT(updateFormattedPreedit(FcitxQtFormattedPreeditList, int)));
         connect(data.proxy, SIGNAL(deleteSurroundingText(int, uint)), this,
                 SLOT(deleteSurroundingText(int, uint)));
     }
@@ -768,6 +769,6 @@ bool QFcitxInputContext::processCompose(uint keyval, uint state,
 QString QFcitxInputContext::identifierName() { return "fcitx5"; }
 
 QString QFcitxInputContext::language() { return ""; }
-}
+} // namespace fcitx
 
 // kate: indent-mode cstyle; space-indent on; indent-width 0;

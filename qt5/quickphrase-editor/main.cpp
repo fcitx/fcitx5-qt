@@ -28,11 +28,3 @@ QuickPhraseEditorPlugin::create(const QString &key) {
     Q_UNUSED(key);
     return new fcitx::ListEditor;
 }
-
-QStringList QuickPhraseEditorPlugin::files() {
-    return QStringList("data/QuickPhrase.mb");
-}
-
-QString QuickPhraseEditorPlugin::name() { return "quickphrase-editor"; }
-
-QString QuickPhraseEditorPlugin::domain() { return "fcitx"; }

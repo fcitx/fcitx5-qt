@@ -128,4 +128,4 @@ void MainWindow::showEvent(QShowEvent *event) {
 
     QDialog::showEvent(event);
 }
-}
+} // namespace fcitx

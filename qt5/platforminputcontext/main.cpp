@@ -38,4 +38,4 @@ QFcitxPlatformInputContextPlugin::create(const QString &system,
     }
     return 0;
 }
-}
+} // namespace fcitx

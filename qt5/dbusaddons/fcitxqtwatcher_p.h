@@ -40,6 +40,6 @@ public:
     bool m_portalPresent = false;
     bool m_watched = false;
 };
-}
+} // namespace fcitx
 
 #endif // _DBUSADDONS_FCITXQTWATCHER_P_H_

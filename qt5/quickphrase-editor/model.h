@@ -68,6 +68,6 @@ private:
     QStringPairList m_list;
     QFutureWatcher<QStringPairList> *m_futureWatcher;
 };
-}
+} // namespace fcitx
 
 #endif // _QUICKPHRASE_EDITOR_MODEL_H_

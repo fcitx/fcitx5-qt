@@ -180,6 +180,6 @@ private:
 private slots:
     void processKeyEventFinished(QDBusPendingCallWatcher *);
 };
-}
+} // namespace fcitx
 
 #endif // QFCITXPLATFORMINPUTCONTEXT_H

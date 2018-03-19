@@ -33,6 +33,6 @@ inline QString tr2fcitx(const char *message, const char *comment = nullptr) {
         return QString();
     }
 }
-}
+} // namespace fcitx
 
 #endif // _WIDGETSADDONS_FCITXQTI18NHELPER_H_

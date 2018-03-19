@@ -153,4 +153,4 @@ void FcitxQtWatcher::updateAvailability() {
     Q_D(FcitxQtWatcher);
     setAvailability(d->m_mainPresent || d->m_portalPresent);
 }
-}
+} // namespace fcitx

@@ -75,6 +75,6 @@ private:
     QMenu *m_operationMenu;
     QString m_lastFile;
 };
-}
+} // namespace fcitx
 
 #endif // _QUICKPHRASE_EDITOR_EDITOR_H_

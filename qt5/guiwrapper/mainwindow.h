@@ -54,6 +54,6 @@ private:
     FcitxQtControllerProxy *m_proxy;
     WId wid_ = 0;
 };
-}
+} // namespace fcitx
 
 #endif // FCITXQT5_GUIWRAPPER_MAINWINDOW_H

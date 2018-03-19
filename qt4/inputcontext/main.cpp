@@ -26,7 +26,7 @@ namespace {
 bool isFcitx(const QString &key) {
     return key.toLower() == "fcitx5" || key.toLower() == "fcitx";
 }
-}
+} // namespace
 
 QStringList QFcitxInputContextPlugin::keys() const {
     return QStringList{"fcitx5", "fcitx"};
@@ -62,6 +62,6 @@ QStringList QFcitxInputContextPlugin::languages(const QString &key) {
 QString QFcitxInputContextPlugin::displayName(const QString &key) {
     return key;
 }
-}
+} // namespace fcitx
 
 Q_EXPORT_PLUGIN2(QFcitxInputContextPlugin, fcitx::QFcitxInputContextPlugin)

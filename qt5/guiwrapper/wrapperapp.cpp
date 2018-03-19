@@ -90,4 +90,4 @@ WrapperApp::~WrapperApp() {
 }
 
 void WrapperApp::errorExit() { exit(1); }
-}
+} // namespace fcitx

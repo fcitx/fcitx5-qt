@@ -32,6 +32,6 @@ public:
     QString text() const;
     void setText(const QString &s);
 };
-}
+} // namespace fcitx
 
 #endif // _QUICKPHRASE_EDITOR_BATCHDIALOG_H_

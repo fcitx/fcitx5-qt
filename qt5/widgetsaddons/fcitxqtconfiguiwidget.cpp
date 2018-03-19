@@ -27,4 +27,4 @@ FcitxQtConfigUIWidget::FcitxQtConfigUIWidget(QWidget *parent)
 QString FcitxQtConfigUIWidget::icon() { return QLatin1String("fcitx"); }
 
 bool FcitxQtConfigUIWidget::asyncSave() { return false; }
-}
+} // namespace fcitx

@@ -169,6 +169,6 @@ public:
     bool m_portal = false;
     qulonglong m_capability = 0;
 };
-}
+} // namespace fcitx
 
 #endif // _DBUSADDONS_FCITXQTINPUTCONTEXTPROXY_P_H_

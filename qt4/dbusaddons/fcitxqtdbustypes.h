@@ -122,7 +122,7 @@ FCITX5_QT_BEGIN_DECLARE_DBUS_TYPE(FcitxQtAddonState);
 FCITX5_QT_DECLARE_FIELD(QString, uniqueName, setUniqueName);
 FCITX5_QT_DECLARE_FIELD(bool, enabled, setEnabled);
 FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtAddonState);
-}
+} // namespace fcitx
 
 Q_DECLARE_METATYPE(fcitx::FcitxQtFormattedPreedit)
 Q_DECLARE_METATYPE(fcitx::FcitxQtFormattedPreeditList)

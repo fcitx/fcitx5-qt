@@ -63,6 +63,6 @@ private:
     FcitxQtConfigUIFactoryPrivate *d_ptr;
     Q_DECLARE_PRIVATE(FcitxQtConfigUIFactory);
 };
-}
+} // namespace fcitx
 
 #endif // _WIDGETSADDONS_FCITXQTCONFIGUIFACTORY_H_
