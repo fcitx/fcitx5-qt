@@ -31,6 +31,18 @@
 
 namespace fcitx {
 
+namespace {
+
+QString normalizePath(const QString &file) {
+    auto path = file;
+    if (file.startsWith("fcitx://gui/")) {
+        path.remove(0, 12);
+    }
+    return path;
+}
+
+} // namespace
+
 FcitxQtConfigUIFactoryPrivate::FcitxQtConfigUIFactoryPrivate(
     FcitxQtConfigUIFactory *factory)
     : QObject(factory), q_ptr(factory) {}
@@ -48,7 +60,8 @@ FcitxQtConfigUIFactory::~FcitxQtConfigUIFactory() {}
 FcitxQtConfigUIWidget *FcitxQtConfigUIFactory::create(const QString &file) {
     Q_D(FcitxQtConfigUIFactory);
 
-    auto loader = d->plugins_.value(file);
+    auto path = normalizePath(file);
+    auto loader = d->plugins_.value(path);
     if (!loader) {
         return nullptr;
     }
@@ -58,13 +71,14 @@ FcitxQtConfigUIWidget *FcitxQtConfigUIFactory::create(const QString &file) {
     if (!instance) {
         return nullptr;
     }
-    return instance->create(file);
+    return instance->create(path.section('/', 1));
 }
 
 bool FcitxQtConfigUIFactory::test(const QString &file) {
     Q_D(FcitxQtConfigUIFactory);
 
-    return d->plugins_.contains(file);
+    auto path = normalizePath(file);
+    return d->plugins_.contains(path);
 }
 
 void FcitxQtConfigUIFactoryPrivate::scan() {
@@ -88,14 +102,11 @@ void FcitxQtConfigUIFactoryPrivate::scan() {
                 }
 
                 QPluginLoader *loader = new QPluginLoader(filePath, this);
-                auto files = loader->metaData()
-                                 .value("MetaData")
-                                 .toObject()
-                                 .value("files")
-                                 .toVariant()
-                                 .toStringList();
+                auto metadata = loader->metaData().value("MetaData").toObject();
+                auto files = metadata.value("files").toVariant().toStringList();
+                auto addon = metadata.value("addon").toVariant().toString();
                 for (const auto &file : files) {
-                    plugins_[file] = loader;
+                    plugins_[addon + "/" + file] = loader;
                 }
             } while (0);
             return true;
