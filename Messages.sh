@@ -4,8 +4,8 @@ POT_FILE=po/$DOMAIN.pot
 set -x
 XGETTEXT="xgettext --package-name=$DOMAIN --add-comments --sort-output --msgid-bugs-address=fcitx-dev@googlegroups.com"
 source_files=$(find . -name \*.cpp -o -name \*.h)
-$XGETTEXT --keyword=_ --language=C++ --add-comments --sort-output -o ${POT_FILE} $source_files
-desktop_files=$(find . -name \*.conf.in -o -name \*.desktop)
+$XGETTEXT --keyword=_ --keyword=N_ --language=C++ --add-comments --sort-output -o ${POT_FILE} $source_files
+desktop_files=$(find . -name \*.conf.in -o -name \*.conf.in.in -o -name \*.desktop.in)
 $XGETTEXT --language=Desktop -k --keyword=Name --keyword=GenericName --keyword=Comment --keyword=Keywords $desktop_files -j -o ${POT_FILE}
 ui_files=$(find . -name \*.ui)
 extractrc $ui_files > rc.cpp
