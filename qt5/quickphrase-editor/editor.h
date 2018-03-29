@@ -36,13 +36,11 @@ class ListEditor : public FcitxQtConfigUIWidget, Ui::Editor {
     Q_OBJECT
 public:
     explicit ListEditor(QWidget *parent = 0);
-    virtual ~ListEditor();
 
-    virtual void load();
-    virtual void save();
-    virtual QString title();
-    virtual QString addon();
-    virtual bool asyncSave();
+    void load() override;
+    void save() override;
+    QString title() override;
+    bool asyncSave() override;
 
     void loadFileList();
 

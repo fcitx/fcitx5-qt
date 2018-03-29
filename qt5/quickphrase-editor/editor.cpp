@@ -72,8 +72,6 @@ ListEditor::ListEditor(QWidget *parent)
             &ListEditor::changed);
 }
 
-ListEditor::~ListEditor() {}
-
 void ListEditor::load() {
     m_lastFile = currentFile();
     m_model->load(currentFile(), false);
@@ -90,8 +88,6 @@ void ListEditor::save() {
     connect(futureWatcher, &QFutureWatcherBase::finished, this,
             &ListEditor::saveFinished);
 }
-
-QString ListEditor::addon() { return "fcitx-quickphrase"; }
 
 bool ListEditor::asyncSave() { return true; }
 

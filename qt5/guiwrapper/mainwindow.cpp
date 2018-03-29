@@ -31,8 +31,9 @@
 
 namespace fcitx {
 
-MainWindow::MainWindow(FcitxQtConfigUIWidget *pluginWidget, QWidget *parent)
-    : QDialog(parent), m_watcher(new FcitxQtWatcher(this)),
+MainWindow::MainWindow(const QString &path, FcitxQtConfigUIWidget *pluginWidget,
+                       QWidget *parent)
+    : QDialog(parent), m_path(path), m_watcher(new FcitxQtWatcher(this)),
       m_pluginWidget(pluginWidget), m_proxy(0) {
     setupUi(this);
     m_watcher->setConnection(QDBusConnection::sessionBus());
@@ -92,10 +93,12 @@ void MainWindow::clicked(QAbstractButton *button) {
 }
 
 void MainWindow::saveFinished() {
-    if (m_pluginWidget->asyncSave())
+    if (m_pluginWidget->asyncSave()) {
         m_pluginWidget->setEnabled(true);
+    }
     if (m_proxy) {
-        m_proxy->ReloadAddonConfig(m_pluginWidget->addon());
+        // Pass some arbitrary thing.
+        m_proxy->SetConfig(m_path, QDBusVariant(0));
     }
 }
 
@@ -104,8 +107,6 @@ void MainWindow::changed(bool changed) {
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(changed);
     buttonBox->button(QDialogButtonBox::Reset)->setEnabled(changed);
 }
-
-MainWindow::~MainWindow() {}
 
 void MainWindow::setParentWindow(WId id) { wid_ = id; }
 

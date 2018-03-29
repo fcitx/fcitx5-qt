@@ -34,9 +34,9 @@ class FcitxQtWatcher;
 class MainWindow : public QDialog, public Ui::MainWindow {
     Q_OBJECT
 public:
-    explicit MainWindow(FcitxQtConfigUIWidget *pluginWidget,
+    explicit MainWindow(const QString &path,
+                        FcitxQtConfigUIWidget *pluginWidget,
                         QWidget *parent = 0);
-    virtual ~MainWindow();
 
     void setParentWindow(WId id);
 public slots:
@@ -49,6 +49,7 @@ protected:
     void showEvent(QShowEvent *event) override;
 
 private:
+    QString m_path;
     FcitxQtWatcher *m_watcher;
     FcitxQtConfigUIWidget *m_pluginWidget;
     FcitxQtControllerProxy *m_proxy;

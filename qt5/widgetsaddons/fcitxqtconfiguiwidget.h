@@ -58,13 +58,6 @@ public:
     virtual QString title() = 0;
 
     /**
-     * return the addon name it belongs to
-     *
-     * @return addon name
-     **/
-    virtual QString addon() = 0;
-
-    /**
      * return the icon name of the window, see QIcon::fromTheme
      *
      * @return icon name

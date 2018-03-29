@@ -56,8 +56,12 @@ WrapperApp::WrapperApp(int &argc, char **argv)
         return;
     }
 
+    QString path = args[0];
+    if (!path.startsWith("fcitx://gui/")) {
+        path.prepend("fcitx://gui/");
+    }
     if (parser.isSet("test")) {
-        if (m_factory->test(args[0])) {
+        if (m_factory->test(path)) {
             QMetaObject::invokeMethod(this, "quit", Qt::QueuedConnection);
         } else {
             QMetaObject::invokeMethod(this, "errorExit", Qt::QueuedConnection);
@@ -68,13 +72,13 @@ WrapperApp::WrapperApp(int &argc, char **argv)
         if (parser.isSet("winid")) {
             winid = parser.value("winid").toLong(&ok, 0);
         }
-        widget = m_factory->create(args[0]);
+        widget = m_factory->create(path);
         if (!widget) {
             qWarning("Could not find plugin for file.");
             QMetaObject::invokeMethod(this, "errorExit", Qt::QueuedConnection);
             return;
         }
-        m_mainWindow = new MainWindow(widget);
+        m_mainWindow = new MainWindow(path, widget);
         if (ok && winid) {
             m_mainWindow->setParentWindow(winid);
         }
