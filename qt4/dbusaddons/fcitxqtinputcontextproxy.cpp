@@ -37,7 +37,7 @@ FcitxQtInputContextProxy::~FcitxQtInputContextProxy()
 {
     Q_D(FcitxQtInputContextProxy);
     if (isValid()) {
-        d->m_icproxy->DestroyIC();
+        d->icproxy_->DestroyIC();
     }
     delete d_ptr;
 }
@@ -45,13 +45,13 @@ FcitxQtInputContextProxy::~FcitxQtInputContextProxy()
 void FcitxQtInputContextProxy::setDisplay(const QString& display)
 {
     Q_D(FcitxQtInputContextProxy);
-    d->m_display = display;
+    d->display_ = display;
 }
 
 const QString &FcitxQtInputContextProxy::display() const
 {
     Q_D(const FcitxQtInputContextProxy);
-    return d->m_display;
+    return d->display_;
 }
 
 bool FcitxQtInputContextProxy::isValid() const
@@ -63,49 +63,49 @@ bool FcitxQtInputContextProxy::isValid() const
 QDBusPendingReply<> FcitxQtInputContextProxy::focusIn()
 {
     Q_D(FcitxQtInputContextProxy);
-    return d->m_icproxy->FocusIn();
+    return d->icproxy_->FocusIn();
 }
 
 QDBusPendingReply<> FcitxQtInputContextProxy::focusOut()
 {
     Q_D(FcitxQtInputContextProxy);
-    return d->m_icproxy->FocusOut();
+    return d->icproxy_->FocusOut();
 }
 
 QDBusPendingReply<bool> FcitxQtInputContextProxy::processKeyEvent(uint keyval, uint keycode, uint state, bool type, uint time)
 {
     Q_D(FcitxQtInputContextProxy);
-    return d->m_icproxy->ProcessKeyEvent(keyval, keycode, state, type, time);
+    return d->icproxy_->ProcessKeyEvent(keyval, keycode, state, type, time);
 }
 
 QDBusPendingReply<> FcitxQtInputContextProxy::reset()
 {
     Q_D(FcitxQtInputContextProxy);
-    return d->m_icproxy->Reset();
+    return d->icproxy_->Reset();
 }
 
 QDBusPendingReply<> FcitxQtInputContextProxy::setCapability(qulonglong caps)
 {
     Q_D(FcitxQtInputContextProxy);
-    return d->m_icproxy->SetCapability(caps);
+    return d->icproxy_->SetCapability(caps);
 }
 
 QDBusPendingReply<> FcitxQtInputContextProxy::setCursorRect(int x, int y, int w, int h)
 {
     Q_D(FcitxQtInputContextProxy);
-    return d->m_icproxy->SetCursorRect(x, y, w, h);
+    return d->icproxy_->SetCursorRect(x, y, w, h);
 }
 
 QDBusPendingReply<> FcitxQtInputContextProxy::setSurroundingText(const QString &text, uint cursor, uint anchor)
 {
     Q_D(FcitxQtInputContextProxy);
-    return d->m_icproxy->SetSurroundingText(text, cursor, anchor);
+    return d->icproxy_->SetSurroundingText(text, cursor, anchor);
 }
 
 QDBusPendingReply<> FcitxQtInputContextProxy::setSurroundingTextPosition(uint cursor, uint anchor)
 {
     Q_D(FcitxQtInputContextProxy);
-    return d->m_icproxy->SetSurroundingTextPosition(cursor, anchor);
+    return d->icproxy_->SetSurroundingTextPosition(cursor, anchor);
 }
 
 }

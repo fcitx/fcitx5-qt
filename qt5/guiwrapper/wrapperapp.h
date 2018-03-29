@@ -37,8 +37,8 @@ private slots:
     void errorExit();
 
 private:
-    FcitxQtConfigUIFactory *m_factory;
-    MainWindow *m_mainWindow;
+    FcitxQtConfigUIFactory *factory_;
+    MainWindow *mainWindow_;
 };
 } // namespace fcitx
 

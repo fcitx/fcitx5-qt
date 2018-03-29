@@ -31,14 +31,14 @@ namespace fcitx {
 
 class FcitxQtWatcherPrivate {
 public:
-    FcitxQtWatcherPrivate(FcitxQtWatcher *q) : m_serviceWatcher(q) {}
+    FcitxQtWatcherPrivate(FcitxQtWatcher *q) : serviceWatcher_(q) {}
 
-    QDBusServiceWatcher m_serviceWatcher;
-    bool m_watchPortal = false;
-    bool m_availability = false;
-    bool m_mainPresent = false;
-    bool m_portalPresent = false;
-    bool m_watched = false;
+    QDBusServiceWatcher serviceWatcher_;
+    bool watchPortal_ = false;
+    bool availability_ = false;
+    bool mainPresent_ = false;
+    bool portalPresent_ = false;
+    bool watched_ = false;
 };
 } // namespace fcitx
 

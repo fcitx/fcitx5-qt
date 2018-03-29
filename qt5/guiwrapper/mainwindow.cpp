@@ -33,11 +33,11 @@ namespace fcitx {
 
 MainWindow::MainWindow(const QString &path, FcitxQtConfigUIWidget *pluginWidget,
                        QWidget *parent)
-    : QDialog(parent), m_path(path), m_watcher(new FcitxQtWatcher(this)),
-      m_pluginWidget(pluginWidget), m_proxy(0) {
+    : QDialog(parent), path_(path), watcher_(new FcitxQtWatcher(this)),
+      pluginWidget_(pluginWidget), proxy_(0) {
     setupUi(this);
-    m_watcher->setConnection(QDBusConnection::sessionBus());
-    verticalLayout->insertWidget(0, m_pluginWidget);
+    watcher_->setConnection(QDBusConnection::sessionBus());
+    verticalLayout->insertWidget(0, pluginWidget_);
     buttonBox->button(QDialogButtonBox::Ok)->setText(_("&Ok"));
     buttonBox->button(QDialogButtonBox::Apply)->setText(_("&Apply"));
     buttonBox->button(QDialogButtonBox::Reset)->setText(_("&Reset"));
@@ -45,34 +45,34 @@ MainWindow::MainWindow(const QString &path, FcitxQtConfigUIWidget *pluginWidget,
     buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     buttonBox->button(QDialogButtonBox::Reset)->setEnabled(false);
-    setWindowIcon(QIcon::fromTheme(m_pluginWidget->icon()));
-    setWindowTitle(m_pluginWidget->title());
+    setWindowIcon(QIcon::fromTheme(pluginWidget_->icon()));
+    setWindowTitle(pluginWidget_->title());
 
-    connect(m_pluginWidget, &FcitxQtConfigUIWidget::changed, this,
+    connect(pluginWidget_, &FcitxQtConfigUIWidget::changed, this,
             &MainWindow::changed);
-    if (m_pluginWidget->asyncSave()) {
-        connect(m_pluginWidget, &FcitxQtConfigUIWidget::saveFinished, this,
+    if (pluginWidget_->asyncSave()) {
+        connect(pluginWidget_, &FcitxQtConfigUIWidget::saveFinished, this,
                 &MainWindow::saveFinished);
     }
     connect(buttonBox, &QDialogButtonBox::clicked, this, &MainWindow::clicked);
-    connect(m_watcher, &FcitxQtWatcher::availabilityChanged, this,
+    connect(watcher_, &FcitxQtWatcher::availabilityChanged, this,
             &MainWindow::availabilityChanged);
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
-    m_watcher->watch();
+    watcher_->watch();
 }
 
 void MainWindow::availabilityChanged(bool avail) {
     if (!avail) {
         return;
     }
-    if (m_proxy) {
-        delete m_proxy;
+    if (proxy_) {
+        delete proxy_;
     }
-    m_proxy = new FcitxQtControllerProxy(m_watcher->serviceName(),
-                                         QLatin1String("/controller"),
-                                         m_watcher->connection(), this);
+    proxy_ = new FcitxQtControllerProxy(watcher_->serviceName(),
+                                        QLatin1String("/controller"),
+                                        watcher_->connection(), this);
 }
 
 void MainWindow::clicked(QAbstractButton *button) {
@@ -80,25 +80,25 @@ void MainWindow::clicked(QAbstractButton *button) {
         buttonBox->standardButton(button);
     if (standardButton == QDialogButtonBox::Apply ||
         standardButton == QDialogButtonBox::Ok) {
-        if (m_pluginWidget->asyncSave())
-            m_pluginWidget->setEnabled(false);
-        m_pluginWidget->save();
-        if (!m_pluginWidget->asyncSave())
+        if (pluginWidget_->asyncSave())
+            pluginWidget_->setEnabled(false);
+        pluginWidget_->save();
+        if (!pluginWidget_->asyncSave())
             saveFinished();
     } else if (standardButton == QDialogButtonBox::Close) {
         qApp->quit();
     } else if (standardButton == QDialogButtonBox::Reset) {
-        m_pluginWidget->load();
+        pluginWidget_->load();
     }
 }
 
 void MainWindow::saveFinished() {
-    if (m_pluginWidget->asyncSave()) {
-        m_pluginWidget->setEnabled(true);
+    if (pluginWidget_->asyncSave()) {
+        pluginWidget_->setEnabled(true);
     }
-    if (m_proxy) {
+    if (proxy_) {
         // Pass some arbitrary thing.
-        m_proxy->SetConfig(m_path, QDBusVariant(0));
+        proxy_->SetConfig(path_, QDBusVariant(0));
     }
 }
 

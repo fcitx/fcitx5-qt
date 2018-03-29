@@ -40,16 +40,16 @@ FCITX5QT4DBUSADDONS_EXPORT void registerFcitxQtDBusTypes();
 public:                                                                        \
     std::conditional_t<std::is_class<TYPE>::value, const TYPE &, TYPE>         \
     GETTER() const {                                                           \
-        return m_##GETTER;                                                     \
+        return GETTER##_;                                                      \
     }                                                                          \
     void SETTER(                                                               \
         std::conditional_t<std::is_class<TYPE>::value, const TYPE &, TYPE>     \
             value) {                                                           \
-        m_##GETTER = value;                                                    \
+        GETTER##_ = value;                                                     \
     }                                                                          \
                                                                                \
 private:                                                                       \
-    TYPE m_##GETTER = TYPE();
+    TYPE GETTER##_ = TYPE();
 
 #define FCITX5_QT_END_DECLARE_DBUS_TYPE(TYPE)                                  \
     }                                                                          \

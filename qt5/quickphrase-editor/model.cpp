@@ -32,11 +32,11 @@ namespace fcitx {
 typedef QPair<QString, QString> ItemType;
 
 QuickPhraseModel::QuickPhraseModel(QObject *parent)
-    : QAbstractTableModel(parent), m_needSave(false), m_futureWatcher(0) {}
+    : QAbstractTableModel(parent), needSave_(false), futureWatcher_(0) {}
 
 QuickPhraseModel::~QuickPhraseModel() {}
 
-bool QuickPhraseModel::needSave() { return m_needSave; }
+bool QuickPhraseModel::needSave() { return needSave_; }
 
 QVariant QuickPhraseModel::headerData(int section, Qt::Orientation orientation,
                                       int role) const {
@@ -51,7 +51,7 @@ QVariant QuickPhraseModel::headerData(int section, Qt::Orientation orientation,
 
 int QuickPhraseModel::rowCount(const QModelIndex &parent) const {
     Q_UNUSED(parent);
-    return m_list.count();
+    return list_.count();
 }
 
 int QuickPhraseModel::columnCount(const QModelIndex &parent) const {
@@ -62,11 +62,11 @@ int QuickPhraseModel::columnCount(const QModelIndex &parent) const {
 QVariant QuickPhraseModel::data(const QModelIndex &index, int role) const {
     do {
         if ((role == Qt::DisplayRole || role == Qt::EditRole) &&
-            index.row() < m_list.count()) {
+            index.row() < list_.count()) {
             if (index.column() == 0) {
-                return m_list[index.row()].first;
+                return list_[index.row()].first;
             } else if (index.column() == 1) {
-                return m_list[index.row()].second;
+                return list_[index.row()].second;
             }
         }
     } while (0);
@@ -74,28 +74,28 @@ QVariant QuickPhraseModel::data(const QModelIndex &index, int role) const {
 }
 
 void QuickPhraseModel::addItem(const QString &macro, const QString &word) {
-    beginInsertRows(QModelIndex(), m_list.size(), m_list.size());
-    m_list.append(QPair<QString, QString>(macro, word));
+    beginInsertRows(QModelIndex(), list_.size(), list_.size());
+    list_.append(QPair<QString, QString>(macro, word));
     endInsertRows();
     setNeedSave(true);
 }
 
 void QuickPhraseModel::deleteItem(int row) {
-    if (row >= m_list.count())
+    if (row >= list_.count())
         return;
-    QPair<QString, QString> item = m_list.at(row);
+    QPair<QString, QString> item = list_.at(row);
     QString key = item.first;
     beginRemoveRows(QModelIndex(), row, row);
-    m_list.removeAt(row);
+    list_.removeAt(row);
     endRemoveRows();
     setNeedSave(true);
 }
 
 void QuickPhraseModel::deleteAllItem() {
-    if (m_list.count())
+    if (list_.count())
         setNeedSave(true);
     beginResetModel();
-    m_list.clear();
+    list_.clear();
     endResetModel();
 }
 
@@ -112,13 +112,13 @@ bool QuickPhraseModel::setData(const QModelIndex &index, const QVariant &value,
         return false;
 
     if (index.column() == 0) {
-        m_list[index.row()].first = value.toString();
+        list_[index.row()].first = value.toString();
 
         emit dataChanged(index, index);
         setNeedSave(true);
         return true;
     } else if (index.column() == 1) {
-        m_list[index.row()].second = value.toString();
+        list_[index.row()].second = value.toString();
 
         emit dataChanged(index, index);
         setNeedSave(true);
@@ -128,20 +128,20 @@ bool QuickPhraseModel::setData(const QModelIndex &index, const QVariant &value,
 }
 
 void QuickPhraseModel::load(const QString &file, bool append) {
-    if (m_futureWatcher) {
+    if (futureWatcher_) {
         return;
     }
 
     beginResetModel();
     if (!append) {
-        m_list.clear();
+        list_.clear();
         setNeedSave(false);
     } else
         setNeedSave(true);
-    m_futureWatcher = new QFutureWatcher<QStringPairList>(this);
-    m_futureWatcher->setFuture(QtConcurrent::run<QStringPairList>(
+    futureWatcher_ = new QFutureWatcher<QStringPairList>(this);
+    futureWatcher_->setFuture(QtConcurrent::run<QStringPairList>(
         this, &QuickPhraseModel::parse, file));
-    connect(m_futureWatcher, &QFutureWatcherBase::finished, this,
+    connect(futureWatcher_, &QFutureWatcherBase::finished, this,
             &QuickPhraseModel::loadFinished);
 }
 
@@ -180,30 +180,30 @@ QStringPairList QuickPhraseModel::parse(const QString &file) {
 }
 
 void QuickPhraseModel::loadFinished() {
-    m_list.append(m_futureWatcher->future().result());
+    list_.append(futureWatcher_->future().result());
     endResetModel();
-    m_futureWatcher->deleteLater();
-    m_futureWatcher = 0;
+    futureWatcher_->deleteLater();
+    futureWatcher_ = 0;
 }
 
 QFutureWatcher<bool> *QuickPhraseModel::save(const QString &file) {
     QFutureWatcher<bool> *futureWatcher = new QFutureWatcher<bool>(this);
     futureWatcher->setFuture(QtConcurrent::run<bool>(
-        this, &QuickPhraseModel::saveData, file, m_list));
+        this, &QuickPhraseModel::saveData, file, list_));
     connect(futureWatcher, &QFutureWatcherBase::finished, this,
             &QuickPhraseModel::saveFinished);
     return futureWatcher;
 }
 
 void QuickPhraseModel::saveData(QTextStream &dev) {
-    for (int i = 0; i < m_list.size(); i++) {
-        dev << m_list[i].first << "\t" << m_list[i].second << "\n";
+    for (int i = 0; i < list_.size(); i++) {
+        dev << list_[i].first << "\t" << list_[i].second << "\n";
     }
 }
 
 void QuickPhraseModel::loadData(QTextStream &stream) {
     beginResetModel();
-    m_list.clear();
+    list_.clear();
     setNeedSave(true);
     QString s;
     while (!(s = stream.readLine()).isNull()) {
@@ -214,7 +214,7 @@ void QuickPhraseModel::loadData(QTextStream &stream) {
         QString value = s.section(" ", 1, -1, QString::SectionSkipEmpty);
         if (key.isEmpty() || value.isEmpty())
             continue;
-        m_list.append(QPair<QString, QString>(key, value));
+        list_.append(QPair<QString, QString>(key, value));
     }
     endResetModel();
 }
@@ -255,9 +255,9 @@ void QuickPhraseModel::saveFinished() {
 }
 
 void QuickPhraseModel::setNeedSave(bool needSave) {
-    if (m_needSave != needSave) {
-        m_needSave = needSave;
-        emit needSaveChanged(m_needSave);
+    if (needSave_ != needSave) {
+        needSave_ = needSave;
+        emit needSaveChanged(needSave_);
     }
 }
 } // namespace fcitx

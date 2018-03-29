@@ -68,10 +68,10 @@ private:
     void save(const QString &file);
     QString currentFile();
     QString currentName();
-    QuickPhraseModel *m_model;
-    FileListModel *m_fileListModel;
-    QMenu *m_operationMenu;
-    QString m_lastFile;
+    QuickPhraseModel *model_;
+    FileListModel *fileListModel_;
+    QMenu *operationMenu_;
+    QString lastFile_;
 };
 } // namespace fcitx
 

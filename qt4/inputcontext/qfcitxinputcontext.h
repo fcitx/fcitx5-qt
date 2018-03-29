@@ -59,22 +59,22 @@ public:
     ProcessKeyWatcher(const QKeyEvent &event, QWidget *window,
                       const QDBusPendingCall &call, QObject *parent = 0)
         : QDBusPendingCallWatcher(call, parent),
-          m_event(QKeyEvent::createExtendedKeyEvent(
+          event_(QKeyEvent::createExtendedKeyEvent(
               event.type(), event.key(), event.modifiers(),
               event.nativeScanCode(), event.nativeVirtualKey(),
               event.nativeModifiers(), event.text(), event.isAutoRepeat(),
               event.count())),
-          m_window(window) {}
+          window_(window) {}
 
-    virtual ~ProcessKeyWatcher() { delete m_event; }
+    virtual ~ProcessKeyWatcher() { delete event_; }
 
-    QKeyEvent &keyEvent() { return *m_event; }
+    QKeyEvent &keyEvent() { return *event_; }
 
-    QWidget *window() { return m_window.data(); }
+    QWidget *window() { return window_.data(); }
 
 private:
-    QKeyEvent *m_event;
-    QPointer<QWidget> m_window;
+    QKeyEvent *event_;
+    QPointer<QWidget> window_;
 };
 
 struct XkbContextDeleter {
@@ -160,24 +160,21 @@ private:
     bool filterEventFallback(uint keyval, uint keycode, uint state,
                              bool isRelaese);
 
-    FcitxQtWatcher *m_watcher;
-    QString m_preedit;
-    QString m_commitPreedit;
-    FcitxQtFormattedPreeditList m_preeditList;
-    int m_cursorPos;
-    bool m_useSurroundingText;
-    bool m_syncMode;
-    QString m_lastSurroundingText;
-    int m_lastSurroundingAnchor = 0;
-    int m_lastSurroundingCursor = 0;
-    std::unordered_map<QWidget *, FcitxQtICData> m_icMap;
-    QPointer<QWidget> m_lastWindow;
-    bool m_destroy;
-    QScopedPointer<struct xkb_context, XkbContextDeleter> m_xkbContext;
+    FcitxQtWatcher *watcher_;
+    QString preedit_;
+    QString commitPreedit_;
+    FcitxQtFormattedPreeditList preeditList_;
+    int cursorPos_;
+    bool useSurroundingText_;
+    bool syncMode_;
+    std::unordered_map<QWidget *, FcitxQtICData> icMap_;
+    QPointer<QWidget> lastWindow_;
+    bool destroy_;
+    QScopedPointer<struct xkb_context, XkbContextDeleter> xkbContext_;
     QScopedPointer<struct xkb_compose_table, XkbComposeTableDeleter>
-        m_xkbComposeTable;
+        xkbComposeTable_;
     QScopedPointer<struct xkb_compose_state, XkbComposeStateDeleter>
-        m_xkbComposeState;
+        xkbComposeState_;
 private slots:
     void processKeyEventFinished(QDBusPendingCallWatcher *);
 };

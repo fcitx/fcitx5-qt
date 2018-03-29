@@ -44,7 +44,7 @@ void registerFcitxQtDBusTypes() {
 
 bool FcitxQtFormattedPreedit::
 operator==(const FcitxQtFormattedPreedit &preedit) const {
-    return (preedit.m_format == m_format) && (preedit.m_string == m_string);
+    return (preedit.format_ == format_) && (preedit.string_ == string_);
 }
 
 QDBusArgument &operator<<(QDBusArgument &argument,

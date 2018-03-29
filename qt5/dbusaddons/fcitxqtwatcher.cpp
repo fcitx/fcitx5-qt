@@ -39,35 +39,35 @@ FcitxQtWatcher::~FcitxQtWatcher() { delete d_ptr; }
 
 bool FcitxQtWatcher::availability() const {
     Q_D(const FcitxQtWatcher);
-    return d->m_availability;
+    return d->availability_;
 }
 
 void FcitxQtWatcher::setConnection(const QDBusConnection &connection) {
     Q_D(FcitxQtWatcher);
-    return d->m_serviceWatcher.setConnection(connection);
+    return d->serviceWatcher_.setConnection(connection);
 }
 
 QDBusConnection FcitxQtWatcher::connection() const {
     Q_D(const FcitxQtWatcher);
-    return d->m_serviceWatcher.connection();
+    return d->serviceWatcher_.connection();
 }
 
 void FcitxQtWatcher::setWatchPortal(bool portal) {
     Q_D(FcitxQtWatcher);
-    d->m_watchPortal = portal;
+    d->watchPortal_ = portal;
 }
 
 bool FcitxQtWatcher::watchPortal() const {
     Q_D(const FcitxQtWatcher);
-    return d->m_watchPortal;
+    return d->watchPortal_;
 }
 
 QString FcitxQtWatcher::serviceName() const {
     Q_D(const FcitxQtWatcher);
-    if (d->m_mainPresent) {
+    if (d->mainPresent_) {
         return FCITX_MAIN_SERVICE_NAME;
     }
-    if (d->m_portalPresent) {
+    if (d->portalPresent_) {
         return FCITX_PORTAL_SERVICE_NAME;
     }
     return QString();
@@ -75,56 +75,56 @@ QString FcitxQtWatcher::serviceName() const {
 
 void FcitxQtWatcher::setAvailability(bool availability) {
     Q_D(FcitxQtWatcher);
-    if (d->m_availability != availability) {
-        d->m_availability = availability;
-        emit availabilityChanged(d->m_availability);
+    if (d->availability_ != availability) {
+        d->availability_ = availability;
+        emit availabilityChanged(d->availability_);
     }
 }
 
 void FcitxQtWatcher::watch() {
     Q_D(FcitxQtWatcher);
-    if (d->m_watched) {
+    if (d->watched_) {
         return;
     }
 
-    connect(&d->m_serviceWatcher, &QDBusServiceWatcher::serviceOwnerChanged,
+    connect(&d->serviceWatcher_, &QDBusServiceWatcher::serviceOwnerChanged,
             this, &FcitxQtWatcher::imChanged);
-    d->m_serviceWatcher.addWatchedService(FCITX_MAIN_SERVICE_NAME);
-    if (d->m_watchPortal) {
-        d->m_serviceWatcher.addWatchedService(FCITX_PORTAL_SERVICE_NAME);
+    d->serviceWatcher_.addWatchedService(FCITX_MAIN_SERVICE_NAME);
+    if (d->watchPortal_) {
+        d->serviceWatcher_.addWatchedService(FCITX_PORTAL_SERVICE_NAME);
     }
 
     if (QDBusConnection::sessionBus().interface()->isServiceRegistered(
             FCITX_MAIN_SERVICE_NAME)) {
-        d->m_mainPresent = true;
+        d->mainPresent_ = true;
     }
-    if (d->m_watchPortal &&
+    if (d->watchPortal_ &&
         QDBusConnection::sessionBus().interface()->isServiceRegistered(
             FCITX_PORTAL_SERVICE_NAME)) {
-        d->m_portalPresent = true;
+        d->portalPresent_ = true;
     }
 
     updateAvailability();
 
-    d->m_watched = true;
+    d->watched_ = true;
 }
 
 void FcitxQtWatcher::unwatch() {
     Q_D(FcitxQtWatcher);
-    if (!d->m_watched) {
+    if (!d->watched_) {
         return;
     }
-    disconnect(&d->m_serviceWatcher, &QDBusServiceWatcher::serviceOwnerChanged,
+    disconnect(&d->serviceWatcher_, &QDBusServiceWatcher::serviceOwnerChanged,
                this, &FcitxQtWatcher::imChanged);
-    d->m_mainPresent = false;
-    d->m_portalPresent = false;
-    d->m_watched = false;
+    d->mainPresent_ = false;
+    d->portalPresent_ = false;
+    d->watched_ = false;
     updateAvailability();
 }
 
 bool FcitxQtWatcher::isWatching() const {
     Q_D(const FcitxQtWatcher);
-    return d->m_watched;
+    return d->watched_;
 }
 
 void FcitxQtWatcher::imChanged(const QString &service, const QString &,
@@ -132,15 +132,15 @@ void FcitxQtWatcher::imChanged(const QString &service, const QString &,
     Q_D(FcitxQtWatcher);
     if (service == FCITX_MAIN_SERVICE_NAME) {
         if (!newOwner.isEmpty()) {
-            d->m_mainPresent = true;
+            d->mainPresent_ = true;
         } else {
-            d->m_mainPresent = false;
+            d->mainPresent_ = false;
         }
     } else if (service == FCITX_PORTAL_SERVICE_NAME) {
         if (!newOwner.isEmpty()) {
-            d->m_portalPresent = true;
+            d->portalPresent_ = true;
         } else {
-            d->m_portalPresent = false;
+            d->portalPresent_ = false;
         }
     }
 
@@ -149,6 +149,6 @@ void FcitxQtWatcher::imChanged(const QString &service, const QString &,
 
 void FcitxQtWatcher::updateAvailability() {
     Q_D(FcitxQtWatcher);
-    setAvailability(d->m_mainPresent || d->m_portalPresent);
+    setAvailability(d->mainPresent_ || d->portalPresent_);
 }
 } // namespace fcitx

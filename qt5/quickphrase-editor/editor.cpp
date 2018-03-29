@@ -34,21 +34,21 @@
 namespace fcitx {
 
 ListEditor::ListEditor(QWidget *parent)
-    : FcitxQtConfigUIWidget(parent), m_model(new QuickPhraseModel(this)),
-      m_fileListModel(new FileListModel(this)) {
+    : FcitxQtConfigUIWidget(parent), model_(new QuickPhraseModel(this)),
+      fileListModel_(new FileListModel(this)) {
     setupUi(this);
 
-    macroTableView->setModel(m_model);
-    fileListComboBox->setModel(m_fileListModel);
+    macroTableView->setModel(model_);
+    fileListComboBox->setModel(fileListModel_);
 
-    m_operationMenu = new QMenu(this);
-    m_operationMenu->addAction(_("Add File"), this,
-                               &ListEditor::addFileTriggered);
-    m_operationMenu->addAction(_("Remove File"), this,
-                               &ListEditor::removeFileTriggered);
-    m_operationMenu->addAction(_("Refresh List"), this,
-                               &ListEditor::refreshListTriggered);
-    operationButton->setMenu(m_operationMenu);
+    operationMenu_ = new QMenu(this);
+    operationMenu_->addAction(_("Add File"), this,
+                              &ListEditor::addFileTriggered);
+    operationMenu_->addAction(_("Remove File"), this,
+                              &ListEditor::removeFileTriggered);
+    operationMenu_->addAction(_("Refresh List"), this,
+                              &ListEditor::refreshListTriggered);
+    operationButton->setMenu(operationMenu_);
 
     loadFileList();
     itemFocusChanged();
@@ -68,23 +68,23 @@ ListEditor::ListEditor(QWidget *parent)
     connect(macroTableView->selectionModel(),
             &QItemSelectionModel::selectionChanged, this,
             &ListEditor::itemFocusChanged);
-    connect(m_model, &QuickPhraseModel::needSaveChanged, this,
+    connect(model_, &QuickPhraseModel::needSaveChanged, this,
             &ListEditor::changed);
 }
 
 void ListEditor::load() {
-    m_lastFile = currentFile();
-    m_model->load(currentFile(), false);
+    lastFile_ = currentFile();
+    model_->load(currentFile(), false);
 }
 
-void ListEditor::load(const QString &file) { m_model->load(file, true); }
+void ListEditor::load(const QString &file) { model_->load(file, true); }
 
-void ListEditor::save(const QString &file) { m_model->save(file); }
+void ListEditor::save(const QString &file) { model_->save(file); }
 
 void ListEditor::save() {
     // QFutureWatcher< bool >* futureWatcher =
     // m_model->save("data/QuickPhrase.mb");
-    QFutureWatcher<bool> *futureWatcher = m_model->save(currentFile());
+    QFutureWatcher<bool> *futureWatcher = model_->save(currentFile());
     connect(futureWatcher, &QFutureWatcherBase::finished, this,
             &ListEditor::saveFinished);
 }
@@ -92,7 +92,7 @@ void ListEditor::save() {
 bool ListEditor::asyncSave() { return true; }
 
 void ListEditor::changeFile(int) {
-    if (m_model->needSave()) {
+    if (model_->needSave()) {
         int ret = QMessageBox::question(
             this, _("Save Changes"),
             _("The content has changed.\n"
@@ -100,10 +100,10 @@ void ListEditor::changeFile(int) {
             QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
         if (ret == QMessageBox::Save) {
             // save(fileListComboBox->itemText(lastFileIndex));
-            save(m_lastFile);
+            save(lastFile_);
         } else if (ret == QMessageBox::Cancel) {
             fileListComboBox->setCurrentIndex(
-                m_fileListModel->findFile(m_lastFile));
+                fileListModel_->findFile(lastFile_));
             return;
         }
     }
@@ -120,10 +120,10 @@ void ListEditor::deleteWord() {
     if (!macroTableView->currentIndex().isValid())
         return;
     int row = macroTableView->currentIndex().row();
-    m_model->deleteItem(row);
+    model_->deleteItem(row);
 }
 
-void ListEditor::deleteAllWord() { m_model->deleteAllItem(); }
+void ListEditor::deleteAllWord() { model_->deleteAllItem(); }
 
 void ListEditor::addWord() {
     EditorDialog *dialog = new EditorDialog(this);
@@ -136,7 +136,7 @@ void ListEditor::batchEditWord() {
     BatchDialog *dialog = new BatchDialog(this);
     QString text;
     QTextStream stream(&text);
-    m_model->saveData(stream);
+    model_->saveData(stream);
     dialog->setAttribute(Qt::WA_DeleteOnClose, true);
     dialog->setText(text);
     dialog->open();
@@ -147,8 +147,8 @@ void ListEditor::addWordAccepted() {
     const EditorDialog *dialog =
         qobject_cast<const EditorDialog *>(QObject::sender());
 
-    m_model->addItem(dialog->key(), dialog->value());
-    QModelIndex last = m_model->index(m_model->rowCount() - 1, 0);
+    model_->addItem(dialog->key(), dialog->value());
+    QModelIndex last = model_->index(model_->rowCount() - 1, 0);
     macroTableView->setCurrentIndex(last);
     macroTableView->scrollTo(last);
 }
@@ -160,8 +160,8 @@ void ListEditor::batchEditAccepted() {
     QString s = dialog->text();
     QTextStream stream(&s);
 
-    m_model->loadData(stream);
-    QModelIndex last = m_model->index(m_model->rowCount() - 1, 0);
+    model_->loadData(stream);
+    QModelIndex last = model_->index(model_->rowCount() - 1, 0);
     macroTableView->setCurrentIndex(last);
     macroTableView->scrollTo(last);
 }
@@ -205,25 +205,25 @@ void ListEditor::loadFileList() {
     int row = fileListComboBox->currentIndex();
     int col = fileListComboBox->modelColumn();
     QString lastFileName =
-        m_fileListModel->data(m_fileListModel->index(row, col), Qt::UserRole)
+        fileListModel_->data(fileListModel_->index(row, col), Qt::UserRole)
             .toString();
-    m_fileListModel->loadFileList();
-    fileListComboBox->setCurrentIndex(m_fileListModel->findFile(lastFileName));
+    fileListModel_->loadFileList();
+    fileListComboBox->setCurrentIndex(fileListModel_->findFile(lastFileName));
     load();
 }
 
 QString ListEditor::currentFile() {
     int row = fileListComboBox->currentIndex();
     int col = fileListComboBox->modelColumn();
-    return m_fileListModel->data(m_fileListModel->index(row, col), Qt::UserRole)
+    return fileListModel_->data(fileListModel_->index(row, col), Qt::UserRole)
         .toString();
 }
 
 QString ListEditor::currentName() {
     int row = fileListComboBox->currentIndex();
     int col = fileListComboBox->modelColumn();
-    return m_fileListModel
-        ->data(m_fileListModel->index(row, col), Qt::DisplayRole)
+    return fileListModel_
+        ->data(fileListModel_->index(row, col), Qt::DisplayRole)
         .toString();
 }
 
@@ -251,8 +251,8 @@ void ListEditor::addFileTriggered() {
         return;
     }
 
-    m_fileListModel->loadFileList();
-    fileListComboBox->setCurrentIndex(m_fileListModel->findFile(
+    fileListModel_->loadFileList();
+    fileListComboBox->setCurrentIndex(fileListModel_->findFile(
         filename.prepend(QUICK_PHRASE_CONFIG_DIR "/")));
     load();
 }

@@ -32,8 +32,8 @@
 namespace fcitx {
 
 WrapperApp::WrapperApp(int &argc, char **argv)
-    : QApplication(argc, argv), m_factory(new FcitxQtConfigUIFactory(this)),
-      m_mainWindow(0) {
+    : QApplication(argc, argv), factory_(new FcitxQtConfigUIFactory(this)),
+      mainWindow_(0) {
     FcitxQtConfigUIWidget *widget = 0;
 
     setApplicationName(QLatin1String("fcitx5-qt5-gui-wrapper"));
@@ -61,7 +61,7 @@ WrapperApp::WrapperApp(int &argc, char **argv)
         path.prepend("fcitx://gui/");
     }
     if (parser.isSet("test")) {
-        if (m_factory->test(path)) {
+        if (factory_->test(path)) {
             QMetaObject::invokeMethod(this, "quit", Qt::QueuedConnection);
         } else {
             QMetaObject::invokeMethod(this, "errorExit", Qt::QueuedConnection);
@@ -72,24 +72,24 @@ WrapperApp::WrapperApp(int &argc, char **argv)
         if (parser.isSet("winid")) {
             winid = parser.value("winid").toLong(&ok, 0);
         }
-        widget = m_factory->create(path);
+        widget = factory_->create(path);
         if (!widget) {
             qWarning("Could not find plugin for file.");
             QMetaObject::invokeMethod(this, "errorExit", Qt::QueuedConnection);
             return;
         }
-        m_mainWindow = new MainWindow(path, widget);
+        mainWindow_ = new MainWindow(path, widget);
         if (ok && winid) {
-            m_mainWindow->setParentWindow(winid);
+            mainWindow_->setParentWindow(winid);
         }
-        m_mainWindow->exec();
+        mainWindow_->exec();
         QMetaObject::invokeMethod(this, "quit", Qt::QueuedConnection);
     }
 }
 
 WrapperApp::~WrapperApp() {
-    if (m_mainWindow) {
-        delete m_mainWindow;
+    if (mainWindow_) {
+        delete mainWindow_;
     }
 }
 

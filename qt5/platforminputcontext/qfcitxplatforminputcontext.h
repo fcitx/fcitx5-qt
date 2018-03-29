@@ -59,21 +59,21 @@ public:
     ProcessKeyWatcher(const QKeyEvent &event, QWindow *window,
                       const QDBusPendingCall &call, QObject *parent = 0)
         : QDBusPendingCallWatcher(call, parent),
-          m_event(event.type(), event.key(), event.modifiers(),
-                  event.nativeScanCode(), event.nativeVirtualKey(),
-                  event.nativeModifiers(), event.text(), event.isAutoRepeat(),
-                  event.count()),
-          m_window(window) {}
+          event_(event.type(), event.key(), event.modifiers(),
+                 event.nativeScanCode(), event.nativeVirtualKey(),
+                 event.nativeModifiers(), event.text(), event.isAutoRepeat(),
+                 event.count()),
+          window_(window) {}
 
     virtual ~ProcessKeyWatcher() {}
 
-    const QKeyEvent &keyEvent() { return m_event; }
+    const QKeyEvent &keyEvent() { return event_; }
 
-    QWindow *window() { return m_window.data(); }
+    QWindow *window() { return window_.data(); }
 
 private:
-    QKeyEvent m_event;
-    QPointer<QWindow> m_window;
+    QKeyEvent event_;
+    QPointer<QWindow> window_;
 };
 
 struct XkbContextDeleter {
@@ -103,15 +103,14 @@ public:
     QFcitxPlatformInputContext();
     virtual ~QFcitxPlatformInputContext();
 
-    virtual bool filterEvent(const QEvent *event) Q_DECL_OVERRIDE;
-    virtual bool isValid() const Q_DECL_OVERRIDE;
-    virtual void invokeAction(QInputMethod::Action,
-                              int cursorPosition) Q_DECL_OVERRIDE;
-    virtual void reset() Q_DECL_OVERRIDE;
-    virtual void commit() Q_DECL_OVERRIDE;
-    virtual void update(Qt::InputMethodQueries quries) Q_DECL_OVERRIDE;
-    virtual void setFocusObject(QObject *object) Q_DECL_OVERRIDE;
-    virtual QLocale locale() const Q_DECL_OVERRIDE;
+    bool filterEvent(const QEvent *event) override;
+    bool isValid() const override;
+    void invokeAction(QInputMethod::Action, int cursorPosition) override;
+    void reset() override;
+    void commit() override;
+    void update(Qt::InputMethodQueries quries) override;
+    void setFocusObject(QObject *object) override;
+    QLocale locale() const override;
 
 public Q_SLOTS:
     void cursorRectChanged();
@@ -157,26 +156,23 @@ private:
     bool filterEventFallback(uint keyval, uint keycode, uint state,
                              bool isRelaese);
 
-    FcitxQtWatcher *m_watcher;
-    QString m_preedit;
-    QString m_commitPreedit;
-    FcitxQtFormattedPreeditList m_preeditList;
-    int m_cursorPos;
-    bool m_useSurroundingText;
-    bool m_syncMode;
-    QString m_lastSurroundingText;
-    int m_lastSurroundingAnchor = 0;
-    int m_lastSurroundingCursor = 0;
-    std::unordered_map<QWindow *, FcitxQtICData> m_icMap;
-    QPointer<QWindow> m_lastWindow;
-    QPointer<QObject> m_lastObject;
-    bool m_destroy;
-    QScopedPointer<struct xkb_context, XkbContextDeleter> m_xkbContext;
+    FcitxQtWatcher *watcher_;
+    QString preedit_;
+    QString commitPreedit_;
+    FcitxQtFormattedPreeditList preeditList_;
+    int cursorPos_;
+    bool useSurroundingText_;
+    bool syncMode_;
+    std::unordered_map<QWindow *, FcitxQtICData> icMap_;
+    QPointer<QWindow> lastWindow_;
+    QPointer<QObject> lastObject_;
+    bool destroy_;
+    QScopedPointer<struct xkb_context, XkbContextDeleter> xkbContext_;
     QScopedPointer<struct xkb_compose_table, XkbComposeTableDeleter>
-        m_xkbComposeTable;
+        xkbComposeTable_;
     QScopedPointer<struct xkb_compose_state, XkbComposeStateDeleter>
-        m_xkbComposeState;
-    QLocale m_locale;
+        xkbComposeState_;
+    QLocale locale_;
 private slots:
     void processKeyEventFinished(QDBusPendingCallWatcher *);
 };

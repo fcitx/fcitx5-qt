@@ -64,9 +64,9 @@ protected:
     /**
      * Reimplemented for internal reasons.
      */
-    virtual bool event(QEvent *event);
-    virtual void keyPressEvent(QKeyEvent *event);
-    virtual void keyReleaseEvent(QKeyEvent *event);
+    bool event(QEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
 
 private:
     FcitxQtKeySequenceWidgetPrivate *const d;

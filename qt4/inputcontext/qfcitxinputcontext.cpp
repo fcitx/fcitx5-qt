@@ -120,41 +120,41 @@ struct xkb_context *_xkb_context_new_helper() {
 }
 
 QFcitxInputContext::QFcitxInputContext()
-    : m_watcher(new FcitxQtWatcher(QDBusConnection::sessionBus(), this)),
-      m_cursorPos(0), m_useSurroundingText(false),
-      m_syncMode(get_boolean_env("FCITX_QT_USE_SYNC", false)), m_destroy(false),
-      m_xkbContext(_xkb_context_new_helper()),
-      m_xkbComposeTable(m_xkbContext ? xkb_compose_table_new_from_locale(
-                                           m_xkbContext.data(), get_locale(),
-                                           XKB_COMPOSE_COMPILE_NO_FLAGS)
-                                     : 0),
-      m_xkbComposeState(m_xkbComposeTable
-                            ? xkb_compose_state_new(m_xkbComposeTable.data(),
-                                                    XKB_COMPOSE_STATE_NO_FLAGS)
-                            : 0) {
+    : watcher_(new FcitxQtWatcher(QDBusConnection::sessionBus(), this)),
+      cursorPos_(0), useSurroundingText_(false),
+      syncMode_(get_boolean_env("FCITX_QT_USE_SYNC", false)), destroy_(false),
+      xkbContext_(_xkb_context_new_helper()),
+      xkbComposeTable_(xkbContext_ ? xkb_compose_table_new_from_locale(
+                                         xkbContext_.data(), get_locale(),
+                                         XKB_COMPOSE_COMPILE_NO_FLAGS)
+                                   : 0),
+      xkbComposeState_(xkbComposeTable_
+                           ? xkb_compose_state_new(xkbComposeTable_.data(),
+                                                   XKB_COMPOSE_STATE_NO_FLAGS)
+                           : 0) {
     registerFcitxQtDBusTypes();
-    m_watcher->setWatchPortal(true);
-    m_watcher->watch();
+    watcher_->setWatchPortal(true);
+    watcher_->watch();
 }
 
 QFcitxInputContext::~QFcitxInputContext() {
-    m_destroy = true;
-    m_watcher->unwatch();
+    destroy_ = true;
+    watcher_->unwatch();
     cleanUp();
-    delete m_watcher;
+    delete watcher_;
 }
 
 void QFcitxInputContext::cleanUp() {
-    m_icMap.clear();
+    icMap_.clear();
 
-    if (!m_destroy) {
+    if (!destroy_) {
         commitPreedit();
     }
 }
 
 void QFcitxInputContext::mouseHandler(int cursorPosition, QMouseEvent *event) {
     if (event->type() == QEvent::MouseButtonPress &&
-        (cursorPosition <= 0 || cursorPosition >= m_preedit.length())) {
+        (cursorPosition <= 0 || cursorPosition >= preedit_.length())) {
         // qDebug() << action << cursorPosition;
         commitPreedit();
     }
@@ -163,14 +163,14 @@ void QFcitxInputContext::mouseHandler(int cursorPosition, QMouseEvent *event) {
 void QFcitxInputContext::commitPreedit(QPointer<QWidget> input) {
     if (!input)
         return;
-    if (m_commitPreedit.length() <= 0)
+    if (commitPreedit_.length() <= 0)
         return;
     QInputMethodEvent e;
-    e.setCommitString(m_commitPreedit);
+    e.setCommitString(commitPreedit_);
     QCoreApplication::sendEvent(input, &e);
-    m_commitPreedit.clear();
+    commitPreedit_.clear();
 
-    m_preeditList.clear();
+    preeditList_.clear();
 }
 
 bool checkUtf8(const QByteArray &byteArray) {
@@ -186,8 +186,8 @@ void QFcitxInputContext::reset() {
     if (FcitxQtInputContextProxy *proxy = validIC()) {
         proxy->reset();
     }
-    if (m_xkbComposeState) {
-        xkb_compose_state_reset(m_xkbComposeState.data());
+    if (xkbComposeState_) {
+        xkb_compose_state_reset(xkbComposeState_.data());
     }
 }
 
@@ -232,7 +232,7 @@ void QFcitxInputContext::update() {
 
     bool setSurrounding = false;
     do {
-        if (!m_useSurroundingText)
+        if (!useSurroundingText_)
             break;
         if (data.capability.test(fcitx::CapabilityFlag::Password) ||
             data.capability.test(fcitx::CapabilityFlag::Sensitive))
@@ -285,13 +285,13 @@ void QFcitxInputContext::update() {
 
 void QFcitxInputContext::setFocusWidget(QWidget *object) {
     Q_UNUSED(object);
-    FcitxQtInputContextProxy *proxy = validICByWindow(m_lastWindow);
+    FcitxQtInputContextProxy *proxy = validICByWindow(lastWindow_);
     if (proxy) {
         proxy->focusOut();
     }
 
     QWidget *window = qApp->focusWidget();
-    m_lastWindow = window;
+    lastWindow_ = window;
     if (!window) {
         return;
     }
@@ -307,12 +307,12 @@ void QFcitxInputContext::setFocusWidget(QWidget *object) {
 void QFcitxInputContext::widgetDestroyed(QWidget *w) {
     QInputContext::widgetDestroyed(w);
 
-    m_icMap.erase(w);
+    icMap_.erase(w);
 }
 
 void QFcitxInputContext::windowDestroyed(QObject *object) {
     /* access QWindow is not possible here, so we use our own map to do so */
-    m_icMap.erase(reinterpret_cast<QWidget *>(object));
+    icMap_.erase(reinterpret_cast<QWidget *>(object));
     // qDebug() << "Window Destroyed and we destroy IC correctly, horray!";
 }
 
@@ -364,9 +364,9 @@ void QFcitxInputContext::createInputContextFinished(const QByteArray &uuid) {
     flag |= fcitx::CapabilityFlag::FormattedPreedit;
     flag |= fcitx::CapabilityFlag::ClientUnfocusCommit;
     flag |= fcitx::CapabilityFlag::GetIMInfoOnFocus;
-    m_useSurroundingText =
+    useSurroundingText_ =
         get_boolean_env("FCITX_QT_ENABLE_SURROUNDING_TEXT", true);
-    if (m_useSurroundingText)
+    if (useSurroundingText_)
         flag |= fcitx::CapabilityFlag::SurroundingText;
 
     addCapability(*data, flag, true);
@@ -380,9 +380,9 @@ void QFcitxInputContext::updateCapability(const FcitxQtICData &data) {
 }
 
 void QFcitxInputContext::commitString(const QString &str) {
-    m_cursorPos = 0;
-    m_preeditList.clear();
-    m_commitPreedit.clear();
+    cursorPos_ = 0;
+    preeditList_.clear();
+    commitPreedit_.clear();
     QWidget *input = qApp->focusWidget();
     if (!input)
         return;
@@ -397,10 +397,10 @@ void QFcitxInputContext::updateFormattedPreedit(
     QWidget *input = qApp->focusWidget();
     if (!input)
         return;
-    if (cursorPos == m_cursorPos && preeditList == m_preeditList)
+    if (cursorPos == cursorPos_ && preeditList == preeditList_)
         return;
-    m_preeditList = preeditList;
-    m_cursorPos = cursorPos;
+    preeditList_ = preeditList;
+    cursorPos_ = cursorPos;
     QString str, commitStr;
     int pos = 0;
     QList<QInputMethodEvent::Attribute> attrList;
@@ -448,8 +448,8 @@ void QFcitxInputContext::updateFormattedPreedit(
 
     attrList.append(QInputMethodEvent::Attribute(QInputMethodEvent::Cursor,
                                                  cursorPos, 1, 0));
-    m_preedit = str;
-    m_commitPreedit = commitStr;
+    preedit_ = str;
+    commitPreedit_ = commitStr;
     QInputMethodEvent event(str, attrList);
     QCoreApplication::sendEvent(input, &event);
     update();
@@ -525,11 +525,11 @@ void QFcitxInputContext::forwardKey(uint keyval, uint state, bool type) {
 }
 
 void QFcitxInputContext::createICData(QWidget *w) {
-    auto iter = m_icMap.find(w);
-    if (iter == m_icMap.end()) {
+    auto iter = icMap_.find(w);
+    if (iter == icMap_.end()) {
         auto result =
-            m_icMap.emplace(std::piecewise_construct, std::forward_as_tuple(w),
-                            std::forward_as_tuple(m_watcher));
+            icMap_.emplace(std::piecewise_construct, std::forward_as_tuple(w),
+                           std::forward_as_tuple(watcher_));
         iter = result.first;
         auto &data = iter->second;
 
@@ -631,7 +631,7 @@ bool QFcitxInputContext::filterEvent(const QEvent *event) {
             proxy->processKeyEvent(keyval, keycode, state, isRelease,
                                    QDateTime::currentDateTime().toTime_t());
 
-        if (Q_UNLIKELY(m_syncMode)) {
+        if (Q_UNLIKELY(syncMode_)) {
             reply.waitForFinished();
 
             if (reply.isError() || !reply.value()) {
@@ -706,7 +706,7 @@ bool QFcitxInputContext::filterEventFallback(uint keyval, uint keycode,
 }
 
 FcitxQtInputContextProxy *QFcitxInputContext::validIC() {
-    if (m_icMap.empty()) {
+    if (icMap_.empty()) {
         return nullptr;
     }
     QWidget *window = qApp->focusWidget();
@@ -718,11 +718,11 @@ FcitxQtInputContextProxy *QFcitxInputContext::validICByWindow(QWidget *w) {
         return nullptr;
     }
 
-    if (m_icMap.empty()) {
+    if (icMap_.empty()) {
         return nullptr;
     }
-    auto iter = m_icMap.find(w);
-    if (iter == m_icMap.end())
+    auto iter = icMap_.find(w);
+    if (iter == icMap_.end())
         return nullptr;
     auto &data = iter->second;
     if (!data.proxy || !data.proxy->isValid()) {
@@ -735,10 +735,10 @@ bool QFcitxInputContext::processCompose(uint keyval, uint state,
                                         bool isRelease) {
     Q_UNUSED(state);
 
-    if (!m_xkbComposeTable || isRelease)
+    if (!xkbComposeTable_ || isRelease)
         return false;
 
-    struct xkb_compose_state *xkbComposeState = m_xkbComposeState.data();
+    struct xkb_compose_state *xkbComposeState = xkbComposeState_.data();
 
     enum xkb_compose_feed_result result =
         xkb_compose_state_feed(xkbComposeState, keyval);

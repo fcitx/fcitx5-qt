@@ -49,10 +49,10 @@ protected:
     void showEvent(QShowEvent *event) override;
 
 private:
-    QString m_path;
-    FcitxQtWatcher *m_watcher;
-    FcitxQtConfigUIWidget *m_pluginWidget;
-    FcitxQtControllerProxy *m_proxy;
+    QString path_;
+    FcitxQtWatcher *watcher_;
+    FcitxQtConfigUIWidget *pluginWidget_;
+    FcitxQtControllerProxy *proxy_;
     WId wid_ = 0;
 };
 } // namespace fcitx

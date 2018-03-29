@@ -33,23 +33,23 @@ class FcitxQtInputContextProxyPrivate {
 public:
     FcitxQtInputContextProxyPrivate(FcitxQtWatcher *watcher,
                                     FcitxQtInputContextProxy *q)
-        : q_ptr(q), m_fcitxWatcher(watcher), m_watcher(q) {
+        : q_ptr(q), fcitxWatcher_(watcher), watcher_(q) {
         registerFcitxQtDBusTypes();
-        QObject::connect(m_fcitxWatcher, SIGNAL(availabilityChanged(bool)), q,
+        QObject::connect(fcitxWatcher_, SIGNAL(availabilityChanged(bool)), q,
                          SLOT(availabilityChanged()));
-        m_watcher.setWatchMode(QDBusServiceWatcher::WatchForUnregistration);
-        QObject::connect(&m_watcher, SIGNAL(serviceUnregistered(QString)), q,
+        watcher_.setWatchMode(QDBusServiceWatcher::WatchForUnregistration);
+        QObject::connect(&watcher_, SIGNAL(serviceUnregistered(QString)), q,
                          SLOT(serviceUnregistered()));
         availabilityChanged();
     }
 
     ~FcitxQtInputContextProxyPrivate() {
         if (isValid()) {
-            m_icproxy->DestroyIC();
+            icproxy_->DestroyIC();
         }
     }
 
-    bool isValid() const { return (m_icproxy && m_icproxy->isValid()); }
+    bool isValid() const { return (icproxy_ && icproxy_->isValid()); }
 
     void serviceUnregistered() {
         cleanUp();
@@ -61,46 +61,46 @@ public:
     }
 
     void recheck() {
-        if (!isValid() && m_fcitxWatcher->availability()) {
+        if (!isValid() && fcitxWatcher_->availability()) {
             createInputContext();
         }
-        if (!m_fcitxWatcher->availability()) {
+        if (!fcitxWatcher_->availability()) {
             cleanUp();
         }
     }
 
     void cleanUp() {
-        auto services = m_watcher.watchedServices();
+        auto services = watcher_.watchedServices();
         for (const auto &service : services) {
-            m_watcher.removeWatchedService(service);
+            watcher_.removeWatchedService(service);
         }
 
-        delete m_improxy;
-        m_improxy = nullptr;
-        delete m_icproxy;
-        m_icproxy = nullptr;
-        delete m_createInputContextWatcher;
-        m_createInputContextWatcher = nullptr;
+        delete improxy_;
+        improxy_ = nullptr;
+        delete icproxy_;
+        icproxy_ = nullptr;
+        delete createInputContextWatcher_;
+        createInputContextWatcher_ = nullptr;
     }
 
     void createInputContext() {
         Q_Q(FcitxQtInputContextProxy);
-        if (!m_fcitxWatcher->availability()) {
+        if (!fcitxWatcher_->availability()) {
             return;
         }
 
         cleanUp();
 
-        auto service = m_fcitxWatcher->serviceName();
-        auto connection = m_fcitxWatcher->connection();
+        auto service = fcitxWatcher_->serviceName();
+        auto connection = fcitxWatcher_->connection();
 
         auto owner = connection.interface()->serviceOwner(service);
         if (!owner.isValid()) {
             return;
         }
 
-        m_watcher.setConnection(connection);
-        m_watcher.setWatchedServices(QStringList() << owner);
+        watcher_.setConnection(connection);
+        watcher_.setWatchedServices(QStringList() << owner);
         // Avoid race, query again.
         if (!connection.interface()->isServiceRegistered(owner)) {
             cleanUp();
@@ -108,70 +108,68 @@ public:
         }
 
         QFileInfo info(QCoreApplication::applicationFilePath());
-        m_portal = true;
-        m_improxy =
+        portal_ = true;
+        improxy_ =
             new FcitxQtInputMethodProxy(owner, "/inputmethod", connection, q);
         FcitxQtStringKeyValueList list;
         FcitxQtStringKeyValue arg;
         arg.setKey("program");
         arg.setValue(info.fileName());
         list << arg;
-        if (!m_display.isEmpty()) {
+        if (!display_.isEmpty()) {
             FcitxQtStringKeyValue arg2;
             arg2.setKey("display");
-            arg2.setValue(m_display);
+            arg2.setValue(display_);
             list << arg2;
         }
 
-        auto result = m_improxy->CreateInputContext(list);
-        m_createInputContextWatcher = new QDBusPendingCallWatcher(result);
-        QObject::connect(m_createInputContextWatcher,
+        auto result = improxy_->CreateInputContext(list);
+        createInputContextWatcher_ = new QDBusPendingCallWatcher(result);
+        QObject::connect(createInputContextWatcher_,
                          SIGNAL(finished(QDBusPendingCallWatcher *)), q,
                          SLOT(createInputContextFinished()));
     }
 
     void createInputContextFinished() {
         Q_Q(FcitxQtInputContextProxy);
-        if (m_createInputContextWatcher->isError()) {
+        if (createInputContextWatcher_->isError()) {
             cleanUp();
             return;
         }
 
         QDBusPendingReply<QDBusObjectPath, QByteArray> reply(
-            *m_createInputContextWatcher);
-        m_icproxy = new FcitxQtInputContextProxyImpl(
-            m_improxy->service(), reply.value().path(), m_improxy->connection(),
-            q);
-        QObject::connect(m_icproxy, SIGNAL(CommitString(QString)), q,
+            *createInputContextWatcher_);
+        icproxy_ = new FcitxQtInputContextProxyImpl(improxy_->service(),
+                                                    reply.value().path(),
+                                                    improxy_->connection(), q);
+        QObject::connect(icproxy_, SIGNAL(CommitString(QString)), q,
                          SIGNAL(commitString(QString)));
-        QObject::connect(m_icproxy,
-                         SIGNAL(CurrentIM(QString, QString, QString)), q,
-                         SIGNAL(currentIM(QString, QString, QString)));
-        QObject::connect(m_icproxy, SIGNAL(ForwardKey(uint, uint, bool)), q,
+        QObject::connect(icproxy_, SIGNAL(CurrentIM(QString, QString, QString)),
+                         q, SIGNAL(currentIM(QString, QString, QString)));
+        QObject::connect(icproxy_, SIGNAL(ForwardKey(uint, uint, bool)), q,
                          SIGNAL(forwardKey(uint, uint, bool)));
         QObject::connect(
-            m_icproxy,
+            icproxy_,
             SIGNAL(UpdateFormattedPreedit(FcitxQtFormattedPreeditList, int)), q,
             SIGNAL(updateFormattedPreedit(FcitxQtFormattedPreeditList, int)));
-        QObject::connect(m_icproxy, SIGNAL(DeleteSurroundingText(int, uint)), q,
+        QObject::connect(icproxy_, SIGNAL(DeleteSurroundingText(int, uint)), q,
                          SIGNAL(deleteSurroundingText(int, uint)));
 
-        delete m_createInputContextWatcher;
-        m_createInputContextWatcher = nullptr;
+        delete createInputContextWatcher_;
+        createInputContextWatcher_ = nullptr;
         emit q->inputContextCreated(reply.argumentAt<1>());
     }
 
     FcitxQtInputContextProxy *q_ptr;
     Q_DECLARE_PUBLIC(FcitxQtInputContextProxy);
 
-    FcitxQtWatcher *m_fcitxWatcher;
-    QDBusServiceWatcher m_watcher;
-    FcitxQtInputMethodProxy *m_improxy = nullptr;
-    FcitxQtInputContextProxyImpl *m_icproxy = nullptr;
-    QDBusPendingCallWatcher *m_createInputContextWatcher = nullptr;
-    QString m_display;
-    bool m_portal = false;
-    qulonglong m_capability = 0;
+    FcitxQtWatcher *fcitxWatcher_;
+    QDBusServiceWatcher watcher_;
+    FcitxQtInputMethodProxy *improxy_ = nullptr;
+    FcitxQtInputContextProxyImpl *icproxy_ = nullptr;
+    QDBusPendingCallWatcher *createInputContextWatcher_ = nullptr;
+    QString display_;
+    bool portal_ = false;
 };
 } // namespace fcitx
 
