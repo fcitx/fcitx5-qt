@@ -68,7 +68,7 @@ WrapperApp::WrapperApp(int &argc, char **argv)
         }
     } else {
         WId winid = 0;
-        bool ok;
+        bool ok = false;
         if (parser.isSet("winid")) {
             winid = parser.value("winid").toLong(&ok, 0);
         }
