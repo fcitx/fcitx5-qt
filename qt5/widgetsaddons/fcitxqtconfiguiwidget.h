@@ -85,6 +85,9 @@ Q_SIGNALS:
      * @see asyncSave
      **/
     void saveFinished();
+
+    /// Save config for a specified path.
+    void saveSubConfig(const QString &path);
 };
 } // namespace fcitx
 

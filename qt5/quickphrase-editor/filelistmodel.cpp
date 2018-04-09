@@ -23,9 +23,7 @@
 #include <fcntl.h>
 
 fcitx::FileListModel::FileListModel(QObject *parent)
-    : QAbstractListModel(parent) {
-    loadFileList();
-}
+    : QAbstractListModel(parent) {}
 
 fcitx::FileListModel::~FileListModel() {}
 

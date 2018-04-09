@@ -44,6 +44,7 @@ public slots:
     void clicked(QAbstractButton *button);
     void availabilityChanged(bool avail);
     void saveFinished();
+    void saveSubConfig(const QString &path);
 
 protected:
     void showEvent(QShowEvent *event) override;
