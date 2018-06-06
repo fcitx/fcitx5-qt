@@ -269,4 +269,4 @@ const QDBusArgument &operator>>(const QDBusArgument &argument,
     arg.setEnabled(enabled);
     return argument;
 }
-}
+} // namespace fcitx

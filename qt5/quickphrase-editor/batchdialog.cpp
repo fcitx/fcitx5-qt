@@ -19,6 +19,7 @@
 
 #include "batchdialog.h"
 #include "ui_batchdialog.h"
+#include <QIcon>
 #include <fcitx-utils/i18n.h>
 
 namespace fcitx {
