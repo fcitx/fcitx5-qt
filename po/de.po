@@ -4,13 +4,14 @@
 #
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
+# mar well <m.wellendorf@gmx.de>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-19 18:55-0800\n"
+"POT-Creation-Date: 2018-06-20 00:02-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
+"Last-Translator: mar well <m.wellendorf@gmx.de>, 2018\n"
 "Language-Team: German (https://www.transifex.com/fcitx/teams/12005/de/)\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: qt5/quickphrase-editor/editor.cpp:276
+#: qt5/quickphrase-editor/editor.cpp:272
 msgid "%1 is a system file, do you want to delete all phrases instead?"
 msgstr "%1 ist eine Systemdatei, wollen Sie stattdessen alle Phrasen löschen?"
 
@@ -29,9 +30,9 @@ msgstr "%1 ist eine Systemdatei, wollen Sie stattdessen alle Phrasen löschen?"
 msgid "&Add"
 msgstr "&Hinzufügen"
 
-#: qt5/guiwrapper/mainwindow.cpp:41
+#: qt5/guiwrapper/mainwindow.cpp:45
 msgid "&Apply"
-msgstr ""
+msgstr "&Anwenden"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:63
 #. i18n: ectx: property (text), widget (QPushButton, batchEditButton)
@@ -40,7 +41,7 @@ msgstr ""
 msgid "&Batch Edit"
 msgstr "&Stapelbearbeitung"
 
-#: qt5/guiwrapper/mainwindow.cpp:43
+#: qt5/guiwrapper/mainwindow.cpp:47
 msgid "&Close"
 msgstr "&Schließen"
 
@@ -58,9 +59,9 @@ msgstr "&Löschen"
 msgid "&Import"
 msgstr "&Importieren"
 
-#: qt5/guiwrapper/mainwindow.cpp:40
+#: qt5/guiwrapper/mainwindow.cpp:44
 msgid "&Ok"
-msgstr ""
+msgstr "&Ok"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:45
 #. i18n: ectx: property (text), widget (QPushButton, operationButton)
@@ -69,39 +70,39 @@ msgstr ""
 msgid "&Operation"
 msgstr "&Operation"
 
-#: qt5/guiwrapper/mainwindow.cpp:42
+#: qt5/guiwrapper/mainwindow.cpp:46
 msgid "&Reset"
 msgstr "&Zurücksetzen"
 
 #: qt5/guiwrapper/wrapperapp.cpp:43
 msgid "A launcher for Fcitx Gui plugin."
-msgstr ""
+msgstr "Ein Starter für das Fcitx-Oberflächen-Plugin"
 
 #: qt5/quickphrase-editor/editor.cpp:45
 msgid "Add File"
 msgstr "Datei hinzufügen"
 
-#: qt5/quickphrase-editor/editor.cpp:288
+#: qt5/quickphrase-editor/editor.cpp:284
 msgid "Are you sure to delete %1?"
 msgstr "Wollen Sie %1 wirklich löschen?"
 
-#: qt5/quickphrase-editor/editor.cpp:254
+#: qt5/quickphrase-editor/editor.cpp:250
 msgid "Cannot create file %1."
 msgstr "Datei %1 kann nicht erstellt werden."
 
-#: qt5/quickphrase-editor/editor.cpp:275
+#: qt5/quickphrase-editor/editor.cpp:271
 msgid "Cannot remove system file"
 msgstr "Systemdatei kann nicht entfernt werden."
 
 #: qt5/guiwrapper/wrapperapp.cpp:49
 msgid "Config path"
-msgstr ""
+msgstr "Konfigurationspfad"
 
-#: qt5/quickphrase-editor/editor.cpp:287
+#: qt5/quickphrase-editor/editor.cpp:283
 msgid "Confirm deletion"
 msgstr "Löschen bestätigen"
 
-#: qt5/quickphrase-editor/editor.cpp:237
+#: qt5/quickphrase-editor/editor.cpp:233
 msgid "Create new file"
 msgstr "Neue Datei erzeugen"
 
@@ -112,7 +113,7 @@ msgstr "Neue Datei erzeugen"
 msgid "De&lete All"
 msgstr "De&lete All"
 
-#: qt5/quickphrase-editor/filelistmodel.cpp:43
+#: qt5/quickphrase-editor/filelistmodel.cpp:41
 msgid "Default"
 msgstr "Standard"
 
@@ -123,29 +124,29 @@ msgstr "Standard"
 msgid "E&xport"
 msgstr "E&xport"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:282
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:283
 msgid "Empty"
 msgstr "Leer"
 
-#: qt5/quickphrase-editor/editor.cpp:296
+#: qt5/quickphrase-editor/editor.cpp:292
 msgid "Error while deleting %1."
 msgstr "Fehler beim Löschen von %1."
 
-#: qt5/quickphrase-editor/editor.cpp:253 qt5/quickphrase-editor/editor.cpp:295
+#: qt5/quickphrase-editor/editor.cpp:249 qt5/quickphrase-editor/editor.cpp:291
 msgid "File Operation Failed"
 msgstr "Dateioperation fehlgeschlagen"
 
-#: qt5/quickphrase-editor/editor.cpp:242
+#: qt5/quickphrase-editor/editor.cpp:238
 msgid "File name should not contain '/'."
 msgstr "Dateiname darf kein '/' enthalten."
 
-#: qt5/quickphrase-editor/editor.cpp:241
+#: qt5/quickphrase-editor/editor.cpp:237
 msgid "Invalid filename"
 msgstr "Ungültiger Dateiname"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:145
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:146
 msgid "Key code mode"
-msgstr ""
+msgstr "Tastencode-Modus"
 
 #: qt5/quickphrase-editor/model.cpp:45
 msgid "Keyword"
@@ -153,17 +154,17 @@ msgstr "Schlüsselwort"
 
 #: qt5/guiwrapper/wrapperapp.cpp:46
 msgid "Parent window ID"
-msgstr ""
+msgstr "ID des Vorläuferfensters"
 
 #: qt5/quickphrase-editor/model.cpp:47
 msgid "Phrase"
 msgstr "Phrase"
 
-#: qt5/quickphrase-editor/editor.cpp:237
+#: qt5/quickphrase-editor/editor.cpp:233
 msgid "Please input a filename for newfile"
 msgstr "Bitte für die neue Datei einen Namen eingeben"
 
-#: qt5/quickphrase-editor/editor.cpp:117
+#: qt5/quickphrase-editor/editor.cpp:113
 msgid "Quick Phrase Editor"
 msgstr "Quick Phrase Editor"
 
@@ -175,15 +176,15 @@ msgstr "Liste neu laden"
 msgid "Remove File"
 msgstr "Datei entfernen"
 
-#: qt5/quickphrase-editor/editor.cpp:101
+#: qt5/quickphrase-editor/editor.cpp:97
 msgid "Save Changes"
 msgstr "Änderungen speichern"
 
 #: qt5/guiwrapper/wrapperapp.cpp:47
 msgid "Test if config exists"
-msgstr ""
+msgstr "Testen, ob eine Konfiguration existiert"
 
-#: qt5/quickphrase-editor/editor.cpp:102
+#: qt5/quickphrase-editor/editor.cpp:98
 msgid ""
 "The content has changed.\n"
 "Do you want to save the changes or discard them?"
@@ -191,11 +192,11 @@ msgstr ""
 "Der Inhalt hat sich geändert.\n"
 "Möchten Sie die Änderungen speichern oder verwerfen?"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:319
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:320
 msgid "The key you just pressed is not supported by Qt."
 msgstr "Die Taste wird von Qt nicht unterstützt."
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:320
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:321
 msgid "Unsupported Key"
 msgstr "Nicht unterstützte Taste"
 
@@ -208,7 +209,7 @@ msgstr "Benutze  <Keyword> <Phrase> Format in jeder Linie."
 
 #: qt5/guiwrapper/wrapperapp.cpp:49
 msgid "path"
-msgstr ""
+msgstr "Pfad"
 
 #: qt5/guiwrapper/wrapperapp.cpp:46
 msgid "winid"
