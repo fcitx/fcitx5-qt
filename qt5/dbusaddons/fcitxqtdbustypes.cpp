@@ -42,8 +42,8 @@ void registerFcitxQtDBusTypes() {
     FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtAddonState);
 }
 
-bool FcitxQtFormattedPreedit::
-operator==(const FcitxQtFormattedPreedit &preedit) const {
+bool FcitxQtFormattedPreedit::operator==(
+    const FcitxQtFormattedPreedit &preedit) const {
     return (preedit.format_ == format_) && (preedit.string_ == string_);
 }
 

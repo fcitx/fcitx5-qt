@@ -59,18 +59,21 @@ void qEventToSym(int key, const QString &text, Qt::KeyboardModifiers mod,
         QtCode2Key *result = nullptr;
         if (mod & Qt::KeypadModifier) {
             result = std::lower_bound(keyPadQtCodeToKey,
-                                 _ARRAY_END(keyPadQtCodeToKey), key);
-            if (result == _ARRAY_END(keyPadQtCodeToKey) || result->qtcode != key)
+                                      _ARRAY_END(keyPadQtCodeToKey), key);
+            if (result == _ARRAY_END(keyPadQtCodeToKey) ||
+                result->qtcode != key)
                 result = nullptr;
         } else {
             if (text.isNull()) {
                 result = std::lower_bound(qtCodeToKeyBackup,
-                                     _ARRAY_END(qtCodeToKeyBackup), key);
-                if (result == _ARRAY_END(qtCodeToKeyBackup) || result->qtcode != key)
+                                          _ARRAY_END(qtCodeToKeyBackup), key);
+                if (result == _ARRAY_END(qtCodeToKeyBackup) ||
+                    result->qtcode != key)
                     result = nullptr;
             }
             if (!result) {
-                result = std::lower_bound(qtCodeToKey, _ARRAY_END(qtCodeToKey), key);
+                result =
+                    std::lower_bound(qtCodeToKey, _ARRAY_END(qtCodeToKey), key);
 
                 if (result == _ARRAY_END(qtCodeToKey) || result->qtcode != key)
                     result = nullptr;
@@ -78,8 +81,9 @@ void qEventToSym(int key, const QString &text, Qt::KeyboardModifiers mod,
 
             if (!result) {
                 result = std::lower_bound(keyPadQtCodeToKey,
-                                     _ARRAY_END(keyPadQtCodeToKey), key);
-                if (result == _ARRAY_END(keyPadQtCodeToKey) || result->qtcode != key)
+                                          _ARRAY_END(keyPadQtCodeToKey), key);
+                if (result == _ARRAY_END(keyPadQtCodeToKey) ||
+                    result->qtcode != key)
                     result = nullptr;
             }
         }
