@@ -331,7 +331,7 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
         if (!setSurrounding) {
             data.surroundingAnchor = -1;
             data.surroundingCursor = -1;
-            data.surroundingText = QString::null;
+            data.surroundingText = QString();
             removeCapability(data, fcitx::CapabilityFlag::SurroundingText);
         }
     } while (0);

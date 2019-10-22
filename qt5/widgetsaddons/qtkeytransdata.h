@@ -92,10 +92,10 @@ struct Unicode2Key {
     int unicode;
     int key;
 
-    bool operator<(const int &u) const { return unicode < u; }
+    bool operator<(int u) const { return unicode < u; }
 };
 
-bool operator<(const int &u, const Unicode2Key &key) { return u < key.unicode; }
+bool operator<( int u, const Unicode2Key &key) { return u < key.unicode; }
 
 Unicode2Key unicodeKeyMap[] = {
     {32, 32},
@@ -1094,10 +1094,10 @@ struct QtCode2Key {
     int qtcode;
     int key;
 
-    bool operator<(const int &u) const { return qtcode < u; }
+    bool operator<( int u) const { return qtcode < u; }
 };
 
-bool operator<(const int &u, const QtCode2Key &key) { return u < key.qtcode; }
+bool operator<( int u, const QtCode2Key &key) { return u < key.qtcode; }
 
 QtCode2Key keyPadQtCodeToKey[] = {
     {32, 65408},       {42, 65450},       {43, 65451},       {44, 65452},
