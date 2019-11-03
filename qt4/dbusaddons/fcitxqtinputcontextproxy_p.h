@@ -109,8 +109,8 @@ public:
 
         QFileInfo info(QCoreApplication::applicationFilePath());
         portal_ = true;
-        improxy_ =
-            new FcitxQtInputMethodProxy(owner, "/inputmethod", connection, q);
+        improxy_ = new FcitxQtInputMethodProxy(
+            owner, "/org/freedesktop/portal/inputmethod", connection, q);
         FcitxQtStringKeyValueList list;
         FcitxQtStringKeyValue arg;
         arg.setKey("program");
