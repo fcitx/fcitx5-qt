@@ -22,10 +22,6 @@
 
 namespace fcitx {
 
-QStringList QFcitxPlatformInputContextPlugin::keys() const {
-    return QStringList{QStringLiteral("fcitx5"), QStringLiteral("fcitx")};
-}
-
 QFcitxPlatformInputContext *
 QFcitxPlatformInputContextPlugin::create(const QString &system,
                                          const QStringList &paramList) {

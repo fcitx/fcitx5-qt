@@ -94,13 +94,12 @@ void FcitxQtWatcher::watch() {
         d->serviceWatcher_.addWatchedService(FCITX_PORTAL_SERVICE_NAME);
     }
 
-    if (QDBusConnection::sessionBus().interface()->isServiceRegistered(
+    if (connection().interface()->isServiceRegistered(
             FCITX_MAIN_SERVICE_NAME)) {
         d->mainPresent_ = true;
     }
-    if (d->watchPortal_ &&
-        QDBusConnection::sessionBus().interface()->isServiceRegistered(
-            FCITX_PORTAL_SERVICE_NAME)) {
+    if (d->watchPortal_ && connection().interface()->isServiceRegistered(
+                               FCITX_PORTAL_SERVICE_NAME)) {
         d->portalPresent_ = true;
     }
 

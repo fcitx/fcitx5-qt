@@ -159,7 +159,9 @@ struct xkb_context *_xkb_context_new_helper() {
 }
 
 QFcitxPlatformInputContext::QFcitxPlatformInputContext()
-    : watcher_(new FcitxQtWatcher(QDBusConnection::sessionBus(), this)),
+    : watcher_(new FcitxQtWatcher(
+          QDBusConnection::connectToBus(QDBusConnection::SessionBus, "fcitx"),
+          this)),
       cursorPos_(0), useSurroundingText_(false),
       syncMode_(get_boolean_env("FCITX_QT_USE_SYNC", false)), destroy_(false),
       xkbContext_(_xkb_context_new_helper()),
@@ -363,7 +365,7 @@ void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
 
 void QFcitxPlatformInputContext::windowDestroyed(QObject *object) {
     /* access QWindow is not possible here, so we use our own map to do so */
-    icMap_.erase(reinterpret_cast<QWindow *>(object));
+    icMap_.erase(static_cast<QWindow *>(object));
     // qDebug() << "Window Destroyed and we destroy IC correctly, horray!";
 }
 
@@ -407,8 +409,7 @@ void QFcitxPlatformInputContext::createInputContextFinished(
     if (!proxy) {
         return;
     }
-    auto w =
-        reinterpret_cast<QWindow *>(proxy->property("wid").value<void *>());
+    auto w = static_cast<QWindow *>(proxy->property("wid").value<void *>());
     FcitxQtICData *data =
         static_cast<FcitxQtICData *>(proxy->property("icData").value<void *>());
     data->rect = QRect();
@@ -448,6 +449,7 @@ void QFcitxPlatformInputContext::updateCapability(const FcitxQtICData &data) {
 }
 
 void QFcitxPlatformInputContext::commitString(const QString &str) {
+    qDebug() << "COMMIT" << str;
     cursorPos_ = 0;
     preeditList_.clear();
     commitPreedit_.clear();
@@ -608,6 +610,10 @@ void QFcitxPlatformInputContext::updateCurrentIM(const QString &name,
 }
 
 QLocale QFcitxPlatformInputContext::locale() const { return locale_; }
+
+bool QFcitxPlatformInputContext::hasCapability(Capability) const {
+    return true;
+}
 
 void QFcitxPlatformInputContext::createICData(QWindow *w) {
     auto iter = icMap_.find(w);
@@ -877,5 +883,3 @@ bool QFcitxPlatformInputContext::processCompose(uint keyval, uint state,
     return true;
 }
 } // namespace fcitx
-
-// kate: indent-mode cstyle; space-indent on; indent-width 0;

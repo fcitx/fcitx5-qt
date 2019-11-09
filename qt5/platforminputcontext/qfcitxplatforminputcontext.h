@@ -103,16 +103,17 @@ public:
     QFcitxPlatformInputContext();
     virtual ~QFcitxPlatformInputContext();
 
-    bool filterEvent(const QEvent *event) override;
     bool isValid() const override;
+    void setFocusObject(QObject *object) override;
     void invokeAction(QInputMethod::Action, int cursorPosition) override;
     void reset() override;
     void commit() override;
     void update(Qt::InputMethodQueries quries) override;
-    void setFocusObject(QObject *object) override;
+    bool filterEvent(const QEvent *event) override;
     QLocale locale() const override;
+    bool hasCapability(Capability capability) const override;
 
-public Q_SLOTS:
+public slots:
     void cursorRectChanged();
     void commitString(const QString &str);
     void updateFormattedPreedit(const FcitxQtFormattedPreeditList &preeditList,
@@ -124,6 +125,8 @@ public Q_SLOTS:
     void windowDestroyed(QObject *object);
     void updateCurrentIM(const QString &name, const QString &uniqueName,
                          const QString &langCode);
+private slots:
+    void processKeyEventFinished(QDBusPendingCallWatcher *);
 
 private:
     bool processCompose(uint keyval, uint state, bool isRelaese);
@@ -173,8 +176,6 @@ private:
     QScopedPointer<struct xkb_compose_state, XkbComposeStateDeleter>
         xkbComposeState_;
     QLocale locale_;
-private slots:
-    void processKeyEventFinished(QDBusPendingCallWatcher *);
 };
 } // namespace fcitx
 
