@@ -57,8 +57,8 @@ WrapperApp::WrapperApp(int &argc, char **argv)
     }
 
     QString path = args[0];
-    if (!path.startsWith("fcitx://gui/")) {
-        path.prepend("fcitx://gui/");
+    if (!path.startsWith("fcitx://config/addon/")) {
+        path.prepend("fcitx://config/addon/");
     }
     if (parser.isSet("test")) {
         if (factory_->test(path)) {

@@ -35,9 +35,6 @@ MainWindow::MainWindow(const QString &path, FcitxQtConfigUIWidget *pluginWidget,
                        QWidget *parent)
     : QDialog(parent), path_(path), watcher_(new FcitxQtWatcher(this)),
       pluginWidget_(pluginWidget), proxy_(0) {
-    if (path_.startsWith("fcitx://gui/")) {
-        path_.replace(0, 12, "fcitx://config/addon/");
-    }
     setupUi(this);
     watcher_->setConnection(QDBusConnection::sessionBus());
     verticalLayout->insertWidget(0, pluginWidget_);

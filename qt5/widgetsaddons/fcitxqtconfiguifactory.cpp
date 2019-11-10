@@ -33,10 +33,12 @@ namespace fcitx {
 
 namespace {
 
+constexpr char addonConfigPrefix[] = "fcitx://config/addon/";
+
 QString normalizePath(const QString &file) {
     auto path = file;
-    if (file.startsWith("fcitx://gui/")) {
-        path.remove(0, 12);
+    if (path.startsWith(addonConfigPrefix)) {
+        path.remove(0, sizeof(addonConfigPrefix) - 1);
     }
     return path;
 }
