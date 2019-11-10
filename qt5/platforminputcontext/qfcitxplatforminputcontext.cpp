@@ -449,7 +449,6 @@ void QFcitxPlatformInputContext::updateCapability(const FcitxQtICData &data) {
 }
 
 void QFcitxPlatformInputContext::commitString(const QString &str) {
-    qDebug() << "COMMIT" << str;
     cursorPos_ = 0;
     preeditList_.clear();
     commitPreedit_.clear();
