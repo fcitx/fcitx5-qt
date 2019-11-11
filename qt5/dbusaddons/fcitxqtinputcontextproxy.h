@@ -22,11 +22,11 @@
 
 #include "fcitx5qt5dbusaddons_export.h"
 
-#include <QObject>
-#include <QDBusServiceWatcher>
+#include "fcitxqtdbustypes.h"
 #include <QDBusConnection>
 #include <QDBusPendingReply>
-#include "fcitxqtdbustypes.h"
+#include <QDBusServiceWatcher>
+#include <QObject>
 
 class QDBusPendingCallWatcher;
 
@@ -48,27 +48,30 @@ public:
 public slots:
     QDBusPendingReply<> focusIn();
     QDBusPendingReply<> focusOut();
-    QDBusPendingReply<bool> processKeyEvent(uint keyval, uint keycode, uint state, bool type, uint time);
+    QDBusPendingReply<bool> processKeyEvent(uint keyval, uint keycode,
+                                            uint state, bool type, uint time);
     QDBusPendingReply<> reset();
     QDBusPendingReply<> setCapability(qulonglong caps);
     QDBusPendingReply<> setCursorRect(int x, int y, int w, int h);
-    QDBusPendingReply<> setSurroundingText(const QString &text, uint cursor, uint anchor);
+    QDBusPendingReply<> setSurroundingText(const QString &text, uint cursor,
+                                           uint anchor);
     QDBusPendingReply<> setSurroundingTextPosition(uint cursor, uint anchor);
 
 signals:
     void commitString(const QString &str);
-    void currentIM(const QString &name, const QString &uniqueName, const QString &langCode);
+    void currentIM(const QString &name, const QString &uniqueName,
+                   const QString &langCode);
     void deleteSurroundingText(int offset, uint nchar);
     void forwardKey(uint keyval, uint state, bool isRelease);
-    void updateFormattedPreedit(const FcitxQtFormattedPreeditList &str, int cursorpos);
+    void updateFormattedPreedit(const FcitxQtFormattedPreeditList &str,
+                                int cursorpos);
     void inputContextCreated(const QByteArray &uuid);
 
 private:
-
     FcitxQtInputContextProxyPrivate *const d_ptr;
     Q_DECLARE_PRIVATE(FcitxQtInputContextProxy);
 };
 
-}
+} // namespace fcitx
 
 #endif // _DBUSADDONS_FCITXQTINPUTCONTEXTPROXY_H_
