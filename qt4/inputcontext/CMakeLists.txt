@@ -22,7 +22,5 @@ target_link_libraries(qtim-fcitx5
                           X11Import
                          )
 
-if (NOT CMAKE_INSTALL_QT4PLUGINDIR)
-set(CMAKE_INSTALL_QT4PLUGINDIR ${QT_PLUGINS_DIR})
-endif()
+set(CMAKE_INSTALL_QT4PLUGINDIR ${QT_PLUGINS_DIR} CACHE PATH "Qt4 plugin dir")
 install(TARGETS qtim-fcitx5 DESTINATION ${CMAKE_INSTALL_QT4PLUGINDIR}/inputmethods)
