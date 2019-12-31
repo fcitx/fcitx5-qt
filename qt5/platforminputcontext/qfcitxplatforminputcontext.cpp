@@ -107,6 +107,7 @@ void setFocusGroupForX11(const QByteArray &uuid) {
 
     xcb_send_event(connection, false, owner, XCB_EVENT_MASK_NO_EVENT,
                    reinterpret_cast<char *>(&ev));
+    xcb_flush(connection);
 }
 
 static bool key_filtered = false;
@@ -358,9 +359,10 @@ void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
         return;
     }
     proxy = validICByWindow(window);
-    if (proxy)
+    if (proxy) {
+        cursorRectChanged();
         proxy->focusIn();
-    else {
+    } else {
         createICData(window);
     }
 }
@@ -418,11 +420,11 @@ void QFcitxPlatformInputContext::createInputContextFinished(
 
     if (proxy->isValid()) {
         QWindow *window = qApp->focusWindow();
-        if (window && window == w) {
-            proxy->focusIn();
-            cursorRectChanged();
-        }
         setFocusGroupForX11(uuid);
+        if (window && window == w) {
+            cursorRectChanged();
+            proxy->focusIn();
+        }
     }
 
     fcitx::CapabilityFlags flag;
@@ -725,8 +727,8 @@ bool QFcitxPlatformInputContext::filterEvent(const QEvent *event) {
             }
         }
 
-        proxy->focusIn();
         update(Qt::ImHints);
+        proxy->focusIn();
 
         auto reply =
             proxy->processKeyEvent(keyval, keycode, state, isRelease,
