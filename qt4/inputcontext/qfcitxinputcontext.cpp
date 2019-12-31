@@ -296,9 +296,10 @@ void QFcitxInputContext::setFocusWidget(QWidget *object) {
         return;
     }
     proxy = validICByWindow(window);
-    if (proxy)
+    if (proxy) {
+        cursorRectChanged();
         proxy->focusIn();
-    else {
+    } else {
         createICData(window);
     }
     QInputContext::setFocusWidget(object);
@@ -352,11 +353,11 @@ void QFcitxInputContext::createInputContextFinished(const QByteArray &uuid) {
 
     if (proxy->isValid()) {
         QWidget *window = qApp->focusWidget();
-        if (window && window == w) {
-            proxy->focusIn();
-            cursorRectChanged();
-        }
         setFocusGroupForX11(uuid);
+        if (window && window == w) {
+            cursorRectChanged();
+            proxy->focusIn();
+        }
     }
 
     fcitx::CapabilityFlags flag;
