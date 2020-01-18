@@ -4,5 +4,6 @@ Fcitx Qt Library
 
 [![Coverity Scan Status](https://img.shields.io/coverity/scan/12701.svg)](https://scan.coverity.com/projects/fcitx-fcitx5-qt)
 
-Fcitx5Qt{4,5}DBusAddons Library and Input context plugin are released under BSD.
-Fcitx5QtWidgetsAddons is released under LGPL2.1+.
+Files under qt4/ which include Fcitx5Qt4DBusAddons Library and Input context plugin are released under BSD (See COPYING.BSD).
+Files under qt5/dbusaddons/ and qt5/platforminputcontext, which include Fcitx5Qt5DBusAddons Library and Qt5 Platform input context plugin, are released under BSD.
+All other files are released under LGPL2.1+.
