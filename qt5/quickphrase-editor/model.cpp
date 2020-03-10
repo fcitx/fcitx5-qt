@@ -225,7 +225,6 @@ bool QuickPhraseModel::saveData(const QString &file,
     fs::makePath(stringutils::joinPath(
         StandardPath::global().userDirectory(StandardPath::Type::PkgData),
         QUICK_PHRASE_CONFIG_DIR));
-    qDebug() << filenameArray;
     return StandardPath::global().safeSave(
         StandardPath::Type::PkgData, filenameArray.constData(),
         [&list](int fd) {

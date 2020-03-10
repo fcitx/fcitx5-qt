@@ -25,6 +25,7 @@
 #include "fcitxqtwatcher.h"
 #include <QDebug>
 #include <QLocale>
+#include <QMessageBox>
 #include <QPushButton>
 #include <QWindow>
 #include <fcitx-utils/i18n.h>
@@ -59,8 +60,6 @@ MainWindow::MainWindow(const QString &path, FcitxQtConfigUIWidget *pluginWidget,
     connect(buttonBox, &QDialogButtonBox::clicked, this, &MainWindow::clicked);
     connect(watcher_, &FcitxQtWatcher::availabilityChanged, this,
             &MainWindow::availabilityChanged);
-    connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
-    connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
     watcher_->watch();
 }
@@ -84,6 +83,9 @@ void MainWindow::clicked(QAbstractButton *button) {
         standardButton == QDialogButtonBox::Ok) {
         if (pluginWidget_->asyncSave())
             pluginWidget_->setEnabled(false);
+        if (standardButton == QDialogButtonBox::Ok) {
+            closeAfterSave_ = true;
+        }
         pluginWidget_->save();
         if (!pluginWidget_->asyncSave())
             saveFinished();
@@ -95,12 +97,33 @@ void MainWindow::clicked(QAbstractButton *button) {
 }
 
 void MainWindow::saveFinished() {
+    if (proxy_) {
+        // Pass some arbitrary thing.
+        auto watcher = new QDBusPendingCallWatcher(
+            proxy_->SetConfig(path_, QDBusVariant(0)), this);
+        connect(watcher, &QDBusPendingCallWatcher::finished, this,
+                &MainWindow::saveFinishedPhase2);
+    } else {
+        saveFinishedPhase2(nullptr);
+    }
+}
+
+void MainWindow::saveFinishedPhase2(QDBusPendingCallWatcher *watcher) {
+    if (watcher) {
+        watcher->deleteLater();
+    }
     if (pluginWidget_->asyncSave()) {
         pluginWidget_->setEnabled(true);
     }
-    if (proxy_) {
-        // Pass some arbitrary thing.
-        proxy_->SetConfig(path_, QDBusVariant(0));
+    if (watcher->isError()) {
+        QMessageBox::warning(
+            this, _("Failed to notify Fcitx"),
+            _("Failed to notify Fcitx about the configuration change."));
+        closeAfterSave_ = false;
+        return;
+    }
+    if (closeAfterSave_) {
+        qApp->quit();
     }
 }
 

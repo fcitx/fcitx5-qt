@@ -26,6 +26,7 @@
 
 #include "fcitxqtconfiguiwidget.h"
 #include "ui_mainwindow.h"
+#include <QDBusPendingCallWatcher>
 
 namespace fcitx {
 
@@ -43,11 +44,14 @@ public slots:
     void changed(bool changed);
     void clicked(QAbstractButton *button);
     void availabilityChanged(bool avail);
-    void saveFinished();
     void saveSubConfig(const QString &path);
 
 protected:
     void showEvent(QShowEvent *event) override;
+
+private slots:
+    void saveFinished();
+    void saveFinishedPhase2(QDBusPendingCallWatcher *watcher);
 
 private:
     QString path_;
@@ -55,6 +59,7 @@ private:
     FcitxQtConfigUIWidget *pluginWidget_;
     FcitxQtControllerProxy *proxy_;
     WId wid_ = 0;
+    bool closeAfterSave_ = false;
 };
 } // namespace fcitx
 
