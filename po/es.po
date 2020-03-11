@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-19 18:54-0800\n"
+"POT-Creation-Date: 2020-03-11 00:00-0700\n"
 "PO-Revision-Date: 2015-12-12 07:18+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/fcitx/fcitx/language/es/)\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: qt5/quickphrase-editor/editor.cpp:276
+#: qt5/quickphrase-editor/editor.cpp:272
 msgid "%1 is a system file, do you want to delete all phrases instead?"
 msgstr ""
 
@@ -29,7 +29,7 @@ msgstr ""
 msgid "&Add"
 msgstr ""
 
-#: qt5/guiwrapper/mainwindow.cpp:41
+#: qt5/guiwrapper/mainwindow.cpp:43
 msgid "&Apply"
 msgstr ""
 
@@ -40,7 +40,7 @@ msgstr ""
 msgid "&Batch Edit"
 msgstr ""
 
-#: qt5/guiwrapper/mainwindow.cpp:43
+#: qt5/guiwrapper/mainwindow.cpp:45
 msgid "&Close"
 msgstr ""
 
@@ -58,7 +58,7 @@ msgstr ""
 msgid "&Import"
 msgstr ""
 
-#: qt5/guiwrapper/mainwindow.cpp:40
+#: qt5/guiwrapper/mainwindow.cpp:42
 msgid "&Ok"
 msgstr ""
 
@@ -69,7 +69,7 @@ msgstr ""
 msgid "&Operation"
 msgstr ""
 
-#: qt5/guiwrapper/mainwindow.cpp:42
+#: qt5/guiwrapper/mainwindow.cpp:44
 msgid "&Reset"
 msgstr ""
 
@@ -81,15 +81,15 @@ msgstr ""
 msgid "Add File"
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:288
+#: qt5/quickphrase-editor/editor.cpp:284
 msgid "Are you sure to delete %1?"
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:254
+#: qt5/quickphrase-editor/editor.cpp:250
 msgid "Cannot create file %1."
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:275
+#: qt5/quickphrase-editor/editor.cpp:271
 msgid "Cannot remove system file"
 msgstr ""
 
@@ -98,11 +98,11 @@ msgstr ""
 msgid "Config path"
 msgstr "Configurar"
 
-#: qt5/quickphrase-editor/editor.cpp:287
+#: qt5/quickphrase-editor/editor.cpp:283
 msgid "Confirm deletion"
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:237
+#: qt5/quickphrase-editor/editor.cpp:233
 msgid "Create new file"
 msgstr ""
 
@@ -113,7 +113,7 @@ msgstr ""
 msgid "De&lete All"
 msgstr ""
 
-#: qt5/quickphrase-editor/filelistmodel.cpp:43
+#: qt5/quickphrase-editor/filelistmodel.cpp:41
 msgid "Default"
 msgstr ""
 
@@ -124,27 +124,35 @@ msgstr ""
 msgid "E&xport"
 msgstr ""
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:282
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:283
 msgid "Empty"
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:296
+#: qt5/quickphrase-editor/editor.cpp:292
 msgid "Error while deleting %1."
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:253 qt5/quickphrase-editor/editor.cpp:295
+#: qt5/guiwrapper/mainwindow.cpp:120
+msgid "Failed to notify Fcitx"
+msgstr ""
+
+#: qt5/guiwrapper/mainwindow.cpp:121
+msgid "Failed to notify Fcitx about the configuration change."
+msgstr ""
+
+#: qt5/quickphrase-editor/editor.cpp:249 qt5/quickphrase-editor/editor.cpp:291
 msgid "File Operation Failed"
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:242
+#: qt5/quickphrase-editor/editor.cpp:238
 msgid "File name should not contain '/'."
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:241
+#: qt5/quickphrase-editor/editor.cpp:237
 msgid "Invalid filename"
 msgstr ""
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:145
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:146
 msgid "Key code mode"
 msgstr ""
 
@@ -160,11 +168,11 @@ msgstr ""
 msgid "Phrase"
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:237
+#: qt5/quickphrase-editor/editor.cpp:233
 msgid "Please input a filename for newfile"
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:117
+#: qt5/quickphrase-editor/editor.cpp:113
 #, fuzzy
 msgid "Quick Phrase Editor"
 msgstr "Lista de frases rápidas"
@@ -177,7 +185,7 @@ msgstr ""
 msgid "Remove File"
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:101
+#: qt5/quickphrase-editor/editor.cpp:97
 msgid "Save Changes"
 msgstr ""
 
@@ -185,17 +193,17 @@ msgstr ""
 msgid "Test if config exists"
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:102
+#: qt5/quickphrase-editor/editor.cpp:98
 msgid ""
 "The content has changed.\n"
 "Do you want to save the changes or discard them?"
 msgstr ""
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:319
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:320
 msgid "The key you just pressed is not supported by Qt."
 msgstr ""
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:320
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:321
 msgid "Unsupported Key"
 msgstr ""
 

@@ -4,14 +4,15 @@
 #
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
-# Jeff Huang <s8321414@gmail.com>, 2017
+# 黃柏諺 <s8321414@gmail.com>, 2017
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-21 00:01-0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Jeff Huang <s8321414@gmail.com>, 2017\n"
+"POT-Creation-Date: 2020-03-11 00:01-0700\n"
+"PO-Revision-Date: 2017-12-20 02:52+0000\n"
+"Last-Translator: 黃柏諺 <s8321414@gmail.com>, 2017\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/fcitx/teams/12005/"
 "zh_TW/)\n"
 "Language: zh_TW\n"
@@ -20,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: qt5/quickphrase-editor/editor.cpp:276
+#: qt5/quickphrase-editor/editor.cpp:272
 msgid "%1 is a system file, do you want to delete all phrases instead?"
 msgstr "%1 是系統檔，您是否想要改為清空所有字詞？"
 
@@ -31,7 +32,7 @@ msgstr "%1 是系統檔，您是否想要改為清空所有字詞？"
 msgid "&Add"
 msgstr "新增 (&A)"
 
-#: qt5/guiwrapper/mainwindow.cpp:41
+#: qt5/guiwrapper/mainwindow.cpp:43
 msgid "&Apply"
 msgstr "套用(&A)"
 
@@ -42,7 +43,7 @@ msgstr "套用(&A)"
 msgid "&Batch Edit"
 msgstr "批次編輯 (&B)"
 
-#: qt5/guiwrapper/mainwindow.cpp:43
+#: qt5/guiwrapper/mainwindow.cpp:45
 msgid "&Close"
 msgstr "關閉 (&C)"
 
@@ -60,7 +61,7 @@ msgstr "刪除 (&D)"
 msgid "&Import"
 msgstr "匯入 (&I)"
 
-#: qt5/guiwrapper/mainwindow.cpp:40
+#: qt5/guiwrapper/mainwindow.cpp:42
 msgid "&Ok"
 msgstr "確定(&O)"
 
@@ -71,7 +72,7 @@ msgstr "確定(&O)"
 msgid "&Operation"
 msgstr "操作 (&O)"
 
-#: qt5/guiwrapper/mainwindow.cpp:42
+#: qt5/guiwrapper/mainwindow.cpp:44
 msgid "&Reset"
 msgstr "重新設定 (&R)"
 
@@ -83,15 +84,15 @@ msgstr "Fcitx 圖形化介面外掛程式的啟動器。"
 msgid "Add File"
 msgstr "加入檔案"
 
-#: qt5/quickphrase-editor/editor.cpp:288
+#: qt5/quickphrase-editor/editor.cpp:284
 msgid "Are you sure to delete %1?"
 msgstr "您確定要刪除 %1？"
 
-#: qt5/quickphrase-editor/editor.cpp:254
+#: qt5/quickphrase-editor/editor.cpp:250
 msgid "Cannot create file %1."
 msgstr "無法建立檔案 %1。"
 
-#: qt5/quickphrase-editor/editor.cpp:275
+#: qt5/quickphrase-editor/editor.cpp:271
 msgid "Cannot remove system file"
 msgstr "無法移除系統檔案"
 
@@ -99,11 +100,11 @@ msgstr "無法移除系統檔案"
 msgid "Config path"
 msgstr "設定路徑"
 
-#: qt5/quickphrase-editor/editor.cpp:287
+#: qt5/quickphrase-editor/editor.cpp:283
 msgid "Confirm deletion"
 msgstr "確定刪除"
 
-#: qt5/quickphrase-editor/editor.cpp:237
+#: qt5/quickphrase-editor/editor.cpp:233
 msgid "Create new file"
 msgstr "建立新檔"
 
@@ -114,7 +115,7 @@ msgstr "建立新檔"
 msgid "De&lete All"
 msgstr "全部刪除 (&L)"
 
-#: qt5/quickphrase-editor/filelistmodel.cpp:43
+#: qt5/quickphrase-editor/filelistmodel.cpp:41
 msgid "Default"
 msgstr "預設"
 
@@ -129,19 +130,27 @@ msgstr "匯出 (&X)"
 msgid "Empty"
 msgstr "空"
 
-#: qt5/quickphrase-editor/editor.cpp:296
+#: qt5/quickphrase-editor/editor.cpp:292
 msgid "Error while deleting %1."
 msgstr "刪除 %1 時出錯。"
 
-#: qt5/quickphrase-editor/editor.cpp:253 qt5/quickphrase-editor/editor.cpp:295
+#: qt5/guiwrapper/mainwindow.cpp:120
+msgid "Failed to notify Fcitx"
+msgstr ""
+
+#: qt5/guiwrapper/mainwindow.cpp:121
+msgid "Failed to notify Fcitx about the configuration change."
+msgstr ""
+
+#: qt5/quickphrase-editor/editor.cpp:249 qt5/quickphrase-editor/editor.cpp:291
 msgid "File Operation Failed"
 msgstr "檔案操作失敗"
 
-#: qt5/quickphrase-editor/editor.cpp:242
+#: qt5/quickphrase-editor/editor.cpp:238
 msgid "File name should not contain '/'."
 msgstr "檔案名稱不能有「/」。"
 
-#: qt5/quickphrase-editor/editor.cpp:241
+#: qt5/quickphrase-editor/editor.cpp:237
 msgid "Invalid filename"
 msgstr "無效的檔案名稱"
 
@@ -161,11 +170,11 @@ msgstr "父視窗 ID"
 msgid "Phrase"
 msgstr "字詞"
 
-#: qt5/quickphrase-editor/editor.cpp:237
+#: qt5/quickphrase-editor/editor.cpp:233
 msgid "Please input a filename for newfile"
 msgstr "請輸入新檔案的名稱"
 
-#: qt5/quickphrase-editor/editor.cpp:117
+#: qt5/quickphrase-editor/editor.cpp:113
 msgid "Quick Phrase Editor"
 msgstr "快速輸入編輯器"
 
@@ -177,7 +186,7 @@ msgstr "更新列表"
 msgid "Remove File"
 msgstr "移除檔案"
 
-#: qt5/quickphrase-editor/editor.cpp:101
+#: qt5/quickphrase-editor/editor.cpp:97
 msgid "Save Changes"
 msgstr "儲存修改"
 
@@ -185,7 +194,7 @@ msgstr "儲存修改"
 msgid "Test if config exists"
 msgstr "測試設定是否存在"
 
-#: qt5/quickphrase-editor/editor.cpp:102
+#: qt5/quickphrase-editor/editor.cpp:98
 msgid ""
 "The content has changed.\n"
 "Do you want to save the changes or discard them?"

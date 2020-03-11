@@ -5,12 +5,13 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # Bon Keun Seo <scobyseo@gmail.com>, 2017
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-21 00:01-0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2020-03-11 00:01-0700\n"
+"PO-Revision-Date: 2017-12-20 02:52+0000\n"
 "Last-Translator: Bon Keun Seo <scobyseo@gmail.com>, 2017\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
 "Language: ko\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: qt5/quickphrase-editor/editor.cpp:276
+#: qt5/quickphrase-editor/editor.cpp:272
 msgid "%1 is a system file, do you want to delete all phrases instead?"
 msgstr "%1 은 시스템 파일입니다. 모든 구절을 대신 지우겠습니까?"
 
@@ -30,7 +31,7 @@ msgstr "%1 은 시스템 파일입니다. 모든 구절을 대신 지우겠습�
 msgid "&Add"
 msgstr "추가(&A)"
 
-#: qt5/guiwrapper/mainwindow.cpp:41
+#: qt5/guiwrapper/mainwindow.cpp:43
 msgid "&Apply"
 msgstr "적용(&A)"
 
@@ -41,7 +42,7 @@ msgstr "적용(&A)"
 msgid "&Batch Edit"
 msgstr "일괄수정(&B)"
 
-#: qt5/guiwrapper/mainwindow.cpp:43
+#: qt5/guiwrapper/mainwindow.cpp:45
 msgid "&Close"
 msgstr "닫기(&C)"
 
@@ -59,7 +60,7 @@ msgstr "지우기(&D)"
 msgid "&Import"
 msgstr "가져오기(&I)"
 
-#: qt5/guiwrapper/mainwindow.cpp:40
+#: qt5/guiwrapper/mainwindow.cpp:42
 msgid "&Ok"
 msgstr "확인(&O)"
 
@@ -70,7 +71,7 @@ msgstr "확인(&O)"
 msgid "&Operation"
 msgstr "작동(&O)"
 
-#: qt5/guiwrapper/mainwindow.cpp:42
+#: qt5/guiwrapper/mainwindow.cpp:44
 msgid "&Reset"
 msgstr "초기화(&R)"
 
@@ -82,15 +83,15 @@ msgstr "Fcitx GUI 플러그인 실행기"
 msgid "Add File"
 msgstr "파일 추가"
 
-#: qt5/quickphrase-editor/editor.cpp:288
+#: qt5/quickphrase-editor/editor.cpp:284
 msgid "Are you sure to delete %1?"
 msgstr "%1을(를) 지우시겠습니까?"
 
-#: qt5/quickphrase-editor/editor.cpp:254
+#: qt5/quickphrase-editor/editor.cpp:250
 msgid "Cannot create file %1."
 msgstr "파일 %1을 만들수 없습니다."
 
-#: qt5/quickphrase-editor/editor.cpp:275
+#: qt5/quickphrase-editor/editor.cpp:271
 msgid "Cannot remove system file"
 msgstr "시스템 파일을 지울 수 없음"
 
@@ -98,11 +99,11 @@ msgstr "시스템 파일을 지울 수 없음"
 msgid "Config path"
 msgstr "설정 경로"
 
-#: qt5/quickphrase-editor/editor.cpp:287
+#: qt5/quickphrase-editor/editor.cpp:283
 msgid "Confirm deletion"
 msgstr "지우기 확인"
 
-#: qt5/quickphrase-editor/editor.cpp:237
+#: qt5/quickphrase-editor/editor.cpp:233
 msgid "Create new file"
 msgstr "새로운 파일 생성"
 
@@ -113,7 +114,7 @@ msgstr "새로운 파일 생성"
 msgid "De&lete All"
 msgstr "모두 지우기(&l)"
 
-#: qt5/quickphrase-editor/filelistmodel.cpp:43
+#: qt5/quickphrase-editor/filelistmodel.cpp:41
 msgid "Default"
 msgstr "기본값"
 
@@ -128,19 +129,27 @@ msgstr "가저오기(&x)"
 msgid "Empty"
 msgstr "비어있음"
 
-#: qt5/quickphrase-editor/editor.cpp:296
+#: qt5/quickphrase-editor/editor.cpp:292
 msgid "Error while deleting %1."
 msgstr "%1을 지우는 중 오류 발생"
 
-#: qt5/quickphrase-editor/editor.cpp:253 qt5/quickphrase-editor/editor.cpp:295
+#: qt5/guiwrapper/mainwindow.cpp:120
+msgid "Failed to notify Fcitx"
+msgstr ""
+
+#: qt5/guiwrapper/mainwindow.cpp:121
+msgid "Failed to notify Fcitx about the configuration change."
+msgstr ""
+
+#: qt5/quickphrase-editor/editor.cpp:249 qt5/quickphrase-editor/editor.cpp:291
 msgid "File Operation Failed"
 msgstr "파일 동작 실패"
 
-#: qt5/quickphrase-editor/editor.cpp:242
+#: qt5/quickphrase-editor/editor.cpp:238
 msgid "File name should not contain '/'."
 msgstr "파일명에 '/'가 포함되지 않아야 합니다."
 
-#: qt5/quickphrase-editor/editor.cpp:241
+#: qt5/quickphrase-editor/editor.cpp:237
 msgid "Invalid filename"
 msgstr "잘못된 파일명"
 
@@ -160,11 +169,11 @@ msgstr "부모 윈도우 ID"
 msgid "Phrase"
 msgstr "문구"
 
-#: qt5/quickphrase-editor/editor.cpp:237
+#: qt5/quickphrase-editor/editor.cpp:233
 msgid "Please input a filename for newfile"
 msgstr "새 파일의 이름을 입력"
 
-#: qt5/quickphrase-editor/editor.cpp:117
+#: qt5/quickphrase-editor/editor.cpp:113
 msgid "Quick Phrase Editor"
 msgstr "상용구 편집기"
 
@@ -176,7 +185,7 @@ msgstr "리스트 갱신"
 msgid "Remove File"
 msgstr "파일 지우기"
 
-#: qt5/quickphrase-editor/editor.cpp:101
+#: qt5/quickphrase-editor/editor.cpp:97
 msgid "Save Changes"
 msgstr "변경 저장"
 
@@ -184,7 +193,7 @@ msgstr "변경 저장"
 msgid "Test if config exists"
 msgstr "설정이 있는지 확인"
 
-#: qt5/quickphrase-editor/editor.cpp:102
+#: qt5/quickphrase-editor/editor.cpp:98
 msgid ""
 "The content has changed.\n"
 "Do you want to save the changes or discard them?"

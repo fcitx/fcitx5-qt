@@ -4,12 +4,13 @@
 #
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-19 18:55-0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2020-03-11 00:01-0700\n"
+"PO-Revision-Date: 2017-12-20 02:52+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: qt5/quickphrase-editor/editor.cpp:276
+#: qt5/quickphrase-editor/editor.cpp:272
 msgid "%1 is a system file, do you want to delete all phrases instead?"
 msgstr "%1 是系统文件，您是否想要改为清空所有词组？"
 
@@ -30,7 +31,7 @@ msgstr "%1 是系统文件，您是否想要改为清空所有词组？"
 msgid "&Add"
 msgstr "添加(&A)"
 
-#: qt5/guiwrapper/mainwindow.cpp:41
+#: qt5/guiwrapper/mainwindow.cpp:43
 msgid "&Apply"
 msgstr "应用(&A)"
 
@@ -41,7 +42,7 @@ msgstr "应用(&A)"
 msgid "&Batch Edit"
 msgstr "批量编辑(&B)"
 
-#: qt5/guiwrapper/mainwindow.cpp:43
+#: qt5/guiwrapper/mainwindow.cpp:45
 msgid "&Close"
 msgstr "关闭(&C)"
 
@@ -59,7 +60,7 @@ msgstr "删除(&D)"
 msgid "&Import"
 msgstr "导入(&I)"
 
-#: qt5/guiwrapper/mainwindow.cpp:40
+#: qt5/guiwrapper/mainwindow.cpp:42
 msgid "&Ok"
 msgstr "确定(&O)"
 
@@ -70,7 +71,7 @@ msgstr "确定(&O)"
 msgid "&Operation"
 msgstr "操作(&O)"
 
-#: qt5/guiwrapper/mainwindow.cpp:42
+#: qt5/guiwrapper/mainwindow.cpp:44
 msgid "&Reset"
 msgstr "重置(&R)"
 
@@ -82,15 +83,15 @@ msgstr "Fcitx 图形界面插件的启动器"
 msgid "Add File"
 msgstr "添加文件"
 
-#: qt5/quickphrase-editor/editor.cpp:288
+#: qt5/quickphrase-editor/editor.cpp:284
 msgid "Are you sure to delete %1?"
 msgstr "您确定要删除 %1？"
 
-#: qt5/quickphrase-editor/editor.cpp:254
+#: qt5/quickphrase-editor/editor.cpp:250
 msgid "Cannot create file %1."
 msgstr "无法创建文件 %1。"
 
-#: qt5/quickphrase-editor/editor.cpp:275
+#: qt5/quickphrase-editor/editor.cpp:271
 msgid "Cannot remove system file"
 msgstr "无法移除系统文件"
 
@@ -98,11 +99,11 @@ msgstr "无法移除系统文件"
 msgid "Config path"
 msgstr "配置路径"
 
-#: qt5/quickphrase-editor/editor.cpp:287
+#: qt5/quickphrase-editor/editor.cpp:283
 msgid "Confirm deletion"
 msgstr "确认删除"
 
-#: qt5/quickphrase-editor/editor.cpp:237
+#: qt5/quickphrase-editor/editor.cpp:233
 msgid "Create new file"
 msgstr "创建新文件"
 
@@ -113,7 +114,7 @@ msgstr "创建新文件"
 msgid "De&lete All"
 msgstr "全部删除(&L)"
 
-#: qt5/quickphrase-editor/filelistmodel.cpp:43
+#: qt5/quickphrase-editor/filelistmodel.cpp:41
 msgid "Default"
 msgstr "默认"
 
@@ -124,27 +125,35 @@ msgstr "默认"
 msgid "E&xport"
 msgstr "导出(&X)"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:282
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:283
 msgid "Empty"
 msgstr "空"
 
-#: qt5/quickphrase-editor/editor.cpp:296
+#: qt5/quickphrase-editor/editor.cpp:292
 msgid "Error while deleting %1."
 msgstr "删除 %1 时出错。"
 
-#: qt5/quickphrase-editor/editor.cpp:253 qt5/quickphrase-editor/editor.cpp:295
+#: qt5/guiwrapper/mainwindow.cpp:120
+msgid "Failed to notify Fcitx"
+msgstr ""
+
+#: qt5/guiwrapper/mainwindow.cpp:121
+msgid "Failed to notify Fcitx about the configuration change."
+msgstr ""
+
+#: qt5/quickphrase-editor/editor.cpp:249 qt5/quickphrase-editor/editor.cpp:291
 msgid "File Operation Failed"
 msgstr "文件操作失败"
 
-#: qt5/quickphrase-editor/editor.cpp:242
+#: qt5/quickphrase-editor/editor.cpp:238
 msgid "File name should not contain '/'."
 msgstr "文件名不应该包括 “/”。"
 
-#: qt5/quickphrase-editor/editor.cpp:241
+#: qt5/quickphrase-editor/editor.cpp:237
 msgid "Invalid filename"
 msgstr "文件名无效"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:145
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:146
 msgid "Key code mode"
 msgstr "扫描码模式"
 
@@ -160,11 +169,11 @@ msgstr "父窗口 ID"
 msgid "Phrase"
 msgstr "词组"
 
-#: qt5/quickphrase-editor/editor.cpp:237
+#: qt5/quickphrase-editor/editor.cpp:233
 msgid "Please input a filename for newfile"
 msgstr "请输入新文件的文件名"
 
-#: qt5/quickphrase-editor/editor.cpp:117
+#: qt5/quickphrase-editor/editor.cpp:113
 msgid "Quick Phrase Editor"
 msgstr "快速输入编辑器"
 
@@ -176,7 +185,7 @@ msgstr "刷新列表"
 msgid "Remove File"
 msgstr "移除文件"
 
-#: qt5/quickphrase-editor/editor.cpp:101
+#: qt5/quickphrase-editor/editor.cpp:97
 msgid "Save Changes"
 msgstr "保存更改"
 
@@ -184,7 +193,7 @@ msgstr "保存更改"
 msgid "Test if config exists"
 msgstr "检测配置是否存在"
 
-#: qt5/quickphrase-editor/editor.cpp:102
+#: qt5/quickphrase-editor/editor.cpp:98
 msgid ""
 "The content has changed.\n"
 "Do you want to save the changes or discard them?"
@@ -192,11 +201,11 @@ msgstr ""
 "内容已更改。\n"
 "您想要保存还是撤销这些修改？"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:319
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:320
 msgid "The key you just pressed is not supported by Qt."
 msgstr "你刚刚按下的按键不被 Qt 支持。"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:320
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:321
 msgid "Unsupported Key"
 msgstr "不支持的按键"
 
