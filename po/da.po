@@ -4,15 +4,15 @@
 #
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
-# scootergrisen, 2017
+# scootergrisen, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-03-11 00:01-0700\n"
+"POT-Creation-Date: 2020-03-20 00:01-0700\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
-"Last-Translator: scootergrisen, 2017\n"
+"Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
@@ -135,11 +135,11 @@ msgstr "Fejl ved sletning af %1."
 
 #: qt5/guiwrapper/mainwindow.cpp:120
 msgid "Failed to notify Fcitx"
-msgstr ""
+msgstr "Kunne ikke underrette Fcitx"
 
 #: qt5/guiwrapper/mainwindow.cpp:121
 msgid "Failed to notify Fcitx about the configuration change."
-msgstr ""
+msgstr "Kunne ikke underrette Fcitx om ændringen i konfigurationen."
 
 #: qt5/quickphrase-editor/editor.cpp:249 qt5/quickphrase-editor/editor.cpp:291
 msgid "File Operation Failed"
