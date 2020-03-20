@@ -7,7 +7,7 @@ set(QT_WRAPPER_SRCS
 add_executable(fcitx5-qt5-gui-wrapper ${QT_WRAPPER_SRCS})
 
 set_target_properties(fcitx5-qt5-gui-wrapper
-  PROPERTIES AUTOMOC TRUE AUTOUIC TRUE)
+  PROPERTIES AUTOMOC TRUE AUTOUIC TRUE AUTOUIC_OPTIONS "-tr=fcitx::tr2fcitx;--include=fcitxqti18nhelper.h")
 
 target_link_libraries(fcitx5-qt5-gui-wrapper
       Fcitx5::Utils
