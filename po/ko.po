@@ -5,14 +5,15 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # Bon Keun Seo <scobyseo@gmail.com>, 2017
+# MarongHappy <daemul72@gmail.com>, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-03-11 00:01-0700\n"
+"POT-Creation-Date: 2020-03-25 00:02-0700\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
-"Last-Translator: Bon Keun Seo <scobyseo@gmail.com>, 2017\n"
+"Last-Translator: MarongHappy <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -135,11 +136,11 @@ msgstr "%1을 지우는 중 오류 발생"
 
 #: qt5/guiwrapper/mainwindow.cpp:120
 msgid "Failed to notify Fcitx"
-msgstr ""
+msgstr "Fcitx에 알리지 못함"
 
 #: qt5/guiwrapper/mainwindow.cpp:121
 msgid "Failed to notify Fcitx about the configuration change."
-msgstr ""
+msgstr "환경설정 변경에 대해 Fcitx에 알리지 못했습니다."
 
 #: qt5/quickphrase-editor/editor.cpp:249 qt5/quickphrase-editor/editor.cpp:291
 msgid "File Operation Failed"
@@ -163,7 +164,7 @@ msgstr "키워드"
 
 #: qt5/guiwrapper/wrapperapp.cpp:46
 msgid "Parent window ID"
-msgstr "부모 윈도우 ID"
+msgstr "상위 창 ID"
 
 #: qt5/quickphrase-editor/model.cpp:47
 msgid "Phrase"
@@ -179,7 +180,7 @@ msgstr "상용구 편집기"
 
 #: qt5/quickphrase-editor/editor.cpp:49
 msgid "Refresh List"
-msgstr "리스트 갱신"
+msgstr "목록 갱신"
 
 #: qt5/quickphrase-editor/editor.cpp:47
 msgid "Remove File"
