@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-04-03 00:02-0700\n"
+"POT-Creation-Date: 2020-04-04 00:01-0700\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
 "Last-Translator: MarongHappy <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -23,7 +23,7 @@ msgstr ""
 
 #: qt5/quickphrase-editor/editor.cpp:272
 msgid "%1 is a system file, do you want to delete all phrases instead?"
-msgstr "%1 은 시스템 파일입니다. 모든 구절을 대신 지우겠습니까?"
+msgstr "%1은(는) 시스템 파일입니다. 대신 모든 문구를 삭제하시겠습니까?"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:52
 #. i18n: ectx: property (text), widget (QPushButton, addButton)
@@ -52,7 +52,7 @@ msgstr "닫기(&C)"
 #: rc.cpp:12
 #, kde-format
 msgid "&Delete"
-msgstr "지우기(&D)"
+msgstr "삭제(&D)"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:103
 #. i18n: ectx: property (text), widget (QPushButton, importButton)
@@ -86,7 +86,7 @@ msgstr "파일 추가"
 
 #: qt5/quickphrase-editor/editor.cpp:284
 msgid "Are you sure to delete %1?"
-msgstr "%1을(를) 지우시겠습니까?"
+msgstr "%1을(를) 삭제하시겠습니까?"
 
 #: qt5/quickphrase-editor/editor.cpp:250
 msgid "Cannot create file %1."
