@@ -115,7 +115,7 @@ void MainWindow::saveFinishedPhase2(QDBusPendingCallWatcher *watcher) {
     if (pluginWidget_->asyncSave()) {
         pluginWidget_->setEnabled(true);
     }
-    if (watcher->isError()) {
+    if (!watcher || watcher->isError()) {
         QMessageBox::warning(
             this, _("Failed to notify Fcitx"),
             _("Failed to notify Fcitx about the configuration change."));

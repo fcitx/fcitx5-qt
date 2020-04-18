@@ -32,7 +32,7 @@ namespace fcitx {
 
 class FileListModel;
 
-class ListEditor : public FcitxQtConfigUIWidget, Ui::Editor {
+class ListEditor final : public FcitxQtConfigUIWidget, Ui::Editor {
     Q_OBJECT
 public:
     explicit ListEditor(QWidget *parent = 0);
