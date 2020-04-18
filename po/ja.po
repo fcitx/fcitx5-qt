@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-03-11 00:01-0700\n"
+"POT-Creation-Date: 2020-04-17 22:38-0700\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -85,6 +85,13 @@ msgstr "ファイル追加"
 #: qt5/quickphrase-editor/editor.cpp:284
 msgid "Are you sure to delete %1?"
 msgstr "本当に %1 を削除しますか?"
+
+#. i18n: file: qt5/quickphrase-editor/batchdialog.ui:14
+#. i18n: ectx: property (windowTitle), widget (QDialog, BatchDialog)
+#: rc.cpp:24
+#, kde-format
+msgid "Batch editing"
+msgstr ""
 
 #: qt5/quickphrase-editor/editor.cpp:250
 msgid "Cannot create file %1."
@@ -208,9 +215,9 @@ msgstr "押されたキーはQtでサポートされていません。"
 msgid "Unsupported Key"
 msgstr "サポートされていないキー"
 
-#. i18n: file: qt5/quickphrase-editor/batchdialog.ui:47
+#. i18n: file: qt5/quickphrase-editor/batchdialog.ui:50
 #. i18n: ectx: property (text), widget (QLabel, infoLabel)
-#: rc.cpp:24
+#: rc.cpp:27
 #, kde-format
 msgid "Use <Keyword> <Phrase> format on every line."
 msgstr "各行では <Keyword> <Phrase> の形式を使用してください。"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-03-11 00:01-0700\n"
+"POT-Creation-Date: 2020-04-17 22:38-0700\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2017\n"
 "Language-Team: Catalan (https://www.transifex.com/fcitx/teams/12005/ca/)\n"
@@ -86,6 +86,13 @@ msgstr "Afegeix un fitxer"
 #: qt5/quickphrase-editor/editor.cpp:284
 msgid "Are you sure to delete %1?"
 msgstr "Segur que voleu eliminar %1?"
+
+#. i18n: file: qt5/quickphrase-editor/batchdialog.ui:14
+#. i18n: ectx: property (windowTitle), widget (QDialog, BatchDialog)
+#: rc.cpp:24
+#, kde-format
+msgid "Batch editing"
+msgstr ""
 
 #: qt5/quickphrase-editor/editor.cpp:250
 msgid "Cannot create file %1."
@@ -209,9 +216,9 @@ msgstr "La tecla que acabeu de prémer no té suport de Qt."
 msgid "Unsupported Key"
 msgstr "Tecla sense suport"
 
-#. i18n: file: qt5/quickphrase-editor/batchdialog.ui:47
+#. i18n: file: qt5/quickphrase-editor/batchdialog.ui:50
 #. i18n: ectx: property (text), widget (QLabel, infoLabel)
-#: rc.cpp:24
+#: rc.cpp:27
 #, kde-format
 msgid "Use <Keyword> <Phrase> format on every line."
 msgstr "Useu el format <Paraula clau><Frase> a cada línia."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-03-11 00:00-0700\n"
+"POT-Creation-Date: 2020-04-17 22:37-0700\n"
 "PO-Revision-Date: 2017-08-03 16:57+0000\n"
 "Last-Translator: Riwan BEN EZZEDDINE <riwan.benezzeddine@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/fcitx/fcitx/language/fr/)\n"
@@ -83,6 +83,13 @@ msgstr ""
 
 #: qt5/quickphrase-editor/editor.cpp:284
 msgid "Are you sure to delete %1?"
+msgstr ""
+
+#. i18n: file: qt5/quickphrase-editor/batchdialog.ui:14
+#. i18n: ectx: property (windowTitle), widget (QDialog, BatchDialog)
+#: rc.cpp:24
+#, kde-format
+msgid "Batch editing"
 msgstr ""
 
 #: qt5/quickphrase-editor/editor.cpp:250
@@ -205,9 +212,9 @@ msgstr ""
 msgid "Unsupported Key"
 msgstr ""
 
-#. i18n: file: qt5/quickphrase-editor/batchdialog.ui:47
+#. i18n: file: qt5/quickphrase-editor/batchdialog.ui:50
 #. i18n: ectx: property (text), widget (QLabel, infoLabel)
-#: rc.cpp:24
+#: rc.cpp:27
 #, kde-format
 msgid "Use <Keyword> <Phrase> format on every line."
 msgstr ""
