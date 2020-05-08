@@ -12,11 +12,14 @@ set(plugin_MOC_HDRS
     main.h
 )
 
-add_library(fcitx5platforminputcontextplugin MODULE ${plugin_SRCS})
+add_library(fcitx5platforminputcontextplugin ${PLUGIN_LIBRARY_TYPE} ${plugin_SRCS})
 set_target_properties(fcitx5platforminputcontextplugin PROPERTIES
                          AUTOMOC TRUE
                          COMPILE_FLAGS "-fvisibility=hidden"
                         )
+if (BUILD_ONLY_PLUGIN AND BUILD_STATIC_PLUGIN)
+target_compile_definitions(fcitx5platforminputcontextplugin PRIVATE "-DQT_STATICPLUGIN")
+endif()
 
 target_link_libraries(fcitx5platforminputcontextplugin
                           Qt5::Core

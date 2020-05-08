@@ -12,6 +12,7 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 option(ENABLE_QT4 "Enable Qt 4" On)
 option(ENABLE_QT5 "Enable Qt 5" On)
 option(BUILD_ONLY_PLUGIN "Build only plugin" Off)
+option(BUILD_STATIC_PLUGIN "Build plugin as static" Off)
 
 if (BUILD_ONLY_PLUGIN)
   set(LIBRARY_TYPE STATIC)
@@ -20,6 +21,13 @@ else()
   set(LIBRARY_TYPE SHARED)
   add_definitions(-DFCITX_GETTEXT_DOMAIN=\"fcitx5-qt\")
 endif()
+
+if (BUILD_ONLY_PLUGIN AND BUILD_STATIC_PLUGIN)
+  set(PLUGIN_LIBRARY_TYPE STATIC)
+else()
+  set(PLUGIN_LIBRARY_TYPE MODULE)
+endif()
+
 add_definitions(-DFCITX5_QT_VERSION=\"${FCITX5_QT_VERSION}\")
 
 include(GNUInstallDirs)
