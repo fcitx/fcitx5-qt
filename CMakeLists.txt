@@ -15,10 +15,9 @@ option(BUILD_ONLY_PLUGIN "Build only plugin" Off)
 
 if (BUILD_ONLY_PLUGIN)
   set(LIBRARY_TYPE STATIC)
-  set(LIBRARY_COMPILE_FLAGS "-fvisibility=hidden -fPIC")
+  set(LIBRARY_COMPILE_FLAGS "-fPIC")
 else()
   set(LIBRARY_TYPE SHARED)
-  set(LIBRARY_COMPILE_FLAGS "-fvisibility=hidden")
   add_definitions(-DFCITX_GETTEXT_DOMAIN=\"fcitx5-qt\")
 endif()
 add_definitions(-DFCITX5_QT_VERSION=\"${FCITX5_QT_VERSION}\")
@@ -32,7 +31,9 @@ include(ECMUninstallTarget)
 
 find_package(XCB REQUIRED COMPONENTS XCB)
 find_package(XKBCommon 0.5.0 REQUIRED COMPONENTS XKBCommon)
+if (NOT BUILD_ONLY_PLUGIN)
 find_package(Fcitx5Utils REQUIRED)
+endif()
 find_package(X11 REQUIRED)
 
 add_library(X11Import UNKNOWN IMPORTED)
@@ -40,7 +41,12 @@ set_target_properties(X11Import PROPERTIES
     IMPORTED_LOCATION "${X11_X11_LIB}"
     INTERFACE_INCLUDE_DIRECTORIES "${X11_X11_INCLUDE_PATH}")
 
+if (BUILD_ONLY_PLUGIN)
+# Dup a little bit option here.
+include(CompilerSettings)
+else()
 include("${FCITX_INSTALL_CMAKECONFIG_DIR}/Fcitx5Utils/Fcitx5CompilerSettings.cmake")
+endif()
 
 set(Fcitx5Qt5_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_FULL_INCLUDEDIR}/Fcitx5Qt5)
 set(Fcitx5Qt4_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_FULL_INCLUDEDIR}/Fcitx5Qt4)

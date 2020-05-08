@@ -41,10 +41,6 @@
 #include "fcitxqtinputcontextproxy.h"
 #include "qfcitxplatforminputcontext.h"
 
-#include <fcitx-utils/key.h>
-#include <fcitx-utils/textformatflags.h>
-#include <fcitx-utils/utf8.h>
-
 #include <memory>
 #include <xcb/xcb.h>
 
@@ -262,9 +258,9 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
 
 #define CHECK_HINTS(_HINTS, _CAPABILITY)                                       \
     if (hints & _HINTS)                                                        \
-        addCapability(data, fcitx::CapabilityFlag::_CAPABILITY);               \
+        addCapability(data, FcitxCapabilityFlag_##_CAPABILITY);                \
     else                                                                       \
-        removeCapability(data, fcitx::CapabilityFlag::_CAPABILITY);
+        removeCapability(data, FcitxCapabilityFlag_##_CAPABILITY);
 
         CHECK_HINTS(Qt::ImhHiddenText, Password)
         CHECK_HINTS(Qt::ImhSensitiveData, Sensitive)
@@ -291,8 +287,8 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
         if (!((queries & Qt::ImSurroundingText) &&
               (queries & Qt::ImCursorPosition)))
             break;
-        if (data.capability.test(fcitx::CapabilityFlag::Password) ||
-            data.capability.test(fcitx::CapabilityFlag::Sensitive))
+        if ((data.capability & FcitxCapabilityFlag_Password) ||
+            (data.capability & FcitxCapabilityFlag_Sensitive))
             break;
         QVariant var = query.value(Qt::ImSurroundingText);
         QVariant var1 = query.value(Qt::ImCursorPosition);
@@ -304,7 +300,7 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
 #define SURROUNDING_THRESHOLD 4096
         if (text.length() < SURROUNDING_THRESHOLD) {
             if (checkUtf8(text.toUtf8())) {
-                addCapability(data, fcitx::CapabilityFlag::SurroundingText);
+                addCapability(data, FcitxCapabilityFlag_SurroundingText);
 
                 int cursor = var1.toInt();
                 int anchor;
@@ -335,7 +331,7 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
             data.surroundingAnchor = -1;
             data.surroundingCursor = -1;
             data.surroundingText = QString();
-            removeCapability(data, fcitx::CapabilityFlag::SurroundingText);
+            removeCapability(data, FcitxCapabilityFlag_SurroundingText);
         }
     } while (0);
 }
@@ -427,19 +423,19 @@ void QFcitxPlatformInputContext::createInputContextFinished(
         }
     }
 
-    fcitx::CapabilityFlags flag;
-    flag |= fcitx::CapabilityFlag::Preedit;
-    flag |= fcitx::CapabilityFlag::FormattedPreedit;
-    flag |= fcitx::CapabilityFlag::ClientUnfocusCommit;
-    flag |= fcitx::CapabilityFlag::GetIMInfoOnFocus;
+    quint64 flag = 0;
+    flag |= FcitxCapabilityFlag_Preedit;
+    flag |= FcitxCapabilityFlag_FormattedPreedit;
+    flag |= FcitxCapabilityFlag_ClientUnfocusCommit;
+    flag |= FcitxCapabilityFlag_GetIMInfoOnFocus;
     useSurroundingText_ =
         get_boolean_env("FCITX_QT_ENABLE_SURROUNDING_TEXT", true);
     if (useSurroundingText_) {
-        flag |= fcitx::CapabilityFlag::SurroundingText;
+        flag |= FcitxCapabilityFlag_SurroundingText;
     }
 
     if (qApp && qApp->platformName() == "wayland") {
-        flag |= fcitx::CapabilityFlag::RelativeRect;
+        flag |= FcitxCapabilityFlag_RelativeRect;
     }
 
     addCapability(*data, flag, true);
@@ -479,28 +475,22 @@ void QFcitxPlatformInputContext::updateFormattedPreedit(
     QList<QInputMethodEvent::Attribute> attrList;
     Q_FOREACH (const FcitxQtFormattedPreedit &preedit, preeditList) {
         str += preedit.string();
-        if (!(fcitx::TextFormatFlags(preedit.format()) &
-              fcitx::TextFormatFlag::DontCommit))
+        if (!(preedit.format() & FcitxTextFormatFlag_DontCommit))
             commitStr += preedit.string();
         QTextCharFormat format;
-        if (fcitx::TextFormatFlags(preedit.format()) &
-            fcitx::TextFormatFlag::Underline) {
+        if (preedit.format() & FcitxTextFormatFlag_Underline) {
             format.setUnderlineStyle(QTextCharFormat::DashUnderline);
         }
-        if (fcitx::TextFormatFlags(preedit.format()) &
-            fcitx::TextFormatFlag::Strike) {
+        if (preedit.format() & FcitxTextFormatFlag_Strike) {
             format.setFontStrikeOut(true);
         }
-        if (fcitx::TextFormatFlags(preedit.format()) &
-            fcitx::TextFormatFlag::Bold) {
+        if (preedit.format() & FcitxTextFormatFlag_Bold) {
             format.setFontWeight(QFont::Bold);
         }
-        if (fcitx::TextFormatFlags(preedit.format()) &
-            fcitx::TextFormatFlag::Italic) {
+        if (preedit.format() & FcitxTextFormatFlag_Italic) {
             format.setFontItalic(true);
         }
-        if (fcitx::TextFormatFlags(preedit.format()) &
-            fcitx::TextFormatFlag::HighLight) {
+        if (preedit.format() & FcitxTextFormatFlag_HighLight) {
             QBrush brush;
             QPalette palette;
             palette = QGuiApplication::palette();
@@ -654,24 +644,28 @@ void QFcitxPlatformInputContext::createICData(QWindow *w) {
     }
 }
 
-QKeyEvent *QFcitxPlatformInputContext::createKeyEvent(uint keyval, uint _state,
+QKeyEvent *QFcitxPlatformInputContext::createKeyEvent(uint keyval, uint state,
                                                       bool isRelease) {
     Qt::KeyboardModifiers qstate = Qt::NoModifier;
 
-    fcitx::KeyStates state(_state);
+    enum FcitxKeyStates {
+        FcitxKeyState_Alt = 1 << 3,
+        FcitxKeyState_Shift = 1 << 0,
+        FcitxKeyState_Ctrl = 1 << 0,
+    };
 
     int count = 1;
-    if (state & fcitx::KeyState::Alt) {
+    if (state & FcitxKeyState_Alt) {
         qstate |= Qt::AltModifier;
         count++;
     }
 
-    if (state & fcitx::KeyState::Shift) {
+    if (state & FcitxKeyState_Shift) {
         qstate |= Qt::ShiftModifier;
         count++;
     }
 
-    if (state & fcitx::KeyState::Ctrl) {
+    if (state & FcitxKeyState_Ctrl) {
         qstate |= Qt::ControlModifier;
         count++;
     }
@@ -686,7 +680,7 @@ QKeyEvent *QFcitxPlatformInputContext::createKeyEvent(uint keyval, uint _state,
 
     QKeyEvent *keyevent =
         new QKeyEvent(isRelease ? (QEvent::KeyRelease) : (QEvent::KeyPress),
-                      key, qstate, 0, keyval, _state, text, false, count);
+                      key, qstate, 0, keyval, state, text, false, count);
 
     return keyevent;
 }
