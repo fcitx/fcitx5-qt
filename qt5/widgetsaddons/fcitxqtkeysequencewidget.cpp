@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2013~2020 by CSSlayer
- * wengxt@gmail.com
+ * SPDX-FileCopyrightText: 2013~2020 CSSlayer <wengxt@gmail.com>
  *
  * This library is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -21,9 +20,9 @@
 
 /*
     Original Copyright header
-    Copyright (C) 1998 Mark Donohoe <donohoe@kde.org>
-    Copyright (C) 2001 Ellis Whitehead <ellis@kde.org>
-    Copyright (C) 2007 Andreas Hartmetz <ahartmetz@gmail.com>
+    SPDX-FileCopyrightText: 1998 Mark Donohoe <donohoe@kde.org>
+    SPDX-FileCopyrightText: 2001 Ellis Whitehead <ellis@kde.org>
+    SPDX-FileCopyrightText: 2007 Andreas Hartmetz <ahartmetz@gmail.com>
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
