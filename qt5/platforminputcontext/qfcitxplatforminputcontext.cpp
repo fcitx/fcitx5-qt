@@ -38,6 +38,7 @@
 
 #include "qtkey.h"
 
+#include "fcitxflags.h"
 #include "fcitxqtinputcontextproxy.h"
 #include "qfcitxplatforminputcontext.h"
 
@@ -647,12 +648,6 @@ void QFcitxPlatformInputContext::createICData(QWindow *w) {
 QKeyEvent *QFcitxPlatformInputContext::createKeyEvent(uint keyval, uint state,
                                                       bool isRelease) {
     Qt::KeyboardModifiers qstate = Qt::NoModifier;
-
-    enum FcitxKeyStates {
-        FcitxKeyState_Alt = 1 << 3,
-        FcitxKeyState_Shift = 1 << 0,
-        FcitxKeyState_Ctrl = 1 << 2,
-    };
 
     int count = 1;
     if (state & FcitxKeyState_Alt) {

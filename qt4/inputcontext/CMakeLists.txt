@@ -5,14 +5,17 @@ set(plugin_SRCS
     main.cpp
 )
 
-add_library(qtim-fcitx5 MODULE ${plugin_SRCS})
+add_library(qtim-fcitx5 ${PLUGIN_LIBRARY_TYPE} ${plugin_SRCS})
 set_target_properties(qtim-fcitx5 PROPERTIES
                          AUTOMOC TRUE
                          COMPILE_FLAGS "-fvisibility=hidden"
                         )
+target_include_directories(qtim-fcitx5 PRIVATE "${PROJECT_SOURCE_DIR}/common")
+if (BUILD_ONLY_PLUGIN AND BUILD_STATIC_PLUGIN)
+target_compile_definitions(qtim-fcitx5 PRIVATE "-DQT_STATICPLUGIN")
+endif()
 
 target_link_libraries(qtim-fcitx5
-                          Fcitx5::Utils
                           Qt4::QtCore
                           Qt4::QtGui
                           Qt4::QtDBus

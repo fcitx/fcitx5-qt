@@ -17,6 +17,7 @@ set_target_properties(fcitx5platforminputcontextplugin PROPERTIES
                          AUTOMOC TRUE
                          COMPILE_FLAGS "-fvisibility=hidden"
                         )
+target_include_directories(fcitx5platforminputcontextplugin PRIVATE "${PROJECT_SOURCE_DIR}/common")
 if (BUILD_ONLY_PLUGIN AND BUILD_STATIC_PLUGIN)
 target_compile_definitions(fcitx5platforminputcontextplugin PRIVATE "-DQT_STATICPLUGIN")
 endif()

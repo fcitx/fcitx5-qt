@@ -34,13 +34,10 @@
 
 #include "qtkey.h"
 
+#include "fcitxflags.h"
 #include "fcitxqtinputcontextproxy.h"
 #include "fcitxqtwatcher.h"
 #include "qfcitxinputcontext.h"
-
-#include <fcitx-utils/key.h>
-#include <fcitx-utils/textformatflags.h>
-#include <fcitx-utils/utf8.h>
 
 #include <X11/Xlib.h>
 #include <memory>
@@ -211,9 +208,9 @@ void QFcitxInputContext::update() {
 
 #define CHECK_HINTS(_HINTS, _CAPABILITY)                                       \
     if (hints & _HINTS)                                                        \
-        addCapability(data, fcitx::CapabilityFlag::_CAPABILITY);               \
+        addCapability(data, FcitxCapabilityFlag_##_CAPABILITY);                \
     else                                                                       \
-        removeCapability(data, fcitx::CapabilityFlag::_CAPABILITY);
+        removeCapability(data, FcitxCapabilityFlag_##_CAPABILITY);
 
         CHECK_HINTS(Qt::ImhHiddenText, Password)
         CHECK_HINTS(Qt::ImhNoAutoUppercase, NoAutoUpperCase)
@@ -234,8 +231,8 @@ void QFcitxInputContext::update() {
     do {
         if (!useSurroundingText_)
             break;
-        if (data.capability.test(fcitx::CapabilityFlag::Password) ||
-            data.capability.test(fcitx::CapabilityFlag::Sensitive))
+        if ((data.capability & FcitxCapabilityFlag_Password) ||
+            (data.capability & FcitxCapabilityFlag_Sensitive))
             break;
         QVariant var = input->inputMethodQuery(Qt::ImSurroundingText);
         QVariant var1 = input->inputMethodQuery(Qt::ImCursorPosition);
@@ -247,7 +244,7 @@ void QFcitxInputContext::update() {
 #define SURROUNDING_THRESHOLD 4096
         if (text.length() < SURROUNDING_THRESHOLD) {
             if (checkUtf8(text.toUtf8())) {
-                addCapability(data, fcitx::CapabilityFlag::SurroundingText);
+                addCapability(data, FcitxCapabilityFlag_SurroundingText);
 
                 int cursor = var1.toInt();
                 int anchor;
@@ -278,7 +275,7 @@ void QFcitxInputContext::update() {
             data.surroundingAnchor = -1;
             data.surroundingCursor = -1;
             data.surroundingText = QString();
-            removeCapability(data, fcitx::CapabilityFlag::SurroundingText);
+            removeCapability(data, FcitxCapabilityFlag_SurroundingText);
         }
     } while (0);
 }
@@ -360,15 +357,15 @@ void QFcitxInputContext::createInputContextFinished(const QByteArray &uuid) {
         }
     }
 
-    fcitx::CapabilityFlags flag;
-    flag |= fcitx::CapabilityFlag::Preedit;
-    flag |= fcitx::CapabilityFlag::FormattedPreedit;
-    flag |= fcitx::CapabilityFlag::ClientUnfocusCommit;
-    flag |= fcitx::CapabilityFlag::GetIMInfoOnFocus;
+    quint64 flag = 0;
+    flag |= FcitxCapabilityFlag_Preedit;
+    flag |= FcitxCapabilityFlag_FormattedPreedit;
+    flag |= FcitxCapabilityFlag_ClientUnfocusCommit;
+    flag |= FcitxCapabilityFlag_GetIMInfoOnFocus;
     useSurroundingText_ =
         get_boolean_env("FCITX_QT_ENABLE_SURROUNDING_TEXT", true);
     if (useSurroundingText_)
-        flag |= fcitx::CapabilityFlag::SurroundingText;
+        flag |= FcitxCapabilityFlag_SurroundingText;
 
     addCapability(*data, flag, true);
 }
@@ -407,28 +404,22 @@ void QFcitxInputContext::updateFormattedPreedit(
     QList<QInputMethodEvent::Attribute> attrList;
     Q_FOREACH (const FcitxQtFormattedPreedit &preedit, preeditList) {
         str += preedit.string();
-        if (!(fcitx::TextFormatFlags(preedit.format()) &
-              fcitx::TextFormatFlag::DontCommit))
+        if (!(preedit.format() & FcitxTextFormatFlag_DontCommit))
             commitStr += preedit.string();
         QTextCharFormat format;
-        if (fcitx::TextFormatFlags(preedit.format()) &
-            fcitx::TextFormatFlag::Underline) {
+        if (preedit.format() & FcitxTextFormatFlag_Underline) {
             format.setUnderlineStyle(QTextCharFormat::DashUnderline);
         }
-        if (fcitx::TextFormatFlags(preedit.format()) &
-            fcitx::TextFormatFlag::Strike) {
+        if (preedit.format() & FcitxTextFormatFlag_Strike) {
             format.setFontStrikeOut(true);
         }
-        if (fcitx::TextFormatFlags(preedit.format()) &
-            fcitx::TextFormatFlag::Bold) {
+        if (preedit.format() & FcitxTextFormatFlag_Bold) {
             format.setFontWeight(QFont::Bold);
         }
-        if (fcitx::TextFormatFlags(preedit.format()) &
-            fcitx::TextFormatFlag::Italic) {
+        if (preedit.format() & FcitxTextFormatFlag_Italic) {
             format.setFontItalic(true);
         }
-        if (fcitx::TextFormatFlags(preedit.format()) &
-            fcitx::TextFormatFlag::HighLight) {
+        if (preedit.format() & FcitxTextFormatFlag_HighLight) {
             QBrush brush;
             QPalette palette;
             palette = QApplication::palette();
@@ -555,24 +546,22 @@ void QFcitxInputContext::createICData(QWidget *w) {
     }
 }
 
-QKeyEvent *QFcitxInputContext::createKeyEvent(uint keyval, uint _state,
+QKeyEvent *QFcitxInputContext::createKeyEvent(uint keyval, uint state,
                                               bool isRelease) {
     Qt::KeyboardModifiers qstate = Qt::NoModifier;
 
-    fcitx::KeyStates state(_state);
-
     int count = 1;
-    if (state & fcitx::KeyState::Alt) {
+    if (state & FcitxKeyState_Alt) {
         qstate |= Qt::AltModifier;
         count++;
     }
 
-    if (state & fcitx::KeyState::Shift) {
+    if (state & FcitxKeyState_Shift) {
         qstate |= Qt::ShiftModifier;
         count++;
     }
 
-    if (state & fcitx::KeyState::Ctrl) {
+    if (state & FcitxKeyState_Ctrl) {
         qstate |= Qt::ControlModifier;
         count++;
     }

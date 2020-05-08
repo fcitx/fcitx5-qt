@@ -31,7 +31,6 @@
 #include <QPointer>
 #include <QRect>
 #include <QWidget>
-#include <fcitx-utils/capabilityflags.h>
 #include <unordered_map>
 #include <xkbcommon/xkbcommon-compose.h>
 
@@ -45,7 +44,7 @@ struct FcitxQtICData {
           surroundingAnchor(-1), surroundingCursor(-1) {}
     FcitxQtICData(const FcitxQtICData &that) = delete;
     ~FcitxQtICData() { delete proxy; }
-    fcitx::CapabilityFlags capability;
+    quint64 capability;
     FcitxQtInputContextProxy *proxy;
     QRect rect;
     QString surroundingText;
@@ -133,7 +132,7 @@ private:
     bool processCompose(uint keyval, uint state, bool isRelaese);
     QKeyEvent *createKeyEvent(uint keyval, uint state, bool isRelaese);
 
-    void addCapability(FcitxQtICData &data, fcitx::CapabilityFlags capability,
+    void addCapability(FcitxQtICData &data, quint64 capability,
                        bool forceUpdate = false) {
         auto newcaps = data.capability | capability;
         if (data.capability != newcaps || forceUpdate) {
@@ -142,8 +141,7 @@ private:
         }
     }
 
-    void removeCapability(FcitxQtICData &data,
-                          fcitx::CapabilityFlags capability,
+    void removeCapability(FcitxQtICData &data, quint64 capability,
                           bool forceUpdate = false) {
         auto newcaps = data.capability & (~capability);
         if (data.capability != newcaps || forceUpdate) {
