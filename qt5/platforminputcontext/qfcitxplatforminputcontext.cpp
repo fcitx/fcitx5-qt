@@ -651,7 +651,7 @@ QKeyEvent *QFcitxPlatformInputContext::createKeyEvent(uint keyval, uint state,
     enum FcitxKeyStates {
         FcitxKeyState_Alt = 1 << 3,
         FcitxKeyState_Shift = 1 << 0,
-        FcitxKeyState_Ctrl = 1 << 0,
+        FcitxKeyState_Ctrl = 1 << 2,
     };
 
     int count = 1;
