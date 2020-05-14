@@ -13,16 +13,13 @@
 
 #include "qfcitxplatforminputcontext.h"
 
-namespace fcitx {
-
-class QFcitxPlatformInputContextPlugin : public QPlatformInputContextPlugin {
+class QFcitx5PlatformInputContextPlugin : public QPlatformInputContextPlugin {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID QPlatformInputContextFactoryInterface_iid FILE
                       "fcitx.json")
 public:
-    QFcitxPlatformInputContext *create(const QString &system,
-                                       const QStringList &paramList) override;
+    fcitx::QFcitxPlatformInputContext *
+    create(const QString &system, const QStringList &paramList) override;
 };
-} // namespace fcitx
 
 #endif // MAIN_H

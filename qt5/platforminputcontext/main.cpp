@@ -7,18 +7,15 @@
 
 #include "main.h"
 
-namespace fcitx {
-
-QFcitxPlatformInputContext *
-QFcitxPlatformInputContextPlugin::create(const QString &system,
-                                         const QStringList &paramList) {
+fcitx::QFcitxPlatformInputContext *
+QFcitx5PlatformInputContextPlugin::create(const QString &system,
+                                          const QStringList &paramList) {
     Q_UNUSED(paramList);
     if (system.compare(system, QStringLiteral("fcitx5"), Qt::CaseInsensitive) ==
             0 ||
         system.compare(system, QStringLiteral("fcitx"), Qt::CaseInsensitive) ==
             0) {
-        return new QFcitxPlatformInputContext;
+        return new fcitx::QFcitxPlatformInputContext;
     }
     return 0;
 }
-} // namespace fcitx
