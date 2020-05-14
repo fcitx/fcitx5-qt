@@ -13,6 +13,7 @@ option(ENABLE_QT4 "Enable Qt 4" On)
 option(ENABLE_QT5 "Enable Qt 5" On)
 option(BUILD_ONLY_PLUGIN "Build only plugin" Off)
 option(BUILD_STATIC_PLUGIN "Build plugin as static" Off)
+option(WITH_FCITX_PLUGIN_NAME "Enable plugin name with fcitx" On)
 
 if (BUILD_ONLY_PLUGIN)
   set(LIBRARY_TYPE STATIC)

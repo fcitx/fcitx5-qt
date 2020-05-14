@@ -16,7 +16,11 @@ bool isFcitx(const QString &key) {
 } // namespace
 
 QStringList QFcitxInputContextPlugin::keys() const {
+#ifdef FCITX5_QT_WITH_FCITX_NAME
     return QStringList{"fcitx5", "fcitx"};
+#else
+    return QStringList{"fcitx5"};
+#endif
 }
 
 QInputContext *QFcitxInputContextPlugin::create(const QString &key) {

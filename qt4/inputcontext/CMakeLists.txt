@@ -12,7 +12,10 @@ set_target_properties(qtim-fcitx5 PROPERTIES
                         )
 target_include_directories(qtim-fcitx5 PRIVATE "${PROJECT_SOURCE_DIR}/common")
 if (BUILD_ONLY_PLUGIN AND BUILD_STATIC_PLUGIN)
-target_compile_definitions(qtim-fcitx5 PRIVATE "-DQT_STATICPLUGIN")
+    target_compile_definitions(qtim-fcitx5 PRIVATE "-DQT_STATICPLUGIN")
+endif()
+if (WITH_FCITX_PLUGIN_NAME)
+    target_compile_definitions(qtim-fcitx5 PRIVATE "-DFCITX5_QT_WITH_FCITX_NAME")
 endif()
 
 target_link_libraries(qtim-fcitx5

@@ -16,7 +16,7 @@
 class QFcitx5PlatformInputContextPlugin : public QPlatformInputContextPlugin {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID QPlatformInputContextFactoryInterface_iid FILE
-                      "fcitx.json")
+                          FCITX_PLUGIN_DATA_FILE_PATH)
 public:
     fcitx::QFcitxPlatformInputContext *
     create(const QString &system, const QStringList &paramList) override;
