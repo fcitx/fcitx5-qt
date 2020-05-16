@@ -48,7 +48,8 @@ generate_export_header(Fcitx5Qt5WidgetsAddons BASE_NAME Fcitx5Qt5WidgetsAddons)
 add_library(Fcitx5Qt5::WidgetsAddons ALIAS Fcitx5Qt5WidgetsAddons)
 
 target_include_directories(Fcitx5Qt5WidgetsAddons PUBLIC "$<BUILD_INTERFACE:${fcitxqtwidgetsaddons_INCLUDE_DIRS}>")
-target_include_directories(Fcitx5Qt5WidgetsAddons INTERFACE "$<INSTALL_INTERFACE:${Fcitx5Qt5_INCLUDE_INSTALL_DIR}/Fcitx5QtWidgetsAddons>")
+target_include_directories(Fcitx5Qt5WidgetsAddons
+	INTERFACE $<INSTALL_INTERFACE:include/Fcitx5Qt5/Fcitx5Qt5WidgetsAddons>)
 
 set_target_properties(Fcitx5Qt5WidgetsAddons
                       PROPERTIES VERSION 1.0
