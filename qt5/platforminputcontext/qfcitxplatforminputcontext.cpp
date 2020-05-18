@@ -409,7 +409,8 @@ void QFcitxPlatformInputContext::createInputContextFinished(
     if (proxy->isValid()) {
         QWindow *window = qApp->focusWindow();
         setFocusGroupForX11(uuid);
-        if (window && window == w) {
+        if (window && window == w && inputMethodAccepted() &&
+            objectAcceptsInputMethod()) {
             cursorRectChanged();
             proxy->focusIn();
         }
