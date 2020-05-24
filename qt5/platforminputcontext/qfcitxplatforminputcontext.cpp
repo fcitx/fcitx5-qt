@@ -381,6 +381,13 @@ void QFcitxPlatformInputContext::cursorRectChanged() {
         return;
     }
 
+    if (data.capability & FcitxCapabilityFlag_RelativeRect) {
+        if (data.rect != r) {
+            data.rect = r;
+            proxy->setCursorRect(r.x(), r.y(), r.width(), r.height());
+        }
+        return;
+    }
     qreal scale = inputWindow->devicePixelRatio();
     auto screenGeometry = inputWindow->screen()->geometry();
     auto point = inputWindow->mapToGlobal(r.topLeft());
