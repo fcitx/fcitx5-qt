@@ -382,6 +382,8 @@ void QFcitxPlatformInputContext::cursorRectChanged() {
     }
 
     if (data.capability & FcitxCapabilityFlag_RelativeRect) {
+        auto margins = inputWindow->frameMargins();
+        r.translate(margins.left(), margins.top());
         if (data.rect != r) {
             data.rect = r;
             proxy->setCursorRect(r.x(), r.y(), r.width(), r.height());
