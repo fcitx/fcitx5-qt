@@ -350,6 +350,7 @@ void QFcitxInputContext::createInputContextFinished(const QByteArray &uuid) {
     flag |= FcitxCapabilityFlag_FormattedPreedit;
     flag |= FcitxCapabilityFlag_ClientUnfocusCommit;
     flag |= FcitxCapabilityFlag_GetIMInfoOnFocus;
+    flag |= FcitxCapabilityFlag_KeyEventOrderFix;
     useSurroundingText_ =
         get_boolean_env("FCITX_QT_ENABLE_SURROUNDING_TEXT", true);
     if (useSurroundingText_)
