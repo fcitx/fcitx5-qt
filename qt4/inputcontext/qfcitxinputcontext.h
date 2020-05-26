@@ -18,6 +18,7 @@
 #include <QPointer>
 #include <QRect>
 #include <QWidget>
+#include <memory>
 #include <unordered_map>
 #include <xkbcommon/xkbcommon-compose.h>
 
@@ -34,6 +35,8 @@ struct FcitxQtICData {
     quint64 capability;
     FcitxQtInputContextProxy *proxy;
     QRect rect;
+    // Last key event forwarded.
+    std::unique_ptr<QKeyEvent> event;
     QString surroundingText;
     int surroundingAnchor;
     int surroundingCursor;
@@ -117,7 +120,8 @@ public Q_SLOTS:
 
 private:
     bool processCompose(uint keyval, uint state, bool isRelaese);
-    QKeyEvent *createKeyEvent(uint keyval, uint state, bool isRelaese);
+    QKeyEvent *createKeyEvent(uint keyval, uint state, bool isRelaese,
+                              const QKeyEvent *event);
 
     void addCapability(FcitxQtICData &data, quint64 capability,
                        bool forceUpdate = false) {
