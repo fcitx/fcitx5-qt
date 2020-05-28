@@ -120,6 +120,7 @@ private:
     bool processCompose(uint keyval, uint state, bool isRelaese);
     QKeyEvent *createKeyEvent(uint keyval, uint state, bool isRelaese,
                               const QKeyEvent *event);
+    void forwardEvent(QWindow *window, const QKeyEvent &event);
 
     void addCapability(FcitxQtICData &data, quint64 capability,
                        bool forceUpdate = false) {
