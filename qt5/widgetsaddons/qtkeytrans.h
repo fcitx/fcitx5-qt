@@ -6,12 +6,16 @@
 #ifndef _WIDGETSADDONS_QTKEYTRANS_H_
 #define _WIDGETSADDONS_QTKEYTRANS_H_
 
+#include <QString>
 #include <qnamespace.h>
 
 namespace fcitx {
 
 bool keyQtToSym(int qtcode, Qt::KeyboardModifiers mod, int &sym,
                 unsigned int &state);
+
+bool keyQtToSym(int qtcode, Qt::KeyboardModifiers mod, const QString &text,
+                int &sym, unsigned int &state);
 
 bool symToKeyQt(int sym, unsigned int state, int &qtcode,
                 Qt::KeyboardModifiers &mod);

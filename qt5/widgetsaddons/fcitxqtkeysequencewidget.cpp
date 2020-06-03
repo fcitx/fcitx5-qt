@@ -60,9 +60,43 @@ Q_LOGGING_CATEGORY(fcitx5qtKeysequenceWidget, "fcitx5.qt.keysequencewidget")
 
 namespace fcitx {
 
+namespace {
+
 bool isX11LikePlatform() {
     return qApp->platformName() == "xcb" || qApp->platformName() == "wayland";
 }
+
+bool keyQtToFcitx(int keyQt, const QString &text, FcitxQtModifierSide side,
+                  Key &outkey) {
+    int key = keyQt & (~Qt::KeyboardModifierMask);
+    int state = keyQt & Qt::KeyboardModifierMask;
+    int sym;
+    unsigned int states;
+    if (!keyQtToSym(key, Qt::KeyboardModifiers(state), text, sym, states)) {
+        return false;
+    }
+    if (side == MS_Right) {
+        switch (sym) {
+        case FcitxKey_Control_L:
+            sym = FcitxKey_Control_R;
+            break;
+        case FcitxKey_Alt_L:
+            sym = FcitxKey_Alt_R;
+            break;
+        case FcitxKey_Shift_L:
+            sym = FcitxKey_Shift_R;
+            break;
+        case FcitxKey_Super_L:
+            sym = FcitxKey_Super_R;
+            break;
+        }
+    }
+
+    outkey = Key(static_cast<KeySym>(sym), KeyStates(states));
+    return true;
+}
+
+} // namespace
 
 class FcitxQtKeySequenceWidgetPrivate {
 public:
@@ -375,8 +409,7 @@ void FcitxQtKeySequenceButton::keyPressEvent(QKeyEvent *e) {
             }
 
             Key key;
-            if (FcitxQtKeySequenceWidget::keyQtToFcitx(keyQt, MS_Unknown,
-                                                       key)) {
+            if (keyQtToFcitx(keyQt, e->text(), MS_Unknown, key)) {
                 if (d->keyCodeModeAction_->isChecked()) {
                     key = Key::fromKeyCode(e->nativeScanCode(), key.states());
                 }
@@ -432,7 +465,7 @@ void FcitxQtKeySequenceButton::keyReleaseEvent(QKeyEvent *e) {
         }
         int keyQt = e->key() | d->modifierKeys_;
         Key key;
-        if (FcitxQtKeySequenceWidget::keyQtToFcitx(keyQt, side, key)) {
+        if (keyQtToFcitx(keyQt, e->text(), side, key)) {
             if (d->keyCodeModeAction_->isChecked()) {
                 key = Key::fromKeyCode(e->nativeScanCode(), key.states());
             }
@@ -470,46 +503,6 @@ bool FcitxQtKeySequenceWidgetPrivate::isOkWhenModifierless(int keyQt) {
     default:
         return true;
     }
-}
-
-bool FcitxQtKeySequenceWidget::keyQtToFcitx(int keyQt, FcitxQtModifierSide side,
-                                            Key &outkey) {
-    int key = keyQt & (~Qt::KeyboardModifierMask);
-    int state = keyQt & Qt::KeyboardModifierMask;
-    int sym;
-    unsigned int states;
-    if (!keyQtToSym(key, Qt::KeyboardModifiers(state), sym, states)) {
-        return false;
-    }
-    if (side == MS_Right) {
-        switch (sym) {
-        case FcitxKey_Control_L:
-            sym = FcitxKey_Control_R;
-            break;
-        case FcitxKey_Alt_L:
-            sym = FcitxKey_Alt_R;
-            break;
-        case FcitxKey_Shift_L:
-            sym = FcitxKey_Shift_R;
-            break;
-        case FcitxKey_Super_L:
-            sym = FcitxKey_Super_R;
-            break;
-        }
-    }
-
-    outkey = Key(static_cast<KeySym>(sym), KeyStates(states));
-    return true;
-}
-
-int FcitxQtKeySequenceWidget::keyFcitxToQt(Key key) {
-    Qt::KeyboardModifiers qstate = Qt::NoModifier;
-
-    int qtkey = 0;
-    symToKeyQt(static_cast<int>(key.sym()),
-               static_cast<unsigned int>(key.states()), qtkey, qstate);
-
-    return qtkey | qstate;
 }
 } // namespace fcitx
 

@@ -1,7 +1,7 @@
 ecm_setup_version(PROJECT VARIABLE_PREFIX FCITX5QT5WIDGETSADDONS
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/fcitx5qt5widgetsaddons_version.h"
                         PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Qt5WidgetsAddonsConfigVersion.cmake"
-                        SOVERSION 1)
+                        SOVERSION 2)
 
 # create a Config.cmake and a ConfigVersion.cmake file and install them
 set(CMAKECONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/Fcitx5Qt5WidgetsAddons")
@@ -51,9 +51,9 @@ target_include_directories(Fcitx5Qt5WidgetsAddons PUBLIC "$<BUILD_INTERFACE:${fc
 target_include_directories(Fcitx5Qt5WidgetsAddons INTERFACE "$<INSTALL_INTERFACE:${Fcitx5Qt5_INCLUDE_INSTALL_DIR}/Fcitx5QtWidgetsAddons>")
 
 set_target_properties(Fcitx5Qt5WidgetsAddons
-                      PROPERTIES VERSION 1.0
+                      PROPERTIES VERSION 1.1
                       AUTOMOC TRUE
-                      SOVERSION 1
+                      SOVERSION 2
                       COMPILE_FLAGS "-fvisibility=hidden"
                       EXPORT_NAME WidgetsAddons
 )

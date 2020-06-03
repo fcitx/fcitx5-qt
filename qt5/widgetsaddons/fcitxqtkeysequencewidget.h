@@ -90,9 +90,6 @@ public:
 
     const QList<Key> &keySequence() const;
 
-    static bool keyQtToFcitx(int keyQt, FcitxQtModifierSide side, Key &outkey);
-    static int keyFcitxToQt(Key key);
-
 Q_SIGNALS:
     void keySequenceChanged(const QList<Key> &seq);
 

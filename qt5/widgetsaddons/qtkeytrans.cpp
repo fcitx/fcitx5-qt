@@ -16,7 +16,7 @@
 
 namespace fcitx {
 
-void qEventToSym(int key, const QString &text, Qt::KeyboardModifiers mod,
+void qEventToSym(int key, Qt::KeyboardModifiers mod, const QString &text,
                  int &outsym, unsigned int &outstate) {
     int sym = 0;
     fcitx::KeyStates state;
@@ -760,7 +760,12 @@ bool symToKeyQt(int sym, unsigned int state, int &qtcode,
 
 bool keyQtToSym(int qtcode, Qt::KeyboardModifiers mod, int &sym,
                 unsigned int &state) {
-    qEventToSym(qtcode, QString(), mod, sym, state);
+    return keyQtToSym(qtcode, mod, QString(), sym, state);
+}
+
+bool keyQtToSym(int qtcode, Qt::KeyboardModifiers mod, const QString &text,
+                int &sym, unsigned int &state) {
+    qEventToSym(qtcode, mod, text, sym, state);
 
     return sym >= 0;
 }
