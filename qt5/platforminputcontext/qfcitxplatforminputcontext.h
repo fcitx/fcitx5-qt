@@ -17,6 +17,7 @@
 #include <QPointer>
 #include <QRect>
 #include <QWindow>
+#include <memory>
 #include <qpa/qplatforminputcontext.h>
 #include <unordered_map>
 #include <xkbcommon/xkbcommon-compose.h>
