@@ -14,9 +14,9 @@
 #include <QTextCharFormat>
 #include <QTextCodec>
 #include <QWindow>
-#include <QX11Info>
 #include <qpa/qplatformcursor.h>
 #include <qpa/qplatformscreen.h>
+#include <qpa/qplatformnativeinterface.h>
 #include <qpa/qwindowsysteminterface.h>
 
 #include <errno.h>
@@ -47,10 +47,22 @@ void setFocusGroupForX11(const QByteArray &uuid) {
         return;
     }
 
-    if (!QX11Info::isPlatformX11()) {
+    if (QGuiApplication::platformName() != QLatin1String("xcb")) {
         return;
     }
-    auto connection = QX11Info::connection();
+
+    auto native = QGuiApplication::platformNativeInterface();
+    if (!native) {
+        return;
+    }
+
+    auto connection = static_cast<xcb_connection_t *>(
+        native->nativeResourceForIntegration(QByteArray("connection")));
+
+    if (!connection) {
+        return;
+    }
+
     xcb_atom_t result = XCB_ATOM_NONE;
     {
         char atomName[] = "_FCITX_SERVER";

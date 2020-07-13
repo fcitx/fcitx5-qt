@@ -66,7 +66,7 @@ if(ENABLE_QT4)
 endif()
 
 if(ENABLE_QT5)
-  find_package(Qt5 ${REQUIRED_QT5_VERSION} CONFIG REQUIRED Core DBus Widgets X11Extras)
+  find_package(Qt5 ${REQUIRED_QT5_VERSION} CONFIG REQUIRED Core DBus Widgets)
   find_package(Qt5Gui ${REQUIRED_QT5_VERSION} REQUIRED Private)
   add_subdirectory(qt5)
 endif()
