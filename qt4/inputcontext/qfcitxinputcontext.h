@@ -28,18 +28,17 @@ class FcitxQtConnection;
 
 struct FcitxQtICData {
     FcitxQtICData(FcitxQtWatcher *watcher)
-        : proxy(new FcitxQtInputContextProxy(watcher, watcher)),
-          surroundingAnchor(-1), surroundingCursor(-1) {}
+        : proxy(new FcitxQtInputContextProxy(watcher, watcher)) {}
     FcitxQtICData(const FcitxQtICData &that) = delete;
     ~FcitxQtICData() { delete proxy; }
-    quint64 capability;
+    quint64 capability = 0;
     FcitxQtInputContextProxy *proxy;
     QRect rect;
     // Last key event forwarded.
     std::unique_ptr<QKeyEvent> event;
     QString surroundingText;
-    int surroundingAnchor;
-    int surroundingCursor;
+    int surroundingAnchor = -1;
+    int surroundingCursor = -1;
 };
 
 class ProcessKeyWatcher : public QDBusPendingCallWatcher {

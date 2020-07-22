@@ -89,7 +89,7 @@ void QuickPhraseModel::deleteAllItem() {
 
 Qt::ItemFlags QuickPhraseModel::flags(const QModelIndex &index) const {
     if (!index.isValid())
-        return 0;
+        return {};
 
     return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
