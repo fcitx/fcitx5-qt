@@ -76,4 +76,7 @@ find_package(Gettext REQUIRED)
 add_subdirectory(po)
 endif()
 
+enable_testing()
+add_subdirectory(test)
+
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

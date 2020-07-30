@@ -6,19 +6,24 @@
 #ifndef _WIDGETSADDONS_QTKEYTRANS_H_
 #define _WIDGETSADDONS_QTKEYTRANS_H_
 
+#include "fcitx5qt5widgetsaddons_export.h"
 #include <QString>
 #include <qnamespace.h>
 
 namespace fcitx {
 
-bool keyQtToSym(int qtcode, Qt::KeyboardModifiers mod, int &sym,
-                unsigned int &state);
+FCITX5QT5WIDGETSADDONS_EXPORT bool keyQtToSym(int qtcode,
+                                              Qt::KeyboardModifiers mod,
+                                              int &sym, unsigned int &state);
 
-bool keyQtToSym(int qtcode, Qt::KeyboardModifiers mod, const QString &text,
-                int &sym, unsigned int &state);
+FCITX5QT5WIDGETSADDONS_EXPORT bool keyQtToSym(int qtcode,
+                                              Qt::KeyboardModifiers mod,
+                                              const QString &text, int &sym,
+                                              unsigned int &state);
 
-bool symToKeyQt(int sym, unsigned int state, int &qtcode,
-                Qt::KeyboardModifiers &mod);
+FCITX5QT5WIDGETSADDONS_EXPORT bool symToKeyQt(int sym, unsigned int state,
+                                              int &qtcode,
+                                              Qt::KeyboardModifiers &mod);
 } // namespace fcitx
 
 #endif // _WIDGETSADDONS_QTKEYTRANS_H_
