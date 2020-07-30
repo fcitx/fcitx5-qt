@@ -10,7 +10,7 @@
 #include <fcitx-utils/log.h>
 
 int main(int argc, char *argv[]) {
-    QApplication app(argc, argv);
+    QCoreApplication app(argc, argv);
 
     int sym;
     unsigned int states;
