@@ -30,5 +30,15 @@ int main(int argc, char *argv[]) {
 
     FCITX_ASSERT(sym == FcitxKey_space) << sym;
     FCITX_ASSERT(static_cast<fcitx::KeyState>(states) == fcitx::KeyState::Ctrl);
+
+    fcitx::keyQtToSym(Qt::Key_F, Qt::ControlModifier, "", sym, states);
+
+    FCITX_ASSERT(sym == FcitxKey_F) << sym;
+    FCITX_ASSERT(static_cast<fcitx::KeyState>(states) == fcitx::KeyState::Ctrl);
+
+    fcitx::keyQtToSym(Qt::Key_F, Qt::ControlModifier, "\x06", sym, states);
+
+    FCITX_ASSERT(sym == FcitxKey_F) << sym;
+    FCITX_ASSERT(static_cast<fcitx::KeyState>(states) == fcitx::KeyState::Ctrl);
     return 0;
 }

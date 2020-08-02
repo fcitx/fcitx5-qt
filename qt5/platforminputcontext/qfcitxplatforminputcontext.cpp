@@ -15,8 +15,8 @@
 #include <QTextCodec>
 #include <QWindow>
 #include <qpa/qplatformcursor.h>
-#include <qpa/qplatformscreen.h>
 #include <qpa/qplatformnativeinterface.h>
+#include <qpa/qplatformscreen.h>
 #include <qpa/qwindowsysteminterface.h>
 
 #include <errno.h>

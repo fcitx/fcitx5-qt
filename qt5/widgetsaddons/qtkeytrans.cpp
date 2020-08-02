@@ -51,7 +51,7 @@ void qEventToSym(int key, Qt::KeyboardModifiers mod, const QString &text,
                 result->qtcode != key)
                 result = nullptr;
         } else {
-            if (text.isEmpty() || text[0].unicode() == 0) {
+            if (text.isEmpty() || !text[0].isPrint()) {
                 result = std::lower_bound(qtCodeToKeyBackup,
                                           _ARRAY_END(qtCodeToKeyBackup), key);
                 if (result == _ARRAY_END(qtCodeToKeyBackup) ||
