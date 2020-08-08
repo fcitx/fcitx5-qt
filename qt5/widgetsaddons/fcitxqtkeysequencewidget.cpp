@@ -45,7 +45,6 @@
 
 #include "qtkeytrans.h"
 #include <QApplication>
-#include <QDebug>
 #include <QHBoxLayout>
 #include <QHash>
 #include <QKeyEvent>
@@ -138,7 +137,8 @@ public:
     QList<Key> oldKeySequence_;
     QTimer modifierlessTimeout_;
     bool allowModifierless_;
-    uint modifierKeys_;
+    KeyStates modifierKeys_;
+    uint qtModifierKeys_ = 0;
     bool isRecording_;
     bool multiKeyShortcutsAllowed_;
     bool allowModifierOnly_;
@@ -296,14 +296,16 @@ void FcitxQtKeySequenceWidgetPrivate::updateShortcutDisplay() {
         if (modifierKeys_) {
             if (!s.isEmpty())
                 s.append(",");
-            if (modifierKeys_ & Qt::META)
-                s += "Meta+";
-            if (modifierKeys_ & Qt::CTRL)
+            if (modifierKeys_ & KeyState::Super)
+                s += "Super+";
+            if (modifierKeys_ & KeyState::Ctrl)
                 s += "Contorl+";
-            if (modifierKeys_ & Qt::ALT)
+            if (modifierKeys_ & KeyState::Alt)
                 s += "Alt+";
-            if (modifierKeys_ & Qt::SHIFT)
+            if (modifierKeys_ & KeyState::Shift)
                 s += "Shift+";
+            if (modifierKeys_ & KeyState::Hyper)
+                s += "Hyper+";
 
         } else if (keySequence_.size() == 0) {
             s = "...";
@@ -355,8 +357,30 @@ void FcitxQtKeySequenceButton::keyPressEvent(QKeyEvent *e) {
         return d->cancelRecording();
     }
 
-    uint newModifiers =
-        e->modifiers() & (Qt::SHIFT | Qt::CTRL | Qt::ALT | Qt::META);
+    // Same as Key::normalize();
+    uint newQtModifiers =
+        e->modifiers() & (Qt::META | Qt::ALT | Qt::CTRL | Qt::SHIFT);
+    KeyStates newModifiers;
+    if (isX11LikePlatform()) {
+        newModifiers = KeyStates(e->nativeModifiers()) &
+                       KeyStates{KeyState::Ctrl_Alt_Shift, KeyState::Hyper,
+                                 KeyState::Super};
+        newModifiers |=
+            Key::keySymToStates(static_cast<KeySym>(e->nativeVirtualKey()));
+    } else {
+        if (newQtModifiers & Qt::META) {
+            newModifiers |= KeyState::Super;
+        }
+        if (newQtModifiers & Qt::ALT) {
+            newModifiers |= KeyState::Alt;
+        }
+        if (newQtModifiers & Qt::CTRL) {
+            newModifiers |= KeyState::Ctrl;
+        }
+        if (newQtModifiers & Qt::SHIFT) {
+            newModifiers |= KeyState::Shift;
+        }
+    }
 
     // don't have the return or space key appear as first key of the sequence
     // when they
@@ -365,6 +389,7 @@ void FcitxQtKeySequenceButton::keyPressEvent(QKeyEvent *e) {
         ((keyQt == Qt::Key_Return || keyQt == Qt::Key_Space))) {
         d->startRecording();
         d->modifierKeys_ = newModifiers;
+        d->qtModifierKeys_ = newQtModifiers;
         d->updateShortcutDisplay();
         return;
     }
@@ -375,6 +400,7 @@ void FcitxQtKeySequenceButton::keyPressEvent(QKeyEvent *e) {
 
     e->accept();
     d->modifierKeys_ = newModifiers;
+    d->qtModifierKeys_ = newQtModifiers;
 
     switch (keyQt) {
     case Qt::Key_AltGr: // or else we get unicode salad
@@ -382,6 +408,10 @@ void FcitxQtKeySequenceButton::keyPressEvent(QKeyEvent *e) {
     case Qt::Key_Shift:
     case Qt::Key_Control:
     case Qt::Key_Alt:
+    case Qt::Key_Super_L:
+    case Qt::Key_Super_R:
+    case Qt::Key_Hyper_L:
+    case Qt::Key_Hyper_R:
     case Qt::Key_Meta:
     case Qt::Key_Menu: // unused (yes, but why?)
         d->controlModifierlessTimout();
@@ -389,7 +419,8 @@ void FcitxQtKeySequenceButton::keyPressEvent(QKeyEvent *e) {
         break;
     default:
 
-        if (d->keySequence_.size() == 0 && !(d->modifierKeys_ & ~Qt::SHIFT)) {
+        if (d->keySequence_.size() == 0 &&
+            !d->modifierKeys_.testAny(~KeyStates(KeyState::Shift))) {
             // It's the first key and no modifier pressed. Check if this is
             // allowed
             if (!(FcitxQtKeySequenceWidgetPrivate::isOkWhenModifierless(
@@ -402,23 +433,34 @@ void FcitxQtKeySequenceButton::keyPressEvent(QKeyEvent *e) {
 
         // We now have a valid key press.
         if (keyQt) {
-            if ((keyQt == Qt::Key_Backtab) && (d->modifierKeys_ & Qt::SHIFT)) {
-                keyQt = Qt::Key_Tab | d->modifierKeys_;
+            if ((keyQt == Qt::Key_Backtab) &&
+                d->modifierKeys_.test(KeyState::Shift)) {
+                keyQt = Qt::Key_Tab | d->qtModifierKeys_;
             } else {
-                keyQt |= d->modifierKeys_;
+                keyQt |= d->qtModifierKeys_;
             }
 
             Key key;
-            if (keyQtToFcitx(keyQt, e->text(), MS_Unknown, key)) {
-                if (d->keyCodeModeAction_->isChecked()) {
-                    key = Key::fromKeyCode(e->nativeScanCode(), key.states());
-                }
-                d->keySequence_ << key;
+            if (d->keyCodeModeAction_->isChecked()) {
+                key = Key::fromKeyCode(e->nativeScanCode(), key.states());
             } else {
-                qCDebug(fcitx5qtKeysequenceWidget)
-                    << "FcitxQtKeySequenceButton::keyPressEvent() Failed to "
-                       "convert Qt key to fcitx: "
-                    << e;
+                if (isX11LikePlatform()) {
+                    key = Key(static_cast<KeySym>(e->nativeVirtualKey()),
+                              KeyStates(e->nativeModifiers()))
+                              .normalize();
+                } else {
+                    if (!keyQtToFcitx(keyQt, e->text(), MS_Unknown, key)) {
+                        qCDebug(fcitx5qtKeysequenceWidget)
+                            << "FcitxQtKeySequenceButton::keyPressEvent() "
+                               "Failed to "
+                               "convert Qt key to fcitx: "
+                            << e;
+                    }
+                }
+            }
+
+            if (key.isValid()) {
+                d->keySequence_ << key;
             }
 
             if ((!d->multiKeyShortcutsAllowed_) ||
@@ -463,7 +505,7 @@ void FcitxQtKeySequenceButton::keyReleaseEvent(QKeyEvent *e) {
                 side = MS_Right;
             }
         }
-        int keyQt = e->key() | d->modifierKeys_;
+        int keyQt = e->key() | d->qtModifierKeys_;
         Key key;
         if (keyQtToFcitx(keyQt, e->text(), side, key)) {
             if (d->keyCodeModeAction_->isChecked()) {
@@ -475,8 +517,29 @@ void FcitxQtKeySequenceButton::keyReleaseEvent(QKeyEvent *e) {
         return;
     }
 
-    uint newModifiers =
-        e->modifiers() & (Qt::SHIFT | Qt::CTRL | Qt::ALT | Qt::META);
+    uint newQtModifiers =
+        e->modifiers() & (Qt::META | Qt::ALT | Qt::CTRL | Qt::SHIFT);
+    KeyStates newModifiers;
+    if (isX11LikePlatform()) {
+        newModifiers = KeyStates(e->nativeModifiers()) &
+                       KeyStates{KeyState::Ctrl_Alt_Shift, KeyState::Hyper,
+                                 KeyState::Super};
+        newModifiers &=
+            ~Key::keySymToStates(static_cast<KeySym>(e->nativeVirtualKey()));
+    } else {
+        if (newQtModifiers & Qt::META) {
+            newModifiers |= KeyState::Super;
+        }
+        if (newQtModifiers & Qt::ALT) {
+            newModifiers |= KeyState::Alt;
+        }
+        if (newQtModifiers & Qt::CTRL) {
+            newModifiers |= KeyState::Ctrl;
+        }
+        if (newQtModifiers & Qt::SHIFT) {
+            newModifiers |= KeyState::Shift;
+        }
+    }
 
     // if a modifier that belongs to the shortcut was released...
     if ((newModifiers & d->modifierKeys_) < d->modifierKeys_) {
