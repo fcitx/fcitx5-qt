@@ -91,6 +91,11 @@ void FcitxQtConfigUIFactoryPrivate::scan() {
                 }
 
                 QPluginLoader *loader = new QPluginLoader(filePath, this);
+                if (loader->metaData().value("IID") !=
+                    QLatin1String(FcitxQtConfigUIFactoryInterface_iid)) {
+                    delete loader;
+                    continue;
+                }
                 auto metadata = loader->metaData().value("MetaData").toObject();
                 auto files = metadata.value("files").toVariant().toStringList();
                 auto addon = metadata.value("addon").toVariant().toString();
