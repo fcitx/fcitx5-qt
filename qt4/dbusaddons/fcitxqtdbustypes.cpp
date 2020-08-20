@@ -237,6 +237,44 @@ const QDBusArgument &operator>>(const QDBusArgument &argument,
 }
 
 QDBusArgument &operator<<(QDBusArgument &argument,
+                          const FcitxQtAddonInfoV2 &arg) {
+    argument.beginStructure();
+    argument << arg.uniqueName();
+    argument << arg.name();
+    argument << arg.comment();
+    argument << arg.category();
+    argument << arg.configurable();
+    argument << arg.enabled();
+    argument << arg.onDemand();
+    argument << arg.dependencies();
+    argument << arg.optionalDependencies();
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument,
+                                FcitxQtAddonInfoV2 &arg) {
+    QString uniqueName, name, comment;
+    int category;
+    bool configurable, enabled, onDemand;
+    QStringList dependencies, optionalDependencies;
+    argument.beginStructure();
+    argument >> uniqueName >> name >> comment >> category >> configurable >>
+        enabled >> onDemand >> dependencies >> optionalDependencies;
+    argument.endStructure();
+    arg.setUniqueName(uniqueName);
+    arg.setName(name);
+    arg.setComment(comment);
+    arg.setCategory(category);
+    arg.setConfigurable(configurable);
+    arg.setEnabled(enabled);
+    arg.setOnDemand(onDemand);
+    arg.setDependencies(dependencies);
+    arg.setOptionalDependencies(optionalDependencies);
+    return argument;
+}
+
+QDBusArgument &operator<<(QDBusArgument &argument,
                           const FcitxQtAddonState &arg) {
     argument.beginStructure();
     argument << arg.uniqueName();
