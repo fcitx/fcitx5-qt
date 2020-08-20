@@ -80,7 +80,7 @@ void qEventToSym(int key, Qt::KeyboardModifiers mod, const QString &text,
 
     } while (0);
 
-    state = fcitx::KeyState::NoState;
+    state = fcitx::KeyState::None;
 
     if (mod & Qt::CTRL)
         state |= fcitx::KeyState::Ctrl;

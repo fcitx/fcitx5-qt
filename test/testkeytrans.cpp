@@ -18,13 +18,13 @@ int main(int argc, char *argv[]) {
 
     FCITX_ASSERT(sym == FcitxKey_space) << sym;
     FCITX_ASSERT(static_cast<fcitx::KeyState>(states) ==
-                 fcitx::KeyState::NoState);
+                 fcitx::KeyState::None);
 
     fcitx::keyQtToSym(Qt::Key_Space, {}, "", sym, states);
 
     FCITX_ASSERT(sym == FcitxKey_space) << sym;
     FCITX_ASSERT(static_cast<fcitx::KeyState>(states) ==
-                 fcitx::KeyState::NoState);
+                 fcitx::KeyState::None);
 
     fcitx::keyQtToSym(Qt::Key_Space, Qt::ControlModifier, "", sym, states);
 
