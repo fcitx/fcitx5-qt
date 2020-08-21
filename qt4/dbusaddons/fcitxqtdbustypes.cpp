@@ -27,6 +27,7 @@ void registerFcitxQtDBusTypes() {
     FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtConfigType);
     FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtAddonInfo);
     FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtAddonState);
+    FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtAddonInfoV2);
 }
 
 bool FcitxQtFormattedPreedit::operator==(
