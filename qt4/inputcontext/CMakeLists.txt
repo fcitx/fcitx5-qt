@@ -8,7 +8,6 @@ set(plugin_SRCS
 add_library(qtim-fcitx5 ${PLUGIN_LIBRARY_TYPE} ${plugin_SRCS})
 set_target_properties(qtim-fcitx5 PROPERTIES
                          AUTOMOC TRUE
-                         COMPILE_FLAGS "-fvisibility=hidden"
                         )
 target_include_directories(qtim-fcitx5 PRIVATE "${PROJECT_SOURCE_DIR}/common")
 if (BUILD_ONLY_PLUGIN AND BUILD_STATIC_PLUGIN)

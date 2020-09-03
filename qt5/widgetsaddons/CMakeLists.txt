@@ -51,10 +51,9 @@ target_include_directories(Fcitx5Qt5WidgetsAddons PUBLIC "$<BUILD_INTERFACE:${fc
 target_include_directories(Fcitx5Qt5WidgetsAddons INTERFACE "$<INSTALL_INTERFACE:${Fcitx5Qt5_INCLUDE_INSTALL_DIR}/Fcitx5QtWidgetsAddons>")
 
 set_target_properties(Fcitx5Qt5WidgetsAddons
-                      PROPERTIES VERSION 1.1
+                      PROPERTIES VERSION ${FCITX5QT5WIDGETSADDONS_VERSION}
                       AUTOMOC TRUE
-                      SOVERSION 2
-                      COMPILE_FLAGS "-fvisibility=hidden"
+                      SOVERSION ${FCITX5QT5WIDGETSADDONS_SOVERSION}
                       EXPORT_NAME WidgetsAddons
 )
 

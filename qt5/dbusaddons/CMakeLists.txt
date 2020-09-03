@@ -41,9 +41,9 @@ target_include_directories(Fcitx5Qt5DBusAddons PUBLIC "$<BUILD_INTERFACE:${fcitx
 target_include_directories(Fcitx5Qt5DBusAddons INTERFACE "$<INSTALL_INTERFACE:${Fcitx5Qt5_INCLUDE_INSTALL_DIR}/Fcitx5Qt5DBusAddons>")
 
 set_target_properties(Fcitx5Qt5DBusAddons
-                      PROPERTIES VERSION 1.0
+                      PROPERTIES VERSION ${FCITX5QT5DBUSADDONS_VERSION}
                       AUTOMOC TRUE
-                      SOVERSION 1
+                      SOVERSION ${FCITX5QT5DBUSADDONS_SOVERSION}
                       COMPILE_FLAGS "${LIBRARY_COMPILE_FLAGS}"
                       EXPORT_NAME DBusAddons
 )
