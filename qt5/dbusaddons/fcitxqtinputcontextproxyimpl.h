@@ -85,6 +85,13 @@ public Q_SLOTS: // METHODS
         return asyncCallWithArgumentList(QStringLiteral("SetCursorRect"), argumentList);
     }
 
+    inline QDBusPendingReply<> SetCursorRectV2(int x, int y, int w, int h, double scale)
+    {
+        QList<QVariant> argumentList;
+        argumentList << QVariant::fromValue(x) << QVariant::fromValue(y) << QVariant::fromValue(w) << QVariant::fromValue(h) << QVariant::fromValue(scale);
+        return asyncCallWithArgumentList(QStringLiteral("SetCursorRectV2"), argumentList);
+    }
+
     inline QDBusPendingReply<> SetSurroundingText(const QString &text, uint cursor, uint anchor)
     {
         QList<QVariant> argumentList;
