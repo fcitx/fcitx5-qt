@@ -5,15 +5,15 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # Bon Keun Seo <scobyseo@gmail.com>, 2017
-# MarongHappy <daemul72@gmail.com>, 2020
+# JungHee Lee <daemul72@gmail.com>, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-04-19 00:01-0700\n"
+"POT-Creation-Date: 2020-09-15 00:03-0700\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
-"Last-Translator: MarongHappy <daemul72@gmail.com>, 2020\n"
+"Last-Translator: JungHee Lee <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: qt5/quickphrase-editor/editor.cpp:272
+#: qt5/quickphrase-editor/editor.cpp:260
 msgid "%1 is a system file, do you want to delete all phrases instead?"
 msgstr "%1은(는) 시스템 파일입니다. 대신 모든 문구를 삭제하시겠습니까?"
 
@@ -32,7 +32,7 @@ msgstr "%1은(는) 시스템 파일입니다. 대신 모든 문구를 삭제하�
 msgid "&Add"
 msgstr "추가(&A)"
 
-#: qt5/guiwrapper/mainwindow.cpp:43
+#: qt5/guiwrapper/mainwindow.cpp:29
 msgid "&Apply"
 msgstr "적용(&A)"
 
@@ -43,7 +43,7 @@ msgstr "적용(&A)"
 msgid "&Batch Edit"
 msgstr "일괄수정(&B)"
 
-#: qt5/guiwrapper/mainwindow.cpp:45
+#: qt5/guiwrapper/mainwindow.cpp:31
 msgid "&Close"
 msgstr "닫기(&C)"
 
@@ -61,7 +61,7 @@ msgstr "삭제(&D)"
 msgid "&Import"
 msgstr "가져오기(&I)"
 
-#: qt5/guiwrapper/mainwindow.cpp:42
+#: qt5/guiwrapper/mainwindow.cpp:28
 msgid "&Ok"
 msgstr "확인(&O)"
 
@@ -72,19 +72,19 @@ msgstr "확인(&O)"
 msgid "&Operation"
 msgstr "작동(&O)"
 
-#: qt5/guiwrapper/mainwindow.cpp:44
+#: qt5/guiwrapper/mainwindow.cpp:30
 msgid "&Reset"
-msgstr "초기화(&R)"
+msgstr "재설정(&R)"
 
-#: qt5/guiwrapper/wrapperapp.cpp:43
+#: qt5/guiwrapper/wrapperapp.cpp:29
 msgid "A launcher for Fcitx Gui plugin."
 msgstr "Fcitx GUI 플러그인 실행기"
 
-#: qt5/quickphrase-editor/editor.cpp:45
+#: qt5/quickphrase-editor/editor.cpp:33
 msgid "Add File"
 msgstr "파일 추가"
 
-#: qt5/quickphrase-editor/editor.cpp:284
+#: qt5/quickphrase-editor/editor.cpp:272
 msgid "Are you sure to delete %1?"
 msgstr "%1을(를) 삭제하시겠습니까?"
 
@@ -95,23 +95,23 @@ msgstr "%1을(를) 삭제하시겠습니까?"
 msgid "Batch editing"
 msgstr "일괄 편집하기"
 
-#: qt5/quickphrase-editor/editor.cpp:250
+#: qt5/quickphrase-editor/editor.cpp:238
 msgid "Cannot create file %1."
 msgstr "파일 %1을 만들수 없습니다."
 
-#: qt5/quickphrase-editor/editor.cpp:271
+#: qt5/quickphrase-editor/editor.cpp:259
 msgid "Cannot remove system file"
 msgstr "시스템 파일을 제거할 수 없음"
 
-#: qt5/guiwrapper/wrapperapp.cpp:49
+#: qt5/guiwrapper/wrapperapp.cpp:35
 msgid "Config path"
 msgstr "설정 경로"
 
-#: qt5/quickphrase-editor/editor.cpp:283
+#: qt5/quickphrase-editor/editor.cpp:271
 msgid "Confirm deletion"
 msgstr "지우기 확인"
 
-#: qt5/quickphrase-editor/editor.cpp:233
+#: qt5/quickphrase-editor/editor.cpp:221
 msgid "Create new file"
 msgstr "새로운 파일 생성"
 
@@ -122,7 +122,7 @@ msgstr "새로운 파일 생성"
 msgid "De&lete All"
 msgstr "모두 지우기(&l)"
 
-#: qt5/quickphrase-editor/filelistmodel.cpp:41
+#: qt5/quickphrase-editor/filelistmodel.cpp:29
 msgid "Default"
 msgstr "기본값"
 
@@ -133,75 +133,75 @@ msgstr "기본값"
 msgid "E&xport"
 msgstr "가저오기(&x)"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:283
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:318
 msgid "Empty"
 msgstr "비어있음"
 
-#: qt5/quickphrase-editor/editor.cpp:292
+#: qt5/quickphrase-editor/editor.cpp:280
 msgid "Error while deleting %1."
 msgstr "%1을 지우는 중 오류 발생"
 
-#: qt5/guiwrapper/mainwindow.cpp:120
+#: qt5/guiwrapper/mainwindow.cpp:106
 msgid "Failed to notify Fcitx"
 msgstr "Fcitx에 알리지 못함"
 
-#: qt5/guiwrapper/mainwindow.cpp:121
+#: qt5/guiwrapper/mainwindow.cpp:107
 msgid "Failed to notify Fcitx about the configuration change."
 msgstr "환경설정 변경에 대해 Fcitx에 알리지 못했습니다."
 
-#: qt5/quickphrase-editor/editor.cpp:249 qt5/quickphrase-editor/editor.cpp:291
+#: qt5/quickphrase-editor/editor.cpp:237 qt5/quickphrase-editor/editor.cpp:279
 msgid "File Operation Failed"
 msgstr "파일 동작 실패"
 
-#: qt5/quickphrase-editor/editor.cpp:238
+#: qt5/quickphrase-editor/editor.cpp:226
 msgid "File name should not contain '/'."
 msgstr "파일명에 '/'가 포함되지 않아야 합니다."
 
-#: qt5/quickphrase-editor/editor.cpp:237
+#: qt5/quickphrase-editor/editor.cpp:225
 msgid "Invalid filename"
 msgstr "잘못된 파일명"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:146
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:179
 msgid "Key code mode"
 msgstr "키코드 방식"
 
-#: qt5/quickphrase-editor/model.cpp:45
+#: qt5/quickphrase-editor/model.cpp:33
 msgid "Keyword"
 msgstr "키워드"
 
-#: qt5/guiwrapper/wrapperapp.cpp:46
+#: qt5/guiwrapper/wrapperapp.cpp:32
 msgid "Parent window ID"
 msgstr "상위 창 ID"
 
-#: qt5/quickphrase-editor/model.cpp:47
+#: qt5/quickphrase-editor/model.cpp:35
 msgid "Phrase"
 msgstr "문구"
 
-#: qt5/quickphrase-editor/editor.cpp:233
+#: qt5/quickphrase-editor/editor.cpp:221
 msgid "Please input a filename for newfile"
 msgstr "새 파일의 이름을 입력"
 
-#: qt5/quickphrase-editor/editor.cpp:113
+#: qt5/quickphrase-editor/editor.cpp:101
 msgid "Quick Phrase Editor"
 msgstr "상용구 편집기"
 
-#: qt5/quickphrase-editor/editor.cpp:49
+#: qt5/quickphrase-editor/editor.cpp:37
 msgid "Refresh List"
 msgstr "목록 갱신"
 
-#: qt5/quickphrase-editor/editor.cpp:47
+#: qt5/quickphrase-editor/editor.cpp:35
 msgid "Remove File"
 msgstr "파일 제거"
 
-#: qt5/quickphrase-editor/editor.cpp:97
+#: qt5/quickphrase-editor/editor.cpp:85
 msgid "Save Changes"
 msgstr "변경 저장"
 
-#: qt5/guiwrapper/wrapperapp.cpp:47
+#: qt5/guiwrapper/wrapperapp.cpp:33
 msgid "Test if config exists"
 msgstr "설정이 있는지 확인"
 
-#: qt5/quickphrase-editor/editor.cpp:98
+#: qt5/quickphrase-editor/editor.cpp:86
 msgid ""
 "The content has changed.\n"
 "Do you want to save the changes or discard them?"
@@ -209,11 +209,11 @@ msgstr ""
 "내용이 변했습니다.\n"
 "변경사항을 저장할까요?"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:320
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:355
 msgid "The key you just pressed is not supported by Qt."
 msgstr "방금 누른 키는 Qt가 지원하지 않습니다."
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:321
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:356
 msgid "Unsupported Key"
 msgstr "지원하지 않는 키"
 
@@ -224,10 +224,10 @@ msgstr "지원하지 않는 키"
 msgid "Use <Keyword> <Phrase> format on every line."
 msgstr "모든 행에 <Keyword> <Phrase> 형식을 사용합니다."
 
-#: qt5/guiwrapper/wrapperapp.cpp:49
+#: qt5/guiwrapper/wrapperapp.cpp:35
 msgid "path"
 msgstr "경로"
 
-#: qt5/guiwrapper/wrapperapp.cpp:46
+#: qt5/guiwrapper/wrapperapp.cpp:32
 msgid "winid"
 msgstr "winid"
