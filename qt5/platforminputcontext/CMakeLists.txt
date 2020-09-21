@@ -21,7 +21,6 @@ set(plugin_MOC_HDRS
 add_library(fcitx5platforminputcontextplugin ${PLUGIN_LIBRARY_TYPE} ${plugin_SRCS})
 set_target_properties(fcitx5platforminputcontextplugin PROPERTIES
                          AUTOMOC TRUE
-                         COMPILE_FLAGS "-fvisibility=hidden"
                         )
 target_include_directories(fcitx5platforminputcontextplugin PRIVATE "${PROJECT_SOURCE_DIR}/common")
 if (BUILD_ONLY_PLUGIN AND BUILD_STATIC_PLUGIN)

@@ -70,6 +70,13 @@ QDBusPendingReply<> FcitxQtInputContextProxy::setCursorRect(int x, int y, int w,
     return d->icproxy_->SetCursorRect(x, y, w, h);
 }
 
+QDBusPendingReply<> FcitxQtInputContextProxy::setCursorRectV2(int x, int y,
+                                                              int w, int h,
+                                                              double scale) {
+    Q_D(FcitxQtInputContextProxy);
+    return d->icproxy_->SetCursorRectV2(x, y, w, h, scale);
+}
+
 QDBusPendingReply<>
 FcitxQtInputContextProxy::setSurroundingText(const QString &text, uint cursor,
                                              uint anchor) {

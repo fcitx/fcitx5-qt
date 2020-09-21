@@ -105,6 +105,19 @@ FCITX5_QT_DECLARE_FIELD(bool, configurable, setConfigurable);
 FCITX5_QT_DECLARE_FIELD(bool, enabled, setEnabled);
 FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtAddonInfo);
 
+FCITX5_QT_BEGIN_DECLARE_DBUS_TYPE(FcitxQtAddonInfoV2);
+FCITX5_QT_DECLARE_FIELD(QString, uniqueName, setUniqueName);
+FCITX5_QT_DECLARE_FIELD(QString, name, setName);
+FCITX5_QT_DECLARE_FIELD(QString, comment, setComment);
+FCITX5_QT_DECLARE_FIELD(int, category, setCategory);
+FCITX5_QT_DECLARE_FIELD(bool, configurable, setConfigurable);
+FCITX5_QT_DECLARE_FIELD(bool, enabled, setEnabled);
+FCITX5_QT_DECLARE_FIELD(bool, onDemand, setOnDemand);
+FCITX5_QT_DECLARE_FIELD(QStringList, dependencies, setDependencies);
+FCITX5_QT_DECLARE_FIELD(QStringList, optionalDependencies,
+                        setOptionalDependencies);
+FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtAddonInfoV2);
+
 FCITX5_QT_BEGIN_DECLARE_DBUS_TYPE(FcitxQtAddonState);
 FCITX5_QT_DECLARE_FIELD(QString, uniqueName, setUniqueName);
 FCITX5_QT_DECLARE_FIELD(bool, enabled, setEnabled);
@@ -134,6 +147,9 @@ Q_DECLARE_METATYPE(fcitx::FcitxQtConfigTypeList)
 
 Q_DECLARE_METATYPE(fcitx::FcitxQtAddonInfo)
 Q_DECLARE_METATYPE(fcitx::FcitxQtAddonInfoList)
+
+Q_DECLARE_METATYPE(fcitx::FcitxQtAddonInfoV2)
+Q_DECLARE_METATYPE(fcitx::FcitxQtAddonInfoV2List)
 
 Q_DECLARE_METATYPE(fcitx::FcitxQtAddonState)
 Q_DECLARE_METATYPE(fcitx::FcitxQtAddonStateList)

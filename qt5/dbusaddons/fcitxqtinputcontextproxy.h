@@ -40,6 +40,8 @@ public slots:
     QDBusPendingReply<> reset();
     QDBusPendingReply<> setCapability(qulonglong caps);
     QDBusPendingReply<> setCursorRect(int x, int y, int w, int h);
+    QDBusPendingReply<> setCursorRectV2(int x, int y, int w, int h,
+                                        double scale);
     QDBusPendingReply<> setSurroundingText(const QString &text, uint cursor,
                                            uint anchor);
     QDBusPendingReply<> setSurroundingTextPosition(uint cursor, uint anchor);
