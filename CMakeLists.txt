@@ -11,6 +11,7 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 option(ENABLE_QT4 "Enable Qt 4" On)
 option(ENABLE_QT5 "Enable Qt 5" On)
+option(ENABLE_QT6 "Enable Qt 5" Off)
 option(BUILD_ONLY_PLUGIN "Build only plugin" Off)
 option(BUILD_STATIC_PLUGIN "Build plugin as static" Off)
 option(WITH_FCITX_PLUGIN_NAME "Enable plugin name with fcitx" On)
@@ -57,6 +58,7 @@ else()
 include("${FCITX_INSTALL_CMAKECONFIG_DIR}/Fcitx5Utils/Fcitx5CompilerSettings.cmake")
 endif()
 
+set(Fcitx5Qt6_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/Fcitx5Qt6)
 set(Fcitx5Qt5_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/Fcitx5Qt5)
 set(Fcitx5Qt4_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/Fcitx5Qt4)
 
@@ -69,6 +71,12 @@ if(ENABLE_QT5)
   find_package(Qt5 ${REQUIRED_QT5_VERSION} CONFIG REQUIRED Core DBus Widgets)
   find_package(Qt5Gui ${REQUIRED_QT5_VERSION} REQUIRED Private)
   add_subdirectory(qt5)
+endif()
+
+if(ENABLE_QT6)
+  find_package(Qt6 ${REQUIRED_QT5_VERSION} CONFIG REQUIRED Core DBus)
+  find_package(Qt6Gui ${REQUIRED_QT5_VERSION} REQUIRED Private)
+  add_subdirectory(qt6)
 endif()
 
 if(NOT BUILD_ONLY_PLUGIN)

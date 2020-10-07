@@ -12,7 +12,6 @@
 #include <QKeyEvent>
 #include <QPalette>
 #include <QTextCharFormat>
-#include <QTextCodec>
 #include <QWindow>
 #include <qpa/qplatformcursor.h>
 #include <qpa/qplatformnativeinterface.h>
@@ -212,11 +211,8 @@ void QFcitxPlatformInputContext::commitPreedit(QPointer<QObject> input) {
 }
 
 bool checkUtf8(const QByteArray &byteArray) {
-    QTextCodec::ConverterState state;
-    QTextCodec *codec = QTextCodec::codecForName("UTF-8");
-    const QString text =
-        codec->toUnicode(byteArray.constData(), byteArray.size(), &state);
-    return state.invalidChars == 0;
+    QString s = QString::fromUtf8(byteArray);
+    return !s.contains(QChar::ReplacementCharacter);
 }
 
 void QFcitxPlatformInputContext::reset() {
@@ -308,9 +304,9 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
                     anchor = cursor;
 
                 // adjust it to real character size
-                QVector<uint> tempUCS4 = text.leftRef(cursor).toUcs4();
+                QVector<uint> tempUCS4 = text.left(cursor).toUcs4();
                 cursor = tempUCS4.size();
-                tempUCS4 = text.leftRef(anchor).toUcs4();
+                tempUCS4 = text.left(anchor).toUcs4();
                 anchor = tempUCS4.size();
                 if (data.surroundingText != text) {
                     data.surroundingText = text;
@@ -548,7 +544,7 @@ void QFcitxPlatformInputContext::deleteSurroundingText(int offset,
 
     FcitxQtICData *data =
         static_cast<FcitxQtICData *>(proxy->property("icData").value<void *>());
-    QVector<uint> ucsText = data->surroundingText.toUcs4();
+    auto ucsText = data->surroundingText.toStdU32String();
 
     int cursor = data->surroundingCursor;
     // make nchar signed so we are safer
@@ -567,9 +563,9 @@ void QFcitxPlatformInputContext::deleteSurroundingText(int offset,
 
     // validates
     if (nchar >= 0 && cursor + offset >= 0 &&
-        cursor + offset + nchar < ucsText.size()) {
+        cursor + offset + nchar < static_cast<int>(ucsText.size())) {
         // order matters
-        QVector<uint> replacedChars = ucsText.mid(cursor + offset, nchar);
+        auto replacedChars = ucsText.substr(cursor + offset, nchar);
         nchar = QString::fromUcs4(replacedChars.data(), replacedChars.size())
                     .size();
 
@@ -582,7 +578,7 @@ void QFcitxPlatformInputContext::deleteSurroundingText(int offset,
             len = -offset;
         }
 
-        QVector<uint> prefixedChars = ucsText.mid(start, len);
+        auto prefixedChars = ucsText.substr(start, len);
         offset = QString::fromUcs4(prefixedChars.data(), prefixedChars.size())
                      .size() *
                  (offset >= 0 ? 1 : -1);
@@ -691,7 +687,7 @@ QKeyEvent *QFcitxPlatformInputContext::createKeyEvent(uint keyval, uint state,
             count++;
         }
 
-        auto unicode = xkb_keysym_to_utf32(keyval);
+        char32_t unicode = xkb_keysym_to_utf32(keyval);
         QString text;
         if (unicode) {
             text = QString::fromUcs4(&unicode, 1);
@@ -772,9 +768,9 @@ bool QFcitxPlatformInputContext::filterEvent(const QEvent *event) {
         update(Qt::ImHints);
         proxy->focusIn();
 
-        auto reply =
-            proxy->processKeyEvent(keyval, keycode, state, isRelease,
-                                   QDateTime::currentDateTime().toTime_t());
+        auto reply = proxy->processKeyEvent(
+            keyval, keycode, state, isRelease,
+            QDateTime::currentDateTime().toSecsSinceEpoch());
 
         if (Q_UNLIKELY(syncMode_)) {
             reply.waitForFinished();
