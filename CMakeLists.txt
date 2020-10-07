@@ -11,7 +11,7 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 option(ENABLE_QT4 "Enable Qt 4" On)
 option(ENABLE_QT5 "Enable Qt 5" On)
-option(ENABLE_QT6 "Enable Qt 5" Off)
+option(ENABLE_QT6 "Enable Qt 6" Off)
 option(BUILD_ONLY_PLUGIN "Build only plugin" Off)
 option(BUILD_STATIC_PLUGIN "Build plugin as static" Off)
 option(WITH_FCITX_PLUGIN_NAME "Enable plugin name with fcitx" On)
