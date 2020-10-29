@@ -1,0 +1,58 @@
+fcitx5-qt (0.0~git20200821.73bfd76-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream snapshot
+  * as-needed LDFLAGS is not needed since bullseye
+  * Change architecture from linux-any to any
+  * Drop libqt5x11extras5-dev from Build-Depends
+
+ -- Shengjing Zhu <zhsj@debian.org>  Wed, 26 Aug 2020 12:11:20 +0800
+
+fcitx5-qt (0.0~git20200615.b6f2ef3-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream snapshot.
+  * Bump debhelper-compat to 13 and clean up d/rules
+  * Bump libfcitx5utils-dev to 0.0~git20200626
+  * Fix libfcitx5-qt1 so glob
+  * Update libfcitx5-qt1 lintian-overrides
+
+ -- Shengjing Zhu <zhsj@debian.org>  Thu, 02 Jul 2020 12:13:54 +0800
+
+fcitx5-qt (0.0~git20200404.366aed5-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream snapshot.
+
+ -- Shengjing Zhu <zhsj@debian.org>  Fri, 10 Apr 2020 22:38:51 +0800
+
+fcitx5-qt (0.0~git20200320.d019d90-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream snapshot.
+
+ -- Shengjing Zhu <zhsj@debian.org>  Tue, 24 Mar 2020 02:53:14 +0800
+
+fcitx5-qt (0.0~git20200311.358ee0c-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream snapshot.
+  * Update Standards-Version to 4.5.0 (no changes)
+  * Fix libfcitx5-qt1 lintian-overrides
+
+ -- Shengjing Zhu <zhsj@debian.org>  Fri, 13 Mar 2020 15:51:56 +0800
+
+fcitx5-qt (0.0~git20200118.2e38c95-1) unstable; urgency=high
+
+  * New upstream snapshot.
+  * Source-only rebuild to allow testing migration.
+  * debian/copyright: Update information according to upstream
+    changes.
+
+ -- Boyuan Yang <byang@debian.org>  Sun, 19 Jan 2020 15:01:19 -0500
+
+fcitx5-qt (0.0~git20191111.000427e-1) unstable; urgency=medium
+
+  * Initial release. (Closes: #945503)
+
+ -- Boyuan Yang <byang@debian.org>  Mon, 25 Nov 2019 19:24:36 -0500
