@@ -355,9 +355,22 @@ void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
         lastObject_ = nullptr;
         return;
     }
+
     if (proxy) {
-        cursorRectChanged();
         proxy->focusIn();
+        // We need to delegate this otherwise it may cause self-recursion in
+        // certain application like libreoffice.
+        QMetaObject::invokeMethod(
+            this,
+            [this, window = lastWindow_]() {
+                if (window != lastWindow_) {
+                    return;
+                }
+                if (auto *proxy = validICByWindow(window.data())) {
+                    cursorRectChanged();
+                }
+            },
+            Qt::QueuedConnection);
     }
 }
 
