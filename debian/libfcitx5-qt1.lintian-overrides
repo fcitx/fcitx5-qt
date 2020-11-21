@@ -1,2 +1,0 @@
-# The two libraries are put together on purpose
-package-name-doesnt-match-sonames libFcitx5Qt5DBusAddons1 libFcitx5Qt5WidgetsAddons2
