@@ -4,6 +4,7 @@ project(fcitx5-qt VERSION ${FCITX5_QT_VERSION})
 
 set(REQUIRED_QT4_VERSION 4.8.0)
 set(REQUIRED_QT5_VERSION 5.1.0)
+set(REQUIRED_QT6_VERSION 6.0.0)
 
 find_package(ECM 1.4.0 REQUIRED)
 
@@ -74,8 +75,8 @@ if(ENABLE_QT5)
 endif()
 
 if(ENABLE_QT6)
-  find_package(Qt6 ${REQUIRED_QT5_VERSION} CONFIG REQUIRED Core DBus)
-  find_package(Qt6Gui ${REQUIRED_QT5_VERSION} REQUIRED Private)
+  find_package(Qt6 ${REQUIRED_QT6_VERSION} CONFIG REQUIRED Core DBus)
+  find_package(Qt6Gui ${REQUIRED_QT6_VERSION} REQUIRED Private)
   add_subdirectory(qt6)
 endif()
 
