@@ -106,8 +106,8 @@ public slots:
     void commitString(const QString &str);
     void updateFormattedPreedit(const FcitxQtFormattedPreeditList &preeditList,
                                 int cursorPos);
-    void deleteSurroundingText(int offset, uint nchar);
-    void forwardKey(uint keyval, uint state, bool type);
+    void deleteSurroundingText(int offset, unsigned int nchar);
+    void forwardKey(unsigned int keyval, unsigned int state, bool type);
     void createInputContextFinished(const QByteArray &uuid);
     void cleanUp();
     void windowDestroyed(QObject *object);
@@ -117,9 +117,10 @@ private slots:
     void processKeyEventFinished(QDBusPendingCallWatcher *);
 
 private:
-    bool processCompose(uint keyval, uint state, bool isRelaese);
-    QKeyEvent *createKeyEvent(uint keyval, uint state, bool isRelaese,
-                              const QKeyEvent *event);
+    bool processCompose(unsigned int keyval, unsigned int state,
+                        bool isRelaese);
+    QKeyEvent *createKeyEvent(unsigned int keyval, unsigned int state,
+                              bool isRelaese, const QKeyEvent *event);
     void forwardEvent(QWindow *window, const QKeyEvent &event);
 
     void addCapability(FcitxQtICData &data, quint64 capability,
@@ -145,8 +146,8 @@ private:
     void createICData(QWindow *w);
     FcitxQtInputContextProxy *validIC();
     FcitxQtInputContextProxy *validICByWindow(QWindow *window);
-    bool filterEventFallback(uint keyval, uint keycode, uint state,
-                             bool isRelaese);
+    bool filterEventFallback(unsigned int keyval, unsigned int keycode,
+                             unsigned int state, bool isRelaese);
 
     FcitxQtWatcher *watcher_;
     QString preedit_;

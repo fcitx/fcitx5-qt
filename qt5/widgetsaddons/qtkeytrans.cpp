@@ -596,7 +596,7 @@ static QChar keysymToUnicode(unsigned char byte3, unsigned char byte4) {
     return QChar(0x0);
 }
 
-int translateKeySym(uint key) {
+int translateKeySym(unsigned int key) {
     int code = -1;
     int i = 0; // any other keys
     while (KeyTbl[i]) {
@@ -654,7 +654,7 @@ QString translateKeySym(int keysym, fcitx::KeyStates xmodifiers, int &code,
             if (keysym >= 0x20a0 && keysym <= 0x20ac) {
                 mib = -1; // manual conversion
                 mapper = 0;
-                converted = (uint)keysym;
+                converted = static_cast<unsigned int>(keysym);
             }
             break;
         default:
@@ -664,9 +664,10 @@ QString translateKeySym(int keysym, fcitx::KeyStates xmodifiers, int &code,
             mapper = QTextCodec::codecForMib(mib);
             if (chars.isEmpty())
                 chars.resize(1);
-            chars[0] = (unsigned char)(keysym & 0xff); // get only the fourth
-                                                       // bit for conversion
-                                                       // later
+            chars[0] =
+                static_cast<unsigned char>(keysym & 0xff); // get only the
+                                                           // fourth bit for
+                                                           // conversion later
             count = 1;
         }
     } else if (keysym >= 0x1000000 && keysym <= 0x100ffff) {

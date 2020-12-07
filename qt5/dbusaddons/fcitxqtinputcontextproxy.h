@@ -35,23 +35,27 @@ public:
 public slots:
     QDBusPendingReply<> focusIn();
     QDBusPendingReply<> focusOut();
-    QDBusPendingReply<bool> processKeyEvent(uint keyval, uint keycode,
-                                            uint state, bool type, uint time);
+    QDBusPendingReply<bool> processKeyEvent(unsigned int keyval,
+                                            unsigned int keycode,
+                                            unsigned int state, bool type,
+                                            unsigned int time);
     QDBusPendingReply<> reset();
     QDBusPendingReply<> setCapability(qulonglong caps);
     QDBusPendingReply<> setCursorRect(int x, int y, int w, int h);
     QDBusPendingReply<> setCursorRectV2(int x, int y, int w, int h,
                                         double scale);
-    QDBusPendingReply<> setSurroundingText(const QString &text, uint cursor,
-                                           uint anchor);
-    QDBusPendingReply<> setSurroundingTextPosition(uint cursor, uint anchor);
+    QDBusPendingReply<> setSurroundingText(const QString &text,
+                                           unsigned int cursor,
+                                           unsigned int anchor);
+    QDBusPendingReply<> setSurroundingTextPosition(unsigned int cursor,
+                                                   unsigned int anchor);
 
 signals:
     void commitString(const QString &str);
     void currentIM(const QString &name, const QString &uniqueName,
                    const QString &langCode);
-    void deleteSurroundingText(int offset, uint nchar);
-    void forwardKey(uint keyval, uint state, bool isRelease);
+    void deleteSurroundingText(int offset, unsigned int nchar);
+    void forwardKey(unsigned int keyval, unsigned int state, bool isRelease);
     void updateFormattedPreedit(const FcitxQtFormattedPreeditList &str,
                                 int cursorpos);
     void inputContextCreated(const QByteArray &uuid);

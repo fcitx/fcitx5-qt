@@ -53,9 +53,9 @@ QDBusPendingReply<> FcitxQtInputContextProxy::focusOut() {
     return d->icproxy_->FocusOut();
 }
 
-QDBusPendingReply<bool>
-FcitxQtInputContextProxy::processKeyEvent(uint keyval, uint keycode, uint state,
-                                          bool type, uint time) {
+QDBusPendingReply<bool> FcitxQtInputContextProxy::processKeyEvent(
+    unsigned int keyval, unsigned int keycode, unsigned int state, bool type,
+    unsigned int time) {
     Q_D(FcitxQtInputContextProxy);
     return d->icproxy_->ProcessKeyEvent(keyval, keycode, state, type, time);
 }
@@ -76,15 +76,15 @@ QDBusPendingReply<> FcitxQtInputContextProxy::setCursorRect(int x, int y, int w,
     return d->icproxy_->SetCursorRect(x, y, w, h);
 }
 
-QDBusPendingReply<>
-FcitxQtInputContextProxy::setSurroundingText(const QString &text, uint cursor,
-                                             uint anchor) {
+QDBusPendingReply<> FcitxQtInputContextProxy::setSurroundingText(
+    const QString &text, unsigned int cursor, unsigned int anchor) {
     Q_D(FcitxQtInputContextProxy);
     return d->icproxy_->SetSurroundingText(text, cursor, anchor);
 }
 
 QDBusPendingReply<>
-FcitxQtInputContextProxy::setSurroundingTextPosition(uint cursor, uint anchor) {
+FcitxQtInputContextProxy::setSurroundingTextPosition(unsigned int cursor,
+                                                     unsigned int anchor) {
     Q_D(FcitxQtInputContextProxy);
     return d->icproxy_->SetSurroundingTextPosition(cursor, anchor);
 }

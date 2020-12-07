@@ -133,14 +133,16 @@ public:
                          SIGNAL(commitString(QString)));
         QObject::connect(icproxy_, SIGNAL(CurrentIM(QString, QString, QString)),
                          q, SIGNAL(currentIM(QString, QString, QString)));
-        QObject::connect(icproxy_, SIGNAL(ForwardKey(uint, uint, bool)), q,
-                         SIGNAL(forwardKey(uint, uint, bool)));
+        QObject::connect(
+            icproxy_, SIGNAL(ForwardKey(unsigned int, unsigned int, bool)), q,
+            SIGNAL(forwardKey(unsigned int, unsigned int, bool)));
         QObject::connect(
             icproxy_,
             SIGNAL(UpdateFormattedPreedit(FcitxQtFormattedPreeditList, int)), q,
             SIGNAL(updateFormattedPreedit(FcitxQtFormattedPreeditList, int)));
-        QObject::connect(icproxy_, SIGNAL(DeleteSurroundingText(int, uint)), q,
-                         SIGNAL(deleteSurroundingText(int, uint)));
+        QObject::connect(icproxy_,
+                         SIGNAL(DeleteSurroundingText(int, unsigned int)), q,
+                         SIGNAL(deleteSurroundingText(int, unsigned int)));
 
         delete createInputContextWatcher_;
         createInputContextWatcher_ = nullptr;

@@ -138,7 +138,7 @@ public:
     QTimer modifierlessTimeout_;
     bool allowModifierless_;
     KeyStates modifierKeys_;
-    uint qtModifierKeys_ = 0;
+    unsigned int qtModifierKeys_ = 0;
     bool isRecording_;
     bool multiKeyShortcutsAllowed_;
     bool allowModifierOnly_;
@@ -358,7 +358,7 @@ void FcitxQtKeySequenceButton::keyPressEvent(QKeyEvent *e) {
     }
 
     // Same as Key::normalize();
-    uint newQtModifiers =
+    unsigned int newQtModifiers =
         e->modifiers() & (Qt::META | Qt::ALT | Qt::CTRL | Qt::SHIFT);
     KeyStates newModifiers;
     if (isX11LikePlatform()) {
@@ -517,7 +517,7 @@ void FcitxQtKeySequenceButton::keyReleaseEvent(QKeyEvent *e) {
         return;
     }
 
-    uint newQtModifiers =
+    unsigned int newQtModifiers =
         e->modifiers() & (Qt::META | Qt::ALT | Qt::CTRL | Qt::SHIFT);
     KeyStates newModifiers;
     if (isX11LikePlatform()) {

@@ -304,7 +304,7 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
                     anchor = cursor;
 
                 // adjust it to real character size
-                QVector<uint> tempUCS4 = text.left(cursor).toUcs4();
+                QVector<unsigned int> tempUCS4 = text.left(cursor).toUcs4();
                 cursor = tempUCS4.size();
                 tempUCS4 = text.left(anchor).toUcs4();
                 anchor = tempUCS4.size();
@@ -542,7 +542,7 @@ void QFcitxPlatformInputContext::updateFormattedPreedit(
 }
 
 void QFcitxPlatformInputContext::deleteSurroundingText(int offset,
-                                                       uint _nchar) {
+                                                       unsigned int _nchar) {
     QObject *input = qApp->focusObject();
     if (!input)
         return;
@@ -600,8 +600,8 @@ void QFcitxPlatformInputContext::deleteSurroundingText(int offset,
     }
 }
 
-void QFcitxPlatformInputContext::forwardKey(uint keyval, uint state,
-                                            bool type) {
+void QFcitxPlatformInputContext::forwardKey(unsigned int keyval,
+                                            unsigned int state, bool type) {
     auto proxy = qobject_cast<FcitxQtInputContextProxy *>(sender());
     if (!proxy) {
         return;
@@ -673,7 +673,8 @@ void QFcitxPlatformInputContext::createICData(QWindow *w) {
     }
 }
 
-QKeyEvent *QFcitxPlatformInputContext::createKeyEvent(uint keyval, uint state,
+QKeyEvent *QFcitxPlatformInputContext::createKeyEvent(unsigned int keyval,
+                                                      unsigned int state,
                                                       bool isRelease,
                                                       const QKeyEvent *event) {
     QKeyEvent *newEvent = nullptr;
@@ -857,8 +858,9 @@ void QFcitxPlatformInputContext::processKeyEventFinished(
     delete watcher;
 }
 
-bool QFcitxPlatformInputContext::filterEventFallback(uint keyval, uint keycode,
-                                                     uint state,
+bool QFcitxPlatformInputContext::filterEventFallback(unsigned int keyval,
+                                                     unsigned int keycode,
+                                                     unsigned int state,
                                                      bool isRelease) {
     Q_UNUSED(keycode);
     if (processCompose(keyval, state, isRelease)) {
@@ -894,7 +896,8 @@ QFcitxPlatformInputContext::validICByWindow(QWindow *w) {
     return data.proxy;
 }
 
-bool QFcitxPlatformInputContext::processCompose(uint keyval, uint state,
+bool QFcitxPlatformInputContext::processCompose(unsigned int keyval,
+                                                unsigned int state,
                                                 bool isRelease) {
     Q_UNUSED(state);
 
