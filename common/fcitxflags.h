@@ -34,6 +34,7 @@ enum FcitxCapabilityFlag : uint64_t {
     FcitxCapabilityFlag_Multiline = (1ull << 35),
     FcitxCapabilityFlag_Sensitive = (1ull << 36),
     FcitxCapabilityFlag_KeyEventOrderFix = (1ull << 37),
+    FcitxCapabilityFlag_ReportKeyRepeat = (1ull << 38),
 };
 
 enum FcitxTextFormatFlag : int {

@@ -451,6 +451,7 @@ void QFcitxPlatformInputContext::createInputContextFinished(
     flag |= FcitxCapabilityFlag_ClientUnfocusCommit;
     flag |= FcitxCapabilityFlag_GetIMInfoOnFocus;
     flag |= FcitxCapabilityFlag_KeyEventOrderFix;
+    flag |= FcitxCapabilityFlag_ReportKeyRepeat;
     useSurroundingText_ =
         get_boolean_env("FCITX_QT_ENABLE_SURROUNDING_TEXT", true);
     if (useSurroundingText_) {
@@ -782,8 +783,13 @@ bool QFcitxPlatformInputContext::filterEvent(const QEvent *event) {
         update(Qt::ImHints);
         proxy->focusIn();
 
-        auto reply = proxy->processKeyEvent(keyval, keycode, state, isRelease,
-                                            keyEvent->timestamp());
+        auto stateToFcitx = state;
+        if (keyEvent->isAutoRepeat()) {
+            // KeyState::Repeat
+            stateToFcitx |= (1u << 31);
+        }
+        auto reply = proxy->processKeyEvent(keyval, keycode, stateToFcitx,
+                                            isRelease, keyEvent->timestamp());
 
         if (Q_UNLIKELY(syncMode_)) {
             reply.waitForFinished();
