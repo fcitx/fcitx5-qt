@@ -782,9 +782,8 @@ bool QFcitxPlatformInputContext::filterEvent(const QEvent *event) {
         update(Qt::ImHints);
         proxy->focusIn();
 
-        auto reply = proxy->processKeyEvent(
-            keyval, keycode, state, isRelease,
-            QDateTime::currentDateTime().toSecsSinceEpoch());
+        auto reply = proxy->processKeyEvent(keyval, keycode, state, isRelease,
+                                            keyEvent->timestamp());
 
         if (Q_UNLIKELY(syncMode_)) {
             reply.waitForFinished();
