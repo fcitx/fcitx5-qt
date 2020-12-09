@@ -682,7 +682,15 @@ QKeyEvent *QFcitxPlatformInputContext::createKeyEvent(unsigned int keyval,
     if (event && event->nativeVirtualKey() == keyval &&
         event->nativeModifiers() == state &&
         isRelease == (event->type() == QEvent::KeyRelease)) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        newEvent = new QKeyEvent(
+            event->type(), event->key(), event->modifiers(),
+            event->nativeScanCode(), event->nativeVirtualKey(),
+            event->nativeModifiers(), event->text(), event->isAutoRepeat(),
+            event->count(), event->device());
+#else
         newEvent = new QKeyEvent(*event);
+#endif
     } else {
         Qt::KeyboardModifiers qstate = Qt::NoModifier;
 
@@ -856,7 +864,15 @@ void QFcitxPlatformInputContext::processKeyEventFinished(
         if (proxy) {
             FcitxQtICData &data = *static_cast<FcitxQtICData *>(
                 proxy->property("icData").value<void *>());
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            data.event = std::make_unique<QKeyEvent>(
+                keyEvent.type(), keyEvent.key(), keyEvent.modifiers(),
+                keyEvent.nativeScanCode(), keyEvent.nativeVirtualKey(),
+                keyEvent.nativeModifiers(), keyEvent.text(),
+                keyEvent.isAutoRepeat(), keyEvent.count(), keyEvent.device());
+#else
             data.event = std::make_unique<QKeyEvent>(keyEvent);
+#endif
         }
     }
 
