@@ -472,7 +472,7 @@ void QFcitxInputContext::deleteSurroundingText(int offset,
 
     // validates
     if (nchar >= 0 && cursor + offset >= 0 &&
-        cursor + offset + nchar < ucsText.size()) {
+        cursor + offset + nchar <= ucsText.size()) {
         // order matters
         QVector<unsigned int> replacedChars =
             ucsText.mid(cursor + offset, nchar);
@@ -484,7 +484,7 @@ void QFcitxInputContext::deleteSurroundingText(int offset,
             start = cursor;
             len = offset;
         } else {
-            start = cursor;
+            start = cursor + offset;
             len = -offset;
         }
 

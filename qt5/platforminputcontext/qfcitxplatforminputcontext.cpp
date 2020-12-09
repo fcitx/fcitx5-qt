@@ -366,7 +366,7 @@ void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
                 if (window != lastWindow_) {
                     return;
                 }
-                if (auto *proxy = validICByWindow(window.data())) {
+                if (validICByWindow(window.data())) {
                     cursorRectChanged();
                 }
             },
@@ -577,7 +577,7 @@ void QFcitxPlatformInputContext::deleteSurroundingText(int offset,
 
     // validates
     if (nchar >= 0 && cursor + offset >= 0 &&
-        cursor + offset + nchar < static_cast<int>(ucsText.size())) {
+        cursor + offset + nchar <= static_cast<int>(ucsText.size())) {
         // order matters
         auto replacedChars = ucsText.substr(cursor + offset, nchar);
         nchar = QString::fromUcs4(replacedChars.data(), replacedChars.size())
@@ -588,7 +588,7 @@ void QFcitxPlatformInputContext::deleteSurroundingText(int offset,
             start = cursor;
             len = offset;
         } else {
-            start = cursor;
+            start = cursor + offset;
             len = -offset;
         }
 
