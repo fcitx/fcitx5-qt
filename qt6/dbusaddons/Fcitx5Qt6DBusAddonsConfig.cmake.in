@@ -2,7 +2,7 @@
 
 include(CMakeFindDependencyMacro)
 
-find_dependency(Qt5Core @REQUIRED_QT5_VERSION@)
-find_dependency(Qt5DBus @REQUIRED_QT5_VERSION@)
+find_dependency(Qt5Core @REQUIRED_QT6_VERSION@)
+find_dependency(Qt5DBus @REQUIRED_QT6_VERSION@)
 
 include("${CMAKE_CURRENT_LIST_DIR}/Fcitx5Qt5DBusAddonsTargets.cmake")
