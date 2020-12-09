@@ -88,7 +88,7 @@
   </method>
   <method name="GetAddonsV2">
       <arg type="a(sssibbbasas)" direction="out"/>
-      <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="FcitxQtAddonInfoListV2" />
+      <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="FcitxQtAddonInfoV2List" />
   </method>
   <method name="SetAddonsState">
       <arg type="a(sb)" direction="in"/>
