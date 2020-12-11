@@ -13,6 +13,8 @@
 #include <QPalette>
 #include <QTextCharFormat>
 #include <QWindow>
+#include <QtGlobal>
+#include <QTimer>
 #include <qpa/qplatformcursor.h>
 #include <qpa/qplatformnativeinterface.h>
 #include <qpa/qplatformscreen.h>
@@ -360,17 +362,22 @@ void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
         proxy->focusIn();
         // We need to delegate this otherwise it may cause self-recursion in
         // certain application like libreoffice.
+        auto lam = [this, window = lastWindow_]() {
+                      if (window != lastWindow_) {
+                        return;
+                      }
+                      if (validICByWindow(window.data())) {
+                         cursorRectChanged();
+                      }
+                    };
+#if (QT_VERSION < QT_VERSION_CHECK(5,10,0))
+        QTimer::singleShot(0, this, SLOT(lam()));
+#else
         QMetaObject::invokeMethod(
             this,
-            [this, window = lastWindow_]() {
-                if (window != lastWindow_) {
-                    return;
-                }
-                if (validICByWindow(window.data())) {
-                    cursorRectChanged();
-                }
-            },
+            lam,
             Qt::QueuedConnection);
+#endif
     }
 }
 
