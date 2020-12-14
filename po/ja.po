@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-04 00:02+0100\n"
+"POT-Creation-Date: 2020-12-14 20:24+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
 "Last-Translator: Takuro Onoue <kusanaginoturugi@gmail.com>, 2020\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -33,7 +33,7 @@ msgstr "追加 (&A)"
 
 #: qt5/guiwrapper/mainwindow.cpp:29
 msgid "&Apply"
-msgstr "&Apply"
+msgstr "適用 (&A)"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:63
 #. i18n: ectx: property (text), widget (QPushButton, batchEditButton)
