@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-10 01:11+0000\n"
+"POT-Creation-Date: 2020-12-16 20:24+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
 "Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>, 2020\n"
 "Language-Team: Hebrew (https://www.transifex.com/fcitx/teams/12005/he/)\n"
@@ -112,7 +112,7 @@ msgstr ""
 
 #: qt5/quickphrase-editor/editor.cpp:221
 msgid "Create new file"
-msgstr ""
+msgstr "יצירת קובץ חדש"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:85
 #. i18n: ectx: property (text), widget (QPushButton, clearButton)
@@ -123,7 +123,7 @@ msgstr ""
 
 #: qt5/quickphrase-editor/filelistmodel.cpp:29
 msgid "Default"
-msgstr ""
+msgstr "ברירת מחדל"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:114
 #. i18n: ectx: property (text), widget (QPushButton, exportButton)
@@ -166,7 +166,7 @@ msgstr ""
 
 #: qt5/quickphrase-editor/model.cpp:33
 msgid "Keyword"
-msgstr ""
+msgstr "מילת מפתח"
 
 #: qt5/guiwrapper/wrapperapp.cpp:32
 msgid "Parent window ID"
