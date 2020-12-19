@@ -5,14 +5,15 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # Takuro Onoue <kusanaginoturugi@gmail.com>, 2020
+# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-14 20:24+0000\n"
+"POT-Creation-Date: 2020-12-19 20:24+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
-"Last-Translator: Takuro Onoue <kusanaginoturugi@gmail.com>, 2020\n"
+"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2020\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -123,7 +124,7 @@ msgstr "全削除 (&l)"
 
 #: qt5/quickphrase-editor/filelistmodel.cpp:29
 msgid "Default"
-msgstr "既定"
+msgstr "デフォルト"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:114
 #. i18n: ectx: property (text), widget (QPushButton, exportButton)
