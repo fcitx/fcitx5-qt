@@ -18,4 +18,4 @@ target_link_libraries(fcitx5-qt5-gui-wrapper
       Fcitx5Qt5::WidgetsAddons
 )
 
-install(TARGETS fcitx5-qt5-gui-wrapper DESTINATION "${CMAKE_INSTALL_LIBDIR}/fcitx5/libexec")
+install(TARGETS fcitx5-qt5-gui-wrapper DESTINATION "${CMAKE_INSTALL_LIBEXECDIR}")
