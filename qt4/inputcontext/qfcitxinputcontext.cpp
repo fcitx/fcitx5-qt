@@ -767,14 +767,13 @@ bool QFcitxInputContext::processCompose(unsigned int keyval, unsigned int state,
     if (status == XKB_COMPOSE_NOTHING) {
         return 0;
     } else if (status == XKB_COMPOSE_COMPOSED) {
-        char buffer[] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0'};
-        int length =
-            xkb_compose_state_get_utf8(xkbComposeState, buffer, sizeof(buffer));
+        std::array<char, 256> buffer;
+        int length = xkb_compose_state_get_utf8(xkbComposeState, buffer.data(),
+                                                buffer.size());
         xkb_compose_state_reset(xkbComposeState);
         if (length != 0) {
-            commitString(QString::fromUtf8(buffer));
+            commitString(QString::fromUtf8(buffer.data(), length));
         }
-
     } else if (status == XKB_COMPOSE_CANCELLED) {
         xkb_compose_state_reset(xkbComposeState);
     }
