@@ -612,7 +612,7 @@ int translateKeySym(unsigned int key) {
 QString translateKeySym(int keysym, fcitx::KeyStates xmodifiers, int &code,
                         Qt::KeyboardModifiers &modifiers, QByteArray &chars,
                         int &count) {
-    // all keysyms smaller than 0xff00 are actally keys that can be mapped to
+    // all keysyms smaller than 0xff00 are actually keys that can be mapped to
     // unicode chars
 
     QTextCodec *mapper = QTextCodec::codecForLocale();
