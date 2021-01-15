@@ -236,15 +236,24 @@ void QFcitxInputContext::update() {
 
                 int cursor = var1.toInt();
                 int anchor;
-                if (var2.isValid())
+                if (var2.isValid()) {
                     anchor = var2.toInt();
-                else
+                } else {
                     anchor = cursor;
+                }
 
                 // adjust it to real character size
+#if QT_VERSION >= QT_VERSION_CHECK(4, 8, 0)
                 QVector<unsigned int> tempUCS4 = text.leftRef(cursor).toUcs4();
+#else
+                QVector<unsigned int> tempUCS4 = text.left(cursor).toUcs4();
+#endif
                 cursor = tempUCS4.size();
+#if QT_VERSION >= QT_VERSION_CHECK(4, 8, 0)
                 tempUCS4 = text.leftRef(anchor).toUcs4();
+#else
+                tempUCS4 = text.left(anchor).toUcs4();
+#endif
                 anchor = tempUCS4.size();
                 if (data.surroundingText != text) {
                     data.surroundingText = text;
@@ -637,7 +646,11 @@ bool QFcitxInputContext::filterEvent(const QEvent *event) {
             proxy->processKeyEvent(keyval, keycode, stateToFcitx, isRelease,
                                    QDateTime::currentDateTime().toTime_t());
 
+#if QT_VERSION >= QT_VERSION_CHECK(4, 8, 0)
         if (Q_UNLIKELY(syncMode_)) {
+#else
+        if (syncMode_) {
+#endif
             reply.waitForFinished();
 
             if (reply.isError() || !reply.value()) {
