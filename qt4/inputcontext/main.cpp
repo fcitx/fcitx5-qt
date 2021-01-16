@@ -17,9 +17,10 @@ bool isFcitx(const QString &key) {
 
 QStringList QFcitxInputContextPlugin::keys() const {
 #ifdef FCITX5_QT_WITH_FCITX_NAME
-    return QStringList{"fcitx5", "fcitx"};
+    return QStringList() << "fcitx5"
+                         << "fcitx";
 #else
-    return QStringList{"fcitx5"};
+    return QStringList() << "fcitx5";
 #endif
 }
 
