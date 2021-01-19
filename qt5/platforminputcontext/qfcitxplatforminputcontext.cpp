@@ -458,7 +458,7 @@ void QFcitxPlatformInputContext::createInputContextFinished(
         flag |= FcitxCapabilityFlag_SurroundingText;
     }
 
-    if (qApp && qApp->platformName() == "wayland") {
+    if (QGuiApplication::platformName().startsWith("wayland")) {
         flag |= FcitxCapabilityFlag_RelativeRect;
     }
 
@@ -651,8 +651,7 @@ void QFcitxPlatformInputContext::createICData(QWindow *w) {
 
         if (QGuiApplication::platformName() == QLatin1String("xcb")) {
             data.proxy->setDisplay("x11:");
-        } else if (QGuiApplication::platformName() ==
-                   QLatin1String("wayland")) {
+        } else if (QGuiApplication::platformName().startsWith("wayland")) {
             data.proxy->setDisplay("wayland:");
         }
         data.proxy->setProperty("wid",

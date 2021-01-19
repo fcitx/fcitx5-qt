@@ -62,7 +62,8 @@ namespace fcitx {
 namespace {
 
 bool isX11LikePlatform() {
-    return qApp->platformName() == "xcb" || qApp->platformName() == "wayland";
+    return QGuiApplication::platformName() == "xcb" ||
+           QGuiApplication::platformName().startsWith("wayland");
 }
 
 bool keyQtToFcitx(int keyQt, const QString &text, FcitxQtModifierSide side,
