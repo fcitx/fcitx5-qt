@@ -1,0 +1,1 @@
+../../qt5/platforminputcontext/fcitxcandidatewindow.cpp

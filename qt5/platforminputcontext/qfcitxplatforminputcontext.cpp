@@ -22,11 +22,11 @@
 #include <signal.h>
 #include <unistd.h>
 
-#include "qtkey.h"
-
 #include "fcitxflags.h"
 #include "fcitxqtinputcontextproxy.h"
+#include "fcitxtheme.h"
 #include "qfcitxplatforminputcontext.h"
+#include "qtkey.h"
 
 #include <memory>
 #include <xcb/xcb.h>
@@ -377,7 +377,6 @@ void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
 void QFcitxPlatformInputContext::windowDestroyed(QObject *object) {
     /* access QWindow is not possible here, so we use our own map to do so */
     icMap_.erase(static_cast<QWindow *>(object));
-    // qDebug() << "Window Destroyed and we destroy IC correctly, horray!";
 }
 
 void QFcitxPlatformInputContext::cursorRectChanged() {
@@ -461,6 +460,7 @@ void QFcitxPlatformInputContext::createInputContextFinished(
     if (QGuiApplication::platformName().startsWith("wayland")) {
         flag |= FcitxCapabilityFlag_RelativeRect;
     }
+    flag |= FcitxCapabilityFlag_ClientSideUI;
 
     addCapability(*data, flag, true);
 }
@@ -540,6 +540,36 @@ void QFcitxPlatformInputContext::updateFormattedPreedit(
     QInputMethodEvent event(str, attrList);
     QCoreApplication::sendEvent(input, &event);
     update(Qt::ImCursorRectangle);
+}
+
+void QFcitxPlatformInputContext::updateClientSideUI(
+    const FcitxQtFormattedPreeditList &preedit, int cursorpos,
+    const FcitxQtFormattedPreeditList &auxUp,
+    const FcitxQtFormattedPreeditList &auxDown,
+    const FcitxQtStringKeyValueList &candidates, int candidateIndex,
+    int layoutHint, bool hasPrev, bool hasNext) {
+    QObject *input = qApp->focusObject();
+    if (!input) {
+        return;
+    }
+
+    FcitxQtInputContextProxy *proxy =
+        qobject_cast<FcitxQtInputContextProxy *>(sender());
+    if (!proxy) {
+        return;
+    }
+    auto w = static_cast<QWindow *>(proxy->property("wid").value<void *>());
+    auto window = qApp->focusWindow();
+    if (window && w == window) {
+        FcitxQtICData *data = static_cast<FcitxQtICData *>(
+            proxy->property("icData").value<void *>());
+        if (!theme_) {
+            theme_ = new FcitxTheme(this);
+        }
+        data->candidateWindow(theme_)->updateClientSideUI(
+            preedit, cursorpos, auxUp, auxDown, candidates, candidateIndex,
+            layoutHint, hasPrev, hasNext);
+    }
 }
 
 void QFcitxPlatformInputContext::deleteSurroundingText(int offset,
@@ -643,7 +673,7 @@ void QFcitxPlatformInputContext::createICData(QWindow *w) {
     if (iter == icMap_.end()) {
         auto result =
             icMap_.emplace(std::piecewise_construct, std::forward_as_tuple(w),
-                           std::forward_as_tuple(watcher_));
+                           std::forward_as_tuple(watcher_, w));
         connect(w, &QObject::destroyed, this,
                 &QFcitxPlatformInputContext::windowDestroyed);
         iter = result.first;
@@ -670,6 +700,8 @@ void QFcitxPlatformInputContext::createICData(QWindow *w) {
                 this, &QFcitxPlatformInputContext::deleteSurroundingText);
         connect(data.proxy, &FcitxQtInputContextProxy::currentIM, this,
                 &QFcitxPlatformInputContext::updateCurrentIM);
+        connect(data.proxy, &FcitxQtInputContextProxy::updateClientSideUI, this,
+                &QFcitxPlatformInputContext::updateClientSideUI);
     }
 }
 

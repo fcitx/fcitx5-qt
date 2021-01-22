@@ -49,6 +49,9 @@ public slots:
                                            unsigned int anchor);
     QDBusPendingReply<> setSurroundingTextPosition(unsigned int cursor,
                                                    unsigned int anchor);
+    QDBusPendingReply<> prevPage();
+    QDBusPendingReply<> nextPage();
+    QDBusPendingReply<> selectCandidate(int i);
 
 signals:
     void commitString(const QString &str);
@@ -58,6 +61,13 @@ signals:
     void forwardKey(unsigned int keyval, unsigned int state, bool isRelease);
     void updateFormattedPreedit(const FcitxQtFormattedPreeditList &str,
                                 int cursorpos);
+    void updateClientSideUI(const FcitxQtFormattedPreeditList &preedit,
+                            int cursorpos,
+                            const FcitxQtFormattedPreeditList &auxUp,
+                            const FcitxQtFormattedPreeditList &auxDown,
+                            const FcitxQtStringKeyValueList &candidates,
+                            int candidateIndex, int layoutHint, bool hasPrev,
+                            bool hasNext);
     void inputContextCreated(const QByteArray &uuid);
 
 private:

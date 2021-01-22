@@ -8,6 +8,7 @@
 #ifndef QFCITXPLATFORMINPUTCONTEXT_H
 #define QFCITXPLATFORMINPUTCONTEXT_H
 
+#include "fcitxcandidatewindow.h"
 #include "fcitxqtinputcontextproxy.h"
 #include "fcitxqtwatcher.h"
 #include <QDBusConnection>
@@ -25,12 +26,45 @@
 namespace fcitx {
 
 class FcitxQtConnection;
+class FcitxTheme;
 
 struct FcitxQtICData {
-    FcitxQtICData(FcitxQtWatcher *watcher)
-        : proxy(new FcitxQtInputContextProxy(watcher, watcher)) {}
+    FcitxQtICData(FcitxQtWatcher *watcher, QWindow *window)
+        : proxy(new FcitxQtInputContextProxy(watcher, watcher)),
+          window_(window) {}
     FcitxQtICData(const FcitxQtICData &that) = delete;
-    ~FcitxQtICData() { delete proxy; }
+    ~FcitxQtICData() {
+        delete proxy;
+        resetCandidateWindow();
+    }
+
+    FcitxCandidateWindow *candidateWindow(FcitxTheme *theme) {
+        if (!candidateWindow_) {
+            candidateWindow_ = new FcitxCandidateWindow(this, theme);
+            QObject::connect(
+                candidateWindow_, &FcitxCandidateWindow::candidateSelected,
+                proxy,
+                [proxy = proxy](int index) { proxy->selectCandidate(index); });
+            QObject::connect(candidateWindow_,
+                             &FcitxCandidateWindow::prevClicked, proxy,
+                             [proxy = proxy]() { proxy->prevPage(); });
+            QObject::connect(candidateWindow_,
+                             &FcitxCandidateWindow::nextClicked, proxy,
+                             [proxy = proxy]() { proxy->nextPage(); });
+        }
+        return candidateWindow_;
+    }
+
+    QWindow *window() { return window_.data(); }
+
+    void resetCandidateWindow() {
+        if (!candidateWindow_) {
+            return;
+        }
+        candidateWindow_->deleteLater();
+        candidateWindow_ = nullptr;
+    }
+
     quint64 capability = 0;
     FcitxQtInputContextProxy *proxy;
     QRect rect;
@@ -39,6 +73,9 @@ struct FcitxQtICData {
     QString surroundingText;
     int surroundingAnchor = -1;
     int surroundingCursor = -1;
+
+    QPointer<QWindow> window_;
+    QPointer<FcitxCandidateWindow> candidateWindow_;
 };
 
 class ProcessKeyWatcher : public QDBusPendingCallWatcher {
@@ -113,6 +150,13 @@ public slots:
     void windowDestroyed(QObject *object);
     void updateCurrentIM(const QString &name, const QString &uniqueName,
                          const QString &langCode);
+    void updateClientSideUI(const FcitxQtFormattedPreeditList &preedit,
+                            int cursorpos,
+                            const FcitxQtFormattedPreeditList &auxUp,
+                            const FcitxQtFormattedPreeditList &auxDown,
+                            const FcitxQtStringKeyValueList &candidates,
+                            int candidateIndex, int layoutHint, bool hasPrev,
+                            bool hasNext);
 private slots:
     void processKeyEventFinished(QDBusPendingCallWatcher *);
 
@@ -166,6 +210,7 @@ private:
     QScopedPointer<struct xkb_compose_state, XkbComposeStateDeleter>
         xkbComposeState_;
     QLocale locale_;
+    FcitxTheme *theme_ = nullptr;
 };
 } // namespace fcitx
 

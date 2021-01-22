@@ -90,4 +90,19 @@ FcitxQtInputContextProxy::setSurroundingTextPosition(unsigned int cursor,
     return d->icproxy_->SetSurroundingTextPosition(cursor, anchor);
 }
 
+QDBusPendingReply<> FcitxQtInputContextProxy::prevPage() {
+    Q_D(FcitxQtInputContextProxy);
+    return d->icproxy_->PrevPage();
+}
+
+QDBusPendingReply<> FcitxQtInputContextProxy::nextPage() {
+    Q_D(FcitxQtInputContextProxy);
+    return d->icproxy_->NextPage();
+}
+
+QDBusPendingReply<> FcitxQtInputContextProxy::selectCandidate(int i) {
+    Q_D(FcitxQtInputContextProxy);
+    return d->icproxy_->SelectCandidate(i);
+}
+
 } // namespace fcitx

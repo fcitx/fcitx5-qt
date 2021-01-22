@@ -43,6 +43,13 @@
       <arg name="time" direction="in" type="u"/>
       <arg name="ret" direction="out" type="b"/>
     </method>
+    <method name="PrevPage">
+    </method>
+    <method name="NextPage">
+    </method>
+    <method name="SelectCandidate">
+      <arg name="index" direction="in" type="i"/>
+    </method>
     <signal name="CommitString">
       <arg name="str" type="s"/>
     </signal>
@@ -57,6 +64,26 @@
       <!-- qt4 / 5 seems use in/out differently -->
       <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="FcitxQtFormattedPreeditList" />
       <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="FcitxQtFormattedPreeditList" />
+    </signal>
+    <signal name="UpdateClientSideUI">
+      <arg name="preedit" type="a(si)" />
+      <arg name="cursorpos" type="i"/>
+      <arg name="auxUp" type="a(si)" />
+      <arg name="auxDown" type="a(si)" />
+      <arg name="candidates" type="a(ss)" />
+      <arg name="candidateIndex" type="i"/>
+      <arg name="layoutHint" type="i"/>
+      <arg name="hasPrev" type="b" />
+      <arg name="hasNext" type="b" />
+      <!-- qt4 / 5 seems use in/out differently -->
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="FcitxQtFormattedPreeditList" />
+      <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="FcitxQtFormattedPreeditList" />
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In2" value="FcitxQtFormattedPreeditList" />
+      <annotation name="org.qtproject.QtDBus.QtTypeName.Out2" value="FcitxQtFormattedPreeditList" />
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In3" value="FcitxQtFormattedPreeditList" />
+      <annotation name="org.qtproject.QtDBus.QtTypeName.Out3" value="FcitxQtFormattedPreeditList" />
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In4" value="FcitxQtFormattedPreeditList" />
+      <annotation name="org.qtproject.QtDBus.QtTypeName.Out4" value="FcitxQtStringKeyValueList" />
     </signal>
     <signal name="DeleteSurroundingText">
       <arg name="offset" type="i"/>

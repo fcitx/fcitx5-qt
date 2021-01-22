@@ -13,6 +13,7 @@ namespace fcitx {
 
 // This need to keep sync with fcitx5.
 enum FcitxCapabilityFlag : uint64_t {
+    FcitxCapabilityFlag_ClientSideUI = (1 << 0),
     FcitxCapabilityFlag_Preedit = (1 << 1),
     FcitxCapabilityFlag_Password = (1 << 3),
     FcitxCapabilityFlag_FormattedPreedit = (1 << 4),
@@ -52,6 +53,8 @@ enum FcitxKeyStates {
     FcitxKeyState_Shift = 1 << 0,
     FcitxKeyState_Ctrl = 1 << 2,
 };
+
+enum class FcitxCandidateLayoutHint { NotSet, Vertical, Horizontal };
 
 } // namespace fcitx
 

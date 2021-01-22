@@ -9,13 +9,11 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/fcitx5.json.in" "${CMAKE_CURRENT_BIN
 
 set(plugin_SRCS
     qfcitxplatforminputcontext.cpp
+    fcitxcandidatewindow.cpp
+    fcitxtheme.cpp
+    font.cpp
     qtkey.cpp
     main.cpp
-)
-
-set(plugin_MOC_HDRS
-    qfcitxplatforminputcontext.h
-    main.h
 )
 
 add_library(fcitx5platforminputcontextplugin-qt6 ${PLUGIN_LIBRARY_TYPE} ${plugin_SRCS})

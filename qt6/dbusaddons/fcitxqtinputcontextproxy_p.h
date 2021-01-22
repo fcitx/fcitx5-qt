@@ -138,6 +138,9 @@ public:
         QObject::connect(icproxy_,
                          &FcitxQtInputContextProxyImpl::UpdateFormattedPreedit,
                          q, &FcitxQtInputContextProxy::updateFormattedPreedit);
+        QObject::connect(icproxy_,
+                         &FcitxQtInputContextProxyImpl::UpdateClientSideUI, q,
+                         &FcitxQtInputContextProxy::updateClientSideUI);
 
         delete createInputContextWatcher_;
         createInputContextWatcher_ = nullptr;
