@@ -82,6 +82,7 @@ private slots:
 
 private:
     QString configPath_;
+    QString themeConfigPath_;
     QFileSystemWatcher *watcher_;
 
     QFont font_;

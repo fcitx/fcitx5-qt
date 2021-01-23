@@ -121,6 +121,10 @@ FcitxTheme::FcitxTheme(QObject *parent)
 FcitxTheme::~FcitxTheme() {}
 
 void FcitxTheme::configChanged() {
+    // Since fcitx is doing things like delete and move, we need to re-add the
+    // path.
+    watcher_->removePath(configPath_);
+    watcher_->addPath(configPath_);
     QSettings settings(configPath_, QSettings::IniFormat);
     font_ = parseFont(settings.value("Font", "Sans Serif 9").toString());
     fontMetrics_ = QFontMetrics(font_);
@@ -134,9 +138,14 @@ void FcitxTheme::configChanged() {
 }
 
 void FcitxTheme::themeChanged() {
-    auto file =
-        QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                               "fcitx5/themes/" + theme_ + "/theme.conf");
+    watcher_->removePath(themeConfigPath_);
+    auto themeConfig = QString("/fcitx5/themes/%1/theme.conf").arg(theme_);
+    themeConfigPath_ =
+        QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation)
+            .append(themeConfig);
+    watcher_->addPath(themeConfigPath_);
+    auto file = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                       themeConfig);
     if (file.isEmpty()) {
         file = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
                                       "fcitx5/themes/default/theme.conf");
@@ -299,6 +308,54 @@ void fcitx::FcitxTheme::paint(QPainter *painter,
     if (image.overlay_.isNull()) {
         return;
     }
+
+    auto clipWidth = region.width() - image.overlayClipMargin_.left() -
+                     image.overlayClipMargin_.right();
+    auto clipHeight = region.height() - image.overlayClipMargin_.top() -
+                      image.overlayClipMargin_.bottom();
+    if (clipWidth <= 0 || clipHeight <= 0) {
+        return;
+    }
+    QRect clipRect(region.topLeft() + QPoint(image.overlayClipMargin_.left(),
+                                             image.overlayClipMargin_.top()),
+                   QSize(clipWidth, clipHeight));
+
+    int x = 0, y = 0;
+    if (image.gravity_ == "Top Left" || image.gravity_ == "Center Left" ||
+        image.gravity_ == "Bottom Left") {
+        x = image.overlayOffsetX_;
+    } else if (image.gravity_ == "Top Center" || image.gravity_ == "Center" ||
+               image.gravity_ == "Bottom Center") {
+        x = (region.width() - image.overlay_.width()) / 2 +
+            image.overlayOffsetX_;
+    } else {
+        x = region.width() - image.overlay_.width() - image.overlayOffsetX_;
+    }
+
+    if (image.gravity_ == "Top Left" || image.gravity_ == "Top Center" ||
+        image.gravity_ == "Top Right") {
+        y = image.overlayOffsetY_;
+    } else if (image.gravity_ == "Center Left" || image.gravity_ == "Center" ||
+               image.gravity_ == "Center Right") {
+        y = (region.height() - image.overlay_.height()) / 2 +
+            image.overlayOffsetY_;
+    } else {
+        y = region.height() - image.overlay_.height() - image.overlayOffsetY_;
+    }
+    QRect rect(QPoint(x, y) + region.topLeft(), image.overlay_.size());
+    QRect finalRect = rect.intersected(clipRect);
+    if (finalRect.isEmpty()) {
+        return;
+    }
+
+    if (image.hideOverlayIfOversize_ && !clipRect.contains(rect)) {
+        return;
+    }
+
+    painter->save();
+    painter->setClipRect(clipRect);
+    painter->drawPixmap(rect, image.overlay_);
+    painter->restore();
 }
 
 void fcitx::FcitxTheme::paint(QPainter *painter,
