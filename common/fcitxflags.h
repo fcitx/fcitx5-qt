@@ -13,7 +13,6 @@ namespace fcitx {
 
 // This need to keep sync with fcitx5.
 enum FcitxCapabilityFlag : uint64_t {
-    FcitxCapabilityFlag_ClientSideUI = (1 << 0),
     FcitxCapabilityFlag_Preedit = (1 << 1),
     FcitxCapabilityFlag_Password = (1 << 3),
     FcitxCapabilityFlag_FormattedPreedit = (1 << 4),
@@ -36,6 +35,7 @@ enum FcitxCapabilityFlag : uint64_t {
     FcitxCapabilityFlag_Sensitive = (1ull << 36),
     FcitxCapabilityFlag_KeyEventOrderFix = (1ull << 37),
     FcitxCapabilityFlag_ReportKeyRepeat = (1ull << 38),
+    FcitxCapabilityFlag_ClientSideInputPanel = (1ull << 39),
 };
 
 enum FcitxTextFormatFlag : int {

@@ -460,7 +460,7 @@ void QFcitxPlatformInputContext::createInputContextFinished(
     if (QGuiApplication::platformName().startsWith("wayland")) {
         flag |= FcitxCapabilityFlag_RelativeRect;
     }
-    flag |= FcitxCapabilityFlag_ClientSideUI;
+    flag |= FcitxCapabilityFlag_ClientSideInputPanel;
 
     addCapability(*data, flag, true);
 }
