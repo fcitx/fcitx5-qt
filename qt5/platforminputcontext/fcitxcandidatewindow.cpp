@@ -197,6 +197,22 @@ void FcitxCandidateWindow::render(QPainter *painter) {
         auto size = upperLayout_.boundingRect();
         // Draw cursor
         currentHeight += std::max(minH, qCeil(size.height())) + extraH;
+        if (cursor_ >= 0) {
+            auto line = upperLayout_.lineForTextPosition(cursor_);
+            if (line.isValid()) {
+                int cursorX = line.cursorToX(cursor_);
+                line.lineNumber();
+                painter->save();
+                QPen pen = painter->pen();
+                pen.setWidth(2);
+                painter->setPen(pen);
+                QPoint start = topLeft + QPoint(textMargin.left() + cursorX + 1,
+                                                textMargin.top() +
+                                                    line.lineNumber() * minH);
+                painter->drawLine(start, start + QPoint(0, minH));
+                painter->restore();
+            }
+        }
     }
     if (!lowerLayout_.text().isEmpty()) {
         lowerLayout_.draw(painter,
@@ -359,6 +375,18 @@ void fcitx::FcitxCandidateWindow::updateClientSideUI(
     }
 
     UpdateLayout(upperLayout_, theme_->font(), {auxUp, preedit});
+    if (cursorpos >= 0) {
+        int auxUpLength = 0;
+        for (const auto &auxUpText : auxUp) {
+            auxUpLength += auxUpText.string().length();
+        }
+        // Get the preedit part
+        auto preeditString = upperLayout_.text().mid(auxUpLength).toUtf8();
+        preeditString = preeditString.mid(0, cursorpos);
+        cursor_ = auxUpLength + QString::fromUtf8(preeditString).length();
+    } else {
+        cursor_ = -1;
+    }
     doLayout(upperLayout_);
     UpdateLayout(lowerLayout_, theme_->font(), {auxDown});
     doLayout(lowerLayout_);
