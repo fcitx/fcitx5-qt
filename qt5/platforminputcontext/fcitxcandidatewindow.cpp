@@ -405,7 +405,12 @@ void fcitx::FcitxCandidateWindow::updateClientSideUI(
     }
 
     if (y + actualSize_.height() > screenGeometry.bottom()) {
-        y = cursorRect.top() - actualSize_.height() - 40;
+        if (y > screenGeometry.bottom()) {
+            y = screenGeometry.bottom() - actualSize_.height() - 40;
+        } else { /* better position the window */
+            y = y - actualSize_.height() -
+                ((cursorRect.height() == 0) ? 40 : cursorRect.height());
+        }
     }
 
     if (y < screenGeometry.top()) {
