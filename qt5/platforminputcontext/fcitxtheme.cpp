@@ -143,13 +143,17 @@ void FcitxTheme::themeChanged() {
     themeConfigPath_ =
         QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation)
             .append(themeConfig);
-    watcher_->addPath(themeConfigPath_);
     auto file = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
                                        themeConfig);
     if (file.isEmpty()) {
         file = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
                                       "fcitx5/themes/default/theme.conf");
+        themeConfigPath_ = QStandardPaths::writableLocation(
+                               QStandardPaths::GenericDataLocation)
+                               .append("fcitx5/themes/default/theme.conf");
+        theme_ = "default";
     }
+    watcher_->addPath(themeConfigPath_);
     QSettings settings(file, QSettings::IniFormat);
     settings.beginGroup("InputPanel");
 
