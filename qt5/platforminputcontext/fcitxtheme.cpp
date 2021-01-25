@@ -71,11 +71,17 @@ void BackgroundImage::load(const QString &name, QSettings &settings) {
     settings.endGroup();
 
     if (image_.isNull()) {
-        QString colorString = settings.value("Color", "#ffffff").toString();
         QColor color = readColor(settings, "Color", "#ffffff");
+        QColor borderColor = readColor(settings, "BorderColor", "#ffffff");
+        fillBackground(color, borderColor);
         image_ = QPixmap(margin_.left() + margin_.right() + 1,
                          margin_.top() + margin_.bottom() + 1);
-        image_.fill(color);
+
+        QPainter painter;
+        painter.begin(&image_);
+        painter.fillRect(image_.rect(), borderColor);
+        painter.fillRect(QRect(margin_.left(), margin_.top(), 1, 1), color);
+        painter.end();
     }
 
     settings.beginGroup("OverlayClipMargin");
@@ -87,6 +93,31 @@ void BackgroundImage::load(const QString &name, QSettings &settings) {
     overlayOffsetX_ = settings.value("OverlayOffsetX", 0).toInt();
     overlayOffsetY_ = settings.value("OverlayOffsetY", 0).toInt();
     gravity_ = settings.value("Gravity", "TopLeft").toString();
+}
+
+void BackgroundImage::loadFromValue(const QColor &border,
+                                    const QColor &background, QMargins margin) {
+    image_ = QPixmap();
+    overlay_ = QPixmap();
+    margin_ = margin;
+    fillBackground(border, background);
+    overlayClipMargin_ = QMargins();
+    hideOverlayIfOversize_ = false;
+    overlayOffsetX_ = 0;
+    overlayOffsetY_ = 0;
+    gravity_ = QString();
+}
+
+void BackgroundImage::fillBackground(const QColor &border,
+                                     const QColor &background) {
+    image_ = QPixmap(margin_.left() + margin_.right() + 1,
+                     margin_.top() + margin_.bottom() + 1);
+
+    QPainter painter;
+    painter.begin(&image_);
+    painter.fillRect(image_.rect(), border);
+    painter.fillRect(QRect(margin_.left(), margin_.top(), 1, 1), background);
+    painter.end();
 }
 
 void ActionImage::load(const QString &name, QSettings &settings) {
@@ -104,6 +135,12 @@ void ActionImage::load(const QString &name, QSettings &settings) {
     settings.beginGroup("ClickMargin");
     margin_ = readMargin(settings);
     settings.endGroup();
+}
+
+void ActionImage::reset() {
+    image_ = QPixmap();
+    valid_ = false;
+    margin_ = QMargins(0, 0, 0, 0);
 }
 
 FcitxTheme::FcitxTheme(QObject *parent)
@@ -153,7 +190,28 @@ void FcitxTheme::themeChanged() {
                                .append("fcitx5/themes/default/theme.conf");
         theme_ = "default";
     }
+
     watcher_->addPath(themeConfigPath_);
+
+    // We can not locate default theme.
+    if (file.isEmpty()) {
+        normalColor_.setNamedColor("#000000");
+        highlightCandidateColor_.setNamedColor("#ffffff");
+        fullWidthHighlight_ = true;
+        highlightColor_.setNamedColor("#ffffff");
+        highlightBackgroundColor_.setNamedColor("#a5a5a5");
+        contentMargin_ = QMargins{2, 2, 2, 2};
+        textMargin_ = QMargins{5, 5, 5, 5};
+        highlightClickMargin_ = QMargins{0, 0, 0, 0};
+        background_.loadFromValue(highlightBackgroundColor_, highlightColor_,
+                                  contentMargin_);
+        highlight_.loadFromValue(highlightBackgroundColor_,
+                                 highlightBackgroundColor_, textMargin_);
+        prev_.reset();
+        next_.reset();
+        return;
+    }
+
     QSettings settings(file, QSettings::IniFormat);
     settings.beginGroup("InputPanel");
 

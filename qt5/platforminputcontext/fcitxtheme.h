@@ -24,8 +24,12 @@ class BackgroundImage {
 
 public:
     void load(const QString &name, QSettings &settings);
+    void loadFromValue(const QColor &border, const QColor &background,
+                       QMargins margin);
 
 private:
+    void fillBackground(const QColor &border, const QColor &background);
+
     QPixmap image_, overlay_;
     QMargins margin_, overlayClipMargin_;
     bool hideOverlayIfOversize_ = false;
@@ -39,6 +43,7 @@ class ActionImage {
 
 public:
     void load(const QString &name, QSettings &settings);
+    void reset();
     bool valid() const { return valid_; }
     int width() const { return image_.width(); }
     int height() const { return image_.height(); }
