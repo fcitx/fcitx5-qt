@@ -73,15 +73,7 @@ void BackgroundImage::load(const QString &name, QSettings &settings) {
     if (image_.isNull()) {
         QColor color = readColor(settings, "Color", "#ffffff");
         QColor borderColor = readColor(settings, "BorderColor", "#00ffffff");
-        fillBackground(color, borderColor);
-        image_ = QPixmap(margin_.left() + margin_.right() + 1,
-                         margin_.top() + margin_.bottom() + 1);
-
-        QPainter painter;
-        painter.begin(&image_);
-        painter.fillRect(image_.rect(), borderColor);
-        painter.fillRect(QRect(margin_.left(), margin_.top(), 1, 1), color);
-        painter.end();
+        fillBackground(borderColor, color);
     }
 
     settings.beginGroup("OverlayClipMargin");
@@ -115,6 +107,7 @@ void BackgroundImage::fillBackground(const QColor &border,
 
     QPainter painter;
     painter.begin(&image_);
+    painter.setCompositionMode(QPainter::CompositionMode_Source);
     painter.fillRect(image_.rect(), border);
     painter.fillRect(QRect(margin_.left(), margin_.top(), 1, 1), background);
     painter.end();
