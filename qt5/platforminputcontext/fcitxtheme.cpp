@@ -175,7 +175,9 @@ void FcitxTheme::configChanged() {
 }
 
 void FcitxTheme::themeChanged() {
-    watcher_->removePath(themeConfigPath_);
+    if (themeConfigPath_.isEmpty()) {
+        watcher_->removePath(themeConfigPath_);
+    }
     auto themeConfig = QString("/fcitx5/themes/%1/theme.conf").arg(theme_);
     themeConfigPath_ =
         QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation)
