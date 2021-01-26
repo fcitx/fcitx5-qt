@@ -33,7 +33,7 @@ public:
     void setDisplay(const QString &display);
     const QString &display() const;
 
-public slots:
+public Q_SLOTS:
     QDBusPendingReply<> focusIn();
     QDBusPendingReply<> focusOut();
     QDBusPendingReply<bool> processKeyEvent(unsigned int keyval,
@@ -49,7 +49,7 @@ public slots:
     QDBusPendingReply<> setSurroundingTextPosition(unsigned int cursor,
                                                    unsigned int anchor);
 
-signals:
+Q_SIGNALS:
     void commitString(const QString &str);
     void currentIM(const QString &name, const QString &uniqueName,
                    const QString &langCode);

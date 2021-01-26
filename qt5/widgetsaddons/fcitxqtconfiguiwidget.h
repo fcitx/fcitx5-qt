@@ -67,7 +67,7 @@ Q_SIGNALS:
     void changed(bool changed);
 
     /**
-     * if asyncSave return true, be sure to emit this signal on all case
+     * if asyncSave return true, be sure to Q_EMIT this signal on all case
      *
      * @see asyncSave
      **/

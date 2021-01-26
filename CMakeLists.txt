@@ -31,7 +31,7 @@ else()
   set(PLUGIN_LIBRARY_TYPE MODULE)
 endif()
 
-add_definitions(-DFCITX5_QT_VERSION=\"${FCITX5_QT_VERSION}\")
+add_definitions(-DFCITX5_QT_VERSION=\"${FCITX5_QT_VERSION}\" -DQT_NO_KEYWORDS)
 
 include(GNUInstallDirs)
 include(FeatureSummary)

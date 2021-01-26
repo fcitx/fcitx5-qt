@@ -164,7 +164,7 @@ private:
         xkbComposeTable_;
     QScopedPointer<struct xkb_compose_state, XkbComposeStateDeleter>
         xkbComposeState_;
-private slots:
+private Q_SLOTS:
     void processKeyEventFinished(QDBusPendingCallWatcher *);
 };
 } // namespace fcitx

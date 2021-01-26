@@ -81,7 +81,7 @@ public:
     auto vertical() const { return vertical_; }
     auto wheelForPaging() const { return wheelForPaging_; }
 
-private slots:
+private Q_SLOTS:
     void configChanged();
     void themeChanged();
 

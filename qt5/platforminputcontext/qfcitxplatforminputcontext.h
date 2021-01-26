@@ -138,7 +138,7 @@ public:
     QLocale locale() const override;
     bool hasCapability(Capability capability) const override;
 
-public slots:
+public Q_SLOTS:
     void cursorRectChanged();
     void commitString(const QString &str);
     void updateFormattedPreedit(const FcitxQtFormattedPreeditList &preeditList,
@@ -157,7 +157,7 @@ public slots:
                             const FcitxQtStringKeyValueList &candidates,
                             int candidateIndex, int layoutHint, bool hasPrev,
                             bool hasNext);
-private slots:
+private Q_SLOTS:
     void processKeyEventFinished(QDBusPendingCallWatcher *);
 
 private:

@@ -144,7 +144,7 @@ public:
 
         delete createInputContextWatcher_;
         createInputContextWatcher_ = nullptr;
-        emit q->inputContextCreated(reply.argumentAt<1>());
+        Q_EMIT q->inputContextCreated(reply.argumentAt<1>());
     }
 
     FcitxQtInputContextProxy *q_ptr;

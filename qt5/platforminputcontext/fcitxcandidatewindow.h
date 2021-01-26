@@ -31,7 +31,7 @@ public:
 
     void render(QPainter *painter);
 
-public slots:
+public Q_SLOTS:
     void renderLater();
     void renderNow();
     void updateClientSideUI(const FcitxQtFormattedPreeditList &preedit,
@@ -44,7 +44,7 @@ public slots:
 
     QSize sizeHint();
 
-signals:
+Q_SIGNALS:
     void candidateSelected(int i);
     void prevClicked();
     void nextClicked();

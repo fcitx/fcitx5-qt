@@ -102,13 +102,13 @@ bool QuickPhraseModel::setData(const QModelIndex &index, const QVariant &value,
     if (index.column() == 0) {
         list_[index.row()].first = value.toString();
 
-        emit dataChanged(index, index);
+        Q_EMIT dataChanged(index, index);
         setNeedSave(true);
         return true;
     } else if (index.column() == 1) {
         list_[index.row()].second = value.toString();
 
-        emit dataChanged(index, index);
+        Q_EMIT dataChanged(index, index);
         setNeedSave(true);
         return true;
     } else
@@ -244,7 +244,7 @@ void QuickPhraseModel::saveFinished() {
 void QuickPhraseModel::setNeedSave(bool needSave) {
     if (needSave_ != needSave) {
         needSave_ = needSave;
-        emit needSaveChanged(needSave_);
+        Q_EMIT needSaveChanged(needSave_);
     }
 }
 } // namespace fcitx

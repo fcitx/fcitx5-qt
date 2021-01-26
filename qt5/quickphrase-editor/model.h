@@ -41,10 +41,10 @@ public:
     void saveData(QTextStream &dev);
     bool needSave();
 
-signals:
+Q_SIGNALS:
     void needSaveChanged(bool needSave);
 
-private slots:
+private Q_SLOTS:
     void loadFinished();
     void saveFinished();
 

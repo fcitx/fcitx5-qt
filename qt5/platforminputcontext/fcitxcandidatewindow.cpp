@@ -495,18 +495,18 @@ void fcitx::FcitxCandidateWindow::mouseReleaseEvent(QMouseEvent *event) {
     }
     for (int idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
         if (candidateRegions_[idx].contains(event->pos())) {
-            emit candidateSelected(idx);
+            Q_EMIT candidateSelected(idx);
             return;
         }
     }
 
     if (prevRegion_.contains(event->pos())) {
-        emit prevClicked();
+        Q_EMIT prevClicked();
         return;
     }
 
     if (nextRegion_.contains(event->pos())) {
-        emit nextClicked();
+        Q_EMIT nextClicked();
     }
 }
 
@@ -592,10 +592,10 @@ void fcitx::FcitxCandidateWindow::wheelEvent(QWheelEvent *event) {
     auto angleForClick = 120;
     while (accAngle_ >= angleForClick) {
         accAngle_ -= angleForClick;
-        emit prevClicked();
+        Q_EMIT prevClicked();
     }
     while (accAngle_ <= -angleForClick) {
         accAngle_ += angleForClick;
-        emit nextClicked();
+        Q_EMIT nextClicked();
     }
 }

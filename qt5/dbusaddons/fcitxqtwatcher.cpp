@@ -64,7 +64,7 @@ void FcitxQtWatcher::setAvailability(bool availability) {
     Q_D(FcitxQtWatcher);
     if (d->availability_ != availability) {
         d->availability_ = availability;
-        emit availabilityChanged(d->availability_);
+        Q_EMIT availabilityChanged(d->availability_);
     }
 }
 

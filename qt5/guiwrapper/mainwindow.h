@@ -27,7 +27,7 @@ public:
                         QWidget *parent = 0);
 
     void setParentWindow(WId id);
-public slots:
+public Q_SLOTS:
     void changed(bool changed);
     void clicked(QAbstractButton *button);
     void availabilityChanged(bool avail);
@@ -36,7 +36,7 @@ public slots:
 protected:
     void showEvent(QShowEvent *event) override;
 
-private slots:
+private Q_SLOTS:
     void saveFinished();
     void saveFinishedPhase2(QDBusPendingCallWatcher *watcher);
 

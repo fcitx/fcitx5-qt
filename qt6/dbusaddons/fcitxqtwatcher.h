@@ -35,10 +35,10 @@ public:
 
     QString serviceName() const;
 
-signals:
+Q_SIGNALS:
     void availabilityChanged(bool);
 
-private slots:
+private Q_SLOTS:
     void imChanged(const QString &service, const QString &oldOwner,
                    const QString &newOwner);
 
