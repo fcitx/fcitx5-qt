@@ -72,7 +72,7 @@ void BackgroundImage::load(const QString &name, QSettings &settings) {
 
     if (image_.isNull()) {
         QColor color = readColor(settings, "Color", "#ffffff");
-        QColor borderColor = readColor(settings, "BorderColor", "#ffffff");
+        QColor borderColor = readColor(settings, "BorderColor", "#00ffffff");
         fillBackground(color, borderColor);
         image_ = QPixmap(margin_.left() + margin_.right() + 1,
                          margin_.top() + margin_.bottom() + 1);

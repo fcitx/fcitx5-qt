@@ -113,7 +113,11 @@ bool FcitxCandidateWindow::event(QEvent *event) {
         return true;
     }
     if (event->type() == QEvent::Leave) {
+        auto oldHighlight = highlight();
         hoverIndex_ = -1;
+        if (highlight() != oldHighlight) {
+            renderNow();
+        }
     }
     return QWindow::event(event);
 }
