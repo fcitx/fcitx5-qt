@@ -73,7 +73,8 @@ void BackgroundImage::load(const QString &name, QSettings &settings) {
     if (image_.isNull()) {
         QColor color = readColor(settings, "Color", "#ffffff");
         QColor borderColor = readColor(settings, "BorderColor", "#00ffffff");
-        fillBackground(borderColor, color);
+        int borderWidth = settings.value("BorderWidth", 0).toInt();
+        fillBackground(borderColor, color, borderWidth);
     }
 
     settings.beginGroup("OverlayClipMargin");
@@ -88,11 +89,12 @@ void BackgroundImage::load(const QString &name, QSettings &settings) {
 }
 
 void BackgroundImage::loadFromValue(const QColor &border,
-                                    const QColor &background, QMargins margin) {
+                                    const QColor &background, QMargins margin,
+                                    int borderWidth) {
     image_ = QPixmap();
     overlay_ = QPixmap();
     margin_ = margin;
-    fillBackground(border, background);
+    fillBackground(border, background, borderWidth);
     overlayClipMargin_ = QMargins();
     hideOverlayIfOversize_ = false;
     overlayOffsetX_ = 0;
@@ -101,15 +103,24 @@ void BackgroundImage::loadFromValue(const QColor &border,
 }
 
 void BackgroundImage::fillBackground(const QColor &border,
-                                     const QColor &background) {
+                                     const QColor &background,
+                                     int borderWidth) {
     image_ = QPixmap(margin_.left() + margin_.right() + 1,
                      margin_.top() + margin_.bottom() + 1);
+    borderWidth = std::min({borderWidth, margin_.left(), margin_.right(),
+                            margin_.top(), margin_.bottom()});
+    borderWidth = std::max(0, borderWidth);
 
     QPainter painter;
     painter.begin(&image_);
     painter.setCompositionMode(QPainter::CompositionMode_Source);
-    painter.fillRect(image_.rect(), border);
-    painter.fillRect(QRect(margin_.left(), margin_.top(), 1, 1), background);
+    if (borderWidth) {
+        painter.fillRect(image_.rect(), border);
+    }
+    painter.fillRect(QRect(borderWidth, borderWidth,
+                           image_.width() - borderWidth * 2,
+                           image_.height() - borderWidth * 2),
+                     background);
     painter.end();
 }
 
@@ -199,9 +210,9 @@ void FcitxTheme::themeChanged() {
         textMargin_ = QMargins{5, 5, 5, 5};
         highlightClickMargin_ = QMargins{0, 0, 0, 0};
         background_.loadFromValue(highlightBackgroundColor_, highlightColor_,
-                                  contentMargin_);
+                                  contentMargin_, 2);
         highlight_.loadFromValue(highlightBackgroundColor_,
-                                 highlightBackgroundColor_, textMargin_);
+                                 highlightBackgroundColor_, textMargin_, 0);
         prev_.reset();
         next_.reset();
         return;

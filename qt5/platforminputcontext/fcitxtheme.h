@@ -25,10 +25,11 @@ class BackgroundImage {
 public:
     void load(const QString &name, QSettings &settings);
     void loadFromValue(const QColor &border, const QColor &background,
-                       QMargins margin);
+                       QMargins margin, int borderWidth);
 
 private:
-    void fillBackground(const QColor &border, const QColor &background);
+    void fillBackground(const QColor &border, const QColor &background,
+                        int borderWidth);
 
     QPixmap image_, overlay_;
     QMargins margin_, overlayClipMargin_;
