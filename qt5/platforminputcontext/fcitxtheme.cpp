@@ -167,6 +167,7 @@ void FcitxTheme::configChanged() {
     watcher_->removePath(configPath_);
     watcher_->addPath(configPath_);
     QSettings settings(configPath_, QSettings::IniFormat);
+    settings.childGroups();
     font_ = parseFont(settings.value("Font", "Sans Serif 9").toString());
     fontMetrics_ = QFontMetrics(font_);
     vertical_ =
@@ -219,8 +220,8 @@ void FcitxTheme::themeChanged() {
     }
 
     QSettings settings(file, QSettings::IniFormat);
+    settings.childGroups();
     settings.beginGroup("InputPanel");
-
     normalColor_ = readColor(settings, "NormalColor", "#000000");
     highlightCandidateColor_ =
         readColor(settings, "HighlightCandidateColor", "#ffffff");
