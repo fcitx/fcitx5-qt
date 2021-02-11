@@ -337,11 +337,13 @@ void fcitx::FcitxTheme::paint(QPainter *painter,
     }
 
     if (marginBottom) {
-        painter->drawPixmap(
-            QRect(marginLeft, region.height() - marginBottom,
-                  region.width() - marginLeft - marginRight, marginBottom)
-                .translated(region.topLeft()),
-            image.image_, QRect(marginLeft, 0, resizeWidth, marginBottom));
+        painter->drawPixmap(QRect(marginLeft, region.height() - marginBottom,
+                                  region.width() - marginLeft - marginRight,
+                                  marginBottom)
+                                .translated(region.topLeft()),
+                            image.image_,
+                            QRect(marginLeft, marginTop + resizeHeight,
+                                  resizeWidth, marginBottom));
     }
 
     /* part 4 & 6 */
