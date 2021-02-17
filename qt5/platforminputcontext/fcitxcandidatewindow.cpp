@@ -187,7 +187,7 @@ void FcitxCandidateWindow::render(QPainter *painter) {
         }
     }
 
-    QPoint topLeft(contentMargin.left(), contentMargin.top());
+    const QPoint topLeft(contentMargin.left(), contentMargin.top());
     painter->setPen(theme_->normalColor());
     auto minH =
         theme_->fontMetrics().ascent() + theme_->fontMetrics().descent();
@@ -285,14 +285,14 @@ void FcitxCandidateWindow::render(QPainter *painter) {
         QColor color = theme_->normalColor();
         if (highlightIndex >= 0 && i == static_cast<size_t>(highlightIndex)) {
             // Paint highlight
-            theme_->paint(painter, theme_->highlight(),
-                          QRect(topLeft + QPoint(x, y) -
-                                    QPoint(highlightMargin.left(),
-                                           highlightMargin.right()),
-                                QSize(highlightWidth + highlightMargin.left() +
-                                          highlightMargin.right(),
-                                      vheight + highlightMargin.top() +
-                                          highlightMargin.bottom())));
+            theme_->paint(
+                painter, theme_->highlight(),
+                QRect(topLeft + QPoint(x, y) -
+                          QPoint(highlightMargin.left(), highlightMargin.top()),
+                      QSize(highlightWidth + highlightMargin.left() +
+                                highlightMargin.right(),
+                            vheight + highlightMargin.top() +
+                                highlightMargin.bottom())));
             color = theme_->highlightCandidateColor();
         }
         QRect candidateRegion(
