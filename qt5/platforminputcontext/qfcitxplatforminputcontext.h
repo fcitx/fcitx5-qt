@@ -31,7 +31,7 @@ class FcitxTheme;
 struct FcitxQtICData {
     FcitxQtICData(FcitxQtWatcher *watcher, QWindow *window)
         : proxy(new FcitxQtInputContextProxy(watcher, watcher)),
-          window_(window) {}
+          watcher_(watcher), window_(window) {}
     FcitxQtICData(const FcitxQtICData &that) = delete;
     ~FcitxQtICData() {
         delete proxy;
@@ -56,6 +56,7 @@ struct FcitxQtICData {
     }
 
     QWindow *window() { return window_.data(); }
+    auto *watcher() { return watcher_; }
 
     void resetCandidateWindow() {
         if (!candidateWindow_) {
@@ -74,6 +75,8 @@ struct FcitxQtICData {
     int surroundingAnchor = -1;
     int surroundingCursor = -1;
 
+private:
+    FcitxQtWatcher *watcher_;
     QPointer<QWindow> window_;
     QPointer<FcitxCandidateWindow> candidateWindow_;
 };

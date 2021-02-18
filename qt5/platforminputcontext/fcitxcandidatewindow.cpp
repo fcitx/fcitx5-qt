@@ -103,6 +103,12 @@ FcitxCandidateWindow::FcitxCandidateWindow(FcitxQtICData *data,
                     data->resetCandidateWindow();
                 }
             });
+    connect(data->watcher(), &FcitxQtWatcher::availabilityChanged, this,
+            [data](bool avail) {
+                if (!avail) {
+                    data->resetCandidateWindow();
+                }
+            });
 }
 
 FcitxCandidateWindow::~FcitxCandidateWindow() {}

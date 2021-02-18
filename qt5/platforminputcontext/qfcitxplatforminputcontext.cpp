@@ -338,6 +338,9 @@ void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
     commitPreedit(lastObject_);
     if (proxy) {
         proxy->focusOut();
+        FcitxQtICData &data = *static_cast<FcitxQtICData *>(
+            proxy->property("icData").value<void *>());
+        data.resetCandidateWindow();
     }
 
     QWindow *window = qApp->focusWindow();
