@@ -8,7 +8,11 @@
 #include <QMap>
 
 QFont fcitx::parseFont(const QString &string) {
+#if (QT_VERSION < QT_VERSION_CHECK(5, 14, 0))
+    auto list = string.split(" ", QString::SkipEmptyParts);
+#else
     auto list = string.split(" ", Qt::SkipEmptyParts);
+#endif
     int size = 9; // Default size.
     if (!list.empty()) {
         bool ok = false;
