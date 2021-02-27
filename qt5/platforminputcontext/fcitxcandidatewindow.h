@@ -16,6 +16,8 @@
 #include <QPointer>
 #include <QTextLayout>
 #include <QWindow>
+#include <memory>
+#include <vector>
 
 namespace fcitx {
 
