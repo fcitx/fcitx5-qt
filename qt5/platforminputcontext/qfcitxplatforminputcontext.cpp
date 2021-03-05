@@ -432,9 +432,9 @@ void QFcitxPlatformInputContext::createInputContextFinished(
     if (!proxy) {
         return;
     }
-    auto w = static_cast<QWindow *>(proxy->property("wid").value<void *>());
     FcitxQtICData *data =
         static_cast<FcitxQtICData *>(proxy->property("icData").value<void *>());
+    auto w = data->window();
     data->rect = QRect();
 
     if (proxy->isValid()) {
@@ -561,11 +561,11 @@ void QFcitxPlatformInputContext::updateClientSideUI(
     if (!proxy) {
         return;
     }
-    auto w = static_cast<QWindow *>(proxy->property("wid").value<void *>());
+    FcitxQtICData *data =
+        static_cast<FcitxQtICData *>(proxy->property("icData").value<void *>());
+    auto w = data->window();
     auto window = qApp->focusWindow();
     if (window && w == window) {
-        FcitxQtICData *data = static_cast<FcitxQtICData *>(
-            proxy->property("icData").value<void *>());
         if (!theme_) {
             theme_ = new FcitxTheme(this);
         }
@@ -642,7 +642,7 @@ void QFcitxPlatformInputContext::forwardKey(unsigned int keyval,
     }
     FcitxQtICData &data = *static_cast<FcitxQtICData *>(
         proxy->property("icData").value<void *>());
-    auto w = static_cast<QWindow *>(proxy->property("wid").value<void *>());
+    auto *w = data.window();
     QObject *input = qApp->focusObject();
     auto window = qApp->focusWindow();
     if (input && window && w == window) {
@@ -687,10 +687,6 @@ void QFcitxPlatformInputContext::createICData(QWindow *w) {
         } else if (QGuiApplication::platformName().startsWith("wayland")) {
             data.proxy->setDisplay("wayland:");
         }
-        data.proxy->setProperty("wid",
-                                QVariant::fromValue(static_cast<void *>(w)));
-        data.proxy->setProperty(
-            "icData", QVariant::fromValue(static_cast<void *>(&data)));
         connect(data.proxy, &FcitxQtInputContextProxy::inputContextCreated,
                 this, &QFcitxPlatformInputContext::createInputContextFinished);
         connect(data.proxy, &FcitxQtInputContextProxy::commitString, this,

@@ -89,7 +89,6 @@ private:
     QRect nextRegion_;
     std::vector<QRect> candidateRegions_;
     QPointer<QWindow> parent_;
-    QPointer<QWindow> dummyParent_;
 };
 
 } // namespace fcitx

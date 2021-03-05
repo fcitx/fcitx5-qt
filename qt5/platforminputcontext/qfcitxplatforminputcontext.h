@@ -31,7 +31,10 @@ class FcitxTheme;
 struct FcitxQtICData {
     FcitxQtICData(FcitxQtWatcher *watcher, QWindow *window)
         : proxy(new FcitxQtInputContextProxy(watcher, watcher)),
-          watcher_(watcher), window_(window) {}
+          watcher_(watcher), window_(window) {
+        proxy->setProperty("icData",
+                           QVariant::fromValue(static_cast<void *>(this)));
+    }
     FcitxQtICData(const FcitxQtICData &that) = delete;
     ~FcitxQtICData() {
         delete proxy;
