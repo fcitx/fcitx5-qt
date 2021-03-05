@@ -28,7 +28,7 @@ class MultilineText;
 class FcitxCandidateWindow : public QWindow {
     Q_OBJECT
 public:
-    explicit FcitxCandidateWindow(FcitxQtICData *data, FcitxTheme *theme);
+    explicit FcitxCandidateWindow(QWindow *window, FcitxTheme *theme);
     ~FcitxCandidateWindow();
 
     void render(QPainter *painter);

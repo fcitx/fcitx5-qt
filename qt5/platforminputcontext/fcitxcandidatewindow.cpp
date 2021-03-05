@@ -84,9 +84,8 @@ private:
     QRect boundingRect_;
 };
 
-FcitxCandidateWindow::FcitxCandidateWindow(FcitxQtICData *data,
-                                           FcitxTheme *theme)
-    : QWindow(), theme_(theme), parent_(data->window()) {
+FcitxCandidateWindow::FcitxCandidateWindow(QWindow *window, FcitxTheme *theme)
+    : QWindow(), theme_(theme), parent_(window) {
     setFlags(Qt::ToolTip | Qt::FramelessWindowHint |
              Qt::BypassWindowManagerHint | Qt::WindowDoesNotAcceptFocus |
              Qt::NoDropShadowWindowHint);
@@ -97,18 +96,6 @@ FcitxCandidateWindow::FcitxCandidateWindow(FcitxQtICData *data,
     surfaceFormat.setAlphaBufferSize(8);
     setFormat(surfaceFormat);
     backingStore_ = new QBackingStore(this);
-    connect(data->window(), &QWindow::visibilityChanged, this,
-            [data](bool visible) {
-                if (!visible) {
-                    data->resetCandidateWindow();
-                }
-            });
-    connect(data->watcher(), &FcitxQtWatcher::availabilityChanged, this,
-            [data](bool avail) {
-                if (!avail) {
-                    data->resetCandidateWindow();
-                }
-            });
 }
 
 FcitxCandidateWindow::~FcitxCandidateWindow() {}

@@ -34,6 +34,18 @@ struct FcitxQtICData {
           watcher_(watcher), window_(window) {
         proxy->setProperty("icData",
                            QVariant::fromValue(static_cast<void *>(this)));
+        QObject::connect(window, &QWindow::visibilityChanged, proxy,
+                         [this](bool visible) {
+                             if (!visible) {
+                                 resetCandidateWindow();
+                             }
+                         });
+        QObject::connect(watcher, &FcitxQtWatcher::availabilityChanged, proxy,
+                         [this](bool avail) {
+                             if (!avail) {
+                                 resetCandidateWindow();
+                             }
+                         });
     }
     FcitxQtICData(const FcitxQtICData &that) = delete;
     ~FcitxQtICData() {
@@ -43,7 +55,7 @@ struct FcitxQtICData {
 
     FcitxCandidateWindow *candidateWindow(FcitxTheme *theme) {
         if (!candidateWindow_) {
-            candidateWindow_ = new FcitxCandidateWindow(this, theme);
+            candidateWindow_ = new FcitxCandidateWindow(window(), theme);
             QObject::connect(
                 candidateWindow_, &FcitxCandidateWindow::candidateSelected,
                 proxy,
@@ -62,11 +74,11 @@ struct FcitxQtICData {
     auto *watcher() { return watcher_; }
 
     void resetCandidateWindow() {
-        if (!candidateWindow_) {
+        if (auto *w = candidateWindow_.data()) {
+            candidateWindow_ = nullptr;
+            w->deleteLater();
             return;
         }
-        candidateWindow_->deleteLater();
-        candidateWindow_ = nullptr;
     }
 
     quint64 capability = 0;
