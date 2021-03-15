@@ -49,17 +49,19 @@ public:
     MultilineText(const QFont &font, const QString &text) {
         QStringList lines = text.split("\n");
         int currentY = 0;
+        int width = 0;
+        QFontMetrics fontMetrics(font);
+        fontHeight_ = fontMetrics.ascent() + fontMetrics.descent();
         for (const auto &line : lines) {
             layouts_.emplace_back(std::make_unique<QTextLayout>(line));
             layouts_.back()->setFont(font);
             doLayout(*layouts_.back());
-            auto size = layouts_.back()->boundingRect().toRect();
-            boundingRect_ =
-                boundingRect_.united(size.translated(QPoint(0, currentY)));
-            currentY += size.height();
+            width = std::max(width,
+                             layouts_.back()->boundingRect().toRect().width());
+            currentY += fontHeight_;
         }
-        QFontMetrics fontMetrics(font);
-        fontHeight_ = fontMetrics.ascent() + fontMetrics.descent();
+        boundingRect_.setTopLeft(QPoint(0, 0));
+        boundingRect_.setSize(QSize(width, lines.size() * fontHeight_));
     }
 
     bool isEmpty() const { return layouts_.empty(); }
@@ -70,8 +72,7 @@ public:
         int currentY = 0;
         for (const auto &layout : layouts_) {
             layout->draw(painter, position + QPoint(0, currentY));
-            auto size = layout->boundingRect();
-            currentY += size.height();
+            currentY += fontHeight_;
         }
         painter->restore();
     }
@@ -191,9 +192,8 @@ void FcitxCandidateWindow::render(QPainter *painter) {
     if (!upperLayout_.text().isEmpty()) {
         upperLayout_.draw(
             painter, topLeft + QPoint(textMargin.left(), textMargin.top()));
-        auto size = upperLayout_.boundingRect();
         // Draw cursor
-        currentHeight += std::max(minH, qCeil(size.height())) + extraH;
+        currentHeight += minH + extraH;
         if (cursor_ >= 0) {
             auto line = upperLayout_.lineForTextPosition(cursor_);
             if (line.isValid()) {
@@ -215,8 +215,7 @@ void FcitxCandidateWindow::render(QPainter *painter) {
         lowerLayout_.draw(painter,
                           topLeft + QPoint(textMargin.left(),
                                            textMargin.top() + currentHeight));
-        auto size = upperLayout_.boundingRect();
-        currentHeight += std::max(minH, qCeil(size.height())) + extraH;
+        currentHeight += minH + extraH;
     }
 
     bool vertical = theme_->vertical();
@@ -519,12 +518,12 @@ QSize fcitx::FcitxCandidateWindow::sizeHint() {
     auto extraH = textMargin.top() + textMargin.bottom();
     if (!upperLayout_.text().isEmpty()) {
         auto size = upperLayout_.boundingRect();
-        height += std::max(minH, qCeil(size.height())) + extraH;
+        height += minH + extraH;
         updateIfLarger(width, size.width() + extraW);
     }
     if (!lowerLayout_.text().isEmpty()) {
         auto size = lowerLayout_.boundingRect();
-        height += std::max(minH, qCeil(size.height())) + extraH;
+        height += minH + extraH;
         updateIfLarger(width, size.width() + extraW);
     }
 
