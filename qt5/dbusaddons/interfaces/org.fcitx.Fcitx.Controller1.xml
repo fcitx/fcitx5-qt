@@ -94,6 +94,11 @@
       <arg type="a(sb)" direction="in"/>
       <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="FcitxQtAddonStateList" />
   </method>
+  <method name="Refresh">
+  </method>
+  <method name="CheckUpdate">
+      <arg type="b" direction="out"/>
+  </method>
  </interface>
 </node>
 

@@ -72,6 +72,12 @@ public Q_SLOTS: // METHODS
         return asyncCallWithArgumentList(QStringLiteral("AvailableKeyboardLayouts"), argumentList);
     }
 
+    inline QDBusPendingReply<bool> CheckUpdate()
+    {
+        QList<QVariant> argumentList;
+        return asyncCallWithArgumentList(QStringLiteral("CheckUpdate"), argumentList);
+    }
+
     inline QDBusPendingReply<> Configure()
     {
         QList<QVariant> argumentList;
@@ -160,6 +166,12 @@ public Q_SLOTS: // METHODS
     {
         QList<QVariant> argumentList;
         return asyncCallWithArgumentList(QStringLiteral("InputMethodGroups"), argumentList);
+    }
+
+    inline QDBusPendingReply<> Refresh()
+    {
+        QList<QVariant> argumentList;
+        return asyncCallWithArgumentList(QStringLiteral("Refresh"), argumentList);
     }
 
     inline QDBusPendingReply<> ReloadAddonConfig(const QString &in0)
