@@ -709,6 +709,7 @@ QKeyEvent *QFcitxPlatformInputContext::createKeyEvent(unsigned int keyval,
                                                       bool isRelease,
                                                       const QKeyEvent *event) {
     QKeyEvent *newEvent = nullptr;
+    state &= (~(1u << 31));
     if (event && event->nativeVirtualKey() == keyval &&
         event->nativeModifiers() == state &&
         isRelease == (event->type() == QEvent::KeyRelease)) {
