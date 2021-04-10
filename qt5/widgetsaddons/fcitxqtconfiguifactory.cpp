@@ -94,7 +94,7 @@ void FcitxQtConfigUIFactoryPrivate::scan() {
                 if (loader->metaData().value("IID") !=
                     QLatin1String(FcitxQtConfigUIFactoryInterface_iid)) {
                     delete loader;
-                    continue;
+                    break;
                 }
                 auto metadata = loader->metaData().value("MetaData").toObject();
                 auto files = metadata.value("files").toVariant().toStringList();
