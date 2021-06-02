@@ -87,9 +87,8 @@ private:
 
 FcitxCandidateWindow::FcitxCandidateWindow(QWindow *window, FcitxTheme *theme)
     : QWindow(), theme_(theme), parent_(window) {
-    setFlags(Qt::ToolTip | Qt::FramelessWindowHint |
-             Qt::BypassWindowManagerHint | Qt::WindowDoesNotAcceptFocus |
-             Qt::NoDropShadowWindowHint);
+    setFlags(Qt::Popup | Qt::FramelessWindowHint | Qt::BypassWindowManagerHint |
+             Qt::WindowDoesNotAcceptFocus | Qt::NoDropShadowWindowHint);
     if (isWayland_) {
         setTransientParent(parent_);
     }
