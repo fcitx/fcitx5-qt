@@ -5,15 +5,15 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # Bon Keun Seo <scobyseo@gmail.com>, 2017
-# JungHee Lee <daemul72@gmail.com>, 2020
+# Jung Hee Lee <daemul72@gmail.com>, 2021
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-09-15 00:03-0700\n"
+"POT-Creation-Date: 2021-06-05 20:25+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
-"Last-Translator: JungHee Lee <daemul72@gmail.com>, 2020\n"
+"Last-Translator: Jung Hee Lee <daemul72@gmail.com>, 2021\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,7 @@ msgstr "%1은(는) 시스템 파일입니다. 대신 모든 문구를 삭제하�
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:52
 #. i18n: ectx: property (text), widget (QPushButton, addButton)
-#: rc.cpp:6
+#: rc.cpp:12
 #, kde-format
 msgid "&Add"
 msgstr "추가(&A)"
@@ -38,7 +38,7 @@ msgstr "적용(&A)"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:63
 #. i18n: ectx: property (text), widget (QPushButton, batchEditButton)
-#: rc.cpp:9
+#: rc.cpp:15
 #, kde-format
 msgid "&Batch Edit"
 msgstr "일괄수정(&B)"
@@ -49,14 +49,14 @@ msgstr "닫기(&C)"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:74
 #. i18n: ectx: property (text), widget (QPushButton, deleteButton)
-#: rc.cpp:12
+#: rc.cpp:18
 #, kde-format
 msgid "&Delete"
 msgstr "삭제(&D)"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:103
 #. i18n: ectx: property (text), widget (QPushButton, importButton)
-#: rc.cpp:18
+#: rc.cpp:24
 #, kde-format
 msgid "&Import"
 msgstr "가져오기(&I)"
@@ -67,7 +67,7 @@ msgstr "확인(&O)"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:45
 #. i18n: ectx: property (text), widget (QPushButton, operationButton)
-#: rc.cpp:3
+#: rc.cpp:9
 #, kde-format
 msgid "&Operation"
 msgstr "작동(&O)"
@@ -90,7 +90,7 @@ msgstr "%1을(를) 삭제하시겠습니까?"
 
 #. i18n: file: qt5/quickphrase-editor/batchdialog.ui:14
 #. i18n: ectx: property (windowTitle), widget (QDialog, BatchDialog)
-#: rc.cpp:24
+#: rc.cpp:3
 #, kde-format
 msgid "Batch editing"
 msgstr "일괄 편집하기"
@@ -117,7 +117,7 @@ msgstr "새로운 파일 생성"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:85
 #. i18n: ectx: property (text), widget (QPushButton, clearButton)
-#: rc.cpp:15
+#: rc.cpp:21
 #, kde-format
 msgid "De&lete All"
 msgstr "모두 지우기(&l)"
@@ -128,12 +128,12 @@ msgstr "기본값"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:114
 #. i18n: ectx: property (text), widget (QPushButton, exportButton)
-#: rc.cpp:21
+#: rc.cpp:27
 #, kde-format
 msgid "E&xport"
 msgstr "가저오기(&x)"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:318
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:319
 msgid "Empty"
 msgstr "비어있음"
 
@@ -151,7 +151,7 @@ msgstr "환경설정 변경에 대해 Fcitx에 알리지 못했습니다."
 
 #: qt5/quickphrase-editor/editor.cpp:237 qt5/quickphrase-editor/editor.cpp:279
 msgid "File Operation Failed"
-msgstr "파일 동작 실패"
+msgstr "파일 작업 실패"
 
 #: qt5/quickphrase-editor/editor.cpp:226
 msgid "File name should not contain '/'."
@@ -161,7 +161,7 @@ msgstr "파일명에 '/'가 포함되지 않아야 합니다."
 msgid "Invalid filename"
 msgstr "잘못된 파일명"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:179
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:180
 msgid "Key code mode"
 msgstr "키코드 방식"
 
@@ -209,17 +209,17 @@ msgstr ""
 "내용이 변했습니다.\n"
 "변경사항을 저장할까요?"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:355
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:356
 msgid "The key you just pressed is not supported by Qt."
 msgstr "방금 누른 키는 Qt가 지원하지 않습니다."
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:356
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:357
 msgid "Unsupported Key"
 msgstr "지원하지 않는 키"
 
 #. i18n: file: qt5/quickphrase-editor/batchdialog.ui:50
 #. i18n: ectx: property (text), widget (QLabel, infoLabel)
-#: rc.cpp:27
+#: rc.cpp:6
 #, kde-format
 msgid "Use <Keyword> <Phrase> format on every line."
 msgstr "모든 행에 <Keyword> <Phrase> 형식을 사용합니다."
