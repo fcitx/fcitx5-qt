@@ -527,7 +527,7 @@ QSize fcitx::FcitxCandidateWindow::sizeHint() {
         updateIfLarger(width, size.width() + extraW);
     }
 
-    bool vertical = false;
+    bool vertical = theme_->vertical();
     if (layoutHint_ == FcitxCandidateLayoutHint::Vertical) {
         vertical = true;
     } else if (layoutHint_ == FcitxCandidateLayoutHint::Horizontal) {
