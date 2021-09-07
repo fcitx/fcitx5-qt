@@ -300,7 +300,7 @@ void FcitxQtKeySequenceWidgetPrivate::updateShortcutDisplay() {
             if (modifierKeys_ & KeyState::Super)
                 s += "Super+";
             if (modifierKeys_ & KeyState::Ctrl)
-                s += "Contorl+";
+                s += "Control+";
             if (modifierKeys_ & KeyState::Alt)
                 s += "Alt+";
             if (modifierKeys_ & KeyState::Shift)
