@@ -419,19 +419,6 @@ void FcitxQtKeySequenceButton::keyPressEvent(QKeyEvent *e) {
         d->updateShortcutDisplay();
         break;
     default:
-
-        if (d->keySequence_.size() == 0 &&
-            !d->modifierKeys_.testAny(~KeyStates(KeyState::Shift))) {
-            // It's the first key and no modifier pressed. Check if this is
-            // allowed
-            if (!(FcitxQtKeySequenceWidgetPrivate::isOkWhenModifierless(
-                      keyQt) ||
-                  d->allowModifierless_)) {
-                // No it's not
-                return;
-            }
-        }
-
         // We now have a valid key press.
         if (keyQt) {
             if ((keyQt == Qt::Key_Backtab) &&
@@ -458,6 +445,11 @@ void FcitxQtKeySequenceButton::keyPressEvent(QKeyEvent *e) {
                             << e;
                     }
                 }
+            }
+
+            if (d->keySequence_.size() == 0 && !d->allowModifierless_ &&
+                key.states() == 0) {
+                return;
             }
 
             if (key.isValid()) {
