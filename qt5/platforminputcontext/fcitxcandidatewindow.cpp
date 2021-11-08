@@ -408,11 +408,10 @@ void fcitx::FcitxCandidateWindow::updateClientSideUI(
     // intent to use this with wayland. It we have no information above screen
     // edge.
     if (isWayland_) {
-        screenGeometry = QRect(QPoint(0, 0), window->size());
+        screenGeometry = window->frameGeometry();
         cursorRect.translate(window->framePosition());
         auto margins = window->frameMargins();
         cursorRect.translate(margins.left(), margins.top());
-        screenGeometry.translate(window->framePosition());
     } else {
         screenGeometry = window->screen()->geometry();
         auto pos = window->mapToGlobal(cursorRect.topLeft());
