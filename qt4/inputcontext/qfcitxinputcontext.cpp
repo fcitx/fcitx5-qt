@@ -139,10 +139,26 @@ void QFcitxInputContext::cleanUp() {
 }
 
 void QFcitxInputContext::mouseHandler(int cursorPosition, QMouseEvent *event) {
-    if (event->type() == QEvent::MouseButtonPress &&
-        (cursorPosition <= 0 || cursorPosition >= preedit_.length())) {
-        // qDebug() << action << cursorPosition;
-        commitPreedit();
+    if (event->type() != QEvent::MouseButtonRelease) {
+        return;
+    }
+
+    unsigned int action;
+    if (event->button() == Qt::LeftButton) {
+        action = 0;
+    } else if (event->button() == Qt::RightButton) {
+        action = 1;
+    } else {
+        return;
+    }
+    if (FcitxQtInputContextProxy *proxy = validIC();
+        proxy->supportInvokeAction()) {
+        proxy->invokeAction(action, cursorPosition);
+    } else {
+        if (cursorPosition <= 0 || cursorPosition >= preedit_.length()) {
+            // qDebug() << action << cursorPosition;
+            reset();
+        }
     }
 }
 

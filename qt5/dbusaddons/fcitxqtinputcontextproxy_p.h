@@ -12,6 +12,7 @@
 #include "fcitxqtinputmethodproxy.h"
 #include "fcitxqtwatcher.h"
 #include <QDBusServiceWatcher>
+#include <QDomDocument>
 
 namespace fcitx {
 
@@ -65,6 +66,9 @@ public:
         icproxy_ = nullptr;
         delete createInputContextWatcher_;
         createInputContextWatcher_ = nullptr;
+        delete introspectWatcher_;
+        introspectWatcher_ = nullptr;
+        supportInvokeAction_ = false;
     }
 
     void createInputContext() {
@@ -145,6 +149,58 @@ public:
         delete createInputContextWatcher_;
         createInputContextWatcher_ = nullptr;
         Q_EMIT q->inputContextCreated(reply.argumentAt<1>());
+
+        introspect();
+    }
+
+    void introspect() {
+        Q_Q(FcitxQtInputContextProxy);
+        if (introspectWatcher_) {
+            delete introspectWatcher_;
+            introspectWatcher_ = nullptr;
+        }
+        QDBusMessage call = QDBusMessage::createMethodCall(
+            icproxy_->service(), icproxy_->path(),
+            "org.freedesktop.DBus.Introspectable", "Introspect");
+
+        introspectWatcher_ = new QDBusPendingCallWatcher(
+            fcitxWatcher_->connection().asyncCall(call));
+        QObject::connect(introspectWatcher_, &QDBusPendingCallWatcher::finished,
+                         q, [this]() { introspectFinished(); });
+    }
+
+    void introspectFinished() {
+        if (introspectWatcher_->isFinished() &&
+            !introspectWatcher_->isError()) {
+            QDBusPendingReply<QString> reply = *introspectWatcher_;
+            QDomDocument dom;
+
+            dom.setContent(reply.value());
+            QDomNodeList ifaceNodeList = dom.elementsByTagName("interface");
+            for (int i = 0; i < ifaceNodeList.count(); i++) {
+                QDomElement ifaceElem = ifaceNodeList.item(i).toElement();
+                if (!ifaceElem.isNull() &&
+                    ifaceElem.attribute("name") ==
+                        FcitxQtInputContextProxyImpl::staticInterfaceName()) {
+                    QDomNodeList methodNodeList =
+                        ifaceElem.elementsByTagName("method");
+                    for (int j = 0; j < methodNodeList.count(); j++) {
+
+                        QDomElement methodElem =
+                            methodNodeList.item(j).toElement();
+
+                        if (!methodElem.isNull() &&
+                            methodElem.attribute("name") == "InvokeAction") {
+                            supportInvokeAction_ = true;
+                            break;
+                        }
+                    }
+                    return;
+                }
+            }
+        }
+        delete introspectWatcher_;
+        introspectWatcher_ = nullptr;
     }
 
     FcitxQtInputContextProxy *q_ptr;
@@ -154,7 +210,9 @@ public:
     QDBusServiceWatcher watcher_;
     FcitxQtInputMethodProxy *improxy_ = nullptr;
     FcitxQtInputContextProxyImpl *icproxy_ = nullptr;
+    bool supportInvokeAction_ = false;
     QDBusPendingCallWatcher *createInputContextWatcher_ = nullptr;
+    QDBusPendingCallWatcher *introspectWatcher_ = nullptr;
     QString display_;
     bool portal_ = false;
 };

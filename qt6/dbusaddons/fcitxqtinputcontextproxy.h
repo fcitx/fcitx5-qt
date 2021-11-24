@@ -52,6 +52,9 @@ public Q_SLOTS:
     QDBusPendingReply<> prevPage();
     QDBusPendingReply<> nextPage();
     QDBusPendingReply<> selectCandidate(int i);
+    QDBusPendingReply<> invokeAction(unsigned int action, int cursor);
+
+    bool supportInvokeAction() const;
 
 Q_SIGNALS:
     void commitString(const QString &str);

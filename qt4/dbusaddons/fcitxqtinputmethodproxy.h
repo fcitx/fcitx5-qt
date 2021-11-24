@@ -8,8 +8,8 @@
  * Do not edit! All changes made to it will be lost.
  */
 
-#ifndef FCITXQTINPUTMETHODPROXY_H_1495144859
-#define FCITXQTINPUTMETHODPROXY_H_1495144859
+#ifndef FCITXQTINPUTMETHODPROXY_H_1637715099
+#define FCITXQTINPUTMETHODPROXY_H_1637715099
 
 #include <QtCore/QObject>
 #include <QtCore/QByteArray>

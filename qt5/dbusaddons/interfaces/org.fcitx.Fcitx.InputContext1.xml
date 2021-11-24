@@ -50,6 +50,10 @@
     <method name="SelectCandidate">
       <arg name="index" direction="in" type="i"/>
     </method>
+    <method name="InvokeAction">
+      <arg name="action" direction="in" type="u"/>
+      <arg name="cursor" direction="in" type="i"/>
+    </method>
     <signal name="CommitString">
       <arg name="str" type="s"/>
     </signal>

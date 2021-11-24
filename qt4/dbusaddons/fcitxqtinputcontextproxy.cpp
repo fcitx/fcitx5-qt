@@ -76,6 +76,13 @@ QDBusPendingReply<> FcitxQtInputContextProxy::setCursorRect(int x, int y, int w,
     return d->icproxy_->SetCursorRect(x, y, w, h);
 }
 
+QDBusPendingReply<> FcitxQtInputContextProxy::setCursorRectV2(int x, int y,
+                                                              int w, int h,
+                                                              double scale) {
+    Q_D(FcitxQtInputContextProxy);
+    return d->icproxy_->SetCursorRectV2(x, y, w, h, scale);
+}
+
 QDBusPendingReply<> FcitxQtInputContextProxy::setSurroundingText(
     const QString &text, unsigned int cursor, unsigned int anchor) {
     Q_D(FcitxQtInputContextProxy);
@@ -87,6 +94,32 @@ FcitxQtInputContextProxy::setSurroundingTextPosition(unsigned int cursor,
                                                      unsigned int anchor) {
     Q_D(FcitxQtInputContextProxy);
     return d->icproxy_->SetSurroundingTextPosition(cursor, anchor);
+}
+
+QDBusPendingReply<> FcitxQtInputContextProxy::prevPage() {
+    Q_D(FcitxQtInputContextProxy);
+    return d->icproxy_->PrevPage();
+}
+
+QDBusPendingReply<> FcitxQtInputContextProxy::nextPage() {
+    Q_D(FcitxQtInputContextProxy);
+    return d->icproxy_->NextPage();
+}
+
+QDBusPendingReply<> FcitxQtInputContextProxy::selectCandidate(int i) {
+    Q_D(FcitxQtInputContextProxy);
+    return d->icproxy_->SelectCandidate(i);
+}
+
+QDBusPendingReply<> FcitxQtInputContextProxy::invokeAction(unsigned int action,
+                                                           int cursor) {
+    Q_D(FcitxQtInputContextProxy);
+    return d->icproxy_->InvokeAction(action, cursor);
+}
+
+bool FcitxQtInputContextProxy::supportInvokeAction() const {
+    Q_D(const FcitxQtInputContextProxy);
+    return d->supportInvokeAction_;
 }
 
 } // namespace fcitx

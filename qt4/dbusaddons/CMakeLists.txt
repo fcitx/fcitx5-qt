@@ -51,6 +51,8 @@ target_link_libraries(
     PUBLIC
         Qt4::QtCore
         Qt4::QtDBus
+    PRIVATE
+        Qt4::QtXml
 )
 
 if(BUILD_ONLY_PLUGIN)

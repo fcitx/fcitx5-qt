@@ -189,12 +189,24 @@ void QFcitxPlatformInputContext::cleanUp() {
 
 bool QFcitxPlatformInputContext::isValid() const { return true; }
 
-void QFcitxPlatformInputContext::invokeAction(QInputMethod::Action action,
+void QFcitxPlatformInputContext::invokeAction(QInputMethod::Action imAction,
                                               int cursorPosition) {
-    if (action == QInputMethod::Click &&
-        (cursorPosition <= 0 || cursorPosition >= preedit_.length())) {
-        // qDebug() << action << cursorPosition;
-        commitPreedit();
+    unsigned int action;
+    if (imAction == QInputMethod::Click) {
+        action = 0;
+    } else if (imAction == QInputMethod::ContextMenu) {
+        action = 1;
+    } else {
+        return;
+    }
+    if (FcitxQtInputContextProxy *proxy = validIC();
+        proxy->supportInvokeAction()) {
+        proxy->invokeAction(action, cursorPosition);
+    } else {
+        if (cursorPosition <= 0 || cursorPosition >= preedit_.length()) {
+            // qDebug() << action << cursorPosition;
+            reset();
+        }
     }
 }
 

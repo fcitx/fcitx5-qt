@@ -53,6 +53,8 @@ target_link_libraries(
     PUBLIC
         Qt5::Core
         Qt5::DBus
+    PRIVATE
+        Qt5::Xml
 )
 
 if(BUILD_ONLY_PLUGIN)

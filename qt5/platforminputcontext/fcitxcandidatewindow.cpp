@@ -350,11 +350,11 @@ void UpdateLayout(QTextLayout &layout, const QFont &font,
     layout.setFormats(formats);
 }
 
-void fcitx::FcitxCandidateWindow::updateClientSideUI(
-    const fcitx::FcitxQtFormattedPreeditList &preedit, int cursorpos,
-    const fcitx::FcitxQtFormattedPreeditList &auxUp,
-    const fcitx::FcitxQtFormattedPreeditList &auxDown,
-    const fcitx::FcitxQtStringKeyValueList &candidates, int candidateIndex,
+void FcitxCandidateWindow::updateClientSideUI(
+    const FcitxQtFormattedPreeditList &preedit, int cursorpos,
+    const FcitxQtFormattedPreeditList &auxUp,
+    const FcitxQtFormattedPreeditList &auxDown,
+    const FcitxQtStringKeyValueList &candidates, int candidateIndex,
     int layoutHint, bool hasPrev, bool hasNext) {
     bool preeditVisble = (cursorpos >= 0 || !preedit.isEmpty());
     bool auxUpVisbile = !auxUp.isEmpty();
@@ -454,9 +454,7 @@ void fcitx::FcitxCandidateWindow::updateClientSideUI(
     show();
 }
 
-} // namespace fcitx
-
-void fcitx::FcitxCandidateWindow::mouseMoveEvent(QMouseEvent *event) {
+void FcitxCandidateWindow::mouseMoveEvent(QMouseEvent *event) {
     bool needRepaint = false;
     auto oldHighlight = highlight();
     hoverIndex_ = -1;
@@ -480,7 +478,7 @@ void fcitx::FcitxCandidateWindow::mouseMoveEvent(QMouseEvent *event) {
     }
 }
 
-void fcitx::FcitxCandidateWindow::mouseReleaseEvent(QMouseEvent *event) {
+void FcitxCandidateWindow::mouseReleaseEvent(QMouseEvent *event) {
     if (event->button() != Qt::LeftButton) {
         return;
     }
@@ -501,7 +499,7 @@ void fcitx::FcitxCandidateWindow::mouseReleaseEvent(QMouseEvent *event) {
     }
 }
 
-QSize fcitx::FcitxCandidateWindow::sizeHint() {
+QSize FcitxCandidateWindow::sizeHint() {
     auto minH =
         theme_->fontMetrics().ascent() + theme_->fontMetrics().descent();
 
@@ -575,7 +573,7 @@ QSize fcitx::FcitxCandidateWindow::sizeHint() {
     return {static_cast<int>(width), static_cast<int>(height)};
 }
 
-void fcitx::FcitxCandidateWindow::wheelEvent(QWheelEvent *event) {
+void FcitxCandidateWindow::wheelEvent(QWheelEvent *event) {
     if (!theme_ || !theme_->wheelForPaging()) {
         return;
     }
@@ -590,3 +588,5 @@ void fcitx::FcitxCandidateWindow::wheelEvent(QWheelEvent *event) {
         Q_EMIT nextClicked();
     }
 }
+
+} // namespace fcitx

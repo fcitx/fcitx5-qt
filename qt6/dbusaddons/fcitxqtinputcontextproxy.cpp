@@ -105,4 +105,15 @@ QDBusPendingReply<> FcitxQtInputContextProxy::selectCandidate(int i) {
     return d->icproxy_->SelectCandidate(i);
 }
 
+QDBusPendingReply<> FcitxQtInputContextProxy::invokeAction(unsigned int action,
+                                                           int cursor) {
+    Q_D(FcitxQtInputContextProxy);
+    return d->icproxy_->InvokeAction(action, cursor);
+}
+
+bool FcitxQtInputContextProxy::supportInvokeAction() const {
+    Q_D(const FcitxQtInputContextProxy);
+    return d->supportInvokeAction_;
+}
+
 } // namespace fcitx

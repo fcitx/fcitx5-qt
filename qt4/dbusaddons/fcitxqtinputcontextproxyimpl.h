@@ -10,8 +10,8 @@
  * Do not edit! All changes made to it will be lost.
  */
 
-#ifndef FCITXQTINPUTCONTEXTPROXYIMPL_H_1508138556
-#define FCITXQTINPUTCONTEXTPROXYIMPL_H_1508138556
+#ifndef FCITXQTINPUTCONTEXTPROXYIMPL_H_1637715099
+#define FCITXQTINPUTCONTEXTPROXYIMPL_H_1637715099
 
 #include "fcitx5qt4dbusaddons_export.h"
 #include "fcitxqtdbustypes.h"
@@ -62,6 +62,26 @@ public Q_SLOTS: // METHODS
                                          argumentList);
     }
 
+    inline QDBusPendingReply<> InvokeAction(unsigned int action, int cursor) {
+        QList<QVariant> argumentList;
+        argumentList << QVariant::fromValue(action)
+                     << QVariant::fromValue(cursor);
+        return asyncCallWithArgumentList(QLatin1String("InvokeAction"),
+                                         argumentList);
+    }
+
+    inline QDBusPendingReply<> NextPage() {
+        QList<QVariant> argumentList;
+        return asyncCallWithArgumentList(QLatin1String("NextPage"),
+                                         argumentList);
+    }
+
+    inline QDBusPendingReply<> PrevPage() {
+        QList<QVariant> argumentList;
+        return asyncCallWithArgumentList(QLatin1String("PrevPage"),
+                                         argumentList);
+    }
+
     inline QDBusPendingReply<bool> ProcessKeyEvent(unsigned int keyval, unsigned int keycode,
                                                    unsigned int state, bool type,
                                                    unsigned int time) {
@@ -79,6 +99,13 @@ public Q_SLOTS: // METHODS
         return asyncCallWithArgumentList(QLatin1String("Reset"), argumentList);
     }
 
+    inline QDBusPendingReply<> SelectCandidate(int index) {
+        QList<QVariant> argumentList;
+        argumentList << QVariant::fromValue(index);
+        return asyncCallWithArgumentList(QLatin1String("SelectCandidate"),
+                                         argumentList);
+    }
+
     inline QDBusPendingReply<> SetCapability(qulonglong caps) {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(caps);
@@ -91,6 +118,16 @@ public Q_SLOTS: // METHODS
         argumentList << QVariant::fromValue(x) << QVariant::fromValue(y)
                      << QVariant::fromValue(w) << QVariant::fromValue(h);
         return asyncCallWithArgumentList(QLatin1String("SetCursorRect"),
+                                         argumentList);
+    }
+
+    inline QDBusPendingReply<> SetCursorRectV2(int x, int y, int w, int h,
+                                               double scale) {
+        QList<QVariant> argumentList;
+        argumentList << QVariant::fromValue(x) << QVariant::fromValue(y)
+                     << QVariant::fromValue(w) << QVariant::fromValue(h)
+                     << QVariant::fromValue(scale);
+        return asyncCallWithArgumentList(QLatin1String("SetCursorRectV2"),
                                          argumentList);
     }
 
@@ -118,6 +155,12 @@ Q_SIGNALS: // SIGNALS
                    const QString &langCode);
     void DeleteSurroundingText(int offset, unsigned int nchar);
     void ForwardKey(unsigned int keyval, unsigned int state, bool type);
+    void UpdateClientSideUI(FcitxQtFormattedPreeditList preedit, int cursorpos,
+                            FcitxQtFormattedPreeditList auxUp,
+                            FcitxQtFormattedPreeditList auxDown,
+                            FcitxQtFormattedPreeditList candidates,
+                            int candidateIndex, int layoutHint, bool hasPrev,
+                            bool hasNext);
     void UpdateFormattedPreedit(FcitxQtFormattedPreeditList str, int cursorpos);
 };
 } // namespace fcitx

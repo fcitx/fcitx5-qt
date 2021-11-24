@@ -58,6 +58,14 @@ public Q_SLOTS: // METHODS
         return asyncCallWithArgumentList(QStringLiteral("FocusOut"), argumentList);
     }
 
+    inline QDBusPendingReply<> InvokeAction(unsigned int action, int cursor) {
+        QList<QVariant> argumentList;
+        argumentList << QVariant::fromValue(action)
+                     << QVariant::fromValue(cursor);
+        return asyncCallWithArgumentList(QStringLiteral("InvokeAction"),
+                                         argumentList);
+    }
+
     inline QDBusPendingReply<> NextPage()
     {
         QList<QVariant> argumentList;
@@ -70,8 +78,9 @@ public Q_SLOTS: // METHODS
         return asyncCallWithArgumentList(QStringLiteral("PrevPage"), argumentList);
     }
 
-    inline QDBusPendingReply<bool> ProcessKeyEvent(uint keyval, uint keycode, uint state, bool type, uint time)
-    {
+    inline QDBusPendingReply<bool>
+    ProcessKeyEvent(unsigned int keyval, unsigned int keycode,
+                    unsigned int state, bool type, unsigned int time) {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(keyval) << QVariant::fromValue(keycode) << QVariant::fromValue(state) << QVariant::fromValue(type) << QVariant::fromValue(time);
         return asyncCallWithArgumentList(QStringLiteral("ProcessKeyEvent"), argumentList);
@@ -111,15 +120,16 @@ public Q_SLOTS: // METHODS
         return asyncCallWithArgumentList(QStringLiteral("SetCursorRectV2"), argumentList);
     }
 
-    inline QDBusPendingReply<> SetSurroundingText(const QString &text, uint cursor, uint anchor)
-    {
+    inline QDBusPendingReply<> SetSurroundingText(const QString &text,
+                                                  unsigned int cursor,
+                                                  unsigned int anchor) {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(text) << QVariant::fromValue(cursor) << QVariant::fromValue(anchor);
         return asyncCallWithArgumentList(QStringLiteral("SetSurroundingText"), argumentList);
     }
 
-    inline QDBusPendingReply<> SetSurroundingTextPosition(uint cursor, uint anchor)
-    {
+    inline QDBusPendingReply<> SetSurroundingTextPosition(unsigned int cursor,
+                                                          unsigned int anchor) {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(cursor) << QVariant::fromValue(anchor);
         return asyncCallWithArgumentList(QStringLiteral("SetSurroundingTextPosition"), argumentList);
@@ -128,8 +138,8 @@ public Q_SLOTS: // METHODS
 Q_SIGNALS: // SIGNALS
     void CommitString(const QString &str);
     void CurrentIM(const QString &name, const QString &uniqueName, const QString &langCode);
-    void DeleteSurroundingText(int offset, uint nchar);
-    void ForwardKey(uint keyval, uint state, bool type);
+    void DeleteSurroundingText(int offset, unsigned int nchar);
+    void ForwardKey(unsigned int keyval, unsigned int state, bool type);
     void UpdateClientSideUI(FcitxQtFormattedPreeditList preedit, int cursorpos, FcitxQtFormattedPreeditList auxUp, FcitxQtFormattedPreeditList auxDown, FcitxQtStringKeyValueList candidates, int candidateIndex, int layoutHint, bool hasPrev, bool hasNext);
     void UpdateFormattedPreedit(FcitxQtFormattedPreeditList str, int cursorpos);
 };

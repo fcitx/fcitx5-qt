@@ -43,11 +43,19 @@ public Q_SLOTS:
     QDBusPendingReply<> reset();
     QDBusPendingReply<> setCapability(qulonglong caps);
     QDBusPendingReply<> setCursorRect(int x, int y, int w, int h);
+    QDBusPendingReply<> setCursorRectV2(int x, int y, int w, int h,
+                                        double scale);
     QDBusPendingReply<> setSurroundingText(const QString &text,
                                            unsigned int cursor,
                                            unsigned int anchor);
     QDBusPendingReply<> setSurroundingTextPosition(unsigned int cursor,
                                                    unsigned int anchor);
+    QDBusPendingReply<> prevPage();
+    QDBusPendingReply<> nextPage();
+    QDBusPendingReply<> selectCandidate(int i);
+    QDBusPendingReply<> invokeAction(unsigned int action, int cursor);
+
+    bool supportInvokeAction() const;
 
 Q_SIGNALS:
     void commitString(const QString &str);
@@ -57,6 +65,13 @@ Q_SIGNALS:
     void forwardKey(unsigned int keyval, unsigned int state, bool isRelease);
     void updateFormattedPreedit(const FcitxQtFormattedPreeditList &str,
                                 int cursorpos);
+    void updateClientSideUI(const FcitxQtFormattedPreeditList &preedit,
+                            int cursorpos,
+                            const FcitxQtFormattedPreeditList &auxUp,
+                            const FcitxQtFormattedPreeditList &auxDown,
+                            const FcitxQtStringKeyValueList &candidates,
+                            int candidateIndex, int layoutHint, bool hasPrev,
+                            bool hasNext);
     void inputContextCreated(const QByteArray &uuid);
 
 private:
@@ -65,6 +80,7 @@ private:
     Q_PRIVATE_SLOT(d_func(), void cleanUp());
     Q_PRIVATE_SLOT(d_func(), void serviceUnregistered());
     Q_PRIVATE_SLOT(d_func(), void createInputContextFinished());
+    Q_PRIVATE_SLOT(d_func(), void introspectFinished());
 
     FcitxQtInputContextProxyPrivate *const d_ptr;
     Q_DECLARE_PRIVATE(FcitxQtInputContextProxy);
