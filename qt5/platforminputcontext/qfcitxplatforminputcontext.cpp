@@ -217,9 +217,9 @@ void QFcitxPlatformInputContext::commitPreedit(QPointer<QObject> input) {
         return;
     QInputMethodEvent e;
     e.setCommitString(commitPreedit_);
-    QCoreApplication::sendEvent(input, &e);
     commitPreedit_.clear();
     preeditList_.clear();
+    QCoreApplication::sendEvent(input, &e);
 }
 
 bool checkUtf8(const QByteArray &byteArray) {
