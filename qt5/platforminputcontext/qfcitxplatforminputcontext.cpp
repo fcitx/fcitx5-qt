@@ -28,6 +28,7 @@
 #include "qfcitxplatforminputcontext.h"
 #include "qtkey.h"
 
+#include <array>
 #include <memory>
 #include <xcb/xcb.h>
 
