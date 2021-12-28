@@ -13,7 +13,6 @@
 #include "fcitxqtinputmethodproxy.h"
 #include "fcitxqtwatcher.h"
 #include <QDBusServiceWatcher>
-#include <QDomDocument>
 
 namespace fcitx {
 
@@ -176,30 +175,9 @@ public:
         if (introspectWatcher_->isFinished() &&
             !introspectWatcher_->isError()) {
             QDBusPendingReply<QString> reply = *introspectWatcher_;
-            QDomDocument dom;
 
-            dom.setContent(reply.value());
-            QDomNodeList ifaceNodeList = dom.elementsByTagName("interface");
-            for (int i = 0; i < ifaceNodeList.count(); i++) {
-                QDomElement ifaceElem = ifaceNodeList.item(i).toElement();
-                if (!ifaceElem.isNull() &&
-                    ifaceElem.attribute("name") ==
-                        FcitxQtInputContextProxyImpl::staticInterfaceName()) {
-                    QDomNodeList methodNodeList =
-                        ifaceElem.elementsByTagName("method");
-                    for (int j = 0; j < methodNodeList.count(); j++) {
-
-                        QDomElement methodElem =
-                            methodNodeList.item(j).toElement();
-
-                        if (!methodElem.isNull() &&
-                            methodElem.attribute("name") == "InvokeAction") {
-                            supportInvokeAction_ = true;
-                            break;
-                        }
-                    }
-                    return;
-                }
+            if (reply.value().contains("InvokeAction")) {
+                supportInvokeAction_ = true;
             }
         }
         delete introspectWatcher_;
