@@ -456,23 +456,32 @@ void FcitxCandidateWindow::updateClientSideUI(
 
 void FcitxCandidateWindow::mouseMoveEvent(QMouseEvent *event) {
     bool needRepaint = false;
+
+    bool prevHovered = false;
+    bool nextHovered = false;
     auto oldHighlight = highlight();
     hoverIndex_ = -1;
-    for (int idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
-        if (candidateRegions_[idx].contains(event->pos())) {
-            hoverIndex_ = idx;
-            break;
+
+    prevHovered = prevRegion_.contains(event->pos());
+    if (!prevHovered) {
+        nextHovered = nextRegion_.contains(event->pos());
+        if (!nextHovered) {
+            for (int idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
+                if (candidateRegions_[idx].contains(event->pos())) {
+                    hoverIndex_ = idx;
+                    break;
+                }
+            }
         }
     }
 
-    needRepaint = needRepaint || oldHighlight != highlight();
-
-    auto prevHovered = prevRegion_.contains(event->pos());
-    auto nextHovered = nextRegion_.contains(event->pos());
     needRepaint = needRepaint || prevHovered_ != prevHovered;
-    needRepaint = needRepaint || nextHovered_ != nextHovered;
     prevHovered_ = prevHovered;
+
+    needRepaint = needRepaint || nextHovered_ != nextHovered;
     nextHovered_ = nextHovered;
+
+    needRepaint = needRepaint || oldHighlight != highlight();
     if (needRepaint) {
         renderNow();
     }
@@ -482,12 +491,6 @@ void FcitxCandidateWindow::mouseReleaseEvent(QMouseEvent *event) {
     if (event->button() != Qt::LeftButton) {
         return;
     }
-    for (int idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
-        if (candidateRegions_[idx].contains(event->pos())) {
-            Q_EMIT candidateSelected(idx);
-            return;
-        }
-    }
 
     if (prevRegion_.contains(event->pos())) {
         Q_EMIT prevClicked();
@@ -496,6 +499,14 @@ void FcitxCandidateWindow::mouseReleaseEvent(QMouseEvent *event) {
 
     if (nextRegion_.contains(event->pos())) {
         Q_EMIT nextClicked();
+        return;
+    }
+
+    for (int idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
+        if (candidateRegions_[idx].contains(event->pos())) {
+            Q_EMIT candidateSelected(idx);
+            return;
+        }
     }
 }
 
