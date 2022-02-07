@@ -73,6 +73,10 @@ public:
     const auto &next() const { return next_; }
     const auto &font() const { return font_; }
     const auto &fontMetrics() const { return fontMetrics_; }
+    const auto &highlightBackgroundColor() const {
+        return highlightBackgroundColor_;
+    }
+    const auto &highlightColor() const { return highlightColor_; }
     auto contentMargin() const { return contentMargin_; }
     auto textMargin() const { return textMargin_; }
     auto highlightClickMargin() const { return highlightClickMargin_; }

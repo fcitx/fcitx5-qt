@@ -307,12 +307,12 @@ void FcitxCandidateWindow::render(QPainter *painter) {
     }
 }
 
-void UpdateLayout(QTextLayout &layout, const QFont &font,
+void UpdateLayout(QTextLayout &layout, const FcitxTheme &theme,
                   std::initializer_list<
                       std::reference_wrapper<const FcitxQtFormattedPreeditList>>
                       texts) {
     layout.clearFormats();
-    layout.setFont(font);
+    layout.setFont(theme.font());
     QVector<QTextLayout::FormatRange> formats;
     QString str;
     int pos = 0;
@@ -333,13 +333,8 @@ void UpdateLayout(QTextLayout &layout, const QFont &font,
                 format.setFontItalic(true);
             }
             if (preedit.format() & FcitxTextFormatFlag_HighLight) {
-                QBrush brush;
-                QPalette palette;
-                palette = QGuiApplication::palette();
-                format.setBackground(QBrush(QColor(
-                    palette.color(QPalette::Active, QPalette::Highlight))));
-                format.setForeground(QBrush(QColor(palette.color(
-                    QPalette::Active, QPalette::HighlightedText))));
+                format.setBackground(theme.highlightBackgroundColor());
+                format.setForeground(theme.highlightColor());
             }
             formats.append(QTextLayout::FormatRange{
                 pos, static_cast<int>(preedit.string().length()), format});
@@ -370,7 +365,7 @@ void FcitxCandidateWindow::updateClientSideUI(
         return;
     }
 
-    UpdateLayout(upperLayout_, theme_->font(), {auxUp, preedit});
+    UpdateLayout(upperLayout_, *theme_, {auxUp, preedit});
     if (cursorpos >= 0) {
         int auxUpLength = 0;
         for (const auto &auxUpText : auxUp) {
@@ -384,7 +379,7 @@ void FcitxCandidateWindow::updateClientSideUI(
         cursor_ = -1;
     }
     doLayout(upperLayout_);
-    UpdateLayout(lowerLayout_, theme_->font(), {auxDown});
+    UpdateLayout(lowerLayout_, *theme_, {auxDown});
     doLayout(lowerLayout_);
     labelLayouts_.clear();
     candidateLayouts_.clear();

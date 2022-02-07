@@ -228,7 +228,7 @@ void FcitxTheme::themeChanged() {
     fullWidthHighlight_ = readBool(settings, "FullWidthHighlight", true);
     highlightColor_ = readColor(settings, "HighlightColor", "#ffffff");
     highlightBackgroundColor_ =
-        readColor(settings, "HighlightColor", "#a5a5a5");
+        readColor(settings, "HighlightBackgroundColor", "#a5a5a5");
 
     settings.beginGroup("ContentMargin");
     contentMargin_ = readMargin(settings);
