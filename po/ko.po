@@ -5,15 +5,15 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # Bon Keun Seo <scobyseo@gmail.com>, 2017
-# Jung Hee Lee <daemul72@gmail.com>, 2021
+# JungHee Lee <daemul72@gmail.com>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-06-05 20:25+0000\n"
+"POT-Creation-Date: 2022-03-01 20:24+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
-"Last-Translator: Jung Hee Lee <daemul72@gmail.com>, 2021\n"
+"Last-Translator: JungHee Lee <daemul72@gmail.com>, 2022\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -105,7 +105,7 @@ msgstr "시스템 파일을 제거할 수 없음"
 
 #: qt5/guiwrapper/wrapperapp.cpp:35
 msgid "Config path"
-msgstr "설정 경로"
+msgstr "구성 경로"
 
 #: qt5/quickphrase-editor/editor.cpp:271
 msgid "Confirm deletion"
@@ -147,7 +147,7 @@ msgstr "Fcitx에 알리지 못함"
 
 #: qt5/guiwrapper/mainwindow.cpp:107
 msgid "Failed to notify Fcitx about the configuration change."
-msgstr "환경설정 변경에 대해 Fcitx에 알리지 못했습니다."
+msgstr "구성 변경에 대해 Fcitx에 알리지 못했습니다."
 
 #: qt5/quickphrase-editor/editor.cpp:237 qt5/quickphrase-editor/editor.cpp:279
 msgid "File Operation Failed"
@@ -199,7 +199,7 @@ msgstr "변경 저장"
 
 #: qt5/guiwrapper/wrapperapp.cpp:33
 msgid "Test if config exists"
-msgstr "설정이 있는지 확인"
+msgstr "구성이 있는지 확인"
 
 #: qt5/quickphrase-editor/editor.cpp:86
 msgid ""
