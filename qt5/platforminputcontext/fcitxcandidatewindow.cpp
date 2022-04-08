@@ -395,7 +395,14 @@ void FcitxCandidateWindow::updateClientSideUI(
 
     actualSize_ = sizeHint();
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
     QSize sizeWithoutShadow = actualSize_.shrunkBy(theme_->shadowMargin());
+#else
+    QSize sizeWithoutShadow =
+        actualSize_ -
+        QSize(theme_->shadowMargin().left() + theme_->shadowMargin().right(),
+              theme_->shadowMargin().top() + theme_->shadowMargin().bottom());
+#endif
     if (sizeWithoutShadow.width() < 0) {
         sizeWithoutShadow.setWidth(0);
     }
