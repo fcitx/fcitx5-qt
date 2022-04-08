@@ -210,6 +210,7 @@ void FcitxTheme::themeChanged() {
         contentMargin_ = QMargins{2, 2, 2, 2};
         textMargin_ = QMargins{5, 5, 5, 5};
         highlightClickMargin_ = QMargins{0, 0, 0, 0};
+        shadowMargin_ = QMargins{0, 0, 0, 0};
         background_.loadFromValue(highlightBackgroundColor_, highlightColor_,
                                   contentMargin_, 2);
         highlight_.loadFromValue(highlightBackgroundColor_,
@@ -235,6 +236,9 @@ void FcitxTheme::themeChanged() {
     settings.endGroup();
     settings.beginGroup("TextMargin");
     textMargin_ = readMargin(settings);
+    settings.endGroup();
+    settings.beginGroup("ShadowMargin");
+    shadowMargin_ = readMargin(settings);
     settings.endGroup();
 
     settings.beginGroup("Background");

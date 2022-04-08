@@ -81,6 +81,7 @@ public:
     auto textMargin() const { return textMargin_; }
     auto highlightClickMargin() const { return highlightClickMargin_; }
     QMargins highlightMargin() const;
+    auto shadowMargin() const { return shadowMargin_; }
     auto normalColor() const { return normalColor_; }
     auto highlightCandidateColor() const { return highlightCandidateColor_; }
     auto vertical() const { return vertical_; }
@@ -113,6 +114,7 @@ private:
     QMargins highlightClickMargin_;
     QMargins contentMargin_;
     QMargins textMargin_;
+    QMargins shadowMargin_;
 };
 
 } // namespace fcitx

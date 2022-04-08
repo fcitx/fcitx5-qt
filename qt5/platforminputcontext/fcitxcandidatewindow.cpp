@@ -358,8 +358,7 @@ void FcitxCandidateWindow::updateClientSideUI(
     bool visible =
         preeditVisble || auxUpVisbile || auxDownVisible || candidatesVisible;
     auto window = QGuiApplication::focusWindow();
-    if (!theme_ || !visible || !QGuiApplication::focusWindow() ||
-        window != parent_) {
+    if (!theme_ || !visible || !window || window != parent_) {
         hide();
         hoverIndex_ = -1;
         return;
@@ -396,6 +395,13 @@ void FcitxCandidateWindow::updateClientSideUI(
 
     actualSize_ = sizeHint();
 
+    QSize sizeWithoutShadow = actualSize_.shrunkBy(theme_->shadowMargin());
+    if (sizeWithoutShadow.width() < 0) {
+        sizeWithoutShadow.setWidth(0);
+    }
+    if (sizeWithoutShadow.height() < 0) {
+        sizeWithoutShadow.setHeight(0);
+    }
     QRect cursorRect =
         QGuiApplication::inputMethod()->cursorRectangle().toRect();
     QRect screenGeometry;
@@ -414,19 +420,20 @@ void FcitxCandidateWindow::updateClientSideUI(
     }
 
     int x = cursorRect.left(), y = cursorRect.bottom();
-    if (cursorRect.left() + actualSize_.width() > screenGeometry.right()) {
-        x = screenGeometry.right() - actualSize_.width() + 1;
+    if (cursorRect.left() + sizeWithoutShadow.width() >
+        screenGeometry.right()) {
+        x = screenGeometry.right() - sizeWithoutShadow.width() + 1;
     }
 
     if (x < screenGeometry.left()) {
         x = screenGeometry.left();
     }
 
-    if (y + actualSize_.height() > screenGeometry.bottom()) {
+    if (y + sizeWithoutShadow.height() > screenGeometry.bottom()) {
         if (y > screenGeometry.bottom()) {
-            y = screenGeometry.bottom() - actualSize_.height() - 40;
+            y = screenGeometry.bottom() - sizeWithoutShadow.height() - 40;
         } else { /* better position the window */
-            y = y - actualSize_.height() -
+            y = y - sizeWithoutShadow.height() -
                 ((cursorRect.height() == 0) ? 40 : cursorRect.height());
         }
     }
@@ -439,6 +446,8 @@ void FcitxCandidateWindow::updateClientSideUI(
     resize(actualSize_);
     // hide();
     QPoint newPosition(x, y);
+    newPosition -=
+        QPoint(theme_->shadowMargin().left(), theme_->shadowMargin().top());
     if (newPosition != position()) {
         if (isVisible()) {
             hide();
