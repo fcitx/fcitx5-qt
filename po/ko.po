@@ -5,15 +5,15 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # Bon Keun Seo <scobyseo@gmail.com>, 2017
-# JungHee Lee <daemul72@gmail.com>, 2022
+# Junghee Lee <daemul72@gmail.com>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-03-01 20:24+0000\n"
+"POT-Creation-Date: 2022-04-09 20:24+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
-"Last-Translator: JungHee Lee <daemul72@gmail.com>, 2022\n"
+"Last-Translator: Junghee Lee <daemul72@gmail.com>, 2022\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -222,7 +222,7 @@ msgstr "지원하지 않는 키"
 #: rc.cpp:6
 #, kde-format
 msgid "Use <Keyword> <Phrase> format on every line."
-msgstr "모든 행에 <Keyword> <Phrase> 형식을 사용합니다."
+msgstr "모든 줄에 <Keyword> <Phrase> 형식을 사용합니다."
 
 #: qt5/guiwrapper/wrapperapp.cpp:35
 msgid "path"
