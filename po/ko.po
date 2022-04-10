@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-04-09 20:24+0000\n"
+"POT-Creation-Date: 2022-04-10 20:24+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
 "Last-Translator: Junghee Lee <daemul72@gmail.com>, 2022\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -78,7 +78,7 @@ msgstr "재설정(&R)"
 
 #: qt5/guiwrapper/wrapperapp.cpp:29
 msgid "A launcher for Fcitx Gui plugin."
-msgstr "Fcitx GUI 플러그인 실행기"
+msgstr "Fcitx GUI 플러그인용 실행기"
 
 #: qt5/quickphrase-editor/editor.cpp:33
 msgid "Add File"
@@ -120,7 +120,7 @@ msgstr "새로운 파일 생성"
 #: rc.cpp:21
 #, kde-format
 msgid "De&lete All"
-msgstr "모두 지우기(&l)"
+msgstr "모두 삭제(&L)"
 
 #: qt5/quickphrase-editor/filelistmodel.cpp:29
 msgid "Default"
@@ -131,7 +131,7 @@ msgstr "기본값"
 #: rc.cpp:27
 #, kde-format
 msgid "E&xport"
-msgstr "가저오기(&x)"
+msgstr "내보내기(&X)"
 
 #: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:319
 msgid "Empty"
