@@ -24,6 +24,7 @@ WrapperApp::WrapperApp(int &argc, char **argv)
 
     setApplicationName(QLatin1String("fcitx5-qt5-gui-wrapper"));
     setApplicationVersion(QLatin1String(FCITX5_QT_VERSION));
+    setOrganizationDomain("fcitx.org");
 
     QCommandLineParser parser;
     parser.setApplicationDescription(_("A launcher for Fcitx Gui plugin."));
