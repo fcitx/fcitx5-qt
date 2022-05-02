@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the fcitx5-qt package.
 #
 # Translators:
-# csslayer <wengxt@gmail.com>, 2017
 # UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2020
 # Takuro Onoue <kusanaginoturugi@gmail.com>, 2020
+# csslayer <wengxt@gmail.com>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-25 20:26+0000\n"
+"POT-Creation-Date: 2022-05-02 03:03+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
-"Last-Translator: Takuro Onoue <kusanaginoturugi@gmail.com>, 2020\n"
+"Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -76,7 +76,7 @@ msgstr "操作(&O)"
 msgid "&Reset"
 msgstr "リセット (&R)"
 
-#: qt5/guiwrapper/wrapperapp.cpp:29
+#: qt5/guiwrapper/wrapperapp.cpp:30
 msgid "A launcher for Fcitx Gui plugin."
 msgstr "Fcitx Gui プラグインのランチャーです。"
 
@@ -103,7 +103,7 @@ msgstr "%1 ファイルを作成できません。"
 msgid "Cannot remove system file"
 msgstr "システムファイルは削除出来ません。"
 
-#: qt5/guiwrapper/wrapperapp.cpp:35
+#: qt5/guiwrapper/wrapperapp.cpp:36
 msgid "Config path"
 msgstr "設定パス"
 
@@ -133,7 +133,7 @@ msgstr "デフォルト"
 msgid "E&xport"
 msgstr "エクスポート (&x)"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:318
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:319
 msgid "Empty"
 msgstr "空"
 
@@ -149,6 +149,10 @@ msgstr "Fcitx の通知に失敗しました。"
 msgid "Failed to notify Fcitx about the configuration change."
 msgstr "設定の変更についての Fcitx の通知に失敗しました。"
 
+#: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:3
+msgid "Fcitx 5 Qt5 Gui Wrapper"
+msgstr ""
+
 #: qt5/quickphrase-editor/editor.cpp:237 qt5/quickphrase-editor/editor.cpp:279
 msgid "File Operation Failed"
 msgstr "ファイル処理に失敗しました"
@@ -157,23 +161,31 @@ msgstr "ファイル処理に失敗しました"
 msgid "File name should not contain '/'."
 msgstr "ファイル名に '/' は含められません。"
 
+#: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:4
+msgid "Input Method Configuration helper"
+msgstr ""
+
 #: qt5/quickphrase-editor/editor.cpp:225
 msgid "Invalid filename"
 msgstr "無効なファイル名"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:179
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:180
 msgid "Key code mode"
 msgstr "キーコードモード"
 
-#: qt5/quickphrase-editor/model.cpp:33
+#: qt5/quickphrase-editor/model.cpp:71
 msgid "Keyword"
 msgstr "キーワード"
 
-#: qt5/guiwrapper/wrapperapp.cpp:32
+#: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:5
+msgid "Load configuration plugin for Fcitx Addon"
+msgstr ""
+
+#: qt5/guiwrapper/wrapperapp.cpp:33
 msgid "Parent window ID"
 msgstr "親ウィンドウID"
 
-#: qt5/quickphrase-editor/model.cpp:35
+#: qt5/quickphrase-editor/model.cpp:73
 msgid "Phrase"
 msgstr "フレーズ"
 
@@ -197,7 +209,7 @@ msgstr "ファイル削除"
 msgid "Save Changes"
 msgstr "変更の保存"
 
-#: qt5/guiwrapper/wrapperapp.cpp:33
+#: qt5/guiwrapper/wrapperapp.cpp:34
 msgid "Test if config exists"
 msgstr "設定が存在したらテストする"
 
@@ -209,11 +221,11 @@ msgstr ""
 "内容が変更されています。\n"
 "変更を保存しますか?それとも変更を破棄しますか?"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:355
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:356
 msgid "The key you just pressed is not supported by Qt."
 msgstr "押されたキーは Qt でサポートされていません。"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:356
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:357
 msgid "Unsupported Key"
 msgstr "サポートされていないキー"
 
@@ -224,10 +236,10 @@ msgstr "サポートされていないキー"
 msgid "Use <Keyword> <Phrase> format on every line."
 msgstr "各行では <Keyword> <Phrase> の形式を使用してください。"
 
-#: qt5/guiwrapper/wrapperapp.cpp:35
+#: qt5/guiwrapper/wrapperapp.cpp:36
 msgid "path"
 msgstr "パス"
 
-#: qt5/guiwrapper/wrapperapp.cpp:32
+#: qt5/guiwrapper/wrapperapp.cpp:33
 msgid "winid"
 msgstr "ウィンドウ ID"

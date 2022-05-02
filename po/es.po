@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-04-17 22:37-0700\n"
+"POT-Creation-Date: 2022-05-02 03:01+0000\n"
 "PO-Revision-Date: 2015-12-12 07:18+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/fcitx/fcitx/language/es/)\n"
@@ -18,214 +18,227 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: qt5/quickphrase-editor/editor.cpp:272
+#: qt5/quickphrase-editor/editor.cpp:260
 msgid "%1 is a system file, do you want to delete all phrases instead?"
 msgstr ""
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:52
 #. i18n: ectx: property (text), widget (QPushButton, addButton)
-#: rc.cpp:6
+#: rc.cpp:12
 #, kde-format
 msgid "&Add"
 msgstr ""
 
-#: qt5/guiwrapper/mainwindow.cpp:43
+#: qt5/guiwrapper/mainwindow.cpp:29
 msgid "&Apply"
 msgstr ""
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:63
 #. i18n: ectx: property (text), widget (QPushButton, batchEditButton)
-#: rc.cpp:9
+#: rc.cpp:15
 #, kde-format
 msgid "&Batch Edit"
 msgstr ""
 
-#: qt5/guiwrapper/mainwindow.cpp:45
+#: qt5/guiwrapper/mainwindow.cpp:31
 msgid "&Close"
 msgstr ""
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:74
 #. i18n: ectx: property (text), widget (QPushButton, deleteButton)
-#: rc.cpp:12
+#: rc.cpp:18
 #, kde-format
 msgid "&Delete"
 msgstr ""
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:103
 #. i18n: ectx: property (text), widget (QPushButton, importButton)
-#: rc.cpp:18
+#: rc.cpp:24
 #, kde-format
 msgid "&Import"
 msgstr ""
 
-#: qt5/guiwrapper/mainwindow.cpp:42
+#: qt5/guiwrapper/mainwindow.cpp:28
 msgid "&Ok"
 msgstr ""
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:45
 #. i18n: ectx: property (text), widget (QPushButton, operationButton)
-#: rc.cpp:3
+#: rc.cpp:9
 #, kde-format
 msgid "&Operation"
 msgstr ""
 
-#: qt5/guiwrapper/mainwindow.cpp:44
+#: qt5/guiwrapper/mainwindow.cpp:30
 msgid "&Reset"
 msgstr ""
 
-#: qt5/guiwrapper/wrapperapp.cpp:43
+#: qt5/guiwrapper/wrapperapp.cpp:30
 msgid "A launcher for Fcitx Gui plugin."
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:45
+#: qt5/quickphrase-editor/editor.cpp:33
 msgid "Add File"
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:284
+#: qt5/quickphrase-editor/editor.cpp:272
 msgid "Are you sure to delete %1?"
 msgstr ""
 
 #. i18n: file: qt5/quickphrase-editor/batchdialog.ui:14
 #. i18n: ectx: property (windowTitle), widget (QDialog, BatchDialog)
-#: rc.cpp:24
+#: rc.cpp:3
 #, kde-format
 msgid "Batch editing"
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:250
+#: qt5/quickphrase-editor/editor.cpp:238
 msgid "Cannot create file %1."
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:271
+#: qt5/quickphrase-editor/editor.cpp:259
 msgid "Cannot remove system file"
 msgstr ""
 
-#: qt5/guiwrapper/wrapperapp.cpp:49
+#: qt5/guiwrapper/wrapperapp.cpp:36
 #, fuzzy
 msgid "Config path"
 msgstr "Configurar"
 
-#: qt5/quickphrase-editor/editor.cpp:283
+#: qt5/quickphrase-editor/editor.cpp:271
 msgid "Confirm deletion"
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:233
+#: qt5/quickphrase-editor/editor.cpp:221
 msgid "Create new file"
 msgstr ""
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:85
 #. i18n: ectx: property (text), widget (QPushButton, clearButton)
-#: rc.cpp:15
+#: rc.cpp:21
 #, kde-format
 msgid "De&lete All"
 msgstr ""
 
-#: qt5/quickphrase-editor/filelistmodel.cpp:41
+#: qt5/quickphrase-editor/filelistmodel.cpp:29
 msgid "Default"
 msgstr ""
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:114
 #. i18n: ectx: property (text), widget (QPushButton, exportButton)
-#: rc.cpp:21
+#: rc.cpp:27
 #, kde-format
 msgid "E&xport"
 msgstr ""
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:283
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:319
 msgid "Empty"
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:292
+#: qt5/quickphrase-editor/editor.cpp:280
 msgid "Error while deleting %1."
 msgstr ""
 
-#: qt5/guiwrapper/mainwindow.cpp:120
+#: qt5/guiwrapper/mainwindow.cpp:106
 msgid "Failed to notify Fcitx"
 msgstr ""
 
-#: qt5/guiwrapper/mainwindow.cpp:121
+#: qt5/guiwrapper/mainwindow.cpp:107
 msgid "Failed to notify Fcitx about the configuration change."
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:249 qt5/quickphrase-editor/editor.cpp:291
+#: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:3
+msgid "Fcitx 5 Qt5 Gui Wrapper"
+msgstr ""
+
+#: qt5/quickphrase-editor/editor.cpp:237 qt5/quickphrase-editor/editor.cpp:279
 msgid "File Operation Failed"
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:238
+#: qt5/quickphrase-editor/editor.cpp:226
 msgid "File name should not contain '/'."
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:237
+#: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:4
+#, fuzzy
+msgid "Input Method Configuration helper"
+msgstr "Método de entrada desactivado"
+
+#: qt5/quickphrase-editor/editor.cpp:225
 msgid "Invalid filename"
 msgstr ""
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:146
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:180
 msgid "Key code mode"
 msgstr ""
 
-#: qt5/quickphrase-editor/model.cpp:45
+#: qt5/quickphrase-editor/model.cpp:71
 msgid "Keyword"
 msgstr ""
 
-#: qt5/guiwrapper/wrapperapp.cpp:46
+#: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:5
+msgid "Load configuration plugin for Fcitx Addon"
+msgstr ""
+
+#: qt5/guiwrapper/wrapperapp.cpp:33
 msgid "Parent window ID"
 msgstr ""
 
-#: qt5/quickphrase-editor/model.cpp:47
+#: qt5/quickphrase-editor/model.cpp:73
 msgid "Phrase"
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:233
+#: qt5/quickphrase-editor/editor.cpp:221
 msgid "Please input a filename for newfile"
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:113
+#: qt5/quickphrase-editor/editor.cpp:101
 #, fuzzy
 msgid "Quick Phrase Editor"
 msgstr "Lista de frases rápidas"
 
-#: qt5/quickphrase-editor/editor.cpp:49
+#: qt5/quickphrase-editor/editor.cpp:37
 msgid "Refresh List"
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:47
+#: qt5/quickphrase-editor/editor.cpp:35
 msgid "Remove File"
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:97
+#: qt5/quickphrase-editor/editor.cpp:85
 msgid "Save Changes"
 msgstr ""
 
-#: qt5/guiwrapper/wrapperapp.cpp:47
+#: qt5/guiwrapper/wrapperapp.cpp:34
 msgid "Test if config exists"
 msgstr ""
 
-#: qt5/quickphrase-editor/editor.cpp:98
+#: qt5/quickphrase-editor/editor.cpp:86
 msgid ""
 "The content has changed.\n"
 "Do you want to save the changes or discard them?"
 msgstr ""
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:320
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:356
 msgid "The key you just pressed is not supported by Qt."
 msgstr ""
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:321
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:357
 msgid "Unsupported Key"
 msgstr ""
 
 #. i18n: file: qt5/quickphrase-editor/batchdialog.ui:50
 #. i18n: ectx: property (text), widget (QLabel, infoLabel)
-#: rc.cpp:27
+#: rc.cpp:6
 #, kde-format
 msgid "Use <Keyword> <Phrase> format on every line."
 msgstr ""
 
-#: qt5/guiwrapper/wrapperapp.cpp:49
+#: qt5/guiwrapper/wrapperapp.cpp:36
 msgid "path"
 msgstr ""
 
-#: qt5/guiwrapper/wrapperapp.cpp:46
+#: qt5/guiwrapper/wrapperapp.cpp:33
 msgid "winid"
 msgstr ""
 
@@ -315,9 +328,6 @@ msgstr ""
 
 #~ msgid "Input Method"
 #~ msgstr "Método de entrada"
-
-#~ msgid "Input Method Disabled"
-#~ msgstr "Método de entrada desactivado"
 
 #~ msgid "Input Speed: "
 #~ msgstr "Velocidad de entrada"

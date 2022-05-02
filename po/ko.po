@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the fcitx5-qt package.
 #
 # Translators:
-# csslayer <wengxt@gmail.com>, 2017
 # Bon Keun Seo <scobyseo@gmail.com>, 2017
-# Junghee Lee <daemul72@gmail.com>, 2022
+# JungHee Lee <daemul72@gmail.com>, 2022
+# csslayer <wengxt@gmail.com>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-04-13 20:24+0000\n"
+"POT-Creation-Date: 2022-05-02 03:03+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
-"Last-Translator: Junghee Lee <daemul72@gmail.com>, 2022\n"
+"Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -76,7 +76,7 @@ msgstr "작동(&O)"
 msgid "&Reset"
 msgstr "재설정(&R)"
 
-#: qt5/guiwrapper/wrapperapp.cpp:29
+#: qt5/guiwrapper/wrapperapp.cpp:30
 msgid "A launcher for Fcitx Gui plugin."
 msgstr "Fcitx GUI 플러그인용 실행기"
 
@@ -103,7 +103,7 @@ msgstr "파일 %1을 만들수 없습니다."
 msgid "Cannot remove system file"
 msgstr "시스템 파일을 제거할 수 없음"
 
-#: qt5/guiwrapper/wrapperapp.cpp:35
+#: qt5/guiwrapper/wrapperapp.cpp:36
 msgid "Config path"
 msgstr "구성 경로"
 
@@ -149,6 +149,10 @@ msgstr "Fcitx에 알리지 못함"
 msgid "Failed to notify Fcitx about the configuration change."
 msgstr "구성 변경에 대해 Fcitx에 알리지 못했습니다."
 
+#: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:3
+msgid "Fcitx 5 Qt5 Gui Wrapper"
+msgstr ""
+
 #: qt5/quickphrase-editor/editor.cpp:237 qt5/quickphrase-editor/editor.cpp:279
 msgid "File Operation Failed"
 msgstr "파일 작업 실패"
@@ -156,6 +160,10 @@ msgstr "파일 작업 실패"
 #: qt5/quickphrase-editor/editor.cpp:226
 msgid "File name should not contain '/'."
 msgstr "파일명에 '/'가 포함되지 않아야 합니다."
+
+#: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:4
+msgid "Input Method Configuration helper"
+msgstr ""
 
 #: qt5/quickphrase-editor/editor.cpp:225
 msgid "Invalid filename"
@@ -165,15 +173,19 @@ msgstr "잘못된 파일명"
 msgid "Key code mode"
 msgstr "키코드 방식"
 
-#: qt5/quickphrase-editor/model.cpp:33
+#: qt5/quickphrase-editor/model.cpp:71
 msgid "Keyword"
 msgstr "키워드"
 
-#: qt5/guiwrapper/wrapperapp.cpp:32
+#: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:5
+msgid "Load configuration plugin for Fcitx Addon"
+msgstr ""
+
+#: qt5/guiwrapper/wrapperapp.cpp:33
 msgid "Parent window ID"
 msgstr "상위 창 ID"
 
-#: qt5/quickphrase-editor/model.cpp:35
+#: qt5/quickphrase-editor/model.cpp:73
 msgid "Phrase"
 msgstr "구문"
 
@@ -197,7 +209,7 @@ msgstr "파일 제거"
 msgid "Save Changes"
 msgstr "변경 저장"
 
-#: qt5/guiwrapper/wrapperapp.cpp:33
+#: qt5/guiwrapper/wrapperapp.cpp:34
 msgid "Test if config exists"
 msgstr "구성이 있는지 확인"
 
@@ -224,10 +236,10 @@ msgstr "지원하지 않는 키"
 msgid "Use <Keyword> <Phrase> format on every line."
 msgstr "모든 줄에 <Keyword> <Phrase> 형식을 사용합니다."
 
-#: qt5/guiwrapper/wrapperapp.cpp:35
+#: qt5/guiwrapper/wrapperapp.cpp:36
 msgid "path"
 msgstr "경로"
 
-#: qt5/guiwrapper/wrapperapp.cpp:32
+#: qt5/guiwrapper/wrapperapp.cpp:33
 msgid "winid"
 msgstr "winid"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-16 20:24+0000\n"
+"POT-Creation-Date: 2022-05-02 03:03+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
 "Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>, 2020\n"
 "Language-Team: Hebrew (https://www.transifex.com/fcitx/teams/12005/he/)\n"
@@ -75,7 +75,7 @@ msgstr ""
 msgid "&Reset"
 msgstr ""
 
-#: qt5/guiwrapper/wrapperapp.cpp:29
+#: qt5/guiwrapper/wrapperapp.cpp:30
 msgid "A launcher for Fcitx Gui plugin."
 msgstr ""
 
@@ -102,7 +102,7 @@ msgstr ""
 msgid "Cannot remove system file"
 msgstr ""
 
-#: qt5/guiwrapper/wrapperapp.cpp:35
+#: qt5/guiwrapper/wrapperapp.cpp:36
 msgid "Config path"
 msgstr ""
 
@@ -132,7 +132,7 @@ msgstr "ברירת מחדל"
 msgid "E&xport"
 msgstr ""
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:318
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:319
 msgid "Empty"
 msgstr ""
 
@@ -148,6 +148,10 @@ msgstr ""
 msgid "Failed to notify Fcitx about the configuration change."
 msgstr ""
 
+#: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:3
+msgid "Fcitx 5 Qt5 Gui Wrapper"
+msgstr ""
+
 #: qt5/quickphrase-editor/editor.cpp:237 qt5/quickphrase-editor/editor.cpp:279
 msgid "File Operation Failed"
 msgstr ""
@@ -156,23 +160,31 @@ msgstr ""
 msgid "File name should not contain '/'."
 msgstr ""
 
+#: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:4
+msgid "Input Method Configuration helper"
+msgstr ""
+
 #: qt5/quickphrase-editor/editor.cpp:225
 msgid "Invalid filename"
 msgstr ""
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:179
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:180
 msgid "Key code mode"
 msgstr ""
 
-#: qt5/quickphrase-editor/model.cpp:33
+#: qt5/quickphrase-editor/model.cpp:71
 msgid "Keyword"
 msgstr "מילת מפתח"
 
-#: qt5/guiwrapper/wrapperapp.cpp:32
+#: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:5
+msgid "Load configuration plugin for Fcitx Addon"
+msgstr ""
+
+#: qt5/guiwrapper/wrapperapp.cpp:33
 msgid "Parent window ID"
 msgstr ""
 
-#: qt5/quickphrase-editor/model.cpp:35
+#: qt5/quickphrase-editor/model.cpp:73
 msgid "Phrase"
 msgstr ""
 
@@ -196,7 +208,7 @@ msgstr ""
 msgid "Save Changes"
 msgstr "שמירת השינויים"
 
-#: qt5/guiwrapper/wrapperapp.cpp:33
+#: qt5/guiwrapper/wrapperapp.cpp:34
 msgid "Test if config exists"
 msgstr ""
 
@@ -206,11 +218,11 @@ msgid ""
 "Do you want to save the changes or discard them?"
 msgstr ""
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:355
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:356
 msgid "The key you just pressed is not supported by Qt."
 msgstr ""
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:356
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:357
 msgid "Unsupported Key"
 msgstr ""
 
@@ -221,10 +233,10 @@ msgstr ""
 msgid "Use <Keyword> <Phrase> format on every line."
 msgstr ""
 
-#: qt5/guiwrapper/wrapperapp.cpp:35
+#: qt5/guiwrapper/wrapperapp.cpp:36
 msgid "path"
 msgstr ""
 
-#: qt5/guiwrapper/wrapperapp.cpp:32
+#: qt5/guiwrapper/wrapperapp.cpp:33
 msgid "winid"
 msgstr ""
