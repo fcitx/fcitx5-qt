@@ -135,7 +135,6 @@ void ListEditor::addWordAccepted() {
     const EditorDialog *dialog =
         qobject_cast<const EditorDialog *>(QObject::sender());
 
-    qDebug() << dialog->key() << dialog->value();
     model_->addItem(dialog->key(), dialog->value());
     QModelIndex last = model_->index(model_->rowCount() - 1, 0);
     macroTableView->setCurrentIndex(last);
