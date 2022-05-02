@@ -43,7 +43,7 @@ include(ECMUninstallTarget)
 find_package(XCB REQUIRED COMPONENTS XCB)
 find_package(XKBCommon 0.5.0 REQUIRED COMPONENTS XKBCommon)
 if (NOT BUILD_ONLY_PLUGIN)
-find_package(Fcitx5Utils REQUIRED)
+find_package(Fcitx5Utils 5.0.16 REQUIRED)
 endif()
 find_package(X11 REQUIRED)
 

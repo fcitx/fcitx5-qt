@@ -12,10 +12,48 @@
 #include <QFutureWatcher>
 #include <QtConcurrentRun>
 #include <fcitx-utils/i18n.h>
+#include <fcitx-utils/utf8.h>
 #include <fcitx-utils/standardpath.h>
 #include <fcntl.h>
 
 namespace fcitx {
+
+namespace {
+
+std::optional<std::pair<std::string, std::string>> parseLine(const std::string &strBuf) {
+        auto [start, end] = stringutils::trimInplace(strBuf);
+        if (start == end) {
+            return std::nullopt;
+        }
+        std::string_view text(strBuf.data() + start, end - start);
+        if (!utf8::validate(text)) {
+            return std::nullopt;
+        }
+
+        auto pos = text.find_first_of(FCITX_WHITESPACE);
+        if (pos == std::string::npos) {
+            return std::nullopt;
+        }
+
+        auto word = text.find_first_not_of(FCITX_WHITESPACE, pos);
+        if (word == std::string::npos) {
+            return std::nullopt;
+        }
+
+        std::string key(text.begin(), text.begin() + pos);
+        auto wordString = stringutils::unescapeForValue(std::string_view(text).substr(word));
+        if (!wordString) {
+            return std::nullopt;
+        }
+
+    return std::make_pair(key, *wordString);
+}
+
+QString escapeValue(const QString &v) {
+    return QString::fromStdString(stringutils::escapeForValue(v.toStdString()));
+}
+
+}
 
 typedef QPair<QString, QString> ItemType;
 
@@ -150,15 +188,15 @@ QStringPairList QuickPhraseModel::parse(const QString &file) {
         }
         QByteArray line;
         while (!(line = file.readLine()).isNull()) {
-            QString s = QString::fromUtf8(line);
-            s = s.simplified();
-            if (s.isEmpty())
+            auto l = line.toStdString();
+            auto parsed = parseLine(l);
+            if (!parsed)
                 continue;
-            QString key = s.section(" ", 0, 0, QString::SectionSkipEmpty);
-            QString value = s.section(" ", 1, -1, QString::SectionSkipEmpty);
-            if (key.isEmpty() || value.isEmpty())
+            auto [key, value] = *parsed;
+            if (key.empty() || value.empty()) {
                 continue;
-            list.append(QPair<QString, QString>(key, value));
+            }
+            list_.append({QString::fromStdString(key), QString::fromStdString(value)});
         }
 
         file.close();
@@ -185,7 +223,7 @@ QFutureWatcher<bool> *QuickPhraseModel::save(const QString &file) {
 
 void QuickPhraseModel::saveData(QTextStream &dev) {
     for (int i = 0; i < list_.size(); i++) {
-        dev << list_[i].first << "\t" << list_[i].second << "\n";
+        dev << list_[i].first << "\t" << escapeValue(list_[i].second) << "\n";
     }
 }
 
@@ -195,14 +233,15 @@ void QuickPhraseModel::loadData(QTextStream &stream) {
     setNeedSave(true);
     QString s;
     while (!(s = stream.readLine()).isNull()) {
-        s = s.simplified();
-        if (s.isEmpty())
+        auto line = s.toStdString();
+        auto parsed = parseLine(line);
+        if (!parsed)
             continue;
-        QString key = s.section(" ", 0, 0, QString::SectionSkipEmpty);
-        QString value = s.section(" ", 1, -1, QString::SectionSkipEmpty);
-        if (key.isEmpty() || value.isEmpty())
+        auto [key, value] = *parsed;
+        if (key.empty() || value.empty()) {
             continue;
-        list_.append(QPair<QString, QString>(key, value));
+        }
+        list_.append({QString::fromStdString(key), QString::fromStdString(value)});
     }
     endResetModel();
 }
@@ -223,7 +262,7 @@ bool QuickPhraseModel::saveData(const QString &file,
             for (int i = 0; i < list.size(); i++) {
                 tempFile.write(list[i].first.toUtf8());
                 tempFile.write("\t");
-                tempFile.write(list[i].second.toUtf8());
+                tempFile.write(escapeValue(list[i].second).toUtf8());
                 tempFile.write("\n");
             }
             tempFile.close();
