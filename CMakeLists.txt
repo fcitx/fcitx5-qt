@@ -57,6 +57,7 @@ if (BUILD_ONLY_PLUGIN)
 include(CompilerSettings)
 else()
 include("${FCITX_INSTALL_CMAKECONFIG_DIR}/Fcitx5Utils/Fcitx5CompilerSettings.cmake")
+find_package(Gettext REQUIRED)
 endif()
 
 set(Fcitx5Qt6_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/Fcitx5Qt6)
@@ -81,7 +82,6 @@ if(ENABLE_QT6)
 endif()
 
 if(NOT BUILD_ONLY_PLUGIN)
-find_package(Gettext REQUIRED)
 add_subdirectory(po)
 endif()
 
