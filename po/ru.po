@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the fcitx5-qt package.
 #
 # Translators:
-# Dmitry <dmitrydmitry761@gmail.com>, 2022
 # csslayer <wengxt@gmail.com>, 2022
+# Dmitry <dmitrydmitry761@gmail.com>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-05-02 03:03+0000\n"
+"POT-Creation-Date: 2022-05-03 20:25+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
+"Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2022\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -152,7 +152,7 @@ msgstr "Не удалось уведомить Fcitx об изменении к�
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:3
 msgid "Fcitx 5 Qt5 Gui Wrapper"
-msgstr ""
+msgstr "Графическая оболочка Fcitx 5 Qt5"
 
 #: qt5/quickphrase-editor/editor.cpp:237 qt5/quickphrase-editor/editor.cpp:279
 msgid "File Operation Failed"
@@ -164,7 +164,7 @@ msgstr "Имя файла не должно содержать '/'."
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:4
 msgid "Input Method Configuration helper"
-msgstr ""
+msgstr "Помощник по настройке метода ввода"
 
 #: qt5/quickphrase-editor/editor.cpp:225
 msgid "Invalid filename"
@@ -180,7 +180,7 @@ msgstr "Ключевое слово"
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:5
 msgid "Load configuration plugin for Fcitx Addon"
-msgstr ""
+msgstr "Плагин загрузки конфигурации для Fcitx Addon"
 
 #: qt5/guiwrapper/wrapperapp.cpp:33
 msgid "Parent window ID"
