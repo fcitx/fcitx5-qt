@@ -48,7 +48,6 @@ class MultilineText {
 public:
     MultilineText(const QFont &font, const QString &text) {
         QStringList lines = text.split("\n");
-        int currentY = 0;
         int width = 0;
         QFontMetrics fontMetrics(font);
         fontHeight_ = fontMetrics.ascent() + fontMetrics.descent();
@@ -58,7 +57,6 @@ public:
             doLayout(*layouts_.back());
             width = std::max(width,
                              layouts_.back()->boundingRect().toRect().width());
-            currentY += fontHeight_;
         }
         boundingRect_.setTopLeft(QPoint(0, 0));
         boundingRect_.setSize(QSize(width, lines.size() * fontHeight_));
