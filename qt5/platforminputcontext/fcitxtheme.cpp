@@ -167,6 +167,9 @@ void FcitxTheme::configChanged() {
     watcher_->removePath(configPath_);
     watcher_->addPath(configPath_);
     QSettings settings(configPath_, QSettings::IniFormat);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    settings.setIniCodec("UTF-8");
+#endif
     settings.childGroups();
     font_ = parseFont(settings.value("Font", "Sans Serif 9").toString());
     fontMetrics_ = QFontMetrics(font_);
