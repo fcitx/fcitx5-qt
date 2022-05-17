@@ -12,39 +12,41 @@
 #include <QFutureWatcher>
 #include <QtConcurrentRun>
 #include <fcitx-utils/i18n.h>
-#include <fcitx-utils/utf8.h>
 #include <fcitx-utils/standardpath.h>
+#include <fcitx-utils/utf8.h>
 #include <fcntl.h>
 
 namespace fcitx {
 
 namespace {
 
-std::optional<std::pair<std::string, std::string>> parseLine(const std::string &strBuf) {
-        auto [start, end] = stringutils::trimInplace(strBuf);
-        if (start == end) {
-            return std::nullopt;
-        }
-        std::string_view text(strBuf.data() + start, end - start);
-        if (!utf8::validate(text)) {
-            return std::nullopt;
-        }
+std::optional<std::pair<std::string, std::string>>
+parseLine(const std::string &strBuf) {
+    auto [start, end] = stringutils::trimInplace(strBuf);
+    if (start == end) {
+        return std::nullopt;
+    }
+    std::string_view text(strBuf.data() + start, end - start);
+    if (!utf8::validate(text)) {
+        return std::nullopt;
+    }
 
-        auto pos = text.find_first_of(FCITX_WHITESPACE);
-        if (pos == std::string::npos) {
-            return std::nullopt;
-        }
+    auto pos = text.find_first_of(FCITX_WHITESPACE);
+    if (pos == std::string::npos) {
+        return std::nullopt;
+    }
 
-        auto word = text.find_first_not_of(FCITX_WHITESPACE, pos);
-        if (word == std::string::npos) {
-            return std::nullopt;
-        }
+    auto word = text.find_first_not_of(FCITX_WHITESPACE, pos);
+    if (word == std::string::npos) {
+        return std::nullopt;
+    }
 
-        std::string key(text.begin(), text.begin() + pos);
-        auto wordString = stringutils::unescapeForValue(std::string_view(text).substr(word));
-        if (!wordString) {
-            return std::nullopt;
-        }
+    std::string key(text.begin(), text.begin() + pos);
+    auto wordString =
+        stringutils::unescapeForValue(std::string_view(text).substr(word));
+    if (!wordString) {
+        return std::nullopt;
+    }
 
     return std::make_pair(key, *wordString);
 }
@@ -53,7 +55,7 @@ QString escapeValue(const QString &v) {
     return QString::fromStdString(stringutils::escapeForValue(v.toStdString()));
 }
 
-}
+} // namespace
 
 typedef QPair<QString, QString> ItemType;
 
@@ -196,7 +198,8 @@ QStringPairList QuickPhraseModel::parse(const QString &file) {
             if (key.empty() || value.empty()) {
                 continue;
             }
-            list_.append({QString::fromStdString(key), QString::fromStdString(value)});
+            list_.append(
+                {QString::fromStdString(key), QString::fromStdString(value)});
         }
 
         file.close();
@@ -241,7 +244,8 @@ void QuickPhraseModel::loadData(QTextStream &stream) {
         if (key.empty() || value.empty()) {
             continue;
         }
-        list_.append({QString::fromStdString(key), QString::fromStdString(value)});
+        list_.append(
+            {QString::fromStdString(key), QString::fromStdString(value)});
     }
     endResetModel();
 }
