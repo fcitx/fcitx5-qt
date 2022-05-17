@@ -5,6 +5,11 @@ set(plugin_SRCS
     main.cpp
 )
 
+if (BUILD_ONLY_PLUGIN AND BUILD_STATIC_PLUGIN)
+set(plugin_SRCS ${plugin_SRCS} $<TARGET_OBJECTS:Fcitx5Qt4DBusAddons>)
+endif()
+
+
 add_library(qtim-fcitx5 ${PLUGIN_LIBRARY_TYPE} ${plugin_SRCS})
 set_target_properties(qtim-fcitx5 PROPERTIES
                          AUTOMOC TRUE

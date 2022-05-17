@@ -16,6 +16,10 @@ set(plugin_SRCS
     main.cpp
 )
 
+if (BUILD_ONLY_PLUGIN AND BUILD_STATIC_PLUGIN)
+set(plugin_SRCS ${plugin_SRCS} $<TARGET_OBJECTS:Fcitx5Qt5DBusAddons>)
+endif()
+
 add_library(fcitx5platforminputcontextplugin ${PLUGIN_LIBRARY_TYPE} ${plugin_SRCS})
 set_target_properties(fcitx5platforminputcontextplugin PROPERTIES
                          AUTOMOC TRUE
