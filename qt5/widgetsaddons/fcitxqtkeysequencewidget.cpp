@@ -466,7 +466,7 @@ void FcitxQtKeySequenceButton::keyPressEvent(QKeyEvent *e) {
 
             Key key;
             if (d->keyCodeModeAction_->isChecked()) {
-                key = Key::fromKeyCode(e->nativeScanCode(), key.states());
+                key = Key::fromKeyCode(e->nativeScanCode(), d->modifierKeys_);
             } else {
                 if (isX11LikePlatform()) {
                     key = Key(static_cast<KeySym>(e->nativeVirtualKey()),
