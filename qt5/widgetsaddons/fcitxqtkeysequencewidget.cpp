@@ -129,28 +129,27 @@ public:
 
     // members
     FcitxQtKeySequenceWidget *const q;
-    QHBoxLayout *layout_;
-    FcitxQtKeySequenceButton *keyButton_;
-    QToolButton *clearButton_;
-    QAction *keyCodeModeAction_;
+    QHBoxLayout *layout_ = nullptr;
+    FcitxQtKeySequenceButton *keyButton_ = nullptr;
+    QToolButton *clearButton_ = nullptr;
+    QAction *keyCodeModeAction_ = nullptr;
 
     QList<Key> keySequence_;
     QList<Key> oldKeySequence_;
     QTimer modifierlessTimeout_;
-    bool allowModifierless_;
+    bool allowModifierless_ = false;
     KeyStates modifierKeys_;
     unsigned int qtModifierKeys_ = 0;
-    bool isRecording_;
-    bool multiKeyShortcutsAllowed_;
-    bool allowModifierOnly_;
+    bool isRecording_ = false;
+    bool multiKeyShortcutsAllowed_ = false;
+    bool allowModifierOnly_ = false;
+    bool modifierAllowed_ = true;
+    bool keycodeAllowed_ = true;
 };
 
 FcitxQtKeySequenceWidgetPrivate::FcitxQtKeySequenceWidgetPrivate(
     FcitxQtKeySequenceWidget *q)
-    : q(q), layout_(nullptr), keyButton_(nullptr), clearButton_(nullptr),
-      keyCodeModeAction_(nullptr), allowModifierless_(false), modifierKeys_(0),
-      isRecording_(false), multiKeyShortcutsAllowed_(false),
-      allowModifierOnly_(false) {}
+    : q(q) {}
 
 FcitxQtKeySequenceWidget::FcitxQtKeySequenceWidget(QWidget *parent)
     : QWidget(parent), d(new FcitxQtKeySequenceWidgetPrivate(this)) {
@@ -201,6 +200,31 @@ void FcitxQtKeySequenceWidget::setMultiKeyShortcutsAllowed(bool allowed) {
     d->multiKeyShortcutsAllowed_ = allowed;
 }
 
+bool FcitxQtKeySequenceWidget::isModifierAllowed() const {
+    return d->modifierAllowed_;
+}
+
+void FcitxQtKeySequenceWidget::setModifierAllowed(bool allowed) {
+    d->modifierAllowed_ = allowed;
+}
+
+bool FcitxQtKeySequenceWidget::isKeycodeAllowed() const {
+    return d->keycodeAllowed_;
+}
+
+void FcitxQtKeySequenceWidget::setKeycodeAllowed(bool allowed) {
+    if (d->keycodeAllowed_ == allowed) {
+        return;
+    }
+    d->keycodeAllowed_ = allowed;
+    if (allowed) {
+        d->keyCodeModeAction_->setChecked(false);
+        addAction(d->keyCodeModeAction_);
+    } else {
+        removeAction(d->keyCodeModeAction_);
+    }
+}
+
 void FcitxQtKeySequenceWidget::setModifierlessAllowed(bool allow) {
     d->allowModifierless_ = allow;
 }
@@ -213,12 +237,24 @@ bool FcitxQtKeySequenceWidget::isModifierOnlyAllowed() {
     return d->allowModifierOnly_;
 }
 
+bool FcitxQtKeySequenceWidget::isModifierlessAllowed() const {
+    return d->allowModifierless_;
+}
+
+bool FcitxQtKeySequenceWidget::isModifierOnlyAllowed() const {
+    return d->allowModifierOnly_;
+}
+
 void FcitxQtKeySequenceWidget::setModifierOnlyAllowed(bool allow) {
     d->allowModifierOnly_ = allow;
 }
 
 void FcitxQtKeySequenceWidget::setClearButtonShown(bool show) {
     d->clearButton_->setVisible(show);
+}
+
+bool FcitxQtKeySequenceWidget::isClearButtonVisible() const {
+    return d->clearButton_->isVisible();
 }
 
 // slot
@@ -447,9 +483,14 @@ void FcitxQtKeySequenceButton::keyPressEvent(QKeyEvent *e) {
                 }
             }
 
-            if (d->keySequence_.size() == 0 && !d->allowModifierless_ &&
-                key.states() == 0) {
-                return;
+            // Check the first key.
+            if (d->keySequence_.size() == 0) {
+                if (!d->allowModifierless_ && key.states() == 0) {
+                    return;
+                }
+                if (!d->modifierAllowed_ && key.states() != 0) {
+                    return;
+                }
             }
 
             if (key.isValid()) {

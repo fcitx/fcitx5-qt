@@ -63,6 +63,15 @@ class FCITX5QT5WIDGETSADDONS_EXPORT FcitxQtKeySequenceWidget : public QWidget {
     Q_PROPERTY(bool modifierlessAllowed READ isModifierlessAllowed WRITE
                    setModifierlessAllowed)
 
+    Q_PROPERTY(bool modifierAllowed READ isModifierAllowed WRITE
+                   setModifierlessAllowed)
+
+    Q_PROPERTY(bool modifierAllowed READ isModifierAllowed WRITE
+                   setModifierAllowed)
+
+    Q_PROPERTY(bool keycodeAllowed READ isKeycodeAllowed WRITE
+                   setKeycodeAllowed)
+
     Q_PROPERTY(bool modifierOnlyAllowed READ isModifierOnlyAllowed WRITE
                    setModifierOnlyAllowed)
 
@@ -77,16 +86,54 @@ public:
      */
     virtual ~FcitxQtKeySequenceWidget();
 
-    void setMultiKeyShortcutsAllowed(bool);
+    /**
+     * @brief Set whether allow multiple shortcuts.
+     *
+     * @param  allow
+     */
+    void setMultiKeyShortcutsAllowed(bool allow);
     bool multiKeyShortcutsAllowed() const;
 
+    /**
+     * @brief Set whether allow modifier less that produce text, such as just key A.
+     *
+     * @param allow
+     */
     void setModifierlessAllowed(bool allow);
+    // FIXME: remove this
     bool isModifierlessAllowed();
+    bool isModifierlessAllowed() const;
 
+    /**
+     * @brief Set whether allow key that has modifier.
+     *
+     * @param allow
+     * @since 5.0.12
+     */
+    void setModifierAllowed(bool allow);
+    bool isModifierAllowed() const;
+
+    /**
+     * @brief Set whether allow key to use key code.
+     *
+     * @param allow
+     * @since 5.0.12
+     */
+    void setKeycodeAllowed(bool allow);
+    bool isKeycodeAllowed() const;
+
+    /**
+     * @brief Set whether allow modifier only key, such as only left control.
+     *
+     * @param allow allow modifier only key to be captured.
+     */
     void setModifierOnlyAllowed(bool allow);
+    // FIXME: remove this
     bool isModifierOnlyAllowed();
+    bool isModifierOnlyAllowed() const;
 
     void setClearButtonShown(bool show);
+    bool isClearButtonVisible() const;
 
     const QList<Key> &keySequence() const;
 
