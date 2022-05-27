@@ -66,11 +66,11 @@ class FCITX5QT5WIDGETSADDONS_EXPORT FcitxQtKeySequenceWidget : public QWidget {
     Q_PROPERTY(bool modifierAllowed READ isModifierAllowed WRITE
                    setModifierlessAllowed)
 
-    Q_PROPERTY(bool modifierAllowed READ isModifierAllowed WRITE
-                   setModifierAllowed)
+    Q_PROPERTY(
+        bool modifierAllowed READ isModifierAllowed WRITE setModifierAllowed)
 
-    Q_PROPERTY(bool keycodeAllowed READ isKeycodeAllowed WRITE
-                   setKeycodeAllowed)
+    Q_PROPERTY(
+        bool keycodeAllowed READ isKeycodeAllowed WRITE setKeycodeAllowed)
 
     Q_PROPERTY(bool modifierOnlyAllowed READ isModifierOnlyAllowed WRITE
                    setModifierOnlyAllowed)
@@ -95,7 +95,8 @@ public:
     bool multiKeyShortcutsAllowed() const;
 
     /**
-     * @brief Set whether allow modifier less that produce text, such as just key A.
+     * @brief Set whether allow modifier less that produce text, such as just
+     * key A.
      *
      * @param allow
      */

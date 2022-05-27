@@ -202,7 +202,10 @@ void QFcitxPlatformInputContext::invokeAction(QInputMethod::Action imAction,
     }
     if (FcitxQtInputContextProxy *proxy = validIC();
         proxy->supportInvokeAction()) {
-        proxy->invokeAction(action, cursorPosition);
+        if (cursorPosition >= 0 && cursorPosition <= preedit_.length()) {
+            auto ucs4Cursor = preedit_.left(cursorPosition).toUcs4().length();
+            proxy->invokeAction(action, ucs4Cursor);
+        }
     } else {
         if (cursorPosition <= 0 || cursorPosition >= preedit_.length()) {
             // qDebug() << action << cursorPosition;
