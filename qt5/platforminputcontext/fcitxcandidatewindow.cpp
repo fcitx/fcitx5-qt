@@ -95,6 +95,9 @@ FcitxCandidateWindow::FcitxCandidateWindow(QWindow *window, FcitxTheme *theme)
     surfaceFormat.setAlphaBufferSize(8);
     setFormat(surfaceFormat);
     backingStore_ = new QBackingStore(this);
+    connect(this, &QWindow::visibleChanged, this, [this] {
+        hoverIndex_ = -1;
+    });
 }
 
 FcitxCandidateWindow::~FcitxCandidateWindow() {}
@@ -358,7 +361,6 @@ void FcitxCandidateWindow::updateClientSideUI(
     auto window = QGuiApplication::focusWindow();
     if (!theme_ || !visible || !window || window != parent_) {
         hide();
-        hoverIndex_ = -1;
         return;
     }
 
@@ -393,6 +395,11 @@ void FcitxCandidateWindow::updateClientSideUI(
 
     actualSize_ = sizeHint();
 
+    if (actualSize_.width() <= 0 || actualSize_.height() <= 0) {
+        hide();
+        return;
+    }
+
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
     QSize sizeWithoutShadow = actualSize_.shrunkBy(theme_->shadowMargin());
 #else
@@ -407,6 +414,7 @@ void FcitxCandidateWindow::updateClientSideUI(
     if (sizeWithoutShadow.height() < 0) {
         sizeWithoutShadow.setHeight(0);
     }
+
     QRect cursorRect =
         QGuiApplication::inputMethod()->cursorRectangle().toRect();
     QRect screenGeometry;
