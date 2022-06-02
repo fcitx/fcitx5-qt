@@ -95,9 +95,7 @@ FcitxCandidateWindow::FcitxCandidateWindow(QWindow *window, FcitxTheme *theme)
     surfaceFormat.setAlphaBufferSize(8);
     setFormat(surfaceFormat);
     backingStore_ = new QBackingStore(this);
-    connect(this, &QWindow::visibleChanged, this, [this] {
-        hoverIndex_ = -1;
-    });
+    connect(this, &QWindow::visibleChanged, this, [this] { hoverIndex_ = -1; });
 }
 
 FcitxCandidateWindow::~FcitxCandidateWindow() {}
