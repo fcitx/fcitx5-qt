@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-05-03 20:25+0000\n"
+"POT-Creation-Date: 2022-06-02 20:25+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2022\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -18,9 +18,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
-"%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: qt5/quickphrase-editor/editor.cpp:260
 msgid "%1 is a system file, do you want to delete all phrases instead?"
@@ -134,7 +134,7 @@ msgstr "По умолчанию"
 msgid "E&xport"
 msgstr "&Экспорт"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:319
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:355
 msgid "Empty"
 msgstr "Пусто"
 
@@ -170,11 +170,11 @@ msgstr "Помощник по настройке метода ввода"
 msgid "Invalid filename"
 msgstr "Недопустимое имя файла"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:180
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:179
 msgid "Key code mode"
 msgstr "Режим кода ключа"
 
-#: qt5/quickphrase-editor/model.cpp:71
+#: qt5/quickphrase-editor/model.cpp:73
 msgid "Keyword"
 msgstr "Ключевое слово"
 
@@ -186,7 +186,7 @@ msgstr "Плагин загрузки конфигурации для Fcitx Addo
 msgid "Parent window ID"
 msgstr "Идентификатор главного окна"
 
-#: qt5/quickphrase-editor/model.cpp:73
+#: qt5/quickphrase-editor/model.cpp:75
 msgid "Phrase"
 msgstr "Фраза"
 
@@ -222,11 +222,11 @@ msgstr ""
 "Содержимое изменилось.\n"
 "Сохранить изменения или отменить их?"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:356
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:392
 msgid "The key you just pressed is not supported by Qt."
 msgstr "Нажатая клавиша не поддерживается Qt."
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:357
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:393
 msgid "Unsupported Key"
 msgstr "Клавиша не поддерживается"
 
