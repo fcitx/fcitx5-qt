@@ -15,6 +15,7 @@
 #include <QTextCodec>
 #include <QWidget>
 #include <QX11Info>
+#include <array>
 #include <errno.h>
 #include <signal.h>
 #include <unistd.h>
