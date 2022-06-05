@@ -4,16 +4,16 @@
 #
 # Translators:
 # Bon Keun Seo <scobyseo@gmail.com>, 2017
-# JungHee Lee <daemul72@gmail.com>, 2022
 # csslayer <wengxt@gmail.com>, 2022
+# Junghee Lee <daemul72@gmail.com>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-05-02 03:03+0000\n"
+"POT-Creation-Date: 2022-06-05 20:24+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
+"Last-Translator: Junghee Lee <daemul72@gmail.com>, 2022\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -133,7 +133,7 @@ msgstr "기본값"
 msgid "E&xport"
 msgstr "내보내기(&X)"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:319
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:355
 msgid "Empty"
 msgstr "비어있음"
 
@@ -151,7 +151,7 @@ msgstr "구성 변경에 대해 Fcitx에 알리지 못했습니다."
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:3
 msgid "Fcitx 5 Qt5 Gui Wrapper"
-msgstr ""
+msgstr "Fcitx 5 Qt5 Gui 래퍼"
 
 #: qt5/quickphrase-editor/editor.cpp:237 qt5/quickphrase-editor/editor.cpp:279
 msgid "File Operation Failed"
@@ -163,29 +163,29 @@ msgstr "파일명에 '/'가 포함되지 않아야 합니다."
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:4
 msgid "Input Method Configuration helper"
-msgstr ""
+msgstr "입력기 구성 도우미"
 
 #: qt5/quickphrase-editor/editor.cpp:225
 msgid "Invalid filename"
 msgstr "잘못된 파일명"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:180
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:179
 msgid "Key code mode"
 msgstr "키코드 방식"
 
-#: qt5/quickphrase-editor/model.cpp:71
+#: qt5/quickphrase-editor/model.cpp:73
 msgid "Keyword"
 msgstr "키워드"
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:5
 msgid "Load configuration plugin for Fcitx Addon"
-msgstr ""
+msgstr "Fcitx 애드온용 구성 플러그인 불러오기"
 
 #: qt5/guiwrapper/wrapperapp.cpp:33
 msgid "Parent window ID"
 msgstr "상위 창 ID"
 
-#: qt5/quickphrase-editor/model.cpp:73
+#: qt5/quickphrase-editor/model.cpp:75
 msgid "Phrase"
 msgstr "구문"
 
@@ -221,11 +221,11 @@ msgstr ""
 "내용이 변했습니다.\n"
 "변경사항을 저장할까요?"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:356
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:392
 msgid "The key you just pressed is not supported by Qt."
 msgstr "방금 누른 키는 Qt가 지원하지 않습니다."
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:357
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:393
 msgid "Unsupported Key"
 msgstr "지원하지 않는 키"
 
