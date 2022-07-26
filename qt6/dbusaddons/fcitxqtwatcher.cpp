@@ -9,7 +9,6 @@
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>
 #include <QDBusServiceWatcher>
-#include <QDir>
 
 namespace fcitx {
 
