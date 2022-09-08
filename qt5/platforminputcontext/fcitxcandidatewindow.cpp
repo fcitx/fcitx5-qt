@@ -350,12 +350,12 @@ void FcitxCandidateWindow::updateClientSideUI(
     const FcitxQtFormattedPreeditList &auxDown,
     const FcitxQtStringKeyValueList &candidates, int candidateIndex,
     int layoutHint, bool hasPrev, bool hasNext) {
-    bool preeditVisble = (cursorpos >= 0 || !preedit.isEmpty());
+    bool preeditVisible = !preedit.isEmpty();
     bool auxUpVisbile = !auxUp.isEmpty();
     bool auxDownVisible = !auxDown.isEmpty();
     bool candidatesVisible = !candidates.isEmpty();
     bool visible =
-        preeditVisble || auxUpVisbile || auxDownVisible || candidatesVisible;
+        preeditVisible || auxUpVisbile || auxDownVisible || candidatesVisible;
     auto window = QGuiApplication::focusWindow();
     if (!theme_ || !visible || !window || window != parent_) {
         hide();
