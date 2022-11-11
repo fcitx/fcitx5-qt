@@ -369,7 +369,7 @@ void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
             createICData(window);
         }
     }
-    if (!window || (!inputMethodAccepted() && !objectAcceptsInputMethod())) {
+    if (!window) {
         lastWindow_ = nullptr;
         lastObject_ = nullptr;
         return;
@@ -457,8 +457,7 @@ void QFcitxPlatformInputContext::createInputContextFinished(
     if (proxy->isValid()) {
         QWindow *window = qApp->focusWindow();
         setFocusGroupForX11(uuid);
-        if (window && window == w && inputMethodAccepted() &&
-            objectAcceptsInputMethod()) {
+        if (window && window == w) {
             cursorRectChanged();
             proxy->focusIn();
         }
@@ -481,6 +480,10 @@ void QFcitxPlatformInputContext::createInputContextFinished(
         flag |= FcitxCapabilityFlag_RelativeRect;
     }
     flag |= FcitxCapabilityFlag_ClientSideInputPanel;
+
+    if (!inputMethodAccepted() || !objectAcceptsInputMethod()) {
+        flag |= FcitxCapabilityFlag_Disable;
+    }
 
     addCapability(*data, flag, true);
 }
