@@ -21,6 +21,9 @@
       <arg name="h" direction="in" type="i"/>
       <arg name="scale" direction="in" type="d"/>
     </method>
+    <method name="SetSupportedCapability">
+       <arg name="caps" direction="in" type="t"/>
+    </method>
     <method name="SetCapability">
        <arg name="caps" direction="in" type="t"/>
     </method>

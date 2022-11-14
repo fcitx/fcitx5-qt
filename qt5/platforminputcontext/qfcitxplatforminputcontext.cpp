@@ -493,13 +493,16 @@ void QFcitxPlatformInputContext::createInputContextFinished(
         flag |= FcitxCapabilityFlag_Disable;
     }
 
+    // Notify fcitx of the effective bits from 0bit to 40bit
+    // (FcitxCapabilityFlag_Disable)
+    data->proxy->setSupportedCapability(0x1ffffffffffull);
+
     addCapability(*data, flag, true);
 }
 
 void QFcitxPlatformInputContext::updateCapability(const FcitxQtICData &data) {
     if (!data.proxy || !data.proxy->isValid())
         return;
-
     QDBusPendingReply<void> result = data.proxy->setCapability(data.capability);
 }
 
