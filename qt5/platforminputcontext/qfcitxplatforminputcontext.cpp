@@ -262,6 +262,14 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
         cursorRectChanged();
     }
 
+    if (queries & Qt::ImEnabled) {
+        if (!inputMethodAccepted() || !objectAcceptsInputMethod()) {
+            addCapability(data, FcitxCapabilityFlag_Disable);
+        } else {
+            removeCapability(data, FcitxCapabilityFlag_Disable);
+        }
+    }
+
     if (queries & Qt::ImHints) {
         Qt::InputMethodHints hints =
             Qt::InputMethodHints(query.value(Qt::ImHints).toUInt());
