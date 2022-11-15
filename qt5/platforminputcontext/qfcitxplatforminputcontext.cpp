@@ -262,6 +262,14 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
         cursorRectChanged();
     }
 
+    if (queries & Qt::ImEnabled) {
+        if (!inputMethodAccepted() || !objectAcceptsInputMethod()) {
+            addCapability(data, FcitxCapabilityFlag_Disable);
+        } else {
+            removeCapability(data, FcitxCapabilityFlag_Disable);
+        }
+    }
+
     if (queries & Qt::ImHints) {
         Qt::InputMethodHints hints =
             Qt::InputMethodHints(query.value(Qt::ImHints).toUInt());
@@ -369,7 +377,7 @@ void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
             createICData(window);
         }
     }
-    if (!window || (!inputMethodAccepted() && !objectAcceptsInputMethod())) {
+    if (!window) {
         lastWindow_ = nullptr;
         lastObject_ = nullptr;
         return;
@@ -457,8 +465,7 @@ void QFcitxPlatformInputContext::createInputContextFinished(
     if (proxy->isValid()) {
         QWindow *window = qApp->focusWindow();
         setFocusGroupForX11(uuid);
-        if (window && window == w && inputMethodAccepted() &&
-            objectAcceptsInputMethod()) {
+        if (window && window == w) {
             cursorRectChanged();
             proxy->focusIn();
         }
@@ -482,13 +489,20 @@ void QFcitxPlatformInputContext::createInputContextFinished(
     }
     flag |= FcitxCapabilityFlag_ClientSideInputPanel;
 
+    if (!inputMethodAccepted() || !objectAcceptsInputMethod()) {
+        flag |= FcitxCapabilityFlag_Disable;
+    }
+
+    // Notify fcitx of the effective bits from 0bit to 40bit
+    // (FcitxCapabilityFlag_Disable)
+    data->proxy->setSupportedCapability(0x1ffffffffffull);
+
     addCapability(*data, flag, true);
 }
 
 void QFcitxPlatformInputContext::updateCapability(const FcitxQtICData &data) {
     if (!data.proxy || !data.proxy->isValid())
         return;
-
     QDBusPendingReply<void> result = data.proxy->setCapability(data.capability);
 }
 

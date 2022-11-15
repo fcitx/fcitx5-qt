@@ -40,6 +40,7 @@ public Q_SLOTS:
                                             unsigned int state, bool type,
                                             unsigned int time);
     QDBusPendingReply<> reset();
+    QDBusPendingReply<> setSupportedCapability(qulonglong caps);
     QDBusPendingReply<> setCapability(qulonglong caps);
     QDBusPendingReply<> setCursorRect(int x, int y, int w, int h);
     QDBusPendingReply<> setCursorRectV2(int x, int y, int w, int h,

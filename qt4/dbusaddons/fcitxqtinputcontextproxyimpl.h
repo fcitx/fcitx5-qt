@@ -106,6 +106,13 @@ public Q_SLOTS: // METHODS
                                          argumentList);
     }
 
+    inline QDBusPendingReply<> SetSupportedCapability(qulonglong caps)
+    {
+        QList<QVariant> argumentList;
+        argumentList << QVariant::fromValue(caps);
+        return asyncCallWithArgumentList(QStringLiteral("SetSupportedCapability"), argumentList);
+    }
+    
     inline QDBusPendingReply<> SetCapability(qulonglong caps) {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(caps);
