@@ -65,7 +65,8 @@ QDBusPendingReply<> FcitxQtInputContextProxy::reset() {
     return d->icproxy_->Reset();
 }
 
-QDBusPendingReply<> FcitxQtInputContextProxy::setSupportedCapability(qulonglong caps) {
+QDBusPendingReply<>
+FcitxQtInputContextProxy::setSupportedCapability(qulonglong caps) {
     Q_D(FcitxQtInputContextProxy);
     return d->icproxy_->SetSupportedCapability(caps);
 }
