@@ -211,7 +211,7 @@ private:
     bool filterEventFallback(unsigned int keyval, unsigned int keycode,
                              unsigned int state, bool isRelaese);
 
-    Q_INVOKABLE void updateCursorRect(QPointer<QWindow> window);
+    void updateCursorRect();
 
     FcitxQtWatcher *watcher_;
     QString preedit_;

@@ -387,17 +387,21 @@ void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
         proxy->focusIn();
         // We need to delegate this otherwise it may cause self-recursion in
         // certain application like libreoffice.
-        QMetaObject::invokeMethod(this, "updateCursorRect",
-                                  Qt::QueuedConnection,
-                                  Q_ARG(QPointer<QWindow>, lastWindow_));
+        QMetaObject::invokeMethod(
+            this,
+            [this, window = QPointer<QWindow>(lastWindow_)]() {
+                if (window != lastWindow_) {
+                    return;
+                }
+                update(Qt::ImHints | Qt::ImEnabled);
+                updateCursorRect();
+            },
+            Qt::QueuedConnection);
     }
 }
 
-void QFcitxPlatformInputContext::updateCursorRect(QPointer<QWindow> window) {
-    if (window != lastWindow_) {
-        return;
-    }
-    if (validICByWindow(window.data())) {
+void QFcitxPlatformInputContext::updateCursorRect() {
+    if (validICByWindow(lastWindow_.data())) {
         cursorRectChanged();
     }
 }
@@ -850,7 +854,7 @@ bool QFcitxPlatformInputContext::filterEvent(const QEvent *event) {
             }
         }
 
-        update(Qt::ImHints);
+        update(Qt::ImHints | Qt::ImEnabled);
         proxy->focusIn();
 
         auto stateToFcitx = state;
