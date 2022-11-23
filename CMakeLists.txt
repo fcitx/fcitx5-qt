@@ -79,7 +79,7 @@ if(ENABLE_QT5)
 endif()
 
 if(ENABLE_QT6)
-  find_package(Qt6 ${REQUIRED_QT6_VERSION} CONFIG REQUIRED Core DBus)
+  find_package(Qt6 ${REQUIRED_QT6_VERSION} CONFIG REQUIRED Core DBus Widgets)
   find_package(Qt6Gui ${REQUIRED_QT6_VERSION} REQUIRED Private)
   add_subdirectory(qt6)
 endif()

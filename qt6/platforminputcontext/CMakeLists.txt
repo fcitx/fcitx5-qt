@@ -41,6 +41,7 @@ target_link_libraries(fcitx5platforminputcontextplugin-qt6
                           Qt6::Core
                           Qt6::Gui
                           Qt6::DBus
+                          Qt6::Widgets
                           XCB::XCB
                           Fcitx5Qt6::DBusAddons
                           XKBCommon::XKBCommon

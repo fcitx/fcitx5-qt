@@ -5,13 +5,15 @@
  *
  */
 
+#include <QApplication>
 #include <QDBusConnection>
 #include <QDebug>
-#include <QGuiApplication>
 #include <QInputMethod>
 #include <QKeyEvent>
+#include <QMetaMethod>
 #include <QPalette>
 #include <QTextCharFormat>
+#include <QWidget>
 #include <QWindow>
 #include <qpa/qplatformcursor.h>
 #include <qpa/qplatformnativeinterface.h>
@@ -132,18 +134,6 @@ static inline const char *get_locale() {
     return locale;
 }
 
-static bool objectAcceptsInputMethod() {
-    bool enabled = false;
-    QObject *object = qApp->focusObject();
-    if (object) {
-        QInputMethodQueryEvent query(Qt::ImEnabled);
-        QGuiApplication::sendEvent(object, &query);
-        enabled = query.value(Qt::ImEnabled).toBool();
-    }
-
-    return enabled;
-}
-
 struct xkb_context *_xkb_context_new_helper() {
     struct xkb_context *context = xkb_context_new(XKB_CONTEXT_NO_FLAGS);
     if (context) {
@@ -151,6 +141,52 @@ struct xkb_context *_xkb_context_new_helper() {
     }
 
     return context;
+}
+
+FcitxQtICData::FcitxQtICData(QFcitxPlatformInputContext *context,
+                             QWindow *window)
+    : proxy(new FcitxQtInputContextProxy(context->watcher(), context)),
+      context_(context), window_(window) {
+    proxy->setProperty("icData",
+                       QVariant::fromValue(static_cast<void *>(this)));
+    QObject::connect(window, &QWindow::visibilityChanged, proxy,
+                     [this](bool visible) {
+                         if (!visible) {
+                             resetCandidateWindow();
+                         }
+                     });
+    QObject::connect(context_->watcher(), &FcitxQtWatcher::availabilityChanged,
+                     proxy, [this](bool avail) {
+                         if (!avail) {
+                             resetCandidateWindow();
+                         }
+                     });
+}
+FcitxQtICData::~FcitxQtICData() {
+    delete proxy;
+    resetCandidateWindow();
+}
+
+FcitxCandidateWindow *FcitxQtICData::candidateWindow() {
+    if (!candidateWindow_) {
+        candidateWindow_ = new FcitxCandidateWindow(window(), context_);
+        QObject::connect(
+            candidateWindow_, &FcitxCandidateWindow::candidateSelected, proxy,
+            [proxy = proxy](int index) { proxy->selectCandidate(index); });
+        QObject::connect(candidateWindow_, &FcitxCandidateWindow::prevClicked,
+                         proxy, [proxy = proxy]() { proxy->prevPage(); });
+        QObject::connect(candidateWindow_, &FcitxCandidateWindow::nextClicked,
+                         proxy, [proxy = proxy]() { proxy->nextPage(); });
+    }
+    return candidateWindow_;
+}
+
+void FcitxQtICData::resetCandidateWindow() {
+    if (auto *w = candidateWindow_.data()) {
+        candidateWindow_ = nullptr;
+        w->deleteLater();
+        return;
+    }
 }
 
 QFcitxPlatformInputContext::QFcitxPlatformInputContext()
@@ -171,6 +207,13 @@ QFcitxPlatformInputContext::QFcitxPlatformInputContext()
     registerFcitxQtDBusTypes();
     watcher_->setWatchPortal(true);
     watcher_->watch();
+
+    // Monitor the focus widget from QApplication, because
+    // QGuiApplication::focusObject does not respect the QWidget's focusProxy.
+    if (qobject_cast<QApplication *>(qGuiApp)) {
+        connect(qApp, &QApplication::focusChanged, this,
+                &QFcitxPlatformInputContext::focusWidgetChanged);
+    }
 }
 
 QFcitxPlatformInputContext::~QFcitxPlatformInputContext() {
@@ -178,6 +221,24 @@ QFcitxPlatformInputContext::~QFcitxPlatformInputContext() {
     watcher_->unwatch();
     cleanUp();
     delete watcher_;
+}
+
+bool QFcitxPlatformInputContext::objectAcceptsInputMethod() const {
+    bool enabled = false;
+    QObject *object = qGuiApp->focusObject();
+    if (object) {
+        QInputMethodQueryEvent query(Qt::ImEnabled);
+        QGuiApplication::sendEvent(object, &query);
+        enabled = query.value(Qt::ImEnabled).toBool();
+    }
+
+    if (focusWidget_ && focusWidget_ != object && !enabled) {
+        QInputMethodQueryEvent query(Qt::ImEnabled);
+        QGuiApplication::sendEvent(focusWidget_, &query);
+        enabled = query.value(Qt::ImEnabled).toBool();
+    }
+
+    return enabled;
 }
 
 void QFcitxPlatformInputContext::cleanUp() {
@@ -243,7 +304,7 @@ void QFcitxPlatformInputContext::reset() {
 }
 
 void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
-    QWindow *window = qApp->focusWindow();
+    QWindow *window = this->focusWindowWrapper();
     FcitxQtInputContextProxy *proxy = validICByWindow(window);
     if (!proxy)
         return;
@@ -251,7 +312,7 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
     FcitxQtICData &data = *static_cast<FcitxQtICData *>(
         proxy->property("icData").value<void *>());
 
-    QObject *input = qApp->focusObject();
+    QObject *input = focusObjectWrapper();
     if (!input)
         return;
 
@@ -263,7 +324,7 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
     }
 
     if (queries & Qt::ImEnabled) {
-        if (!inputMethodAccepted() || !objectAcceptsInputMethod()) {
+        if (!inputMethodAccepted() && !objectAcceptsInputMethod()) {
             addCapability(data, FcitxCapabilityFlag_Disable);
         } else {
             removeCapability(data, FcitxCapabilityFlag_Disable);
@@ -367,7 +428,7 @@ void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
         data.resetCandidateWindow();
     }
 
-    QWindow *window = qApp->focusWindow();
+    QWindow *window = this->focusWindowWrapper();
     lastWindow_ = window;
     lastObject_ = object;
     // Always create IC Data for window.
@@ -400,6 +461,13 @@ void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
     }
 }
 
+void QFcitxPlatformInputContext::focusWidgetChanged(QWidget *, QWidget *now) {
+    focusWidget_ = now;
+    if (focusWidget_ != qGuiApp->focusObject()) {
+        update(Qt::ImEnabled);
+    }
+}
+
 void QFcitxPlatformInputContext::updateCursorRect() {
     if (validICByWindow(lastWindow_.data())) {
         cursorRectChanged();
@@ -412,7 +480,7 @@ void QFcitxPlatformInputContext::windowDestroyed(QObject *object) {
 }
 
 void QFcitxPlatformInputContext::cursorRectChanged() {
-    QWindow *inputWindow = qApp->focusWindow();
+    QWindow *inputWindow = this->focusWindowWrapper();
     if (!inputWindow)
         return;
     FcitxQtInputContextProxy *proxy = validICByWindow(inputWindow);
@@ -422,7 +490,7 @@ void QFcitxPlatformInputContext::cursorRectChanged() {
     FcitxQtICData &data = *static_cast<FcitxQtICData *>(
         proxy->property("icData").value<void *>());
 
-    QRect r = qApp->inputMethod()->cursorRectangle().toRect();
+    QRect r = this->cursorRectangleWrapper();
     if (!r.isValid())
         return;
 
@@ -467,7 +535,7 @@ void QFcitxPlatformInputContext::createInputContextFinished(
     data->rect = QRect();
 
     if (proxy->isValid()) {
-        QWindow *window = qApp->focusWindow();
+        QWindow *window = this->focusWindowWrapper();
         setFocusGroupForX11(uuid);
         if (window && window == w) {
             cursorRectChanged();
@@ -514,7 +582,7 @@ void QFcitxPlatformInputContext::commitString(const QString &str) {
     cursorPos_ = 0;
     preeditList_.clear();
     commitPreedit_.clear();
-    QObject *input = qApp->focusObject();
+    QObject *input = qGuiApp->focusObject();
     if (!input)
         return;
 
@@ -525,7 +593,7 @@ void QFcitxPlatformInputContext::commitString(const QString &str) {
 
 void QFcitxPlatformInputContext::updateFormattedPreedit(
     const FcitxQtFormattedPreeditList &preeditList, int cursorPos) {
-    QObject *input = qApp->focusObject();
+    QObject *input = qGuiApp->focusObject();
     if (!input)
         return;
     if (cursorPos == cursorPos_ && preeditList == preeditList_)
@@ -586,7 +654,7 @@ void QFcitxPlatformInputContext::updateClientSideUI(
     const FcitxQtFormattedPreeditList &auxDown,
     const FcitxQtStringKeyValueList &candidates, int candidateIndex,
     int layoutHint, bool hasPrev, bool hasNext) {
-    QObject *input = qApp->focusObject();
+    QObject *input = qGuiApp->focusObject();
     if (!input) {
         return;
     }
@@ -599,12 +667,9 @@ void QFcitxPlatformInputContext::updateClientSideUI(
     FcitxQtICData *data =
         static_cast<FcitxQtICData *>(proxy->property("icData").value<void *>());
     auto w = data->window();
-    auto window = qApp->focusWindow();
+    auto window = this->focusWindowWrapper();
     if (window && w == window) {
-        if (!theme_) {
-            theme_ = new FcitxTheme(this);
-        }
-        data->candidateWindow(theme_)->updateClientSideUI(
+        data->candidateWindow()->updateClientSideUI(
             preedit, cursorpos, auxUp, auxDown, candidates, candidateIndex,
             layoutHint, hasPrev, hasNext);
     }
@@ -612,7 +677,7 @@ void QFcitxPlatformInputContext::updateClientSideUI(
 
 void QFcitxPlatformInputContext::deleteSurroundingText(int offset,
                                                        unsigned int _nchar) {
-    QObject *input = qApp->focusObject();
+    QObject *input = qGuiApp->focusObject();
     if (!input)
         return;
 
@@ -678,8 +743,8 @@ void QFcitxPlatformInputContext::forwardKey(unsigned int keyval,
     FcitxQtICData &data = *static_cast<FcitxQtICData *>(
         proxy->property("icData").value<void *>());
     auto *w = data.window();
-    QObject *input = qApp->focusObject();
-    auto window = qApp->focusWindow();
+    QObject *input = qGuiApp->focusObject();
+    auto window = this->focusWindowWrapper();
     if (input && window && w == window) {
         std::unique_ptr<QKeyEvent> keyevent{
             createKeyEvent(keyval, state, type, data.event.get())};
@@ -711,7 +776,7 @@ void QFcitxPlatformInputContext::createICData(QWindow *w) {
     if (iter == icMap_.end()) {
         auto result =
             icMap_.emplace(std::piecewise_construct, std::forward_as_tuple(w),
-                           std::forward_as_tuple(watcher_, w));
+                           std::forward_as_tuple(this, w));
         connect(w, &QObject::destroyed, this,
                 &QFcitxPlatformInputContext::windowDestroyed);
         iter = result.first;
@@ -838,13 +903,14 @@ bool QFcitxPlatformInputContext::filterEvent(const QEvent *event) {
         if (!inputMethodAccepted() && !objectAcceptsInputMethod())
             break;
 
-        QObject *input = qApp->focusObject();
+        QObject *input = qGuiApp->focusObject();
 
         if (!input) {
             break;
         }
 
-        FcitxQtInputContextProxy *proxy = validICByWindow(qApp->focusWindow());
+        FcitxQtInputContextProxy *proxy =
+            validICByWindow(this->focusWindowWrapper());
 
         if (!proxy) {
             if (filterEventFallback(keyval, keycode, state, isRelease)) {
@@ -880,7 +946,7 @@ bool QFcitxPlatformInputContext::filterEvent(const QEvent *event) {
             }
         } else {
             ProcessKeyWatcher *watcher = new ProcessKeyWatcher(
-                *keyEvent, qApp->focusWindow(), reply, proxy);
+                *keyEvent, this->focusWindowWrapper(), reply, proxy);
             connect(watcher, &QDBusPendingCallWatcher::finished, this,
                     &QFcitxPlatformInputContext::processKeyEventFinished);
             return true;
@@ -960,7 +1026,7 @@ FcitxQtInputContextProxy *QFcitxPlatformInputContext::validIC() {
     if (icMap_.empty()) {
         return nullptr;
     }
-    QWindow *window = qApp->focusWindow();
+    QWindow *window = this->focusWindowWrapper();
     return validICByWindow(window);
 }
 
@@ -1017,4 +1083,52 @@ bool QFcitxPlatformInputContext::processCompose(unsigned int keyval,
 
     return true;
 }
+
+QWindow *QFcitxPlatformInputContext::focusWindowWrapper() const {
+    QWindow *focusWindow = nullptr;
+    if (focusWidget_ && qGuiApp->focusObject() &&
+        qGuiApp->focusObject() != focusWidget_) {
+        focusWindow = focusWidget_->topLevelWidget()->windowHandle();
+    }
+    if (!focusWindow) {
+        focusWindow = qGuiApp->focusWindow();
+    }
+    return focusWindow;
+}
+
+QObject *QFcitxPlatformInputContext::focusObjectWrapper() const {
+    if (focusWidget_ && qGuiApp->focusObject() &&
+        qGuiApp->focusObject() != focusWidget_) {
+        return focusWidget_;
+    }
+    return qGuiApp->focusObject();
+}
+
+QRect QFcitxPlatformInputContext::cursorRectangleWrapper() const {
+    QRect r;
+    if (focusWidget_ && focusWidget_ != qGuiApp->focusObject()) {
+        // Logic is borrowed from QWidgetPrivate::updateWidgetTransform.
+        // If focusObject mismatches, the inputItemTransform will also mismatch,
+        // so we need to do our own calculation.
+        QTransform t;
+        const QPoint p =
+            focusWidget_->mapTo(focusWidget_->topLevelWidget(), QPoint(0, 0));
+        t.translate(p.x(), p.y());
+        r = focusWidget_->inputMethodQuery(Qt::ImCursorRectangle).toRect();
+        if (r.isValid()) {
+            r = t.mapRect(r);
+        }
+    } else {
+        r = qGuiApp->inputMethod()->cursorRectangle().toRect();
+    }
+    return r;
+}
+
+FcitxTheme *QFcitxPlatformInputContext::theme() {
+    if (!theme_) {
+        theme_ = new FcitxTheme(this);
+    }
+    return theme_;
+}
+
 } // namespace fcitx

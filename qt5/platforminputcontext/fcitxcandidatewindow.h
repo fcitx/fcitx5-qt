@@ -21,14 +21,15 @@
 
 namespace fcitx {
 
-struct FcitxQtICData;
 class FcitxTheme;
 class MultilineText;
+class QFcitxPlatformInputContext;
 
 class FcitxCandidateWindow : public QWindow {
     Q_OBJECT
 public:
-    explicit FcitxCandidateWindow(QWindow *window, FcitxTheme *theme);
+    explicit FcitxCandidateWindow(QWindow *window,
+                                  QFcitxPlatformInputContext *context);
     ~FcitxCandidateWindow();
 
     void render(QPainter *painter);
@@ -69,6 +70,7 @@ private:
     const bool isWayland_ =
         QGuiApplication::platformName().startsWith("wayland");
     QSize actualSize_;
+    QPointer<QFcitxPlatformInputContext> context_;
     QPointer<FcitxTheme> theme_;
     QBackingStore *backingStore_;
     QTextLayout upperLayout_;

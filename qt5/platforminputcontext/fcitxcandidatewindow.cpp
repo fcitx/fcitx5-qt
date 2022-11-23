@@ -83,8 +83,9 @@ private:
     QRect boundingRect_;
 };
 
-FcitxCandidateWindow::FcitxCandidateWindow(QWindow *window, FcitxTheme *theme)
-    : QWindow(), theme_(theme), parent_(window) {
+FcitxCandidateWindow::FcitxCandidateWindow(QWindow *window,
+                                           QFcitxPlatformInputContext *context)
+    : QWindow(), context_(context), theme_(context->theme()), parent_(window) {
     setFlags(Qt::ToolTip | Qt::FramelessWindowHint |
              Qt::BypassWindowManagerHint | Qt::WindowDoesNotAcceptFocus |
              Qt::NoDropShadowWindowHint);
@@ -356,7 +357,7 @@ void FcitxCandidateWindow::updateClientSideUI(
     bool candidatesVisible = !candidates.isEmpty();
     bool visible =
         preeditVisible || auxUpVisbile || auxDownVisible || candidatesVisible;
-    auto window = QGuiApplication::focusWindow();
+    auto window = context_->focusWindowWrapper();
     if (!theme_ || !visible || !window || window != parent_) {
         hide();
         return;
@@ -413,8 +414,7 @@ void FcitxCandidateWindow::updateClientSideUI(
         sizeWithoutShadow.setHeight(0);
     }
 
-    QRect cursorRect =
-        QGuiApplication::inputMethod()->cursorRectangle().toRect();
+    QRect cursorRect = context_->cursorRectangleWrapper();
     QRect screenGeometry;
     // Try to apply the screen edge detection over the window, because if we
     // intent to use this with wayland. It we have no information above screen

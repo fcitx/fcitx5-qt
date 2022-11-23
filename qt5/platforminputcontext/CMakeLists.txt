@@ -40,6 +40,7 @@ target_link_libraries(fcitx5platforminputcontextplugin
                           Qt5::Core
                           Qt5::Gui
                           Qt5::DBus
+                          Qt5::Widgets
                           XCB::XCB
                           Fcitx5Qt5::DBusAddons
                           XKBCommon::XKBCommon

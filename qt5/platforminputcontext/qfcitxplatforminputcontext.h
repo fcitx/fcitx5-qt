@@ -23,63 +23,23 @@
 #include <unordered_map>
 #include <xkbcommon/xkbcommon-compose.h>
 
+class QWidget;
+
 namespace fcitx {
 
 class FcitxQtConnection;
-class FcitxTheme;
+class QFcitxPlatformInputContext;
 
 struct FcitxQtICData {
-    FcitxQtICData(FcitxQtWatcher *watcher, QWindow *window)
-        : proxy(new FcitxQtInputContextProxy(watcher, watcher)),
-          watcher_(watcher), window_(window) {
-        proxy->setProperty("icData",
-                           QVariant::fromValue(static_cast<void *>(this)));
-        QObject::connect(window, &QWindow::visibilityChanged, proxy,
-                         [this](bool visible) {
-                             if (!visible) {
-                                 resetCandidateWindow();
-                             }
-                         });
-        QObject::connect(watcher, &FcitxQtWatcher::availabilityChanged, proxy,
-                         [this](bool avail) {
-                             if (!avail) {
-                                 resetCandidateWindow();
-                             }
-                         });
-    }
+    FcitxQtICData(QFcitxPlatformInputContext *context, QWindow *window);
     FcitxQtICData(const FcitxQtICData &that) = delete;
-    ~FcitxQtICData() {
-        delete proxy;
-        resetCandidateWindow();
-    }
+    ~FcitxQtICData();
 
-    FcitxCandidateWindow *candidateWindow(FcitxTheme *theme) {
-        if (!candidateWindow_) {
-            candidateWindow_ = new FcitxCandidateWindow(window(), theme);
-            QObject::connect(
-                candidateWindow_, &FcitxCandidateWindow::candidateSelected,
-                proxy,
-                [proxy = proxy](int index) { proxy->selectCandidate(index); });
-            QObject::connect(candidateWindow_,
-                             &FcitxCandidateWindow::prevClicked, proxy,
-                             [proxy = proxy]() { proxy->prevPage(); });
-            QObject::connect(candidateWindow_,
-                             &FcitxCandidateWindow::nextClicked, proxy,
-                             [proxy = proxy]() { proxy->nextPage(); });
-        }
-        return candidateWindow_;
-    }
+    FcitxCandidateWindow *candidateWindow();
 
     QWindow *window() { return window_.data(); }
-    auto *watcher() { return watcher_; }
 
-    void resetCandidateWindow() {
-        if (auto *w = candidateWindow_.data()) {
-            candidateWindow_ = nullptr;
-            w->deleteLater();
-            return;
-        }
-    }
+    void resetCandidateWindow();
 
     quint64 capability = 0;
     FcitxQtInputContextProxy *proxy;
@@ -91,7 +51,7 @@ struct FcitxQtICData {
     int surroundingCursor = -1;
 
 private:
-    FcitxQtWatcher *watcher_;
+    QFcitxPlatformInputContext *context_;
     QPointer<QWindow> window_;
     QPointer<FcitxCandidateWindow> candidateWindow_;
 };
@@ -156,6 +116,16 @@ public:
     QLocale locale() const override;
     bool hasCapability(Capability capability) const override;
 
+    FcitxQtWatcher *watcher() { return watcher_; }
+
+    // Use Wrapper as suffix to avoid upstream add function with same name.
+    QObject *focusObjectWrapper() const;
+    QWindow *focusWindowWrapper() const;
+    QRect cursorRectangleWrapper() const;
+
+    // Initialize theme object on demand.
+    FcitxTheme *theme();
+
 public Q_SLOTS:
     void cursorRectChanged();
     void commitString(const QString &str);
@@ -177,6 +147,7 @@ public Q_SLOTS:
                             bool hasNext);
 private Q_SLOTS:
     void processKeyEventFinished(QDBusPendingCallWatcher *);
+    void focusWidgetChanged(QWidget *old, QWidget *now);
 
 private:
     bool processCompose(unsigned int keyval, unsigned int state,
@@ -212,6 +183,7 @@ private:
                              unsigned int state, bool isRelaese);
 
     void updateCursorRect();
+    bool objectAcceptsInputMethod() const;
 
     FcitxQtWatcher *watcher_;
     QString preedit_;
@@ -231,6 +203,7 @@ private:
         xkbComposeState_;
     QLocale locale_;
     FcitxTheme *theme_ = nullptr;
+    QPointer<QWidget> focusWidget_;
 };
 } // namespace fcitx
 
