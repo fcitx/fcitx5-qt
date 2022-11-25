@@ -23,8 +23,6 @@
 #include <unordered_map>
 #include <xkbcommon/xkbcommon-compose.h>
 
-class QWidget;
-
 namespace fcitx {
 
 class FcitxQtConnection;
@@ -147,7 +145,6 @@ public Q_SLOTS:
                             bool hasNext);
 private Q_SLOTS:
     void processKeyEventFinished(QDBusPendingCallWatcher *);
-    void focusWidgetChanged(QWidget *old, QWidget *now);
 
 private:
     bool processCompose(unsigned int keyval, unsigned int state,
@@ -203,7 +200,6 @@ private:
         xkbComposeState_;
     QLocale locale_;
     FcitxTheme *theme_ = nullptr;
-    QPointer<QWidget> focusWidget_;
 };
 } // namespace fcitx
 
