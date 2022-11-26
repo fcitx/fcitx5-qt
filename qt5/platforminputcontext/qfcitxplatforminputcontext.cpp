@@ -427,7 +427,7 @@ void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
     // Since we have a wrapper, it's possible that real focus object is not
     // changed.
     QObject *realFocusObject = focusObjectWrapper();
-    if (realFocusObject != object && lastObject_ == object) {
+    if (realFocusObject != object && lastObject_ == realFocusObject) {
         return;
     }
 
