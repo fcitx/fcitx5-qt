@@ -425,9 +425,10 @@ void QFcitxPlatformInputContext::commit() { QPlatformInputContext::commit(); }
 
 void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
     // Since we have a wrapper, it's possible that real focus object is not
-    // changed.
+    // changed. Do not emit focusOut and focusIn if:
+    // realFocusObject does not change.
     QObject *realFocusObject = focusObjectWrapper();
-    if (realFocusObject != object && lastObject_ == realFocusObject) {
+    if (lastObject_ == realFocusObject) {
         return;
     }
 
@@ -442,7 +443,7 @@ void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
 
     QWindow *window = focusWindowWrapper();
     lastWindow_ = window;
-    lastObject_ = object;
+    lastObject_ = realFocusObject;
     // Always create IC Data for window.
     if (window) {
         proxy = validICByWindow(window);
