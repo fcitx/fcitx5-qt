@@ -424,6 +424,8 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
 void QFcitxPlatformInputContext::commit() { QPlatformInputContext::commit(); }
 
 void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
+    Q_UNUSED(object);
+
     // Since we have a wrapper, it's possible that real focus object is not
     // changed. Do not emit focusOut and focusIn if:
     // realFocusObject does not change.
