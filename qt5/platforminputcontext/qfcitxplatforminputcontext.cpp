@@ -1097,9 +1097,8 @@ QWindow *QFcitxPlatformInputContext::focusWindowWrapper() const {
         if (!focusWindow) {
             break;
         }
-        QObject *focusObject = qGuiApp->focusObject();
-        QObject *realFocusObject = deepestFocusProxy(qGuiApp->focusObject());
-        if (focusObject == realFocusObject) {
+        QObject *realFocusObject = focusObjectWrapper();
+        if (qGuiApp->focusObject() == realFocusObject) {
             break;
         }
         auto *widget = qobject_cast<QWidget *>(realFocusObject);
