@@ -543,6 +543,12 @@ void QFcitxInputContext::forwardKey(unsigned int keyval, unsigned int state,
     }
 }
 
+void QFcitxInputContext::serverSideFocusOut() {
+    if (lastWindow_ == qApp->focusWidget()) {
+        commitPreedit();
+    }
+}
+
 void QFcitxInputContext::createICData(QWidget *w) {
     auto iter = icMap_.find(w);
     if (iter == icMap_.end()) {
@@ -571,6 +577,8 @@ void QFcitxInputContext::createICData(QWidget *w) {
             SLOT(updateFormattedPreedit(FcitxQtFormattedPreeditList, int)));
         connect(data.proxy, SIGNAL(deleteSurroundingText(int, uint)), this,
                 SLOT(deleteSurroundingText(int, uint)));
+        connect(data.proxy, SIGNAL(notifyFocusOut()), this,
+                SLOT(serverSideFocusOut()));
     }
 }
 

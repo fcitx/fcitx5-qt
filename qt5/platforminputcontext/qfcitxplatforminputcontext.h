@@ -143,6 +143,7 @@ public Q_SLOTS:
                             const FcitxQtStringKeyValueList &candidates,
                             int candidateIndex, int layoutHint, bool hasPrev,
                             bool hasNext);
+    void serverSideFocusOut();
 private Q_SLOTS:
     void processKeyEventFinished(QDBusPendingCallWatcher *);
 

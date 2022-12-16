@@ -114,6 +114,7 @@ public Q_SLOTS:
     void deleteSurroundingText(int offset, unsigned int nchar);
     void forwardKey(unsigned int keyval, unsigned int state, bool type);
     void createInputContextFinished(const QByteArray &uuid);
+    void serverSideFocusOut();
     void cleanUp();
     void windowDestroyed(QObject *object);
 

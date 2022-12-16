@@ -101,5 +101,7 @@
       <arg name="state" type="u"/>
       <arg name="type" type="b"/>
     </signal>
+    <signal name="NotifyFocusOut">
+    </signal>
   </interface>
 </node>

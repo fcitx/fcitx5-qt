@@ -773,6 +773,12 @@ void QFcitxPlatformInputContext::updateCurrentIM(const QString &name,
     }
 }
 
+void QFcitxPlatformInputContext::serverSideFocusOut() {
+    if (lastObject_ == focusObjectWrapper()) {
+        commitPreedit();
+    }
+}
+
 QLocale QFcitxPlatformInputContext::locale() const { return locale_; }
 
 bool QFcitxPlatformInputContext::hasCapability(Capability) const {
@@ -809,6 +815,8 @@ void QFcitxPlatformInputContext::createICData(QWindow *w) {
                 &QFcitxPlatformInputContext::updateCurrentIM);
         connect(data.proxy, &FcitxQtInputContextProxy::updateClientSideUI, this,
                 &QFcitxPlatformInputContext::updateClientSideUI);
+        connect(data.proxy, &FcitxQtInputContextProxy::notifyFocusOut, this,
+                &QFcitxPlatformInputContext::serverSideFocusOut);
     }
 }
 

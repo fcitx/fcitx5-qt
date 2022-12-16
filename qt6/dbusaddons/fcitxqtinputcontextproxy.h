@@ -73,6 +73,7 @@ Q_SIGNALS:
                             int candidateIndex, int layoutHint, bool hasPrev,
                             bool hasNext);
     void inputContextCreated(const QByteArray &uuid);
+    void notifyFocusOut();
 
 private:
     FcitxQtInputContextProxyPrivate *const d_ptr;

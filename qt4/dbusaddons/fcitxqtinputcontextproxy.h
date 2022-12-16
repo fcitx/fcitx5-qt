@@ -74,6 +74,7 @@ Q_SIGNALS:
                             int candidateIndex, int layoutHint, bool hasPrev,
                             bool hasNext);
     void inputContextCreated(const QByteArray &uuid);
+    void notifyFocusOut();
 
 private:
     Q_PRIVATE_SLOT(d_func(), void availabilityChanged());

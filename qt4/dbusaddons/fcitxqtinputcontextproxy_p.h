@@ -146,6 +146,8 @@ public:
         QObject::connect(icproxy_,
                          SIGNAL(DeleteSurroundingText(int, unsigned int)), q,
                          SIGNAL(deleteSurroundingText(int, unsigned int)));
+        QObject::connect(icproxy_, SIGNAL(NotifyFocusOut()), q,
+                         SIGNAL(notifyFocusOut()));
 
         delete createInputContextWatcher_;
         createInputContextWatcher_ = nullptr;

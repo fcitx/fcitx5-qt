@@ -144,6 +144,9 @@ public:
         QObject::connect(icproxy_,
                          &FcitxQtInputContextProxyImpl::UpdateClientSideUI, q,
                          &FcitxQtInputContextProxy::updateClientSideUI);
+        QObject::connect(icproxy_,
+                         &FcitxQtInputContextProxyImpl::NotifyFocusOut, q,
+                         &FcitxQtInputContextProxy::notifyFocusOut);
 
         delete createInputContextWatcher_;
         createInputContextWatcher_ = nullptr;
