@@ -28,7 +28,8 @@ namespace fcitx {
 class FcitxQtConnection;
 class QFcitxPlatformInputContext;
 
-struct FcitxQtICData {
+class FcitxQtICData : public QObject {
+public:
     FcitxQtICData(QFcitxPlatformInputContext *context, QWindow *window);
     FcitxQtICData(const FcitxQtICData &that) = delete;
     ~FcitxQtICData();
@@ -47,6 +48,8 @@ struct FcitxQtICData {
     QString surroundingText;
     int surroundingAnchor = -1;
     int surroundingCursor = -1;
+    bool expectingMicroFocusChange = false;
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
 private:
     QFcitxPlatformInputContext *context_;
@@ -123,6 +126,7 @@ public:
 
     // Initialize theme object on demand.
     FcitxTheme *theme();
+    bool hasPreedit() const { return !preeditList_.isEmpty(); }
 
 public Q_SLOTS:
     void cursorRectChanged();
@@ -144,6 +148,7 @@ public Q_SLOTS:
                             int candidateIndex, int layoutHint, bool hasPrev,
                             bool hasNext);
     void serverSideFocusOut();
+    bool commitPreedit(QPointer<QObject> input = qApp->focusObject());
 private Q_SLOTS:
     void processKeyEventFinished(QDBusPendingCallWatcher *);
 
@@ -173,7 +178,6 @@ private:
     }
 
     void updateCapability(const FcitxQtICData &data);
-    void commitPreedit(QPointer<QObject> input = qApp->focusObject());
     void createICData(QWindow *w);
     FcitxQtInputContextProxy *validIC();
     FcitxQtInputContextProxy *validICByWindow(QWindow *window);

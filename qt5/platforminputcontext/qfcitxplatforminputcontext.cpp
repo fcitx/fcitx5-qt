@@ -172,10 +172,41 @@ FcitxQtICData::FcitxQtICData(QFcitxPlatformInputContext *context,
                              resetCandidateWindow();
                          }
                      });
+    window->installEventFilter(this);
 }
 FcitxQtICData::~FcitxQtICData() {
+    if (window_) {
+        window_->removeEventFilter(this);
+    }
     delete proxy;
     resetCandidateWindow();
+}
+
+bool FcitxQtICData::eventFilter(QObject *, QEvent *event) {
+    if (event->type() != QMouseEvent::MouseButtonPress) {
+        return false;
+    }
+    auto focusObject = context_->focusObjectWrapper();
+    if (!focusObject) {
+        return false;
+    }
+    if (!window_ || window_ != context_->focusWindowWrapper() ||
+        !context_->hasPreedit()) {
+        return false;
+    }
+    if (focusObject->metaObject()->className() ==
+            QLatin1String("KateViewInternal") ||
+        (focusObject->metaObject()->className() == QLatin1String("QtWidget") &&
+         QCoreApplication::applicationFilePath().endsWith("soffice.bin")) ||
+        focusObject->metaObject()->className() ==
+            QLatin1String("Konsole::TerminalDisplay")) {
+        if (context_->commitPreedit()) {
+            if (proxy->isValid()) {
+                proxy->reset();
+            }
+        }
+    }
+    return false;
 }
 
 FcitxCandidateWindow *FcitxQtICData::candidateWindow() {
@@ -281,16 +312,21 @@ void QFcitxPlatformInputContext::invokeAction(QInputMethod::Action imAction,
     }
 }
 
-void QFcitxPlatformInputContext::commitPreedit(QPointer<QObject> input) {
-    if (!input)
-        return;
-    if (commitPreedit_.length() <= 0)
-        return;
+bool QFcitxPlatformInputContext::commitPreedit(QPointer<QObject> input) {
+    if (!input) {
+        return false;
+    }
+    if (preeditList_.isEmpty()) {
+        return false;
+    }
     QInputMethodEvent e;
-    e.setCommitString(commitPreedit_);
+    if (!commitPreedit_.isEmpty()) {
+        e.setCommitString(commitPreedit_);
+    }
     commitPreedit_.clear();
     preeditList_.clear();
     QCoreApplication::sendEvent(input, &e);
+    return true;
 }
 
 bool checkUtf8(const QByteArray &byteArray) {
@@ -430,7 +466,6 @@ void QFcitxPlatformInputContext::commit() {
             proxy->property("icData").value<void *>());
         data.resetCandidateWindow();
     }
-    QPlatformInputContext::commit();
 }
 
 void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
