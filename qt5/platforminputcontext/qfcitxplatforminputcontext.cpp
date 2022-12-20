@@ -369,8 +369,8 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
     do {
         if (!useSurroundingText_)
             break;
-        if (!((queries & Qt::ImSurroundingText) &&
-              (queries & Qt::ImCursorPosition)))
+        if (!(queries & (Qt::ImSurroundingText | Qt::ImCursorPosition |
+                         Qt::ImAnchorPosition)))
             break;
         if ((data.capability & FcitxCapabilityFlag_Password) ||
             (data.capability & FcitxCapabilityFlag_Sensitive))
