@@ -421,7 +421,17 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
     } while (0);
 }
 
-void QFcitxPlatformInputContext::commit() { QPlatformInputContext::commit(); }
+void QFcitxPlatformInputContext::commit() {
+    FcitxQtInputContextProxy *proxy = validICByWindow(lastWindow_);
+    commitPreedit(lastObject_);
+    if (proxy) {
+        proxy->reset();
+        FcitxQtICData &data = *static_cast<FcitxQtICData *>(
+            proxy->property("icData").value<void *>());
+        data.resetCandidateWindow();
+    }
+    QPlatformInputContext::commit();
+}
 
 void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
     Q_UNUSED(object);
