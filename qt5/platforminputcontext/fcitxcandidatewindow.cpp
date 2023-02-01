@@ -86,9 +86,18 @@ private:
 FcitxCandidateWindow::FcitxCandidateWindow(QWindow *window,
                                            QFcitxPlatformInputContext *context)
     : QWindow(), context_(context), theme_(context->theme()), parent_(window) {
-    setFlags(Qt::ToolTip | Qt::FramelessWindowHint |
-             Qt::BypassWindowManagerHint | Qt::WindowDoesNotAcceptFocus |
-             Qt::NoDropShadowWindowHint);
+    constexpr Qt::WindowFlags commonFlags = Qt::FramelessWindowHint |
+                                            Qt::WindowDoesNotAcceptFocus |
+                                            Qt::NoDropShadowWindowHint;
+    if (isWayland_) {
+        // Qt::ToolTip ensures wayland doesn't grab focus.
+        // Not using Qt::BypassWindowManagerHint ensures wayland handle
+        // fractional scale.
+        setFlags(Qt::ToolTip | commonFlags);
+    } else {
+        // Qt::Popup ensures X11 doesn't apply tooltip animation under kwin.
+        setFlags(Qt::Popup | Qt::BypassWindowManagerHint | commonFlags);
+    }
     if (isWayland_) {
         setTransientParent(parent_);
     }
