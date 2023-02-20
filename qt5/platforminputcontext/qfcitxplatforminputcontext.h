@@ -186,6 +186,7 @@ private:
 
     void updateCursorRect();
     bool objectAcceptsInputMethod() const;
+    bool shouldDisableInputMethod() const;
 
     FcitxQtWatcher *watcher_;
     QString preedit_;

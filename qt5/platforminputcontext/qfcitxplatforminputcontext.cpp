@@ -278,6 +278,10 @@ bool QFcitxPlatformInputContext::objectAcceptsInputMethod() const {
     return enabled;
 }
 
+bool QFcitxPlatformInputContext::shouldDisableInputMethod() const {
+    return !inputMethodAccepted() && !objectAcceptsInputMethod();
+}
+
 void QFcitxPlatformInputContext::cleanUp() {
     icMap_.clear();
 
@@ -366,7 +370,7 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
     }
 
     if (queries & Qt::ImEnabled) {
-        if (!inputMethodAccepted() && !objectAcceptsInputMethod()) {
+        if (shouldDisableInputMethod()) {
             addCapability(data, FcitxCapabilityFlag_Disable);
         } else {
             removeCapability(data, FcitxCapabilityFlag_Disable);
@@ -614,7 +618,7 @@ void QFcitxPlatformInputContext::createInputContextFinished(
     }
     flag |= FcitxCapabilityFlag_ClientSideInputPanel;
 
-    if (!inputMethodAccepted() || !objectAcceptsInputMethod()) {
+    if (shouldDisableInputMethod()) {
         flag |= FcitxCapabilityFlag_Disable;
     }
 
@@ -961,7 +965,7 @@ bool QFcitxPlatformInputContext::filterEvent(const QEvent *event) {
         quint32 state = keyEvent->nativeModifiers();
         bool isRelease = keyEvent->type() == QEvent::KeyRelease;
 
-        if (!inputMethodAccepted() && !objectAcceptsInputMethod())
+        if (shouldDisableInputMethod())
             break;
 
         QObject *input = qGuiApp->focusObject();
