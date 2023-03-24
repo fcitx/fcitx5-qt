@@ -1,5 +1,3 @@
-include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
-
 set(FCITX5_QT_EXTRA_PLUGIN_NAME "")
 if (WITH_FCITX_PLUGIN_NAME)
     set(FCITX5_QT_EXTRA_PLUGIN_NAME "\"fcitx\",")
@@ -24,7 +22,7 @@ add_library(fcitx5platforminputcontextplugin ${PLUGIN_LIBRARY_TYPE} ${plugin_SRC
 set_target_properties(fcitx5platforminputcontextplugin PROPERTIES
                          AUTOMOC TRUE
                         )
-target_include_directories(fcitx5platforminputcontextplugin PRIVATE "${PROJECT_SOURCE_DIR}/common")
+target_include_directories(fcitx5platforminputcontextplugin PRIVATE ${Qt5Gui_PRIVATE_INCLUDE_DIRS} "${PROJECT_SOURCE_DIR}/common")
 if (BUILD_ONLY_PLUGIN AND BUILD_STATIC_PLUGIN)
 target_compile_definitions(fcitx5platforminputcontextplugin PRIVATE "-DQT_STATICPLUGIN")
 endif()
