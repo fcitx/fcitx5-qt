@@ -63,9 +63,6 @@ class FCITX5QT5WIDGETSADDONS_EXPORT FcitxQtKeySequenceWidget : public QWidget {
     Q_PROPERTY(bool modifierlessAllowed READ isModifierlessAllowed WRITE
                    setModifierlessAllowed)
 
-    Q_PROPERTY(bool modifierAllowed READ isModifierAllowed WRITE
-                   setModifierlessAllowed)
-
     Q_PROPERTY(
         bool modifierAllowed READ isModifierAllowed WRITE setModifierAllowed)
 
