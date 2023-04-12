@@ -3,16 +3,17 @@
 # This file is distributed under the same license as the fcitx5-qt package.
 #
 # Translators:
-# Omer I.S. <omeritzicschwartz@gmail.com>, 2020
+# 63f334ffc0709ba0fc2361b80bf3c0f0_00ffd1e <ab96c93ca0ac55ba7fa06385427e60dd_878890>, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-05-02 03:03+0000\n"
+"POT-Creation-Date: 2023-04-12 14:26+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
-"Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>, 2020\n"
-"Language-Team: Hebrew (https://www.transifex.com/fcitx/teams/12005/he/)\n"
+"Last-Translator: 63f334ffc0709ba0fc2361b80bf3c0f0_00ffd1e "
+"<ab96c93ca0ac55ba7fa06385427e60dd_878890>, 2020\n"
+"Language-Team: Hebrew (https://app.transifex.com/fcitx/teams/12005/he/)\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -132,7 +133,7 @@ msgstr "ברירת מחדל"
 msgid "E&xport"
 msgstr ""
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:319
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:355
 msgid "Empty"
 msgstr ""
 
@@ -168,11 +169,11 @@ msgstr ""
 msgid "Invalid filename"
 msgstr ""
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:180
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:179
 msgid "Key code mode"
 msgstr ""
 
-#: qt5/quickphrase-editor/model.cpp:71
+#: qt5/quickphrase-editor/model.cpp:73
 msgid "Keyword"
 msgstr "מילת מפתח"
 
@@ -184,7 +185,7 @@ msgstr ""
 msgid "Parent window ID"
 msgstr ""
 
-#: qt5/quickphrase-editor/model.cpp:73
+#: qt5/quickphrase-editor/model.cpp:75
 msgid "Phrase"
 msgstr ""
 
@@ -218,11 +219,11 @@ msgid ""
 "Do you want to save the changes or discard them?"
 msgstr ""
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:356
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:392
 msgid "The key you just pressed is not supported by Qt."
 msgstr ""
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:357
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:393
 msgid "Unsupported Key"
 msgstr ""
 
