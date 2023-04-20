@@ -77,6 +77,7 @@ public:
         return highlightBackgroundColor_;
     }
     const auto &highlightColor() const { return highlightColor_; }
+    const auto &buttonAlignment() const { return buttonAlignment_; }
     auto contentMargin() const { return contentMargin_; }
     auto textMargin() const { return textMargin_; }
     auto highlightClickMargin() const { return highlightClickMargin_; }
@@ -111,6 +112,7 @@ private:
     bool fullWidthHighlight_ = true;
     QColor highlightColor_{Qt::white};
     QColor highlightBackgroundColor_{0xa5, 0xa5, 0xa5};
+    QString buttonAlignment_;
     QMargins highlightClickMargin_;
     QMargins contentMargin_;
     QMargins textMargin_;

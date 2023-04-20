@@ -152,43 +152,7 @@ void FcitxCandidateWindow::renderNow() {
 void FcitxCandidateWindow::render(QPainter *painter) {
     theme_->paint(painter, theme_->background(),
                   QRect(QPoint(0, 0), actualSize_));
-    prevRegion_ = QRect();
-    nextRegion_ = QRect();
     auto contentMargin = theme_->contentMargin();
-    if (labelLayouts_.size() && (hasPrev_ || hasNext_)) {
-        if (theme_->prev().valid() && theme_->next().valid()) {
-            nextRegion_ =
-                QRect(QPoint(actualSize_.width() - contentMargin.right() -
-                                 theme_->prev().width(),
-                             actualSize_.height() - contentMargin.bottom() -
-                                 theme_->next().height()),
-                      theme_->next().size());
-            double alpha = 1.0;
-            if (!hasNext_) {
-                alpha = 0.3;
-            } else if (nextHovered_) {
-                alpha = 0.7;
-            }
-            theme_->paint(painter, theme_->next(), nextRegion_.topLeft(),
-                          alpha);
-            nextRegion_ = nextRegion_.marginsRemoved(theme_->next().margin());
-            prevRegion_ = QRect(
-                QPoint(actualSize_.width() - contentMargin.right() -
-                           theme_->next().width() - theme_->prev().width(),
-                       actualSize_.height() - contentMargin.bottom() -
-                           theme_->prev().height()),
-                theme_->prev().size());
-            alpha = 1.0;
-            if (!hasPrev_) {
-                alpha = 0.3;
-            } else if (prevHovered_) {
-                alpha = 0.7;
-            }
-            theme_->paint(painter, theme_->prev(), prevRegion_.topLeft(),
-                          alpha);
-            prevRegion_ = prevRegion_.marginsRemoved(theme_->prev().margin());
-        }
-    }
 
     const QPoint topLeft(contentMargin.left(), contentMargin.top());
     painter->setPen(theme_->normalColor());
@@ -312,6 +276,77 @@ void FcitxCandidateWindow::render(QPainter *painter) {
         if (!candidateLayouts_[i]->isEmpty()) {
             candidateLayouts_[i]->draw(painter, color,
                                        topLeft + QPoint(x + labelW, y));
+        }
+    }
+    prevRegion_ = QRect();
+    nextRegion_ = QRect();
+    if (labelLayouts_.size() && (hasPrev_ || hasNext_)) {
+        if (theme_->prev().valid() && theme_->next().valid()) {
+            int prevY = 0, nextY = 0;
+            if (theme_->buttonAlignment() == "Top") {
+                prevY = contentMargin.top();
+                nextY = contentMargin.top();
+            } else if (theme_->buttonAlignment() == "First Candidate") {
+                prevY = candidateRegions_.front().top() +
+                        (candidateRegions_.front().height() -
+                         theme_->prev().height()) /
+                            2.0;
+                nextY = candidateRegions_.front().top() +
+                        (candidateRegions_.front().height() -
+                         theme_->next().height()) /
+                            2.0;
+            } else if (theme_->buttonAlignment() == "Center") {
+                prevY = contentMargin.top() +
+                        (actualSize_.height() - contentMargin.top() -
+                         contentMargin.bottom() - theme_->prev().height()) /
+                            2.0;
+                nextY = contentMargin.top() +
+                        (actualSize_.height() - contentMargin.top() -
+                         contentMargin.bottom() - theme_->next().height()) /
+                            2.0;
+            } else if (theme_->buttonAlignment() == "Last Candidate") {
+                prevY = candidateRegions_.back().top() +
+                        (candidateRegions_.back().height() -
+                         theme_->prev().height()) /
+                            2.0;
+                nextY = candidateRegions_.back().top() +
+                        (candidateRegions_.back().height() -
+                         theme_->next().height()) /
+                            2.0;
+            } else {
+                prevY = actualSize_.height() - contentMargin.bottom() -
+                        theme_->prev().height();
+                nextY = actualSize_.height() - contentMargin.bottom() -
+                        theme_->next().height();
+            }
+            nextRegion_ =
+                QRect(QPoint(actualSize_.width() - contentMargin.right() -
+                                 theme_->prev().width(),
+                             nextY),
+                      theme_->next().size());
+            double alpha = 1.0;
+            if (!hasNext_) {
+                alpha = 0.3;
+            } else if (nextHovered_) {
+                alpha = 0.7;
+            }
+            theme_->paint(painter, theme_->next(), nextRegion_.topLeft(),
+                          alpha);
+            nextRegion_ = nextRegion_.marginsRemoved(theme_->next().margin());
+            prevRegion_ = QRect(
+                QPoint(actualSize_.width() - contentMargin.right() -
+                           theme_->next().width() - theme_->prev().width(),
+                       prevY),
+                theme_->prev().size());
+            alpha = 1.0;
+            if (!hasPrev_) {
+                alpha = 0.3;
+            } else if (prevHovered_) {
+                alpha = 0.7;
+            }
+            theme_->paint(painter, theme_->prev(), prevRegion_.topLeft(),
+                          alpha);
+            prevRegion_ = prevRegion_.marginsRemoved(theme_->prev().margin());
         }
     }
 }
