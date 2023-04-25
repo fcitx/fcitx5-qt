@@ -8,15 +8,16 @@
 # bruh, 2020
 # csslayer <wengxt@gmail.com>, 2022
 # Neko ◣ 0xFF, 2022
+# Lau YeeYu, 2023
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-12-16 20:25+0000\n"
+"POT-Creation-Date: 2023-04-25 20:24+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
-"Last-Translator: Neko ◣ 0xFF, 2022\n"
-"Language-Team: Chinese (Taiwan) (https://www.transifex.com/fcitx/teams/12005/"
+"Last-Translator: Lau YeeYu, 2023\n"
+"Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
 "zh_TW/)\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +34,7 @@ msgstr "%1 是系統檔，您是否想要改為清空所有字詞？"
 #: rc.cpp:12
 #, kde-format
 msgid "&Add"
-msgstr "新增 (&A)"
+msgstr "新增(&A)"
 
 #: qt5/guiwrapper/mainwindow.cpp:29
 msgid "&Apply"
@@ -44,7 +45,7 @@ msgstr "套用(&A)"
 #: rc.cpp:15
 #, kde-format
 msgid "&Batch Edit"
-msgstr "批次編輯 (&B)"
+msgstr "批次編輯(&B)"
 
 #: qt5/guiwrapper/mainwindow.cpp:31
 msgid "&Close"
@@ -55,14 +56,14 @@ msgstr "關閉 (&C)"
 #: rc.cpp:18
 #, kde-format
 msgid "&Delete"
-msgstr "刪除 (&D)"
+msgstr "刪除(&D)"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:103
 #. i18n: ectx: property (text), widget (QPushButton, importButton)
 #: rc.cpp:24
 #, kde-format
 msgid "&Import"
-msgstr "匯入 (&I)"
+msgstr "匯入(&I)"
 
 #: qt5/guiwrapper/mainwindow.cpp:28
 msgid "&Ok"
@@ -73,7 +74,7 @@ msgstr "確定(&O)"
 #: rc.cpp:9
 #, kde-format
 msgid "&Operation"
-msgstr "操作 (&O)"
+msgstr "操作(&O)"
 
 #: qt5/guiwrapper/mainwindow.cpp:30
 msgid "&Reset"
@@ -123,7 +124,7 @@ msgstr "建立新檔"
 #: rc.cpp:21
 #, kde-format
 msgid "De&lete All"
-msgstr "全部刪除 (&L)"
+msgstr "全部刪除(&L)"
 
 #: qt5/quickphrase-editor/filelistmodel.cpp:29
 msgid "Default"
@@ -134,7 +135,7 @@ msgstr "預設"
 #: rc.cpp:27
 #, kde-format
 msgid "E&xport"
-msgstr "匯出 (&X)"
+msgstr "匯出(&X)"
 
 #: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:355
 msgid "Empty"
