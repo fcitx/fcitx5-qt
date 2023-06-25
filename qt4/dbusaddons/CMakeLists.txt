@@ -42,7 +42,7 @@ set_target_properties(Fcitx5Qt4DBusAddons
                       PROPERTIES VERSION ${FCITX5QT4DBUSADDONS_VERSION}
                       AUTOMOC TRUE
                       SOVERSION ${FCITX5QT4DBUSADDONS_SOVERSION}
-                      COMPILE_FLAGS "${LIBRARY_COMPILE_FLAGS}"
+                      POSITION_INDEPENDENT_CODE ON
                       EXPORT_NAME DBusAddons
 )
 
