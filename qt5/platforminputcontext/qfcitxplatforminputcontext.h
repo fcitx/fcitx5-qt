@@ -116,6 +116,9 @@ public:
     bool filterEvent(const QEvent *event) override;
     QLocale locale() const override;
     bool hasCapability(Capability capability) const override;
+    void showInputPanel() override;
+    void hideInputPanel() override;
+    bool isInputPanelVisible() const override;
 
     FcitxQtWatcher *watcher() { return watcher_; }
 
@@ -179,14 +182,16 @@ private:
 
     void updateCapability(const FcitxQtICData &data);
     void createICData(QWindow *w);
-    FcitxQtInputContextProxy *validIC();
-    FcitxQtInputContextProxy *validICByWindow(QWindow *window);
+    FcitxQtInputContextProxy *validIC() const;
+    FcitxQtInputContextProxy *validICByWindow(QWindow *window) const;
     bool filterEventFallback(unsigned int keyval, unsigned int keycode,
                              unsigned int state, bool isRelaese);
 
     void updateCursorRect();
     bool objectAcceptsInputMethod() const;
     bool shouldDisableInputMethod() const;
+
+    void updateInputPanelVisible();
 
     FcitxQtWatcher *watcher_;
     QString preedit_;
@@ -199,6 +204,7 @@ private:
     QPointer<QWindow> lastWindow_;
     QPointer<QObject> lastObject_;
     bool destroy_;
+    bool virtualKeyboardVisible_;
     QScopedPointer<struct xkb_context, XkbContextDeleter> xkbContext_;
     QScopedPointer<struct xkb_compose_table, XkbComposeTableDeleter>
         xkbComposeTable_;
@@ -206,6 +212,7 @@ private:
         xkbComposeState_;
     QLocale locale_;
     FcitxTheme *theme_ = nullptr;
+    bool inputPanelVisible_ = false;
 };
 } // namespace fcitx
 
