@@ -23,6 +23,7 @@
 #include <signal.h>
 #include <unistd.h>
 
+#include "fcitxcandidatewindow.h"
 #include "fcitxflags.h"
 #include "fcitxqtinputcontextproxy.h"
 #include "fcitxtheme.h"
@@ -523,6 +524,8 @@ void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
             },
             Qt::QueuedConnection);
     }
+
+    updateInputPanelVisible();
 }
 
 void QFcitxPlatformInputContext::updateCursorRect() {
@@ -598,6 +601,7 @@ void QFcitxPlatformInputContext::createInputContextFinished(
             cursorRectChanged();
             proxy->focusIn();
         }
+        updateInputPanelVisible();
     }
 
     quint64 flag = 0;
@@ -834,6 +838,45 @@ bool QFcitxPlatformInputContext::hasCapability(Capability) const {
     return true;
 }
 
+void QFcitxPlatformInputContext::showInputPanel() {
+    auto *proxy = validIC();
+    if (proxy == nullptr) {
+        return;
+    }
+    proxy->showVirtualKeyboard();
+}
+
+void QFcitxPlatformInputContext::hideInputPanel() {
+    auto *proxy = validIC();
+    if (proxy == nullptr) {
+        return;
+    }
+    proxy->hideVirtualKeyboard();
+}
+
+bool QFcitxPlatformInputContext::isInputPanelVisible() const {
+    return inputPanelVisible_;
+}
+
+void QFcitxPlatformInputContext::updateInputPanelVisible() {
+    // We have to use two levels of cache here, one level is from
+    // DBus to proxy, another level is from proxy to the one read by Qt.
+    //
+    // Because the API is designed in a way that "input panel" visibility is a
+    // per-input context thing. We have to update the value when focus is
+    // changed.
+    bool oldVisible = inputPanelVisible_;
+
+    bool newVisible = false;
+    if (auto *proxy = validIC()) {
+        newVisible = proxy->isVirtualKeyboardVisible();
+    }
+    if (newVisible != oldVisible) {
+        inputPanelVisible_ = newVisible;
+        emitInputPanelVisibleChanged();
+    }
+}
+
 void QFcitxPlatformInputContext::createICData(QWindow *w) {
     auto iter = icMap_.find(w);
     if (iter == icMap_.end()) {
@@ -866,6 +909,13 @@ void QFcitxPlatformInputContext::createICData(QWindow *w) {
                 &QFcitxPlatformInputContext::updateClientSideUI);
         connect(data.proxy, &FcitxQtInputContextProxy::notifyFocusOut, this,
                 &QFcitxPlatformInputContext::serverSideFocusOut);
+        connect(data.proxy,
+                &FcitxQtInputContextProxy::virtualKeyboardVisibilityChanged,
+                this, [this]() {
+                    if (validIC() == sender()) {
+                        updateInputPanelVisible();
+                    }
+                });
     }
 }
 
@@ -986,6 +1036,7 @@ bool QFcitxPlatformInputContext::filterEvent(const QEvent *event) {
 
         update(Qt::ImHints | Qt::ImEnabled);
         proxy->focusIn();
+        updateInputPanelVisible();
 
         auto stateToFcitx = state;
         if (keyEvent->isAutoRepeat()) {
@@ -1086,7 +1137,7 @@ bool QFcitxPlatformInputContext::filterEventFallback(unsigned int keyval,
     return false;
 }
 
-FcitxQtInputContextProxy *QFcitxPlatformInputContext::validIC() {
+FcitxQtInputContextProxy *QFcitxPlatformInputContext::validIC() const {
     if (icMap_.empty()) {
         return nullptr;
     }
@@ -1095,7 +1146,7 @@ FcitxQtInputContextProxy *QFcitxPlatformInputContext::validIC() {
 }
 
 FcitxQtInputContextProxy *
-QFcitxPlatformInputContext::validICByWindow(QWindow *w) {
+QFcitxPlatformInputContext::validICByWindow(QWindow *w) const {
     if (!w) {
         return nullptr;
     }

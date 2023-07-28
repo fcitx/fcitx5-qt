@@ -60,12 +60,24 @@ public Q_SLOTS: // METHODS
         return asyncCallWithArgumentList(QStringLiteral("FocusOut"), argumentList);
     }
 
+    inline QDBusPendingReply<> HideVirtualKeyboard()
+    {
+        QList<QVariant> argumentList;
+        return asyncCallWithArgumentList(QStringLiteral("HideVirtualKeyboard"), argumentList);
+    }
+
     inline QDBusPendingReply<> InvokeAction(unsigned int action, int cursor) {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(action)
                      << QVariant::fromValue(cursor);
         return asyncCallWithArgumentList(QStringLiteral("InvokeAction"),
                                          argumentList);
+    }
+
+    inline QDBusPendingReply<bool> IsVirtualKeyboardVisible() {
+        QList<QVariant> argumentList;
+        return asyncCallWithArgumentList(
+            QStringLiteral("IsVirtualKeyboardVisible"), argumentList);
     }
 
     inline QDBusPendingReply<> NextPage()
@@ -144,6 +156,12 @@ public Q_SLOTS: // METHODS
         return asyncCallWithArgumentList(QStringLiteral("SetSurroundingTextPosition"), argumentList);
     }
 
+    inline QDBusPendingReply<> ShowVirtualKeyboard()
+    {
+        QList<QVariant> argumentList;
+        return asyncCallWithArgumentList(QStringLiteral("ShowVirtualKeyboard"), argumentList);
+    }
+
 Q_SIGNALS: // SIGNALS
     void CommitString(const QString &str);
     void CurrentIM(const QString &name, const QString &uniqueName, const QString &langCode);
@@ -152,6 +170,7 @@ Q_SIGNALS: // SIGNALS
     void NotifyFocusOut();
     void UpdateClientSideUI(FcitxQtFormattedPreeditList preedit, int cursorpos, FcitxQtFormattedPreeditList auxUp, FcitxQtFormattedPreeditList auxDown, FcitxQtStringKeyValueList candidates, int candidateIndex, int layoutHint, bool hasPrev, bool hasNext);
     void UpdateFormattedPreedit(FcitxQtFormattedPreeditList str, int cursorpos);
+    void VirtualKeyboardVisibilityChanged(bool visible);
 };
 
 }

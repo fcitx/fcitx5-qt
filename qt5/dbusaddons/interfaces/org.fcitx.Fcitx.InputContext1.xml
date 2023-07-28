@@ -57,6 +57,13 @@
       <arg name="action" direction="in" type="u"/>
       <arg name="cursor" direction="in" type="i"/>
     </method>
+    <method name="ShowVirtualKeyboard">
+    </method>
+    <method name="HideVirtualKeyboard">
+    </method>
+    <method name="IsVirtualKeyboardVisible">
+      <arg name="visible" direction="out" type="b"/>
+    </method>
     <signal name="CommitString">
       <arg name="str" type="s"/>
     </signal>
@@ -102,6 +109,9 @@
       <arg name="type" type="b"/>
     </signal>
     <signal name="NotifyFocusOut">
+    </signal>
+    <signal name="VirtualKeyboardVisibilityChanged">
+      <arg name="visible" type="b"/>
     </signal>
   </interface>
 </node>
