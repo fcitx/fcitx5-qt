@@ -70,6 +70,18 @@ FCITX5_QT_DECLARE_FIELD(QString, languageCode, setLanguageCode);
 FCITX5_QT_DECLARE_FIELD(bool, configurable, setConfigurable);
 FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtInputMethodEntry);
 
+FCITX5_QT_BEGIN_DECLARE_DBUS_TYPE(FcitxQtFullInputMethodEntry);
+FCITX5_QT_DECLARE_FIELD(QString, uniqueName, setUniqueName);
+FCITX5_QT_DECLARE_FIELD(QString, name, setName);
+FCITX5_QT_DECLARE_FIELD(QString, nativeName, setNativeName);
+FCITX5_QT_DECLARE_FIELD(QString, icon, setIcon);
+FCITX5_QT_DECLARE_FIELD(QString, label, setLabel);
+FCITX5_QT_DECLARE_FIELD(QString, languageCode, setLanguageCode);
+FCITX5_QT_DECLARE_FIELD(QString, addon, setAddon);
+FCITX5_QT_DECLARE_FIELD(bool, configurable, setConfigurable);
+FCITX5_QT_DECLARE_FIELD(QVariantMap, reserved, setReserved);
+FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtFullInputMethodEntry);
+
 FCITX5_QT_BEGIN_DECLARE_DBUS_TYPE(FcitxQtVariantInfo);
 FCITX5_QT_DECLARE_FIELD(QString, variant, setVariant);
 FCITX5_QT_DECLARE_FIELD(QString, description, setDescription);
@@ -132,6 +144,9 @@ Q_DECLARE_METATYPE(fcitx::FcitxQtStringKeyValueList)
 
 Q_DECLARE_METATYPE(fcitx::FcitxQtInputMethodEntry)
 Q_DECLARE_METATYPE(fcitx::FcitxQtInputMethodEntryList)
+
+Q_DECLARE_METATYPE(fcitx::FcitxQtFullInputMethodEntry)
+Q_DECLARE_METATYPE(fcitx::FcitxQtFullInputMethodEntryList)
 
 Q_DECLARE_METATYPE(fcitx::FcitxQtVariantInfo)
 Q_DECLARE_METATYPE(fcitx::FcitxQtVariantInfoList)

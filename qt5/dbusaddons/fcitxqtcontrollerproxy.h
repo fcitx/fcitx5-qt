@@ -116,6 +116,35 @@ public Q_SLOTS: // METHODS
         return asyncCallWithArgumentList(QStringLiteral("Exit"), argumentList);
     }
 
+    inline QDBusPendingReply<QString, QString, QString, QVariantMap,
+                             FcitxQtFullInputMethodEntryList>
+    FullInputMethodGroupInfo(const QString &in0) {
+        QList<QVariant> argumentList;
+        argumentList << QVariant::fromValue(in0);
+        return asyncCallWithArgumentList(
+            QStringLiteral("FullInputMethodGroupInfo"), argumentList);
+    }
+
+    inline QDBusReply<QString> FullInputMethodGroupInfo(
+        const QString &in0, QString &defaultInputMethod, QString &defaultLayout,
+        QVariantMap &reserved,
+        FcitxQtFullInputMethodEntryList &inputMethodEntryList) {
+        QList<QVariant> argumentList;
+        argumentList << QVariant::fromValue(in0);
+        QDBusMessage reply = callWithArgumentList(
+            QDBus::Block, QStringLiteral("FullInputMethodGroupInfo"),
+            argumentList);
+        if (reply.type() == QDBusMessage::ReplyMessage &&
+            reply.arguments().count() == 5) {
+            defaultInputMethod = qdbus_cast<QString>(reply.arguments().at(1));
+            defaultLayout = qdbus_cast<QString>(reply.arguments().at(2));
+            reserved = qdbus_cast<QVariantMap>(reply.arguments().at(3));
+            inputMethodEntryList = qdbus_cast<FcitxQtFullInputMethodEntryList>(
+                reply.arguments().at(4));
+        }
+        return reply;
+    }
+
     inline QDBusPendingReply<FcitxQtAddonInfoList> GetAddons()
     {
         QList<QVariant> argumentList;

@@ -21,6 +21,7 @@ void registerFcitxQtDBusTypes() {
     FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtFormattedPreedit);
     FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtStringKeyValue);
     FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtInputMethodEntry);
+    FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtFullInputMethodEntry);
     FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtLayoutInfo);
     FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtVariantInfo);
     FCITX5_QT_DEFINE_DBUS_TYPE(FcitxQtConfigOption);
@@ -105,6 +106,43 @@ const QDBusArgument &operator>>(const QDBusArgument &argument,
     arg.setLabel(label);
     arg.setLanguageCode(languageCode);
     arg.setConfigurable(configurable);
+    return argument;
+}
+
+QDBusArgument &operator<<(QDBusArgument &argument,
+                          const FcitxQtFullInputMethodEntry &arg) {
+    argument.beginStructure();
+    argument << arg.uniqueName();
+    argument << arg.name();
+    argument << arg.nativeName();
+    argument << arg.icon();
+    argument << arg.label();
+    argument << arg.languageCode();
+    argument << arg.addon();
+    argument << arg.configurable();
+    argument << arg.reserved();
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument,
+                                FcitxQtFullInputMethodEntry &arg) {
+    QString uniqueName, name, nativeName, icon, label, languageCode, addon;
+    bool configurable;
+    QVariantMap reserved;
+    argument.beginStructure();
+    argument >> uniqueName >> name >> nativeName >> icon >> label >>
+        languageCode >> addon >> configurable >> reserved;
+    argument.endStructure();
+    arg.setUniqueName(uniqueName);
+    arg.setName(name);
+    arg.setNativeName(nativeName);
+    arg.setIcon(icon);
+    arg.setLabel(label);
+    arg.setLanguageCode(languageCode);
+    arg.setAddon(addon);
+    arg.setConfigurable(configurable);
+    arg.setReserved(reserved);
     return argument;
 }
 
