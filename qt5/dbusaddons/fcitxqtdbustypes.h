@@ -79,7 +79,7 @@ FCITX5_QT_DECLARE_FIELD(QString, label, setLabel);
 FCITX5_QT_DECLARE_FIELD(QString, languageCode, setLanguageCode);
 FCITX5_QT_DECLARE_FIELD(QString, addon, setAddon);
 FCITX5_QT_DECLARE_FIELD(bool, configurable, setConfigurable);
-FCITX5_QT_DECLARE_FIELD(QVariantMap, reserved, setReserved);
+FCITX5_QT_DECLARE_FIELD(QVariantMap, properties, setProperties);
 FCITX5_QT_END_DECLARE_DBUS_TYPE(FcitxQtFullInputMethodEntry);
 
 FCITX5_QT_BEGIN_DECLARE_DBUS_TYPE(FcitxQtVariantInfo);

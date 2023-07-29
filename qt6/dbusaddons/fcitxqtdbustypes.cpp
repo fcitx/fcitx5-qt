@@ -86,7 +86,6 @@ QDBusArgument &operator<<(QDBusArgument &argument,
     argument << arg.icon();
     argument << arg.label();
     argument << arg.languageCode();
-    argument << arg.addon();
     argument << arg.configurable();
     argument.endStructure();
     return argument;
@@ -121,7 +120,7 @@ QDBusArgument &operator<<(QDBusArgument &argument,
     argument << arg.languageCode();
     argument << arg.addon();
     argument << arg.configurable();
-    argument << arg.reserved();
+    argument << arg.properties();
     argument.endStructure();
     return argument;
 }
@@ -130,10 +129,10 @@ const QDBusArgument &operator>>(const QDBusArgument &argument,
                                 FcitxQtFullInputMethodEntry &arg) {
     QString uniqueName, name, nativeName, icon, label, languageCode, addon;
     bool configurable;
-    QVariantMap reserved;
+    QVariantMap properties;
     argument.beginStructure();
     argument >> uniqueName >> name >> nativeName >> icon >> label >>
-        languageCode >> addon >> configurable >> reserved;
+        languageCode >> addon >> configurable >> properties;
     argument.endStructure();
     arg.setUniqueName(uniqueName);
     arg.setName(name);
@@ -143,7 +142,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument,
     arg.setLanguageCode(languageCode);
     arg.setAddon(addon);
     arg.setConfigurable(configurable);
-    arg.setReserved(reserved);
+    arg.setProperties(properties);
     return argument;
 }
 
