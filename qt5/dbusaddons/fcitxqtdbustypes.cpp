@@ -120,6 +120,7 @@ QDBusArgument &operator<<(QDBusArgument &argument,
     argument << arg.languageCode();
     argument << arg.addon();
     argument << arg.configurable();
+    argument << arg.layout();
     argument << arg.properties();
     argument.endStructure();
     return argument;
@@ -127,12 +128,13 @@ QDBusArgument &operator<<(QDBusArgument &argument,
 
 const QDBusArgument &operator>>(const QDBusArgument &argument,
                                 FcitxQtFullInputMethodEntry &arg) {
-    QString uniqueName, name, nativeName, icon, label, languageCode, addon;
+    QString uniqueName, name, nativeName, icon, label, languageCode, addon,
+        layout;
     bool configurable;
     QVariantMap properties;
     argument.beginStructure();
     argument >> uniqueName >> name >> nativeName >> icon >> label >>
-        languageCode >> addon >> configurable >> properties;
+        languageCode >> addon >> configurable >> layout >> properties;
     argument.endStructure();
     arg.setUniqueName(uniqueName);
     arg.setName(name);
@@ -142,6 +144,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument,
     arg.setLanguageCode(languageCode);
     arg.setAddon(addon);
     arg.setConfigurable(configurable);
+    arg.setLayout(layout);
     arg.setProperties(properties);
     return argument;
 }

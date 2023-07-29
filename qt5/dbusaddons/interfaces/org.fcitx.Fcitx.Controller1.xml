@@ -47,7 +47,7 @@
       <arg type="s" name="defaultInputMethod" direction="out"/>
       <arg type="s" name="defaultLayout" direction="out"/>
       <arg type="a{sv}" name="properties" direction="out"/>
-      <arg type="a(sssssssba{sv})" name="inputMethodEntryList" direction="out"/>
+      <arg type="a(sssssssbsa{sv})" name="inputMethodEntryList" direction="out"/>
       <annotation name="org.qtproject.QtDBus.QtTypeName.Out3" value="QVariantMap" />
       <annotation name="org.qtproject.QtDBus.QtTypeName.Out4" value="FcitxQtFullInputMethodEntryList" />
   </method>
