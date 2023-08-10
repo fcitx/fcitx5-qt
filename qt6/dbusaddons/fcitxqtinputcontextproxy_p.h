@@ -144,6 +144,7 @@ public:
         Q_Q(FcitxQtInputContextProxy);
         if (createInputContextWatcher_->isError()) {
             cleanUp();
+            Q_EMIT q->inputContextCreationFailed();
             return;
         }
 
