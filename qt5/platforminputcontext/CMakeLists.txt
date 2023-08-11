@@ -6,6 +6,11 @@ endif()
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/fcitx5.json.in" "${CMAKE_CURRENT_BINARY_DIR}/fcitx5.json")
 
 set(plugin_SRCS
+    fcitx4watcher.cpp
+    fcitx4inputcontextproxy.cpp
+    fcitx4inputcontextproxyimpl.cpp
+    fcitx4inputmethodproxy.cpp
+    hybridinputcontext.cpp
     qfcitxplatforminputcontext.cpp
     fcitxcandidatewindow.cpp
     fcitxtheme.cpp

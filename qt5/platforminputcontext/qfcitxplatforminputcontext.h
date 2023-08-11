@@ -9,9 +9,10 @@
 #define QFCITXPLATFORMINPUTCONTEXT_H
 
 #include "fcitxcandidatewindow.h"
-#include "fcitxqtinputcontextproxy.h"
 #include "fcitxqtwatcher.h"
+#include "hybridinputcontext.h"
 #include <QDBusConnection>
+#include <QDBusPendingCallWatcher>
 #include <QDBusServiceWatcher>
 #include <QGuiApplication>
 #include <QKeyEvent>
@@ -41,7 +42,7 @@ public:
     void resetCandidateWindow();
 
     quint64 capability = 0;
-    FcitxQtInputContextProxy *proxy;
+    HybridInputContext *proxy;
     QRect rect;
     // Last key event forwarded.
     std::unique_ptr<QKeyEvent> event;
@@ -120,7 +121,8 @@ public:
     void hideInputPanel() override;
     bool isInputPanelVisible() const override;
 
-    FcitxQtWatcher *watcher() { return watcher_; }
+    auto *watcher() { return watcher_; }
+    auto *fcitx4Watcher() { return fcitx4Watcher_; }
 
     // Use Wrapper as suffix to avoid upstream add function with same name.
     QObject *focusObjectWrapper() const;
@@ -182,8 +184,8 @@ private:
 
     void updateCapability(const FcitxQtICData &data);
     void createICData(QWindow *w);
-    FcitxQtInputContextProxy *validIC() const;
-    FcitxQtInputContextProxy *validICByWindow(QWindow *window) const;
+    HybridInputContext *validIC() const;
+    HybridInputContext *validICByWindow(QWindow *window) const;
     bool filterEventFallback(unsigned int keyval, unsigned int keycode,
                              unsigned int state, bool isRelaese);
 
@@ -194,6 +196,7 @@ private:
     void updateInputPanelVisible();
 
     FcitxQtWatcher *watcher_;
+    Fcitx4Watcher *fcitx4Watcher_;
     QString preedit_;
     QString commitPreedit_;
     FcitxQtFormattedPreeditList preeditList_;
