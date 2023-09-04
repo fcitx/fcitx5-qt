@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2012~2017 CSSlayer <wengxt@gmail.com>
+ * SPDX-FileCopyrightText: 2012~2023 CSSlayer <wengxt@gmail.com>
  *
  * SPDX-License-Identifier: BSD-3-Clause
  *

@@ -14,6 +14,7 @@
 #include <QTextCharFormat>
 #include <QWidget>
 #include <QWindow>
+#include <qnamespace.h>
 #include <qpa/qplatformcursor.h>
 #include <qpa/qplatformnativeinterface.h>
 #include <qpa/qplatformscreen.h>
@@ -252,15 +253,25 @@ QFcitxPlatformInputContext::QFcitxPlatformInputContext()
                            : 0) {
     registerFcitxQtDBusTypes();
     watcher_->setWatchPortal(true);
-    watcher_->watch();
-    fcitx4Watcher_->watch();
+
+    // Input context may be created without QApplication with wayland, defer it
+    // to event loop to ensure event dispatcher is avaiable.
+    QMetaObject::invokeMethod(
+        this,
+        [this]() {
+            watcher_->watch();
+            fcitx4Watcher_->watch();
+        },
+        Qt::QueuedConnection);
 }
 
 QFcitxPlatformInputContext::~QFcitxPlatformInputContext() {
     destroy_ = true;
     watcher_->unwatch();
+    fcitx4Watcher_->unwatch();
     cleanUp();
     delete watcher_;
+    delete fcitx4Watcher_;
 }
 
 bool QFcitxPlatformInputContext::objectAcceptsInputMethod() const {
