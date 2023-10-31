@@ -33,7 +33,7 @@ else()
   set(PLUGIN_LIBRARY_TYPE MODULE)
 endif()
 
-add_definitions(-DFCITX5_QT_VERSION=\"${FCITX5_QT_VERSION}\" -DQT_NO_KEYWORDS)
+add_definitions(-DFCITX5_QT_VERSION=\"${FCITX5_QT_VERSION}\")
 
 include(GNUInstallDirs)
 include(FeatureSummary)
@@ -67,19 +67,14 @@ set(Fcitx5Qt5_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/Fcitx5Qt5)
 set(Fcitx5Qt4_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR}/Fcitx5Qt4)
 
 if(ENABLE_QT4)
-  find_package(Qt4 ${REQUIRED_QT4_VERSION} REQUIRED)
   add_subdirectory(qt4)
 endif()
 
 if(ENABLE_QT5)
-  find_package(Qt5 ${REQUIRED_QT5_VERSION} CONFIG REQUIRED Core DBus Widgets)
-  find_package(Qt5Gui ${REQUIRED_QT5_VERSION} REQUIRED Private)
   add_subdirectory(qt5)
 endif()
 
 if(ENABLE_QT6)
-  find_package(Qt6 ${REQUIRED_QT6_VERSION} CONFIG REQUIRED Core DBus Widgets)
-  find_package(Qt6Gui ${REQUIRED_QT6_VERSION} REQUIRED Private)
   add_subdirectory(qt6)
 endif()
 

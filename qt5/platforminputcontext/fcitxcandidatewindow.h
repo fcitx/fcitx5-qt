@@ -16,7 +16,12 @@
 #include <QRasterWindow>
 #include <QTextLayout>
 #include <memory>
+#include <qscopedpointer.h>
 #include <vector>
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtWaylandClient/private/qwayland-xdg-shell.h>
+#endif
 
 namespace fcitx {
 
@@ -65,6 +70,7 @@ protected:
 private:
     const bool isWayland_ =
         QGuiApplication::platformName().startsWith("wayland");
+    uint32_t repositionToken_ = 0;
     QSize actualSize_;
     QPointer<QFcitxPlatformInputContext> context_;
     QPointer<FcitxTheme> theme_;
@@ -86,6 +92,10 @@ private:
     QRect nextRegion_;
     std::vector<QRect> candidateRegions_;
     QPointer<QWindow> parent_;
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QScopedPointer<QtWayland::xdg_wm_base> xdgWmBase_;
+#endif
 };
 
 } // namespace fcitx

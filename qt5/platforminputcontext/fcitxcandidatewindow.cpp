@@ -20,7 +20,29 @@
 #include <QtMath>
 #include <utility>
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtWaylandClient/private/qwayland-xdg-shell.h>
+#include <QtWaylandClient/private/qwaylanddisplay_p.h>
+#include <QtWaylandClient/private/qwaylandintegration_p.h>
+#include <QtWaylandClient/private/wayland-xdg-shell-client-protocol.h>
+#include <qpa/qplatformnativeinterface.h>
+#endif
+
 namespace fcitx {
+
+namespace {
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+class XdgWmBase : public QtWayland::xdg_wm_base {
+public:
+    using xdg_wm_base::xdg_wm_base;
+
+protected:
+    // This is required for all xdg_wm_base bind.
+    void xdg_wm_base_ping(uint32_t serial) override { pong(serial); }
+};
+
+#endif
 
 void doLayout(QTextLayout &layout) {
     QFontMetrics fontMetrics(layout.font());
@@ -42,6 +64,8 @@ void doLayout(QTextLayout &layout) {
     }
     layout.endLayout();
 }
+
+} // namespace
 
 class MultilineText {
 public:
@@ -94,6 +118,19 @@ FcitxCandidateWindow::FcitxCandidateWindow(QWindow *window,
         // Not using Qt::BypassWindowManagerHint ensures wayland handle
         // fractional scale.
         setFlags(Qt::ToolTip | commonFlags);
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+        if (auto instance = QtWaylandClient::QWaylandIntegration::instance()) {
+            for (QtWaylandClient::QWaylandDisplay::RegistryGlobal global :
+                 instance->display()->globals()) {
+                if (global.interface == QLatin1String("xdg_wm_base")) {
+                    xdgWmBase_.reset(
+                        new XdgWmBase(instance->display()->wl_registry(),
+                                      global.id, global.version));
+                    break;
+                }
+            }
+        }
+#endif
     } else {
         // Qt::Popup ensures X11 doesn't apply tooltip animation under kwin.
         setFlags(Qt::Popup | Qt::BypassWindowManagerHint | commonFlags);
@@ -429,8 +466,40 @@ void FcitxCandidateWindow::updateClientSideUI(
         sizeWithoutShadow.setHeight(0);
     }
 
+    resize(actualSize_);
+
     QRect cursorRect = context_->cursorRectangleWrapper();
     QRect screenGeometry;
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    if (isWayland_) {
+        show();
+        xdg_popup *xdgPopup = static_cast<xdg_popup *>(
+            QGuiApplication::platformNativeInterface()->nativeResourceForWindow(
+                "xdg_popup", this));
+        if (xdgWmBase_ && xdgPopup &&
+            xdg_popup_get_version(xdgPopup) >=
+                XDG_POPUP_REPOSITION_SINCE_VERSION) {
+            auto positioner =
+                new QtWayland::xdg_positioner(xdgWmBase_->create_positioner());
+            positioner->set_anchor_rect(cursorRect.x(), cursorRect.y(),
+                                        cursorRect.width(),
+                                        cursorRect.height());
+            positioner->set_anchor(
+                QtWayland::xdg_positioner::anchor_bottom_left);
+            positioner->set_gravity(
+                QtWayland::xdg_positioner::gravity_bottom_right);
+            positioner->set_size(width(), height());
+            positioner->set_constraint_adjustment(
+                QtWayland::xdg_positioner::constraint_adjustment_slide_x |
+                QtWayland::xdg_positioner::constraint_adjustment_flip_y);
+            xdg_popup_reposition(xdgPopup, positioner->object(),
+                                 repositionToken_++);
+            positioner->destroy();
+            return;
+        }
+    }
+#endif
     // Try to apply the screen edge detection over the window, because if we
     // intent to use this with wayland. It we have no information above screen
     // edge.
@@ -467,14 +536,12 @@ void FcitxCandidateWindow::updateClientSideUI(
     if (y < screenGeometry.top()) {
         y = screenGeometry.top();
     }
-
-    resize(actualSize_);
     // hide();
     QPoint newPosition(x, y);
     newPosition -=
         QPoint(theme_->shadowMargin().left(), theme_->shadowMargin().top());
     if (newPosition != position()) {
-        if (isVisible()) {
+        if (isWayland_ && isVisible()) {
             hide();
         }
         setPosition(newPosition);

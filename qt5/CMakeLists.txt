@@ -1,3 +1,6 @@
+find_package(Qt5 ${REQUIRED_QT5_VERSION} CONFIG REQUIRED Core DBus Widgets)
+find_package(Qt5Gui ${REQUIRED_QT5_VERSION} REQUIRED Private)
+
 add_subdirectory(dbusaddons)
 add_subdirectory(platforminputcontext)
 
