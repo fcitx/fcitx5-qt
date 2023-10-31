@@ -24,6 +24,7 @@
 #include <QtWaylandClient/private/qwayland-xdg-shell.h>
 #include <QtWaylandClient/private/qwaylanddisplay_p.h>
 #include <QtWaylandClient/private/qwaylandintegration_p.h>
+#include <QtWaylandClient/private/qwaylandwindow_p.h>
 #include <QtWaylandClient/private/wayland-xdg-shell-client-protocol.h>
 #include <qpa/qplatformnativeinterface.h>
 #endif
@@ -480,6 +481,13 @@ void FcitxCandidateWindow::updateClientSideUI(
         if (xdgWmBase_ && xdgPopup &&
             xdg_popup_get_version(xdgPopup) >=
                 XDG_POPUP_REPOSITION_SINCE_VERSION) {
+            auto waylandWindow = static_cast<QtWaylandClient::QWaylandWindow *>(
+                window->handle());
+            const auto windowMargins = waylandWindow->windowContentMargins() -
+                                       waylandWindow->clientSideMargins();
+            const auto windowGeometry = window->frameGeometry();
+            cursorRect &= windowGeometry;
+            cursorRect.translate(-windowMargins.left(), -windowMargins.top());
             auto positioner =
                 new QtWayland::xdg_positioner(xdgWmBase_->create_positioner());
             positioner->set_anchor_rect(cursorRect.x(), cursorRect.y(),
