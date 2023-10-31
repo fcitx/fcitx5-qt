@@ -31,19 +31,18 @@ QMargins readMargin(const QSettings &settings) {
 QColor readColor(const QSettings &settings, const QString &name,
                  const QString &defaultValue) {
     QString colorString = settings.value(name, defaultValue).toString();
-    QColor color;
-    color.setNamedColor(defaultValue);
+    QColor color(defaultValue);
     if (colorString.startsWith("#")) {
         if (colorString.size() == 7) {
             // Parse #RRGGBB
-            color.setNamedColor(colorString.toUpper());
+            color = QColor(colorString.toUpper());
         } else if (colorString.size() == 9) {
             // Qt accept "#AARRGGBB"
             auto newColorString =
                 QString("#%1%2")
                     .arg(colorString.mid(7, 2), colorString.mid(1, 6))
                     .toUpper();
-            color.setNamedColor(newColorString);
+            color = QColor(newColorString);
         }
     }
     return color;
@@ -205,11 +204,11 @@ void FcitxTheme::themeChanged() {
 
     // We can not locate default theme.
     if (file.isEmpty()) {
-        normalColor_.setNamedColor("#000000");
-        highlightCandidateColor_.setNamedColor("#ffffff");
+        normalColor_ = QColor("#000000");
+        highlightCandidateColor_ = QColor("#ffffff");
         fullWidthHighlight_ = true;
-        highlightColor_.setNamedColor("#ffffff");
-        highlightBackgroundColor_.setNamedColor("#a5a5a5");
+        highlightColor_ = QColor("#ffffff");
+        highlightBackgroundColor_ = QColor("#a5a5a5");
         contentMargin_ = QMargins{2, 2, 2, 2};
         textMargin_ = QMargins{5, 5, 5, 5};
         highlightClickMargin_ = QMargins{0, 0, 0, 0};
