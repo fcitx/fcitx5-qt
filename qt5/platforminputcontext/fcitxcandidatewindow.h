@@ -10,12 +10,11 @@
 
 #include "fcitxflags.h"
 #include "fcitxqtdbustypes.h"
-#include <QBackingStore>
 #include <QGuiApplication>
 #include <QPainter>
 #include <QPointer>
+#include <QRasterWindow>
 #include <QTextLayout>
-#include <QWindow>
 #include <memory>
 #include <vector>
 
@@ -25,7 +24,7 @@ class FcitxTheme;
 class MultilineText;
 class QFcitxPlatformInputContext;
 
-class FcitxCandidateWindow : public QWindow {
+class FcitxCandidateWindow : public QRasterWindow {
     Q_OBJECT
 public:
     explicit FcitxCandidateWindow(QWindow *window,
@@ -35,8 +34,6 @@ public:
     void render(QPainter *painter);
 
 public Q_SLOTS:
-    void renderLater();
-    void renderNow();
     void updateClientSideUI(const FcitxQtFormattedPreeditList &preedit,
                             int cursorpos,
                             const FcitxQtFormattedPreeditList &auxUp,
@@ -55,8 +52,7 @@ Q_SIGNALS:
 protected:
     bool event(QEvent *event) override;
 
-    void resizeEvent(QResizeEvent *event) override;
-    void exposeEvent(QExposeEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
     void mouseMoveEvent(QMouseEvent *) override;
     void mouseReleaseEvent(QMouseEvent *) override;
     void wheelEvent(QWheelEvent *) override;
@@ -72,7 +68,6 @@ private:
     QSize actualSize_;
     QPointer<QFcitxPlatformInputContext> context_;
     QPointer<FcitxTheme> theme_;
-    QBackingStore *backingStore_;
     QTextLayout upperLayout_;
     QTextLayout lowerLayout_;
     std::vector<std::unique_ptr<MultilineText>> candidateLayouts_;

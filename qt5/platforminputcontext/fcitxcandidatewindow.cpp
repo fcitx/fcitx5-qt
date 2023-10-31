@@ -18,7 +18,6 @@
 #include <QScreen>
 #include <QTextLayout>
 #include <QtMath>
-#include <qpa/qplatformnativeinterface.h>
 #include <utility>
 
 namespace fcitx {
@@ -85,7 +84,8 @@ private:
 
 FcitxCandidateWindow::FcitxCandidateWindow(QWindow *window,
                                            QFcitxPlatformInputContext *context)
-    : QWindow(), context_(context), theme_(context->theme()), parent_(window) {
+    : QRasterWindow(), context_(context), theme_(context->theme()),
+      parent_(window) {
     constexpr Qt::WindowFlags commonFlags = Qt::FramelessWindowHint |
                                             Qt::WindowDoesNotAcceptFocus |
                                             Qt::NoDropShadowWindowHint;
@@ -104,49 +104,20 @@ FcitxCandidateWindow::FcitxCandidateWindow(QWindow *window,
     QSurfaceFormat surfaceFormat = format();
     surfaceFormat.setAlphaBufferSize(8);
     setFormat(surfaceFormat);
-    backingStore_ = new QBackingStore(this);
     connect(this, &QWindow::visibleChanged, this, [this] { hoverIndex_ = -1; });
 }
 
 FcitxCandidateWindow::~FcitxCandidateWindow() {}
 
 bool FcitxCandidateWindow::event(QEvent *event) {
-    if (event->type() == QEvent::UpdateRequest) {
-        renderNow();
-        return true;
-    }
     if (event->type() == QEvent::Leave) {
         auto oldHighlight = highlight();
         hoverIndex_ = -1;
         if (highlight() != oldHighlight) {
-            renderNow();
+            requestUpdate();
         }
     }
-    return QWindow::event(event);
-}
-
-void FcitxCandidateWindow::renderLater() { requestUpdate(); }
-
-void FcitxCandidateWindow::resizeEvent(QResizeEvent *) { renderNow(); }
-
-void FcitxCandidateWindow::exposeEvent(QExposeEvent *) { renderNow(); }
-
-void FcitxCandidateWindow::renderNow() {
-    if (!isExposed() || !theme_) {
-        return;
-    }
-
-    QRect rect(0, 0, width(), height());
-    backingStore_->beginPaint(rect);
-
-    QPaintDevice *device = backingStore_->paintDevice();
-    QPainter painter(device);
-    painter.fillRect(rect, Qt::transparent);
-    render(&painter);
-    painter.end();
-
-    backingStore_->endPaint();
-    backingStore_->flush(rect);
+    return QRasterWindow::event(event);
 }
 
 void FcitxCandidateWindow::render(QPainter *painter) {
@@ -497,7 +468,6 @@ void FcitxCandidateWindow::updateClientSideUI(
         y = screenGeometry.top();
     }
 
-    backingStore_->resize(actualSize_);
     resize(actualSize_);
     // hide();
     QPoint newPosition(x, y);
@@ -509,7 +479,6 @@ void FcitxCandidateWindow::updateClientSideUI(
         }
         setPosition(newPosition);
     }
-    renderNow();
     show();
 }
 
@@ -542,7 +511,7 @@ void FcitxCandidateWindow::mouseMoveEvent(QMouseEvent *event) {
 
     needRepaint = needRepaint || oldHighlight != highlight();
     if (needRepaint) {
-        renderNow();
+        requestUpdate();
     }
 }
 
@@ -659,4 +628,8 @@ void FcitxCandidateWindow::wheelEvent(QWheelEvent *event) {
     }
 }
 
+void FcitxCandidateWindow::paintEvent(QPaintEvent *) {
+    QPainter p(this);
+    render(&p);
+}
 } // namespace fcitx
