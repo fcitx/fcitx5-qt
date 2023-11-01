@@ -17,6 +17,7 @@
 #include <QResizeEvent>
 #include <QScreen>
 #include <QTextLayout>
+#include <QVariant>
 #include <QtMath>
 #include <utility>
 
@@ -119,7 +120,7 @@ FcitxCandidateWindow::FcitxCandidateWindow(QWindow *window,
         // Not using Qt::BypassWindowManagerHint ensures wayland handle
         // fractional scale.
         setFlags(Qt::ToolTip | commonFlags);
-#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         if (auto instance = QtWaylandClient::QWaylandIntegration::instance()) {
             for (QtWaylandClient::QWaylandDisplay::RegistryGlobal global :
                  instance->display()->globals()) {
@@ -131,6 +132,17 @@ FcitxCandidateWindow::FcitxCandidateWindow(QWindow *window,
                 }
             }
         }
+#if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+        setProperty("_q_waylandPopupAnchor",
+                    QVariant::fromValue(Qt::BottomEdge | Qt::LeftEdge));
+        setProperty("_q_waylandPopupGravity",
+                    QVariant::fromValue(Qt::BottomEdge | Qt::RightEdge));
+        setProperty(
+            "_q_waylandPopupConstraintAdjustment",
+            static_cast<unsigned int>(
+                QtWayland::xdg_positioner::constraint_adjustment_slide_x |
+                QtWayland::xdg_positioner::constraint_adjustment_flip_y));
+#endif
 #endif
     } else {
         // Qt::Popup ensures X11 doesn't apply tooltip animation under kwin.
@@ -474,6 +486,48 @@ void FcitxCandidateWindow::updateClientSideUI(
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     if (isWayland_) {
+        auto waylandWindow =
+            static_cast<QtWaylandClient::QWaylandWindow *>(window->handle());
+        const auto windowMargins = waylandWindow->windowContentMargins() -
+                                   waylandWindow->clientSideMargins();
+        auto windowGeometry = window->frameGeometry();
+        windowGeometry = windowGeometry.marginsAdded(-windowMargins);
+        if (!cursorRect.isValid()) {
+            if (cursorRect.width() <= 0) {
+                cursorRect.setWidth(1);
+            }
+            if (cursorRect.height() <= 0) {
+                cursorRect.setHeight(1);
+            }
+        }
+        // valid the anchor rect.
+        if (!cursorRect.intersects(windowGeometry)) {
+            if (cursorRect.right() < windowGeometry.left()) {
+                cursorRect.setLeft(windowGeometry.left());
+                cursorRect.setWidth(1);
+            }
+            if (cursorRect.left() > windowGeometry.right()) {
+                cursorRect.setLeft(windowGeometry.right());
+                cursorRect.setWidth(1);
+            }
+            if (cursorRect.bottom() < windowGeometry.top()) {
+                cursorRect.setTop(windowGeometry.top());
+                cursorRect.setWidth(1);
+            }
+            if (cursorRect.top() > windowGeometry.bottom()) {
+                cursorRect.setTop(windowGeometry.bottom());
+                cursorRect.setWidth(1);
+            }
+        }
+        bool wasVisible = isVisible();
+        bool cursorRectChanged = false;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+        if (property("_q_waylandPopupAnchorRect") != cursorRect) {
+            cursorRectChanged = true;
+            setProperty("_q_waylandPopupAnchorRect", cursorRect);
+        }
+#endif
+        // This try to ensure xdg_popup is available.
         show();
         xdg_popup *xdgPopup = static_cast<xdg_popup *>(
             QGuiApplication::platformNativeInterface()->nativeResourceForWindow(
@@ -481,39 +535,6 @@ void FcitxCandidateWindow::updateClientSideUI(
         if (xdgWmBase_ && xdgPopup &&
             xdg_popup_get_version(xdgPopup) >=
                 XDG_POPUP_REPOSITION_SINCE_VERSION) {
-            auto waylandWindow = static_cast<QtWaylandClient::QWaylandWindow *>(
-                window->handle());
-            const auto windowMargins = waylandWindow->windowContentMargins() -
-                                       waylandWindow->clientSideMargins();
-            auto windowGeometry = window->frameGeometry();
-            windowGeometry = windowGeometry.marginsAdded(-windowMargins);
-            if (!cursorRect.isValid()) {
-                if (cursorRect.width() <= 0) {
-                    cursorRect.setWidth(1);
-                }
-                if (cursorRect.height() <= 0) {
-                    cursorRect.setHeight(1);
-                }
-            }
-            // valid the anchor rect.
-            if (!cursorRect.intersects(windowGeometry)) {
-                if (cursorRect.right() < windowGeometry.left()) {
-                    cursorRect.setLeft(windowGeometry.left());
-                    cursorRect.setWidth(1);
-                }
-                if (cursorRect.left() > windowGeometry.right()) {
-                    cursorRect.setLeft(windowGeometry.right());
-                    cursorRect.setWidth(1);
-                }
-                if (cursorRect.bottom() < windowGeometry.top()) {
-                    cursorRect.setTop(windowGeometry.top());
-                    cursorRect.setWidth(1);
-                }
-                if (cursorRect.top() > windowGeometry.bottom()) {
-                    cursorRect.setTop(windowGeometry.bottom());
-                    cursorRect.setWidth(1);
-                }
-            }
             cursorRect.translate(-windowMargins.left(), -windowMargins.top());
             auto positioner =
                 new QtWayland::xdg_positioner(xdgWmBase_->create_positioner());
@@ -533,6 +554,24 @@ void FcitxCandidateWindow::updateClientSideUI(
             positioner->destroy();
             return;
         }
+#if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+        // Check if we need remap.
+        // If it was invisible, nothing need to be done.
+        // If cursor rect changed, the window must be remapped.
+        // If adjustment is already happening (flip/slide), then remap.
+        // If we predict adjustment may be happening, then remap.
+        const auto predictGeometry =
+            QRect(QPoint(cursorRect.x(), cursorRect.y() + cursorRect.height()),
+                  actualSize_);
+
+        if (wasVisible &&
+            (cursorRectChanged || position() != predictGeometry.topLeft() ||
+             !windowGeometry.contains(predictGeometry))) {
+            hide();
+            show();
+        }
+        return;
+#endif
     }
 #endif
     // Try to apply the screen edge detection over the window, because if we
@@ -571,7 +610,7 @@ void FcitxCandidateWindow::updateClientSideUI(
     if (y < screenGeometry.top()) {
         y = screenGeometry.top();
     }
-    // hide();
+
     QPoint newPosition(x, y);
     newPosition -=
         QPoint(theme_->shadowMargin().left(), theme_->shadowMargin().top());
