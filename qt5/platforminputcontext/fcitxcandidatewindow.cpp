@@ -485,8 +485,35 @@ void FcitxCandidateWindow::updateClientSideUI(
                 window->handle());
             const auto windowMargins = waylandWindow->windowContentMargins() -
                                        waylandWindow->clientSideMargins();
-            const auto windowGeometry = window->frameGeometry();
-            cursorRect &= windowGeometry;
+            auto windowGeometry = window->frameGeometry();
+            windowGeometry = windowGeometry.marginsAdded(-windowMargins);
+            if (!cursorRect.isValid()) {
+                if (cursorRect.width() <= 0) {
+                    cursorRect.setWidth(1);
+                }
+                if (cursorRect.height() <= 0) {
+                    cursorRect.setHeight(1);
+                }
+            }
+            // valid the anchor rect.
+            if (!cursorRect.intersects(windowGeometry)) {
+                if (cursorRect.right() < windowGeometry.left()) {
+                    cursorRect.setLeft(windowGeometry.left());
+                    cursorRect.setWidth(1);
+                }
+                if (cursorRect.left() > windowGeometry.right()) {
+                    cursorRect.setLeft(windowGeometry.right());
+                    cursorRect.setWidth(1);
+                }
+                if (cursorRect.bottom() < windowGeometry.top()) {
+                    cursorRect.setTop(windowGeometry.top());
+                    cursorRect.setWidth(1);
+                }
+                if (cursorRect.top() > windowGeometry.bottom()) {
+                    cursorRect.setTop(windowGeometry.bottom());
+                    cursorRect.setWidth(1);
+                }
+            }
             cursorRect.translate(-windowMargins.left(), -windowMargins.top());
             auto positioner =
                 new QtWayland::xdg_positioner(xdgWmBase_->create_positioner());
