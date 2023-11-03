@@ -490,8 +490,7 @@ void FcitxCandidateWindow::updateClientSideUI(
             static_cast<QtWaylandClient::QWaylandWindow *>(window->handle());
         const auto windowMargins = waylandWindow->windowContentMargins() -
                                    waylandWindow->clientSideMargins();
-        auto windowGeometry = window->frameGeometry();
-        windowGeometry = windowGeometry.marginsAdded(-windowMargins);
+        auto windowGeometry = waylandWindow->windowContentGeometry();
         if (!cursorRect.isValid()) {
             if (cursorRect.width() <= 0) {
                 cursorRect.setWidth(1);
