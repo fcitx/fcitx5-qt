@@ -16,6 +16,7 @@ option(ENABLE_QT6 "Enable Qt 6" Off)
 option(BUILD_ONLY_PLUGIN "Build only plugin" Off)
 option(BUILD_STATIC_PLUGIN "Build plugin as static" Off)
 option(WITH_FCITX_PLUGIN_NAME "Enable plugin name with fcitx" On)
+option(ENABLE_QT6_WAYLAND_WORKAROUND "Enable Qt6 Wayland workaround" On)
 
 if (BUILD_ONLY_PLUGIN)
   set(LIBRARY_TYPE OBJECT)

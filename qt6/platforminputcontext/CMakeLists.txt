@@ -49,10 +49,15 @@ target_link_libraries(fcitx5platforminputcontextplugin-qt6
                           XCB::XCB
                           Fcitx5Qt6::DBusAddons
                           XKBCommon::XKBCommon
-                          Qt6::WaylandGlobalPrivate
-                          Qt6::WaylandClient
-                          Qt6::WaylandClientPrivate
                          )
+
+if (ENABLE_QT6_WAYLAND_WORKAROUND)
+    target_compile_definitions(fcitx5platforminputcontextplugin-qt6 PRIVATE "-DFCITX_ENABLE_QT6_WAYLAND_WORKAROUND")
+    target_link_libraries(fcitx5platforminputcontextplugin-qt6
+        Qt6::WaylandGlobalPrivate
+        Qt6::WaylandClient
+        Qt6::WaylandClientPrivate)
+endif()
 
 get_target_property(_QT6_QMAKE_EXECUTABLE Qt6::qmake LOCATION)
 execute_process(

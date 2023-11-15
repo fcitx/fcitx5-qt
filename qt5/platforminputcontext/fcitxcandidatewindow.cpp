@@ -21,7 +21,7 @@
 #include <QtMath>
 #include <utility>
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+#if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) && QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
 #include <QtWaylandClient/private/qwayland-xdg-shell.h>
 #include <QtWaylandClient/private/qwaylanddisplay_p.h>
 #include <QtWaylandClient/private/qwaylandintegration_p.h>
@@ -34,7 +34,7 @@ namespace fcitx {
 
 namespace {
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+#if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) && QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
 class XdgWmBase : public QtWayland::xdg_wm_base {
 public:
     using xdg_wm_base::xdg_wm_base;
@@ -120,7 +120,7 @@ FcitxCandidateWindow::FcitxCandidateWindow(QWindow *window,
         // Not using Qt::BypassWindowManagerHint ensures wayland handle
         // fractional scale.
         setFlags(Qt::ToolTip | commonFlags);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+#if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) && QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
         if (auto instance = QtWaylandClient::QWaylandIntegration::instance()) {
             for (QtWaylandClient::QWaylandDisplay::RegistryGlobal global :
                  instance->display()->globals()) {
@@ -132,7 +132,6 @@ FcitxCandidateWindow::FcitxCandidateWindow(QWindow *window,
                 }
             }
         }
-#if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
         setProperty("_q_waylandPopupAnchor",
                     QVariant::fromValue(Qt::BottomEdge | Qt::LeftEdge));
         setProperty("_q_waylandPopupGravity",
@@ -142,7 +141,6 @@ FcitxCandidateWindow::FcitxCandidateWindow(QWindow *window,
             static_cast<unsigned int>(
                 QtWayland::xdg_positioner::constraint_adjustment_slide_x |
                 QtWayland::xdg_positioner::constraint_adjustment_flip_y));
-#endif
 #endif
     } else {
         // Qt::Popup ensures X11 doesn't apply tooltip animation under kwin.
@@ -484,7 +482,7 @@ void FcitxCandidateWindow::updateClientSideUI(
     QRect cursorRect = context_->cursorRectangleWrapper();
     QRect screenGeometry;
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+#if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) && QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
     if (isWayland_) {
         auto waylandWindow =
             static_cast<QtWaylandClient::QWaylandWindow *>(window->handle());
@@ -520,12 +518,10 @@ void FcitxCandidateWindow::updateClientSideUI(
         }
         bool wasVisible = isVisible();
         bool cursorRectChanged = false;
-#if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
         if (property("_q_waylandPopupAnchorRect") != cursorRect) {
             cursorRectChanged = true;
             setProperty("_q_waylandPopupAnchorRect", cursorRect);
         }
-#endif
         // This try to ensure xdg_popup is available.
         show();
         xdg_popup *xdgPopup = static_cast<xdg_popup *>(
@@ -553,7 +549,6 @@ void FcitxCandidateWindow::updateClientSideUI(
             positioner->destroy();
             return;
         }
-#if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
         // Check if we need remap.
         // If it was invisible, nothing need to be done.
         // If cursor rect changed, the window must be remapped.
@@ -570,7 +565,6 @@ void FcitxCandidateWindow::updateClientSideUI(
             show();
         }
         return;
-#endif
     }
 #endif
     // Try to apply the screen edge detection over the window, because if we
