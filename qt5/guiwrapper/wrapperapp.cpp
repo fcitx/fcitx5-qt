@@ -22,7 +22,8 @@ WrapperApp::WrapperApp(int &argc, char **argv)
       mainWindow_(0) {
     FcitxQtConfigUIWidget *widget = 0;
 
-    setApplicationName(QLatin1String("fcitx5-qt5-gui-wrapper"));
+    setApplicationName(QLatin1String(
+        "fcitx5-qt" QT_STRINGIFY(QT_VERSION_MAJOR) "-gui-wrapper"));
     setApplicationVersion(QLatin1String(FCITX5_QT_VERSION));
     setOrganizationDomain("fcitx.org");
 

@@ -43,7 +43,6 @@
 #include "fcitxqtkeysequencewidget.h"
 #include "fcitxqtkeysequencewidget_p.h"
 
-#include "qtkeytrans.h"
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QHash>
@@ -64,36 +63,6 @@ namespace {
 bool isX11LikePlatform() {
     return QGuiApplication::platformName() == "xcb" ||
            QGuiApplication::platformName().startsWith("wayland");
-}
-
-bool keyQtToFcitx(int keyQt, const QString &text, FcitxQtModifierSide side,
-                  Key &outkey) {
-    int key = keyQt & (~Qt::KeyboardModifierMask);
-    int state = keyQt & Qt::KeyboardModifierMask;
-    int sym;
-    unsigned int states;
-    if (!keyQtToSym(key, Qt::KeyboardModifiers(state), text, sym, states)) {
-        return false;
-    }
-    if (side == MS_Right) {
-        switch (sym) {
-        case FcitxKey_Control_L:
-            sym = FcitxKey_Control_R;
-            break;
-        case FcitxKey_Alt_L:
-            sym = FcitxKey_Alt_R;
-            break;
-        case FcitxKey_Shift_L:
-            sym = FcitxKey_Shift_R;
-            break;
-        case FcitxKey_Super_L:
-            sym = FcitxKey_Super_R;
-            break;
-        }
-    }
-
-    outkey = Key(static_cast<KeySym>(sym), KeyStates(states));
-    return true;
 }
 
 } // namespace
@@ -473,13 +442,8 @@ void FcitxQtKeySequenceButton::keyPressEvent(QKeyEvent *e) {
                               KeyStates(e->nativeModifiers()))
                               .normalize();
                 } else {
-                    if (!keyQtToFcitx(keyQt, e->text(), MS_Unknown, key)) {
-                        qCDebug(fcitx5qtKeysequenceWidget)
-                            << "FcitxQtKeySequenceButton::keyPressEvent() "
-                               "Failed to "
-                               "convert Qt key to fcitx: "
-                            << e;
-                    }
+                    qCWarning(fcitx5qtKeysequenceWidget)
+                        << "Unsupported platform";
                 }
             }
 
@@ -522,28 +486,15 @@ void FcitxQtKeySequenceButton::keyReleaseEvent(QKeyEvent *e) {
     if (!d->multiKeyShortcutsAllowed_ && d->allowModifierOnly_ &&
         (e->key() == Qt::Key_Shift || e->key() == Qt::Key_Control ||
          e->key() == Qt::Key_Meta || e->key() == Qt::Key_Alt)) {
-        auto side = MS_Unknown;
 
-        if (isX11LikePlatform()) {
-
-            if (e->nativeVirtualKey() == FcitxKey_Control_L ||
-                e->nativeVirtualKey() == FcitxKey_Alt_L ||
-                e->nativeVirtualKey() == FcitxKey_Shift_L ||
-                e->nativeVirtualKey() == FcitxKey_Super_L) {
-                side = MS_Left;
-            }
-            if (e->nativeVirtualKey() == FcitxKey_Control_R ||
-                e->nativeVirtualKey() == FcitxKey_Alt_R ||
-                e->nativeVirtualKey() == FcitxKey_Shift_R ||
-                e->nativeVirtualKey() == FcitxKey_Super_R) {
-                side = MS_Right;
-            }
-        }
-        int keyQt = e->key() | d->qtModifierKeys_;
         Key key;
-        if (keyQtToFcitx(keyQt, e->text(), side, key)) {
+        if (isX11LikePlatform()) {
             if (d->keyCodeModeAction_->isChecked()) {
                 key = Key::fromKeyCode(e->nativeScanCode(), key.states());
+            } else {
+                key = Key(static_cast<KeySym>(e->nativeVirtualKey()),
+                          KeyStates(e->nativeModifiers()))
+                          .normalize();
             }
             d->keySequence_ = QList<Key>({key});
         }
