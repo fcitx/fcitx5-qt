@@ -162,7 +162,7 @@ bool FcitxCandidateWindow::event(QEvent *event) {
         auto oldHighlight = highlight();
         hoverIndex_ = -1;
         if (highlight() != oldHighlight) {
-            requestUpdate();
+            update();
         }
     }
     return QRasterWindow::event(event);
@@ -477,7 +477,10 @@ void FcitxCandidateWindow::updateClientSideUI(
         sizeWithoutShadow.setHeight(0);
     }
 
-    resize(actualSize_);
+    if (size() != actualSize_) {
+        resize(actualSize_);
+    }
+    update();
 
     QRect cursorRect = context_->cursorRectangleWrapper();
     QRect screenGeometry;
@@ -645,7 +648,7 @@ void FcitxCandidateWindow::mouseMoveEvent(QMouseEvent *event) {
 
     needRepaint = needRepaint || oldHighlight != highlight();
     if (needRepaint) {
-        requestUpdate();
+        update();
     }
 }
 
