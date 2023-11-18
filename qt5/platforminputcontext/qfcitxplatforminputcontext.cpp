@@ -256,13 +256,7 @@ QFcitxPlatformInputContext::QFcitxPlatformInputContext()
 
     // Input context may be created without QApplication with wayland, defer it
     // to event loop to ensure event dispatcher is avaiable.
-    QMetaObject::invokeMethod(
-        this,
-        [this]() {
-            watcher_->watch();
-            fcitx4Watcher_->watch();
-        },
-        Qt::QueuedConnection);
+    QMetaObject::invokeMethod(this, "watchersCallback", Qt::QueuedConnection);
 }
 
 QFcitxPlatformInputContext::~QFcitxPlatformInputContext() {
@@ -529,13 +523,7 @@ void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
         // certain application like libreoffice.
         QMetaObject::invokeMethod(
             this,
-            [this, window = QPointer<QWindow>(lastWindow_)]() {
-                if (window != lastWindow_) {
-                    return;
-                }
-                update(Qt::ImHints | Qt::ImEnabled);
-                updateCursorRect();
-            },
+            "updatesCallback",
             Qt::QueuedConnection);
     }
 
@@ -1136,6 +1124,20 @@ void QFcitxPlatformInputContext::processKeyEventFinished(
     }
 
     delete watcher;
+}
+
+void QFcitxPlatformInputContext::watchersCallback() {
+    watcher_->watch();
+    fcitx4Watcher_->watch();
+}
+
+void QFcitxPlatformInputContext::updatesCallback() {
+    auto window = QPointer<QWindow>(lastWindow_);
+    if (window != lastWindow_) {
+        return;
+    }
+    update(Qt::ImHints | Qt::ImEnabled);
+    updateCursorRect();
 }
 
 bool QFcitxPlatformInputContext::filterEventFallback(unsigned int keyval,

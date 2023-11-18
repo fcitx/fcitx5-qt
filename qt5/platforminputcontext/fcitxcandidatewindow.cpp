@@ -374,7 +374,9 @@ void UpdateLayout(QTextLayout &layout, const FcitxTheme &theme,
                   std::initializer_list<
                       std::reference_wrapper<const FcitxQtFormattedPreeditList>>
                       texts) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
     layout.clearFormats();
+#endif
     layout.setFont(theme.font());
     QVector<QTextLayout::FormatRange> formats;
     QString str;
@@ -405,7 +407,9 @@ void UpdateLayout(QTextLayout &layout, const FcitxTheme &theme,
         }
     }
     layout.setText(str);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
     layout.setFormats(formats);
+#endif
 }
 
 void FcitxCandidateWindow::updateClientSideUI(
