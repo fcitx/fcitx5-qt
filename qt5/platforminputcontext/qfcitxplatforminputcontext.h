@@ -156,6 +156,8 @@ public Q_SLOTS:
     bool commitPreedit(QPointer<QObject> input = qApp->focusObject());
 private Q_SLOTS:
     void processKeyEventFinished(QDBusPendingCallWatcher *);
+    void watchersCallback();
+    void updatesCallback();
 
 private:
     bool processCompose(unsigned int keyval, unsigned int state,
