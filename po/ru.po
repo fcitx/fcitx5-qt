@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-11-19 20:25+0000\n"
+"POT-Creation-Date: 2023-11-18 20:24+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2022\n"
-"Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
+"Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,7 +33,7 @@ msgstr "%1 — системный файл. Хотите вместо этого
 msgid "&Add"
 msgstr "&Добавить"
 
-#: qt5/guiwrapper/mainwindow.cpp:29
+#: qt5/guiwrapper/mainwindow.cpp:29 qt6/guiwrapper/mainwindow.cpp:29
 msgid "&Apply"
 msgstr "&Применять"
 
@@ -44,7 +44,7 @@ msgstr "&Применять"
 msgid "&Batch Edit"
 msgstr "&Групповое редактирование"
 
-#: qt5/guiwrapper/mainwindow.cpp:31
+#: qt5/guiwrapper/mainwindow.cpp:31 qt6/guiwrapper/mainwindow.cpp:31
 msgid "&Close"
 msgstr "&Закрыть"
 
@@ -62,7 +62,7 @@ msgstr "&Удалить"
 msgid "&Import"
 msgstr "&Импорт"
 
-#: qt5/guiwrapper/mainwindow.cpp:28
+#: qt5/guiwrapper/mainwindow.cpp:28 qt6/guiwrapper/mainwindow.cpp:28
 msgid "&Ok"
 msgstr "&Ok"
 
@@ -73,11 +73,11 @@ msgstr "&Ok"
 msgid "&Operation"
 msgstr "&Операция"
 
-#: qt5/guiwrapper/mainwindow.cpp:30
+#: qt5/guiwrapper/mainwindow.cpp:30 qt6/guiwrapper/mainwindow.cpp:30
 msgid "&Reset"
 msgstr "&Переустановить"
 
-#: qt5/guiwrapper/wrapperapp.cpp:30
+#: qt5/guiwrapper/wrapperapp.cpp:31 qt6/guiwrapper/wrapperapp.cpp:31
 msgid "A launcher for Fcitx Gui plugin."
 msgstr "Средство запуска для плагина Fcitx Gui."
 
@@ -104,7 +104,7 @@ msgstr "Не удалось создать файл %1."
 msgid "Cannot remove system file"
 msgstr "Не удалось удалить системный файл"
 
-#: qt5/guiwrapper/wrapperapp.cpp:36
+#: qt5/guiwrapper/wrapperapp.cpp:37 qt6/guiwrapper/wrapperapp.cpp:37
 msgid "Config path"
 msgstr "Путь конфигурации"
 
@@ -135,6 +135,7 @@ msgid "E&xport"
 msgstr "&Экспорт"
 
 #: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:355
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:324
 msgid "Empty"
 msgstr "Пусто"
 
@@ -142,17 +143,21 @@ msgstr "Пусто"
 msgid "Error while deleting %1."
 msgstr "Ошибка при удалении %1."
 
-#: qt5/guiwrapper/mainwindow.cpp:106
+#: qt5/guiwrapper/mainwindow.cpp:106 qt6/guiwrapper/mainwindow.cpp:106
 msgid "Failed to notify Fcitx"
 msgstr "Не удалось уведомить Fcitx"
 
-#: qt5/guiwrapper/mainwindow.cpp:107
+#: qt5/guiwrapper/mainwindow.cpp:107 qt6/guiwrapper/mainwindow.cpp:107
 msgid "Failed to notify Fcitx about the configuration change."
 msgstr "Не удалось уведомить Fcitx об изменении конфигурации."
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:3
 msgid "Fcitx 5 Qt5 Gui Wrapper"
 msgstr "Графическая оболочка Fcitx 5 Qt5"
+
+#: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:3
+msgid "Fcitx 5 Qt6 Gui Wrapper"
+msgstr ""
 
 #: qt5/quickphrase-editor/editor.cpp:237 qt5/quickphrase-editor/editor.cpp:279
 msgid "File Operation Failed"
@@ -163,6 +168,7 @@ msgid "File name should not contain '/'."
 msgstr "Имя файла не должно содержать '/'."
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:4
+#: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:4
 msgid "Input Method Configuration helper"
 msgstr "Помощник по настройке метода ввода"
 
@@ -171,6 +177,7 @@ msgid "Invalid filename"
 msgstr "Недопустимое имя файла"
 
 #: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:179
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:148
 msgid "Key code mode"
 msgstr "Режим кода клавиши"
 
@@ -179,10 +186,11 @@ msgid "Keyword"
 msgstr "Ключевое слово"
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:5
+#: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:5
 msgid "Load configuration plugin for Fcitx Addon"
 msgstr "Плагин загрузки конфигурации для Fcitx Addon"
 
-#: qt5/guiwrapper/wrapperapp.cpp:33
+#: qt5/guiwrapper/wrapperapp.cpp:34 qt6/guiwrapper/wrapperapp.cpp:34
 msgid "Parent window ID"
 msgstr "Идентификатор главного окна"
 
@@ -210,7 +218,7 @@ msgstr "Удалить файл"
 msgid "Save Changes"
 msgstr "Сохранить изменения"
 
-#: qt5/guiwrapper/wrapperapp.cpp:34
+#: qt5/guiwrapper/wrapperapp.cpp:35 qt6/guiwrapper/wrapperapp.cpp:35
 msgid "Test if config exists"
 msgstr "Проверьте, существует ли конфигурация"
 
@@ -223,10 +231,12 @@ msgstr ""
 "Сохранить изменения или отменить их?"
 
 #: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:392
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:361
 msgid "The key you just pressed is not supported by Qt."
 msgstr "Нажатая клавиша не поддерживается Qt."
 
 #: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:393
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:362
 msgid "Unsupported Key"
 msgstr "Клавиша не поддерживается"
 
@@ -237,10 +247,10 @@ msgstr "Клавиша не поддерживается"
 msgid "Use <Keyword> <Phrase> format on every line."
 msgstr "Использовать для каждой строки формат <Ключевое слово> <Фраза>."
 
-#: qt5/guiwrapper/wrapperapp.cpp:36
+#: qt5/guiwrapper/wrapperapp.cpp:37 qt6/guiwrapper/wrapperapp.cpp:37
 msgid "path"
 msgstr "путь"
 
-#: qt5/guiwrapper/wrapperapp.cpp:33
+#: qt5/guiwrapper/wrapperapp.cpp:34 qt6/guiwrapper/wrapperapp.cpp:34
 msgid "winid"
 msgstr "winid"

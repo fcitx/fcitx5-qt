@@ -11,10 +11,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-06-05 20:24+0000\n"
+"POT-Creation-Date: 2023-11-18 20:24+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
 "Last-Translator: Junghee Lee <daemul72@gmail.com>, 2022\n"
-"Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
+"Language-Team: Korean (https://app.transifex.com/fcitx/teams/12005/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +32,7 @@ msgstr "%1은(는) 시스템 파일입니다. 대신 모든 구문을 삭제하�
 msgid "&Add"
 msgstr "추가(&A)"
 
-#: qt5/guiwrapper/mainwindow.cpp:29
+#: qt5/guiwrapper/mainwindow.cpp:29 qt6/guiwrapper/mainwindow.cpp:29
 msgid "&Apply"
 msgstr "적용(&A)"
 
@@ -43,7 +43,7 @@ msgstr "적용(&A)"
 msgid "&Batch Edit"
 msgstr "일괄수정(&B)"
 
-#: qt5/guiwrapper/mainwindow.cpp:31
+#: qt5/guiwrapper/mainwindow.cpp:31 qt6/guiwrapper/mainwindow.cpp:31
 msgid "&Close"
 msgstr "닫기(&C)"
 
@@ -61,7 +61,7 @@ msgstr "삭제(&D)"
 msgid "&Import"
 msgstr "가져오기(&I)"
 
-#: qt5/guiwrapper/mainwindow.cpp:28
+#: qt5/guiwrapper/mainwindow.cpp:28 qt6/guiwrapper/mainwindow.cpp:28
 msgid "&Ok"
 msgstr "확인(&O)"
 
@@ -72,11 +72,11 @@ msgstr "확인(&O)"
 msgid "&Operation"
 msgstr "작동(&O)"
 
-#: qt5/guiwrapper/mainwindow.cpp:30
+#: qt5/guiwrapper/mainwindow.cpp:30 qt6/guiwrapper/mainwindow.cpp:30
 msgid "&Reset"
 msgstr "재설정(&R)"
 
-#: qt5/guiwrapper/wrapperapp.cpp:30
+#: qt5/guiwrapper/wrapperapp.cpp:31 qt6/guiwrapper/wrapperapp.cpp:31
 msgid "A launcher for Fcitx Gui plugin."
 msgstr "Fcitx GUI 플러그인용 실행기"
 
@@ -103,7 +103,7 @@ msgstr "파일 %1을 만들수 없습니다."
 msgid "Cannot remove system file"
 msgstr "시스템 파일을 제거할 수 없음"
 
-#: qt5/guiwrapper/wrapperapp.cpp:36
+#: qt5/guiwrapper/wrapperapp.cpp:37 qt6/guiwrapper/wrapperapp.cpp:37
 msgid "Config path"
 msgstr "구성 경로"
 
@@ -134,6 +134,7 @@ msgid "E&xport"
 msgstr "내보내기(&X)"
 
 #: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:355
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:324
 msgid "Empty"
 msgstr "비어있음"
 
@@ -141,17 +142,21 @@ msgstr "비어있음"
 msgid "Error while deleting %1."
 msgstr "%1을 지우는 중 오류 발생"
 
-#: qt5/guiwrapper/mainwindow.cpp:106
+#: qt5/guiwrapper/mainwindow.cpp:106 qt6/guiwrapper/mainwindow.cpp:106
 msgid "Failed to notify Fcitx"
 msgstr "Fcitx에 알리지 못함"
 
-#: qt5/guiwrapper/mainwindow.cpp:107
+#: qt5/guiwrapper/mainwindow.cpp:107 qt6/guiwrapper/mainwindow.cpp:107
 msgid "Failed to notify Fcitx about the configuration change."
 msgstr "구성 변경에 대해 Fcitx에 알리지 못했습니다."
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:3
 msgid "Fcitx 5 Qt5 Gui Wrapper"
 msgstr "Fcitx 5 Qt5 Gui 래퍼"
+
+#: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:3
+msgid "Fcitx 5 Qt6 Gui Wrapper"
+msgstr ""
 
 #: qt5/quickphrase-editor/editor.cpp:237 qt5/quickphrase-editor/editor.cpp:279
 msgid "File Operation Failed"
@@ -162,6 +167,7 @@ msgid "File name should not contain '/'."
 msgstr "파일명에 '/'가 포함되지 않아야 합니다."
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:4
+#: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:4
 msgid "Input Method Configuration helper"
 msgstr "입력기 구성 도우미"
 
@@ -170,6 +176,7 @@ msgid "Invalid filename"
 msgstr "잘못된 파일명"
 
 #: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:179
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:148
 msgid "Key code mode"
 msgstr "키코드 방식"
 
@@ -178,10 +185,11 @@ msgid "Keyword"
 msgstr "키워드"
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:5
+#: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:5
 msgid "Load configuration plugin for Fcitx Addon"
 msgstr "Fcitx 애드온용 구성 플러그인 불러오기"
 
-#: qt5/guiwrapper/wrapperapp.cpp:33
+#: qt5/guiwrapper/wrapperapp.cpp:34 qt6/guiwrapper/wrapperapp.cpp:34
 msgid "Parent window ID"
 msgstr "상위 창 ID"
 
@@ -209,7 +217,7 @@ msgstr "파일 제거"
 msgid "Save Changes"
 msgstr "변경 저장"
 
-#: qt5/guiwrapper/wrapperapp.cpp:34
+#: qt5/guiwrapper/wrapperapp.cpp:35 qt6/guiwrapper/wrapperapp.cpp:35
 msgid "Test if config exists"
 msgstr "구성이 있는지 확인"
 
@@ -222,10 +230,12 @@ msgstr ""
 "변경사항을 저장할까요?"
 
 #: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:392
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:361
 msgid "The key you just pressed is not supported by Qt."
 msgstr "방금 누른 키는 Qt가 지원하지 않습니다."
 
 #: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:393
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:362
 msgid "Unsupported Key"
 msgstr "지원하지 않는 키"
 
@@ -236,10 +246,10 @@ msgstr "지원하지 않는 키"
 msgid "Use <Keyword> <Phrase> format on every line."
 msgstr "모든 줄에 <Keyword> <Phrase> 형식을 사용합니다."
 
-#: qt5/guiwrapper/wrapperapp.cpp:36
+#: qt5/guiwrapper/wrapperapp.cpp:37 qt6/guiwrapper/wrapperapp.cpp:37
 msgid "path"
 msgstr "경로"
 
-#: qt5/guiwrapper/wrapperapp.cpp:33
+#: qt5/guiwrapper/wrapperapp.cpp:34 qt6/guiwrapper/wrapperapp.cpp:34
 msgid "winid"
 msgstr "winid"

@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-06-06 20:24+0000\n"
+"POT-Creation-Date: 2023-11-18 20:24+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
 "Last-Translator: roxfr <roxfr@outlook.fr>, 2022\n"
-"Language-Team: French (https://www.transifex.com/fcitx/teams/12005/fr/)\n"
+"Language-Team: French (https://app.transifex.com/fcitx/teams/12005/fr/)\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,7 +33,7 @@ msgstr ""
 msgid "&Add"
 msgstr "&Ajouter"
 
-#: qt5/guiwrapper/mainwindow.cpp:29
+#: qt5/guiwrapper/mainwindow.cpp:29 qt6/guiwrapper/mainwindow.cpp:29
 msgid "&Apply"
 msgstr "&Appliquer"
 
@@ -44,7 +44,7 @@ msgstr "&Appliquer"
 msgid "&Batch Edit"
 msgstr "Éditer &Batch"
 
-#: qt5/guiwrapper/mainwindow.cpp:31
+#: qt5/guiwrapper/mainwindow.cpp:31 qt6/guiwrapper/mainwindow.cpp:31
 msgid "&Close"
 msgstr "&Fermer"
 
@@ -62,7 +62,7 @@ msgstr "&Supprimer"
 msgid "&Import"
 msgstr "&Importer"
 
-#: qt5/guiwrapper/mainwindow.cpp:28
+#: qt5/guiwrapper/mainwindow.cpp:28 qt6/guiwrapper/mainwindow.cpp:28
 msgid "&Ok"
 msgstr "&OK"
 
@@ -73,11 +73,11 @@ msgstr "&OK"
 msgid "&Operation"
 msgstr "&Opération"
 
-#: qt5/guiwrapper/mainwindow.cpp:30
+#: qt5/guiwrapper/mainwindow.cpp:30 qt6/guiwrapper/mainwindow.cpp:30
 msgid "&Reset"
 msgstr "&Réinitialiser"
 
-#: qt5/guiwrapper/wrapperapp.cpp:30
+#: qt5/guiwrapper/wrapperapp.cpp:31 qt6/guiwrapper/wrapperapp.cpp:31
 msgid "A launcher for Fcitx Gui plugin."
 msgstr "Un lanceur pour le plugin Fcitx Gui."
 
@@ -104,7 +104,7 @@ msgstr "Impossible de créer le fichier %1."
 msgid "Cannot remove system file"
 msgstr "Impossible de supprimer le fichier système"
 
-#: qt5/guiwrapper/wrapperapp.cpp:36
+#: qt5/guiwrapper/wrapperapp.cpp:37 qt6/guiwrapper/wrapperapp.cpp:37
 msgid "Config path"
 msgstr "Chemin de configuration"
 
@@ -135,6 +135,7 @@ msgid "E&xport"
 msgstr "E&xporter"
 
 #: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:355
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:324
 msgid "Empty"
 msgstr "Vide"
 
@@ -142,17 +143,21 @@ msgstr "Vide"
 msgid "Error while deleting %1."
 msgstr "Erreur lors de la suppression de %1."
 
-#: qt5/guiwrapper/mainwindow.cpp:106
+#: qt5/guiwrapper/mainwindow.cpp:106 qt6/guiwrapper/mainwindow.cpp:106
 msgid "Failed to notify Fcitx"
 msgstr "Échec de la notification à Fcitx"
 
-#: qt5/guiwrapper/mainwindow.cpp:107
+#: qt5/guiwrapper/mainwindow.cpp:107 qt6/guiwrapper/mainwindow.cpp:107
 msgid "Failed to notify Fcitx about the configuration change."
 msgstr "Échec de notification à Fcitx du changement de configuration."
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:3
 msgid "Fcitx 5 Qt5 Gui Wrapper"
 msgstr "Fcitx 5 Qt5 Gui Wrapper"
+
+#: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:3
+msgid "Fcitx 5 Qt6 Gui Wrapper"
+msgstr ""
 
 #: qt5/quickphrase-editor/editor.cpp:237 qt5/quickphrase-editor/editor.cpp:279
 msgid "File Operation Failed"
@@ -163,6 +168,7 @@ msgid "File name should not contain '/'."
 msgstr "Le nom du fichier ne doit pas contenir '/'."
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:4
+#: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:4
 msgid "Input Method Configuration helper"
 msgstr "Aide à la configuration de la méthode d'entrée"
 
@@ -171,6 +177,7 @@ msgid "Invalid filename"
 msgstr "Nom de fichier invalide"
 
 #: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:179
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:148
 msgid "Key code mode"
 msgstr "Mode code clé"
 
@@ -179,10 +186,11 @@ msgid "Keyword"
 msgstr "Mot clé"
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:5
+#: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:5
 msgid "Load configuration plugin for Fcitx Addon"
 msgstr "Charger le plugin de configuration pour Fcitx Addon"
 
-#: qt5/guiwrapper/wrapperapp.cpp:33
+#: qt5/guiwrapper/wrapperapp.cpp:34 qt6/guiwrapper/wrapperapp.cpp:34
 msgid "Parent window ID"
 msgstr "ID de la fenêtre parente"
 
@@ -210,7 +218,7 @@ msgstr "Supprimer le fichier"
 msgid "Save Changes"
 msgstr "Enregistrer les modifications"
 
-#: qt5/guiwrapper/wrapperapp.cpp:34
+#: qt5/guiwrapper/wrapperapp.cpp:35 qt6/guiwrapper/wrapperapp.cpp:35
 msgid "Test if config exists"
 msgstr "Tester si la configuration existe"
 
@@ -223,11 +231,13 @@ msgstr ""
 "Voulez-vous enregistrer les modifications ou les annuler ?"
 
 #: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:392
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:361
 msgid "The key you just pressed is not supported by Qt."
 msgstr ""
 "La touche que vous venez d&apos;appuyer n'est pas prise en charge par Qt."
 
 #: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:393
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:362
 msgid "Unsupported Key"
 msgstr "Clé non prise en charge"
 
@@ -238,10 +248,10 @@ msgstr "Clé non prise en charge"
 msgid "Use <Keyword> <Phrase> format on every line."
 msgstr "Utiliser<Keyword><Phrase> format sur chaque ligne."
 
-#: qt5/guiwrapper/wrapperapp.cpp:36
+#: qt5/guiwrapper/wrapperapp.cpp:37 qt6/guiwrapper/wrapperapp.cpp:37
 msgid "path"
 msgstr "chemin"
 
-#: qt5/guiwrapper/wrapperapp.cpp:33
+#: qt5/guiwrapper/wrapperapp.cpp:34 qt6/guiwrapper/wrapperapp.cpp:34
 msgid "winid"
 msgstr "winid"

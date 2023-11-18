@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the fcitx5-qt package.
 #
 # Translators:
-# Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2017
+# Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>, 2017
 # csslayer <wengxt@gmail.com>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-05-02 03:03+0000\n"
+"POT-Creation-Date: 2023-11-18 20:24+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
-"Language-Team: Catalan (https://www.transifex.com/fcitx/teams/12005/ca/)\n"
+"Language-Team: Catalan (https://app.transifex.com/fcitx/teams/12005/ca/)\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +31,7 @@ msgstr "%1 és un fitxer de sistema, voleu eliminar en canvi totes les frases?"
 msgid "&Add"
 msgstr "&Afegeix"
 
-#: qt5/guiwrapper/mainwindow.cpp:29
+#: qt5/guiwrapper/mainwindow.cpp:29 qt6/guiwrapper/mainwindow.cpp:29
 msgid "&Apply"
 msgstr "&Aplica"
 
@@ -42,7 +42,7 @@ msgstr "&Aplica"
 msgid "&Batch Edit"
 msgstr "Edita per &lots"
 
-#: qt5/guiwrapper/mainwindow.cpp:31
+#: qt5/guiwrapper/mainwindow.cpp:31 qt6/guiwrapper/mainwindow.cpp:31
 msgid "&Close"
 msgstr "Tan&ca"
 
@@ -60,7 +60,7 @@ msgstr "&Elimina"
 msgid "&Import"
 msgstr "&Importa"
 
-#: qt5/guiwrapper/mainwindow.cpp:28
+#: qt5/guiwrapper/mainwindow.cpp:28 qt6/guiwrapper/mainwindow.cpp:28
 msgid "&Ok"
 msgstr "D'ac&ord"
 
@@ -71,11 +71,11 @@ msgstr "D'ac&ord"
 msgid "&Operation"
 msgstr "&Operació"
 
-#: qt5/guiwrapper/mainwindow.cpp:30
+#: qt5/guiwrapper/mainwindow.cpp:30 qt6/guiwrapper/mainwindow.cpp:30
 msgid "&Reset"
 msgstr "%Restableix"
 
-#: qt5/guiwrapper/wrapperapp.cpp:30
+#: qt5/guiwrapper/wrapperapp.cpp:31 qt6/guiwrapper/wrapperapp.cpp:31
 msgid "A launcher for Fcitx Gui plugin."
 msgstr "Un llançador per al connector de la interfície gràfica de Fcitx."
 
@@ -102,7 +102,7 @@ msgstr "No es pot crear el fitxer %1."
 msgid "Cannot remove system file"
 msgstr "No es pot eliminar el fitxer de sistema"
 
-#: qt5/guiwrapper/wrapperapp.cpp:36
+#: qt5/guiwrapper/wrapperapp.cpp:37 qt6/guiwrapper/wrapperapp.cpp:37
 msgid "Config path"
 msgstr ""
 
@@ -132,7 +132,8 @@ msgstr "Per defecte"
 msgid "E&xport"
 msgstr "E&xporta"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:319
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:355
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:324
 msgid "Empty"
 msgstr "Buit"
 
@@ -140,16 +141,20 @@ msgstr "Buit"
 msgid "Error while deleting %1."
 msgstr "S'ha produït un error quan s'estava eliminant %1."
 
-#: qt5/guiwrapper/mainwindow.cpp:106
+#: qt5/guiwrapper/mainwindow.cpp:106 qt6/guiwrapper/mainwindow.cpp:106
 msgid "Failed to notify Fcitx"
 msgstr ""
 
-#: qt5/guiwrapper/mainwindow.cpp:107
+#: qt5/guiwrapper/mainwindow.cpp:107 qt6/guiwrapper/mainwindow.cpp:107
 msgid "Failed to notify Fcitx about the configuration change."
 msgstr ""
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:3
 msgid "Fcitx 5 Qt5 Gui Wrapper"
+msgstr ""
+
+#: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:3
+msgid "Fcitx 5 Qt6 Gui Wrapper"
 msgstr ""
 
 #: qt5/quickphrase-editor/editor.cpp:237 qt5/quickphrase-editor/editor.cpp:279
@@ -161,6 +166,7 @@ msgid "File name should not contain '/'."
 msgstr "El nom de fitxer no hauria de contenir «/»."
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:4
+#: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:4
 msgid "Input Method Configuration helper"
 msgstr ""
 
@@ -168,23 +174,25 @@ msgstr ""
 msgid "Invalid filename"
 msgstr "Nom de fitxer no vàlid"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:180
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:179
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:148
 msgid "Key code mode"
 msgstr ""
 
-#: qt5/quickphrase-editor/model.cpp:71
+#: qt5/quickphrase-editor/model.cpp:73
 msgid "Keyword"
 msgstr "Paraula clau"
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:5
+#: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:5
 msgid "Load configuration plugin for Fcitx Addon"
 msgstr ""
 
-#: qt5/guiwrapper/wrapperapp.cpp:33
+#: qt5/guiwrapper/wrapperapp.cpp:34 qt6/guiwrapper/wrapperapp.cpp:34
 msgid "Parent window ID"
 msgstr ""
 
-#: qt5/quickphrase-editor/model.cpp:73
+#: qt5/quickphrase-editor/model.cpp:75
 msgid "Phrase"
 msgstr "Frase"
 
@@ -208,7 +216,7 @@ msgstr "Elimina un fitxer"
 msgid "Save Changes"
 msgstr "Desa els canvis"
 
-#: qt5/guiwrapper/wrapperapp.cpp:34
+#: qt5/guiwrapper/wrapperapp.cpp:35 qt6/guiwrapper/wrapperapp.cpp:35
 msgid "Test if config exists"
 msgstr ""
 
@@ -220,11 +228,13 @@ msgstr ""
 "El contingut ha canviat.\n"
 "Voleu desar els canvis o descartar-los?"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:356
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:392
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:361
 msgid "The key you just pressed is not supported by Qt."
 msgstr "La tecla que acabeu de prémer no té suport de Qt."
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:357
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:393
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:362
 msgid "Unsupported Key"
 msgstr "Tecla sense suport"
 
@@ -235,10 +245,10 @@ msgstr "Tecla sense suport"
 msgid "Use <Keyword> <Phrase> format on every line."
 msgstr "Useu el format <Paraula clau><Frase> a cada línia."
 
-#: qt5/guiwrapper/wrapperapp.cpp:36
+#: qt5/guiwrapper/wrapperapp.cpp:37 qt6/guiwrapper/wrapperapp.cpp:37
 msgid "path"
 msgstr "camí"
 
-#: qt5/guiwrapper/wrapperapp.cpp:33
+#: qt5/guiwrapper/wrapperapp.cpp:34 qt6/guiwrapper/wrapperapp.cpp:34
 msgid "winid"
 msgstr ""

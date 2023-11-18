@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-05-02 20:31+0000\n"
+"POT-Creation-Date: 2023-11-18 20:24+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
-"Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
+"Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr "%1 是系统文件，您是否想要改为清空所有词组？"
 msgid "&Add"
 msgstr "添加(&A)"
 
-#: qt5/guiwrapper/mainwindow.cpp:29
+#: qt5/guiwrapper/mainwindow.cpp:29 qt6/guiwrapper/mainwindow.cpp:29
 msgid "&Apply"
 msgstr "应用(&A)"
 
@@ -42,7 +42,7 @@ msgstr "应用(&A)"
 msgid "&Batch Edit"
 msgstr "批量编辑(&B)"
 
-#: qt5/guiwrapper/mainwindow.cpp:31
+#: qt5/guiwrapper/mainwindow.cpp:31 qt6/guiwrapper/mainwindow.cpp:31
 msgid "&Close"
 msgstr "关闭(&C)"
 
@@ -60,7 +60,7 @@ msgstr "删除(&D)"
 msgid "&Import"
 msgstr "导入(&I)"
 
-#: qt5/guiwrapper/mainwindow.cpp:28
+#: qt5/guiwrapper/mainwindow.cpp:28 qt6/guiwrapper/mainwindow.cpp:28
 msgid "&Ok"
 msgstr "确定(&O)"
 
@@ -71,11 +71,11 @@ msgstr "确定(&O)"
 msgid "&Operation"
 msgstr "操作(&O)"
 
-#: qt5/guiwrapper/mainwindow.cpp:30
+#: qt5/guiwrapper/mainwindow.cpp:30 qt6/guiwrapper/mainwindow.cpp:30
 msgid "&Reset"
 msgstr "重置(&R)"
 
-#: qt5/guiwrapper/wrapperapp.cpp:30
+#: qt5/guiwrapper/wrapperapp.cpp:31 qt6/guiwrapper/wrapperapp.cpp:31
 msgid "A launcher for Fcitx Gui plugin."
 msgstr "Fcitx 图形界面插件的启动器"
 
@@ -102,7 +102,7 @@ msgstr "无法创建文件 %1。"
 msgid "Cannot remove system file"
 msgstr "无法移除系统文件"
 
-#: qt5/guiwrapper/wrapperapp.cpp:36
+#: qt5/guiwrapper/wrapperapp.cpp:37 qt6/guiwrapper/wrapperapp.cpp:37
 msgid "Config path"
 msgstr "配置路径"
 
@@ -132,7 +132,8 @@ msgstr "默认"
 msgid "E&xport"
 msgstr "导出(&X)"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:319
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:355
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:324
 msgid "Empty"
 msgstr "空"
 
@@ -140,17 +141,21 @@ msgstr "空"
 msgid "Error while deleting %1."
 msgstr "删除 %1 时出错。"
 
-#: qt5/guiwrapper/mainwindow.cpp:106
+#: qt5/guiwrapper/mainwindow.cpp:106 qt6/guiwrapper/mainwindow.cpp:106
 msgid "Failed to notify Fcitx"
 msgstr "通知 Fcitx 失败"
 
-#: qt5/guiwrapper/mainwindow.cpp:107
+#: qt5/guiwrapper/mainwindow.cpp:107 qt6/guiwrapper/mainwindow.cpp:107
 msgid "Failed to notify Fcitx about the configuration change."
 msgstr "通知 Fcitx 配置更改时失败。"
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:3
 msgid "Fcitx 5 Qt5 Gui Wrapper"
 msgstr "Fcitx 5 Qt5 图形界面封装器"
+
+#: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:3
+msgid "Fcitx 5 Qt6 Gui Wrapper"
+msgstr ""
 
 #: qt5/quickphrase-editor/editor.cpp:237 qt5/quickphrase-editor/editor.cpp:279
 msgid "File Operation Failed"
@@ -161,6 +166,7 @@ msgid "File name should not contain '/'."
 msgstr "文件名不应该包括 “/”。"
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:4
+#: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:4
 msgid "Input Method Configuration helper"
 msgstr "输入法配置助手程序"
 
@@ -168,23 +174,25 @@ msgstr "输入法配置助手程序"
 msgid "Invalid filename"
 msgstr "文件名无效"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:180
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:179
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:148
 msgid "Key code mode"
 msgstr "扫描码模式"
 
-#: qt5/quickphrase-editor/model.cpp:71
+#: qt5/quickphrase-editor/model.cpp:73
 msgid "Keyword"
 msgstr "关键字"
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:5
+#: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:5
 msgid "Load configuration plugin for Fcitx Addon"
 msgstr "加载 Fcitx 附加组件的配置插件"
 
-#: qt5/guiwrapper/wrapperapp.cpp:33
+#: qt5/guiwrapper/wrapperapp.cpp:34 qt6/guiwrapper/wrapperapp.cpp:34
 msgid "Parent window ID"
 msgstr "父窗口 ID"
 
-#: qt5/quickphrase-editor/model.cpp:73
+#: qt5/quickphrase-editor/model.cpp:75
 msgid "Phrase"
 msgstr "词组"
 
@@ -208,7 +216,7 @@ msgstr "移除文件"
 msgid "Save Changes"
 msgstr "保存更改"
 
-#: qt5/guiwrapper/wrapperapp.cpp:34
+#: qt5/guiwrapper/wrapperapp.cpp:35 qt6/guiwrapper/wrapperapp.cpp:35
 msgid "Test if config exists"
 msgstr "检测配置是否存在"
 
@@ -220,11 +228,13 @@ msgstr ""
 "内容已更改。\n"
 "您想要保存还是撤销这些修改？"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:356
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:392
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:361
 msgid "The key you just pressed is not supported by Qt."
 msgstr "你刚刚按下的按键不被 Qt 支持。"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:357
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:393
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:362
 msgid "Unsupported Key"
 msgstr "不支持的按键"
 
@@ -235,10 +245,10 @@ msgstr "不支持的按键"
 msgid "Use <Keyword> <Phrase> format on every line."
 msgstr "每行使用 <关键词> <词组> 的格式。"
 
-#: qt5/guiwrapper/wrapperapp.cpp:36
+#: qt5/guiwrapper/wrapperapp.cpp:37 qt6/guiwrapper/wrapperapp.cpp:37
 msgid "path"
 msgstr "路径"
 
-#: qt5/guiwrapper/wrapperapp.cpp:33
+#: qt5/guiwrapper/wrapperapp.cpp:34 qt6/guiwrapper/wrapperapp.cpp:34
 msgid "winid"
 msgstr "窗口 id"
