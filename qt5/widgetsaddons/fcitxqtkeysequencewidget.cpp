@@ -279,9 +279,7 @@ void FcitxQtKeySequenceWidget::setKeySequence(const QList<Key> &seq) {
 
     d->keySequence_ = QList<Key>();
     for (auto key : seq) {
-        if (key.isValid()) {
-            d->keySequence_ << key;
-        }
+        d->keySequence_ << key;
     }
     d->doneRecording();
 }
