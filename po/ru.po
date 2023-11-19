@@ -4,15 +4,15 @@
 #
 # Translators:
 # csslayer <wengxt@gmail.com>, 2022
-# Dmitry <dmitrydmitry761@gmail.com>, 2022
+# Dmitry <dmitrydmitry761@gmail.com>, 2023
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-11-18 20:24+0000\n"
+"POT-Creation-Date: 2023-11-19 20:24+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
-"Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2022\n"
+"Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -134,8 +134,8 @@ msgstr "По умолчанию"
 msgid "E&xport"
 msgstr "&Экспорт"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:355
-#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:324
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:353
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:322
 msgid "Empty"
 msgstr "Пусто"
 
@@ -157,7 +157,7 @@ msgstr "Графическая оболочка Fcitx 5 Qt5"
 
 #: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:3
 msgid "Fcitx 5 Qt6 Gui Wrapper"
-msgstr ""
+msgstr "Графическая оболочка Fcitx 5 Qt6"
 
 #: qt5/quickphrase-editor/editor.cpp:237 qt5/quickphrase-editor/editor.cpp:279
 msgid "File Operation Failed"
@@ -230,13 +230,13 @@ msgstr ""
 "Содержимое изменилось.\n"
 "Сохранить изменения или отменить их?"
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:392
-#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:361
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:390
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:359
 msgid "The key you just pressed is not supported by Qt."
 msgstr "Нажатая клавиша не поддерживается Qt."
 
-#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:393
-#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:362
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:391
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:360
 msgid "Unsupported Key"
 msgstr "Клавиша не поддерживается"
 
