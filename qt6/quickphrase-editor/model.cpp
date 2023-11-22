@@ -167,8 +167,8 @@ void QuickPhraseModel::load(const QString &file, bool append) {
     } else
         setNeedSave(true);
     futureWatcher_ = new QFutureWatcher<QStringPairList>(this);
-    futureWatcher_->setFuture(QtConcurrent::run<QStringPairList>(
-        this, &QuickPhraseModel::parse, file));
+    futureWatcher_->setFuture(
+        QtConcurrent::run(&QuickPhraseModel::parse, this, file));
     connect(futureWatcher_, &QFutureWatcherBase::finished, this,
             &QuickPhraseModel::loadFinished);
 }
@@ -217,14 +217,14 @@ void QuickPhraseModel::loadFinished() {
 
 QFutureWatcher<bool> *QuickPhraseModel::save(const QString &file) {
     QFutureWatcher<bool> *futureWatcher = new QFutureWatcher<bool>(this);
-    futureWatcher->setFuture(QtConcurrent::run<bool>(
-        this, &QuickPhraseModel::saveData, file, list_));
+    futureWatcher->setFuture(
+        QtConcurrent::run(&QuickPhraseModel::saveData, this, file, list_));
     connect(futureWatcher, &QFutureWatcherBase::finished, this,
             &QuickPhraseModel::saveFinished);
     return futureWatcher;
 }
 
-void QuickPhraseModel::saveData(QTextStream &dev) {
+void QuickPhraseModel::saveDataToStream(QTextStream &dev) {
     for (int i = 0; i < list_.size(); i++) {
         dev << list_[i].first << "\t" << escapeValue(list_[i].second) << "\n";
     }

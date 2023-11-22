@@ -38,7 +38,7 @@ public:
     void deleteItem(int row);
     void deleteAllItem();
     QFutureWatcher<bool> *save(const QString &file);
-    void saveData(QTextStream &dev);
+    void saveDataToStream(QTextStream &dev);
     bool needSave();
 
 Q_SIGNALS:

@@ -124,7 +124,7 @@ void ListEditor::batchEditWord() {
     BatchDialog *dialog = new BatchDialog(this);
     QString text;
     QTextStream stream(&text);
-    model_->saveData(stream);
+    model_->saveDataToStream(stream);
     dialog->setAttribute(Qt::WA_DeleteOnClose, true);
     dialog->setText(text);
     dialog->open();

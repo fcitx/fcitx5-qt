@@ -1,4 +1,4 @@
-find_package(Qt5Concurrent REQUIRED)
+find_package(Qt6Concurrent REQUIRED)
 
 set(QUICKPHRASE_EDITOR_SRCS 
   main.cpp
@@ -16,10 +16,10 @@ set_target_properties(fcitx-quickphrase-editor5 PROPERTIES
 )
 target_link_libraries(fcitx-quickphrase-editor5
   Fcitx5::Utils
-  Qt5::Core
-  Qt5::Gui
-  Qt5::Concurrent
-  Fcitx5Qt5::WidgetsAddons
+  Qt6::Core
+  Qt6::Gui
+  Qt6::Concurrent
+  Fcitx5Qt6::WidgetsAddons
 )
 
-install(TARGETS fcitx-quickphrase-editor5 DESTINATION ${CMAKE_INSTALL_LIBDIR}/fcitx5/qt5)
+install(TARGETS fcitx-quickphrase-editor5 DESTINATION ${CMAKE_INSTALL_LIBDIR}/fcitx5/qt6)
