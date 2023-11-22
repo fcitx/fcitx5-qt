@@ -20,13 +20,13 @@ namespace fcitx {
 WrapperApp::WrapperApp(int &argc, char **argv)
     : QApplication(argc, argv), factory_(new FcitxQtConfigUIFactory(this)),
       mainWindow_(0) {
-    FcitxQtConfigUIWidget *widget = 0;
-
     setApplicationName(QLatin1String(
         "fcitx5-qt" QT_STRINGIFY(QT_VERSION_MAJOR) "-gui-wrapper"));
     setApplicationVersion(QLatin1String(FCITX5_QT_VERSION));
     setOrganizationDomain("fcitx.org");
+}
 
+void WrapperApp::init() {
     QCommandLineParser parser;
     parser.setApplicationDescription(_("A launcher for Fcitx Gui plugin."));
     parser.addHelpOption();
@@ -40,7 +40,7 @@ WrapperApp::WrapperApp(int &argc, char **argv)
     auto args = parser.positionalArguments();
     if (args.empty()) {
         qWarning("Missing path argument.");
-        QMetaObject::invokeMethod(this, "errorExit", Qt::QueuedConnection);
+        ::exit(1);
         return;
     }
 
@@ -50,9 +50,9 @@ WrapperApp::WrapperApp(int &argc, char **argv)
     }
     if (parser.isSet("test")) {
         if (factory_->test(path)) {
-            QMetaObject::invokeMethod(this, "quit", Qt::QueuedConnection);
+            ::exit(0);
         } else {
-            QMetaObject::invokeMethod(this, "errorExit", Qt::QueuedConnection);
+            ::exit(1);
         }
     } else {
         WId winid = 0;
@@ -60,7 +60,7 @@ WrapperApp::WrapperApp(int &argc, char **argv)
         if (parser.isSet("winid")) {
             winid = parser.value("winid").toLong(&ok, 0);
         }
-        widget = factory_->create(path);
+        FcitxQtConfigUIWidget *widget = factory_->create(path);
         if (!widget) {
             qWarning("Could not find plugin for file.");
             QMetaObject::invokeMethod(this, "errorExit", Qt::QueuedConnection);
@@ -70,9 +70,13 @@ WrapperApp::WrapperApp(int &argc, char **argv)
         if (ok && winid) {
             mainWindow_->setParentWindow(winid);
         }
-        mainWindow_->exec();
-        QMetaObject::invokeMethod(this, "quit", Qt::QueuedConnection);
+        QMetaObject::invokeMethod(this, "run", Qt::QueuedConnection);
     }
+}
+
+void WrapperApp::run() {
+    mainWindow_->exec();
+    QMetaObject::invokeMethod(this, "quit", Qt::QueuedConnection);
 }
 
 WrapperApp::~WrapperApp() {

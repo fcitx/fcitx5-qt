@@ -19,6 +19,10 @@ public:
     WrapperApp(int &argc, char **argv);
     virtual ~WrapperApp();
 
+    void init();
+public Q_SLOTS:
+    void run();
+
 private Q_SLOTS:
     void errorExit();
 

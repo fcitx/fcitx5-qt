@@ -13,5 +13,6 @@ int main(int argc, char *argv[]) {
     setlocale(LC_ALL, "");
     QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     fcitx::WrapperApp app(argc, argv);
+    app.init();
     return app.exec();
 }
