@@ -34,7 +34,9 @@
 
 #include <array>
 #include <memory>
+#ifdef ENABLE_X11
 #include <xcb/xcb.h>
+#endif
 
 namespace fcitx {
 
@@ -46,6 +48,7 @@ XCBReply<T> makeXCBReply(T *ptr) noexcept {
     return {ptr, &std::free};
 }
 
+#ifdef ENABLE_X11
 void setFocusGroupForX11(const QByteArray &uuid) {
     if (uuid.size() != 16) {
         return;
@@ -109,6 +112,7 @@ void setFocusGroupForX11(const QByteArray &uuid) {
                    reinterpret_cast<char *>(&ev));
     xcb_flush(connection);
 }
+#endif
 
 static bool get_boolean_env(const char *name, bool defval) {
     const char *value = getenv(name);
@@ -610,7 +614,11 @@ void QFcitxPlatformInputContext::createInputContextFinished(
 
     if (proxy->isValid() && !uuid.isEmpty()) {
         QWindow *window = focusWindowWrapper();
+#ifdef ENABLE_X11
         setFocusGroupForX11(uuid);
+#else
+        Q_UNUSED(uuid);
+#endif
         if (window && window == w) {
             cursorRectChanged();
             proxy->focusIn();

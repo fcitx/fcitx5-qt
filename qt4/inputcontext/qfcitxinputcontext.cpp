@@ -14,7 +14,9 @@
 #include <QTextCharFormat>
 #include <QTextCodec>
 #include <QWidget>
+#ifdef ENABLE_X11
 #include <QX11Info>
+#endif
 #include <array>
 #include <errno.h>
 #include <signal.h>
@@ -27,7 +29,9 @@
 #include "fcitxqtwatcher.h"
 #include "qfcitxinputcontext.h"
 
+#ifdef ENABLE_X11
 #include <X11/Xlib.h>
+#endif
 #include <memory>
 #undef KeyPress
 #undef KeyRelease
@@ -36,6 +40,7 @@
 
 namespace fcitx {
 
+#ifdef ENABLE_X11
 void setFocusGroupForX11(const QByteArray &uuid) {
     if (uuid.size() != 16) {
         return;
@@ -66,6 +71,7 @@ void setFocusGroupForX11(const QByteArray &uuid) {
     XSendEvent(xdisplay, window, False, NoEventMask, &ev);
     XSync(xdisplay, False);
 }
+#endif
 
 static bool key_filtered = false;
 
@@ -364,7 +370,11 @@ void QFcitxInputContext::createInputContextFinished(const QByteArray &uuid) {
 
     if (proxy->isValid()) {
         QWidget *window = qApp->focusWidget();
+#ifdef ENABLE_X11
         setFocusGroupForX11(uuid);
+#else
+        Q_UNUSED(uuid);
+#endif
         if (window && window == w) {
             cursorRectChanged();
             proxy->focusIn();
