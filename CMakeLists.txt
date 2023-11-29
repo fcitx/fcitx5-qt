@@ -13,6 +13,7 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 option(ENABLE_QT4 "Enable Qt 4" On)
 option(ENABLE_QT5 "Enable Qt 5" On)
 option(ENABLE_QT6 "Enable Qt 6" Off)
+option(ENABLE_X11 "Enable X11 support" On)
 option(BUILD_ONLY_PLUGIN "Build only plugin" Off)
 option(BUILD_STATIC_PLUGIN "Build plugin as static" Off)
 option(WITH_FCITX_PLUGIN_NAME "Enable plugin name with fcitx" On)
@@ -43,17 +44,22 @@ include(ECMSetupVersion)
 include(ECMGenerateHeaders)
 include(ECMUninstallTarget)
 
-find_package(XCB REQUIRED COMPONENTS XCB)
+if (ENABLE_X11)
+    find_package(XCB REQUIRED COMPONENTS XCB)
+endif()
 find_package(XKBCommon 0.5.0 REQUIRED COMPONENTS XKBCommon)
 if (NOT BUILD_ONLY_PLUGIN)
 find_package(Fcitx5Utils 5.0.16 REQUIRED)
 endif()
+
+if (ENABLE_X11)
 find_package(X11 REQUIRED)
 
 add_library(X11Import UNKNOWN IMPORTED)
 set_target_properties(X11Import PROPERTIES
     IMPORTED_LOCATION "${X11_X11_LIB}"
     INTERFACE_INCLUDE_DIRECTORIES "${X11_X11_INCLUDE_PATH}")
+endif()
 
 if (BUILD_ONLY_PLUGIN)
 # Dup a little bit option here.

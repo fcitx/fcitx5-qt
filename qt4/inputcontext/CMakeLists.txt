@@ -29,8 +29,12 @@ target_link_libraries(qtim-fcitx5
                           XCB::XCB
                           Fcitx5Qt4::DBusAddons
                           XKBCommon::XKBCommon
-                          X11Import
                          )
+
+if (ENABLE_X11)
+    target_link_libraries(qtim-fcitx5 X11Import)
+    target_compile_definitions(qtim-fcitx5 PRIVATE "-DENABLE_X11")
+endif()
 
 set(CMAKE_INSTALL_QT4PLUGINDIR ${QT_PLUGINS_DIR} CACHE PATH "Qt4 plugin dir")
 install(TARGETS qtim-fcitx5 DESTINATION ${CMAKE_INSTALL_QT4PLUGINDIR}/inputmethods)

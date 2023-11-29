@@ -44,11 +44,13 @@ target_link_libraries(fcitx5platforminputcontextplugin
                           Qt5::Gui
                           Qt5::DBus
                           Qt5::Widgets
-                          XCB::XCB
                           Fcitx5Qt5::DBusAddons
                           XKBCommon::XKBCommon
                          )
-
+if (ENABLE_X11)
+    target_link_libraries(fcitx5platforminputcontextplugin XCB::XCB)
+    target_compile_definitions(fcitx5platforminputcontextplugin PRIVATE "-DENABLE_X11")
+endif()
 include(ECMQueryQmake)
 query_qmake(_QT5PLUGINDIR QT_INSTALL_PLUGINS)
 set(CMAKE_INSTALL_QT5PLUGINDIR ${_QT5PLUGINDIR} CACHE PATH "Qt5 plugin dir")
