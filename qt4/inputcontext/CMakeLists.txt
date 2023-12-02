@@ -26,7 +26,6 @@ target_link_libraries(qtim-fcitx5
                           Qt4::QtCore
                           Qt4::QtGui
                           Qt4::QtDBus
-                          XCB::XCB
                           Fcitx5Qt4::DBusAddons
                           XKBCommon::XKBCommon
                          )
