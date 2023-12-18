@@ -109,6 +109,9 @@
   <method name="CheckUpdate">
       <arg type="b" direction="out"/>
   </method>
+  <method name="CanRestart">
+      <arg type="b" direction="out"/>
+  </method>
  </interface>
 </node>
 

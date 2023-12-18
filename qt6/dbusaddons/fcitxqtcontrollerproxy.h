@@ -74,6 +74,12 @@ public Q_SLOTS: // METHODS
         return asyncCallWithArgumentList(QStringLiteral("AvailableKeyboardLayouts"), argumentList);
     }
 
+    inline QDBusPendingReply<bool> CanRestart() {
+        QList<QVariant> argumentList;
+        return asyncCallWithArgumentList(QStringLiteral("CanRestart"),
+                                         argumentList);
+    }
+
     inline QDBusPendingReply<bool> CheckUpdate()
     {
         QList<QVariant> argumentList;
