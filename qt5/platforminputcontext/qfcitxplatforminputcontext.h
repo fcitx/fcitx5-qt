@@ -33,7 +33,7 @@ class FcitxQtICData : public QObject {
 public:
     FcitxQtICData(QFcitxPlatformInputContext *context, QWindow *window);
     FcitxQtICData(const FcitxQtICData &that) = delete;
-    ~FcitxQtICData();
+    ~FcitxQtICData() override;
 
     FcitxCandidateWindow *candidateWindow();
 
@@ -62,15 +62,13 @@ class ProcessKeyWatcher : public QDBusPendingCallWatcher {
     Q_OBJECT
 public:
     ProcessKeyWatcher(const QKeyEvent &event, QWindow *window,
-                      const QDBusPendingCall &call, QObject *parent = 0)
+                      const QDBusPendingCall &call, QObject *parent = nullptr)
         : QDBusPendingCallWatcher(call, parent),
           event_(event.type(), event.key(), event.modifiers(),
                  event.nativeScanCode(), event.nativeVirtualKey(),
                  event.nativeModifiers(), event.text(), event.isAutoRepeat(),
                  event.count()),
           window_(window) {}
-
-    virtual ~ProcessKeyWatcher() {}
 
     const QKeyEvent &keyEvent() { return event_; }
 
@@ -83,22 +81,25 @@ private:
 
 struct XkbContextDeleter {
     static inline void cleanup(struct xkb_context *pointer) {
-        if (pointer)
+        if (pointer) {
             xkb_context_unref(pointer);
+        }
     }
 };
 
 struct XkbComposeTableDeleter {
     static inline void cleanup(struct xkb_compose_table *pointer) {
-        if (pointer)
+        if (pointer) {
             xkb_compose_table_unref(pointer);
+        }
     }
 };
 
 struct XkbComposeStateDeleter {
     static inline void cleanup(struct xkb_compose_state *pointer) {
-        if (pointer)
+        if (pointer) {
             xkb_compose_state_unref(pointer);
+        }
     }
 };
 
@@ -106,14 +107,15 @@ class QFcitxPlatformInputContext : public QPlatformInputContext {
     Q_OBJECT
 public:
     QFcitxPlatformInputContext();
-    virtual ~QFcitxPlatformInputContext();
+    ~QFcitxPlatformInputContext() override;
 
     bool isValid() const override;
     void setFocusObject(QObject *object) override;
-    void invokeAction(QInputMethod::Action, int cursorPosition) override;
+    void invokeAction(QInputMethod::Action imAction,
+                      int cursorPosition) override;
     void reset() override;
     void commit() override;
-    void update(Qt::InputMethodQueries quries) override;
+    void update(Qt::InputMethodQueries queries) override;
     bool filterEvent(const QEvent *event) override;
     QLocale locale() const override;
     bool hasCapability(Capability capability) const override;
@@ -159,9 +161,9 @@ private Q_SLOTS:
 
 private:
     bool processCompose(unsigned int keyval, unsigned int state,
-                        bool isRelaese);
+                        bool isRelease);
     QKeyEvent *createKeyEvent(unsigned int keyval, unsigned int state,
-                              bool isRelaese, const QKeyEvent *event);
+                              bool isRelease, const QKeyEvent *event);
     void forwardEvent(QWindow *window, const QKeyEvent &event);
 
     void addCapability(FcitxQtICData &data, quint64 capability,
@@ -187,7 +189,7 @@ private:
     HybridInputContext *validIC() const;
     HybridInputContext *validICByWindow(QWindow *window) const;
     bool filterEventFallback(unsigned int keyval, unsigned int keycode,
-                             unsigned int state, bool isRelaese);
+                             unsigned int state, bool isRelease);
 
     void updateCursorRect();
     bool objectAcceptsInputMethod() const;
