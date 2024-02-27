@@ -75,8 +75,7 @@ Fcitx4Watcher::Fcitx4Watcher(QDBusConnection sessionBus, QObject *parent)
 
 Fcitx4Watcher::~Fcitx4Watcher() {
     cleanUpConnection();
-    delete fsWatcher_;
-    fsWatcher_ = nullptr;
+    unwatchSocketFile();
 }
 
 bool Fcitx4Watcher::availability() const { return availability_; }
@@ -241,8 +240,11 @@ void Fcitx4Watcher::watchSocketFile() {
 }
 
 void Fcitx4Watcher::unwatchSocketFile() {
-    delete fsWatcher_;
-    fsWatcher_ = nullptr;
+    if (fsWatcher_) {
+        fsWatcher_->disconnect(this);
+        fsWatcher_->deleteLater();
+        fsWatcher_ = nullptr;
+    }
 }
 
 void Fcitx4Watcher::imChanged(const QString &service, const QString &,
