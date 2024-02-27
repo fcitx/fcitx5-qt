@@ -21,7 +21,8 @@
 #include <QtMath>
 #include <utility>
 
-#if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) && QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+#if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) &&                            \
+    QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
 #include <QtWaylandClient/private/qwayland-xdg-shell.h>
 #include <QtWaylandClient/private/qwaylanddisplay_p.h>
 #include <QtWaylandClient/private/qwaylandintegration_p.h>
@@ -34,7 +35,8 @@ namespace fcitx {
 
 namespace {
 
-#if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) && QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+#if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) &&                            \
+    QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
 class XdgWmBase : public QtWayland::xdg_wm_base {
 public:
     using xdg_wm_base::xdg_wm_base;
@@ -120,7 +122,8 @@ FcitxCandidateWindow::FcitxCandidateWindow(QWindow *window,
         // Not using Qt::BypassWindowManagerHint ensures wayland handle
         // fractional scale.
         setFlags(Qt::ToolTip | commonFlags);
-#if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) && QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+#if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) &&                            \
+    QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
         if (auto instance = QtWaylandClient::QWaylandIntegration::instance()) {
             for (QtWaylandClient::QWaylandDisplay::RegistryGlobal global :
                  instance->display()->globals()) {
@@ -489,7 +492,8 @@ void FcitxCandidateWindow::updateClientSideUI(
     QRect cursorRect = context_->cursorRectangleWrapper();
     QRect screenGeometry;
 
-#if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) && QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+#if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) &&                            \
+    QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
     if (isWayland_) {
         auto waylandWindow =
             static_cast<QtWaylandClient::QWaylandWindow *>(window->handle());

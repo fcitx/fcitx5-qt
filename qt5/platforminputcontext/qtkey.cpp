@@ -9,10 +9,10 @@
 
 #include <QHash>
 #include <QString>
-#include <xkbcommon/xkbcommon.h>
 #include <ctype.h>
 #include <qnamespace.h>
 #include <unordered_map>
+#include <xkbcommon/xkbcommon.h>
 
 const std::unordered_map<uint32_t, int> &KeyTbl() {
     static std::unordered_map<uint32_t, int> keyTbl{
@@ -168,8 +168,10 @@ const std::unordered_map<uint32_t, int> &KeyTbl() {
         std::make_pair(XKB_KEY_Hangul_PreHanja, Qt::Key_Hangul_PreHanja),
         std::make_pair(XKB_KEY_Hangul_PostHanja, Qt::Key_Hangul_PostHanja),
         std::make_pair(XKB_KEY_Hangul_SingleCandidate, Qt::Key_SingleCandidate),
-        std::make_pair(XKB_KEY_Hangul_MultipleCandidate, Qt::Key_MultipleCandidate),
-        std::make_pair(XKB_KEY_Hangul_PreviousCandidate, Qt::Key_PreviousCandidate),
+        std::make_pair(XKB_KEY_Hangul_MultipleCandidate,
+                       Qt::Key_MultipleCandidate),
+        std::make_pair(XKB_KEY_Hangul_PreviousCandidate,
+                       Qt::Key_PreviousCandidate),
         std::make_pair(XKB_KEY_Hangul_Special, Qt::Key_Hangul_Special),
         std::make_pair(XKB_KEY_Hangul_switch, Qt::Key_Mode_switch),
         std::make_pair(XKB_KEY_dead_grave, Qt::Key_Dead_Grave),
@@ -187,7 +189,8 @@ const std::unordered_map<uint32_t, int> &KeyTbl() {
         std::make_pair(XKB_KEY_dead_ogonek, Qt::Key_Dead_Ogonek),
         std::make_pair(XKB_KEY_dead_iota, Qt::Key_Dead_Iota),
         std::make_pair(XKB_KEY_dead_voiced_sound, Qt::Key_Dead_Voiced_Sound),
-        std::make_pair(XKB_KEY_dead_semivoiced_sound, Qt::Key_Dead_Semivoiced_Sound),
+        std::make_pair(XKB_KEY_dead_semivoiced_sound,
+                       Qt::Key_Dead_Semivoiced_Sound),
         std::make_pair(XKB_KEY_dead_belowdot, Qt::Key_Dead_Belowdot),
         std::make_pair(XKB_KEY_dead_hook, Qt::Key_Dead_Hook),
         std::make_pair(XKB_KEY_dead_horn, Qt::Key_Dead_Horn),
@@ -228,9 +231,11 @@ const std::unordered_map<uint32_t, int> &KeyTbl() {
         std::make_pair(XKB_KEY_XF86LaunchC, Qt::Key_LaunchE),
         std::make_pair(XKB_KEY_XF86LaunchD, Qt::Key_LaunchF),
         std::make_pair(XKB_KEY_XF86MonBrightnessUp, Qt::Key_MonBrightnessUp),
-        std::make_pair(XKB_KEY_XF86MonBrightnessDown, Qt::Key_MonBrightnessDown),
+        std::make_pair(XKB_KEY_XF86MonBrightnessDown,
+                       Qt::Key_MonBrightnessDown),
         std::make_pair(XKB_KEY_XF86KbdLightOnOff, Qt::Key_KeyboardLightOnOff),
-        std::make_pair(XKB_KEY_XF86KbdBrightnessUp, Qt::Key_KeyboardBrightnessUp),
+        std::make_pair(XKB_KEY_XF86KbdBrightnessUp,
+                       Qt::Key_KeyboardBrightnessUp),
         std::make_pair(XKB_KEY_XF86KbdBrightnessDown,
                        Qt::Key_KeyboardBrightnessDown),
         std::make_pair(XKB_KEY_XF86PowerOff, Qt::Key_PowerOff),
@@ -347,7 +352,8 @@ int keysymToQtKey(uint32_t keysym, const QString &text) {
         code = isprint((int)keysym) ? toupper((int)keysym) : 0;
     } else if (text.length() == 1 && text.unicode()->unicode() > 0x1f &&
                text.unicode()->unicode() != 0x7f &&
-               !(keysym >= XKB_KEY_dead_grave && keysym <= XKB_KEY_dead_currency)) {
+               !(keysym >= XKB_KEY_dead_grave &&
+                 keysym <= XKB_KEY_dead_currency)) {
         code = text.unicode()->toUpper().unicode();
     } else {
         // any other keys

@@ -260,13 +260,10 @@ QFcitxPlatformInputContext::QFcitxPlatformInputContext()
 
     // Input context may be created without QApplication with wayland, defer it
     // to event loop to ensure event dispatcher is avaiable.
-    QTimer::singleShot(
-        0,
-        this,
-        [this]() {
-            watcher_->watch();
-            fcitx4Watcher_->watch();
-        });
+    QTimer::singleShot(0, this, [this]() {
+        watcher_->watch();
+        fcitx4Watcher_->watch();
+    });
 }
 
 QFcitxPlatformInputContext::~QFcitxPlatformInputContext() {
@@ -531,16 +528,14 @@ void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
         proxy->focusIn();
         // We need to delegate this otherwise it may cause self-recursion in
         // certain application like libreoffice.
-        QTimer::singleShot(
-            0,
-            this,
-            [this, window = QPointer<QWindow>(lastWindow_)]() {
-                if (window != lastWindow_) {
-                    return;
-                }
-                update(Qt::ImHints | Qt::ImEnabled);
-                updateCursorRect();
-            });
+        QTimer::singleShot(0, this,
+                           [this, window = QPointer<QWindow>(lastWindow_)]() {
+                               if (window != lastWindow_) {
+                                   return;
+                               }
+                               update(Qt::ImHints | Qt::ImEnabled);
+                               updateCursorRect();
+                           });
     }
 
     updateInputPanelVisible();

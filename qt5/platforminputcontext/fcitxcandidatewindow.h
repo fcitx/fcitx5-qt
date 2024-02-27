@@ -19,7 +19,8 @@
 #include <qscopedpointer.h>
 #include <vector>
 
-#if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) && QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+#if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) &&                            \
+    QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
 #include <QtWaylandClient/private/qwayland-xdg-shell.h>
 #endif
 
@@ -93,7 +94,8 @@ private:
     std::vector<QRect> candidateRegions_;
     QPointer<QWindow> parent_;
 
-#if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) && QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+#if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) &&                            \
+    QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
     QScopedPointer<QtWayland::xdg_wm_base> xdgWmBase_;
 #endif
 };
