@@ -241,7 +241,7 @@ void Fcitx4Watcher::watchSocketFile() {
 }
 
 void Fcitx4Watcher::unwatchSocketFile() {
-    delete fsWatcher_;
+    fsWatcher_->deleteLater();
     fsWatcher_ = nullptr;
 }
 
