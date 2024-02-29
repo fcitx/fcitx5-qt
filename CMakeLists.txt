@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(fcitx5-qt VERSION 5.1.4)
+project(fcitx5-qt VERSION 5.1.5)
 set(FCITX5_QT_VERSION ${PROJECT_VERSION})
 
 set(REQUIRED_QT4_VERSION 4.8.0)
