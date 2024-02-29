@@ -543,7 +543,8 @@ void FcitxCandidateWindow::updateClientSideUI(
         if (xdgWmBase_ && xdgPopup &&
             xdg_popup_get_version(xdgPopup) >=
                 XDG_POPUP_REPOSITION_SINCE_VERSION) {
-            nativeCursorRect.translate(-windowMargins.left(), -windowMargins.top());
+            nativeCursorRect.translate(-windowMargins.left(),
+                                       -windowMargins.top());
             auto *positioner =
                 new QtWayland::xdg_positioner(xdgWmBase_->create_positioner());
             positioner->set_anchor_rect(
