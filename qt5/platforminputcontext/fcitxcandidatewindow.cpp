@@ -23,6 +23,7 @@
 
 #if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) &&                            \
     QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+#include <QtGui/private/qhighdpiscaling_p.h>
 #include <QtWaylandClient/private/qwayland-xdg-shell.h>
 #include <QtWaylandClient/private/qwaylanddisplay_p.h>
 #include <QtWaylandClient/private/qwaylandintegration_p.h>
@@ -495,7 +496,7 @@ void FcitxCandidateWindow::updateClientSideUI(
 #if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) &&                            \
     QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
     if (isWayland_) {
-        auto waylandWindow =
+        auto *waylandWindow =
             static_cast<QtWaylandClient::QWaylandWindow *>(window->handle());
         const auto windowMargins = waylandWindow->windowContentMargins() -
                                    waylandWindow->clientSideMargins();
@@ -508,30 +509,31 @@ void FcitxCandidateWindow::updateClientSideUI(
                 cursorRect.setHeight(1);
             }
         }
+        QRect nativeCursorRect = QHighDpi::toNativePixels(cursorRect, this);
         // valid the anchor rect.
-        if (!cursorRect.intersects(windowGeometry)) {
-            if (cursorRect.right() < windowGeometry.left()) {
-                cursorRect.setLeft(windowGeometry.left());
-                cursorRect.setWidth(1);
+        if (!nativeCursorRect.intersects(windowGeometry)) {
+            if (nativeCursorRect.right() < windowGeometry.left()) {
+                nativeCursorRect.setLeft(windowGeometry.left());
+                nativeCursorRect.setWidth(1);
             }
-            if (cursorRect.left() > windowGeometry.right()) {
-                cursorRect.setLeft(windowGeometry.right());
-                cursorRect.setWidth(1);
+            if (nativeCursorRect.left() > windowGeometry.right()) {
+                nativeCursorRect.setLeft(windowGeometry.right());
+                nativeCursorRect.setWidth(1);
             }
-            if (cursorRect.bottom() < windowGeometry.top()) {
-                cursorRect.setTop(windowGeometry.top());
-                cursorRect.setWidth(1);
+            if (nativeCursorRect.bottom() < windowGeometry.top()) {
+                nativeCursorRect.setTop(windowGeometry.top());
+                nativeCursorRect.setWidth(1);
             }
-            if (cursorRect.top() > windowGeometry.bottom()) {
-                cursorRect.setTop(windowGeometry.bottom());
-                cursorRect.setWidth(1);
+            if (nativeCursorRect.top() > windowGeometry.bottom()) {
+                nativeCursorRect.setTop(windowGeometry.bottom());
+                nativeCursorRect.setWidth(1);
             }
         }
         bool wasVisible = isVisible();
         bool cursorRectChanged = false;
-        if (property("_q_waylandPopupAnchorRect") != cursorRect) {
+        if (property("_q_waylandPopupAnchorRect") != nativeCursorRect) {
             cursorRectChanged = true;
-            setProperty("_q_waylandPopupAnchorRect", cursorRect);
+            setProperty("_q_waylandPopupAnchorRect", nativeCursorRect);
         }
         // This try to ensure xdg_popup is available.
         show();
@@ -541,17 +543,23 @@ void FcitxCandidateWindow::updateClientSideUI(
         if (xdgWmBase_ && xdgPopup &&
             xdg_popup_get_version(xdgPopup) >=
                 XDG_POPUP_REPOSITION_SINCE_VERSION) {
-            cursorRect.translate(-windowMargins.left(), -windowMargins.top());
-            auto positioner =
+            nativeCursorRect.translate(-windowMargins.left(), -windowMargins.top());
+            auto *positioner =
                 new QtWayland::xdg_positioner(xdgWmBase_->create_positioner());
-            positioner->set_anchor_rect(cursorRect.x(), cursorRect.y(),
-                                        cursorRect.width(),
-                                        cursorRect.height());
+            positioner->set_anchor_rect(
+                nativeCursorRect.x(), nativeCursorRect.y(),
+                nativeCursorRect.width(), nativeCursorRect.height());
             positioner->set_anchor(
                 QtWayland::xdg_positioner::anchor_bottom_left);
             positioner->set_gravity(
                 QtWayland::xdg_positioner::gravity_bottom_right);
-            positioner->set_size(width(), height());
+
+            auto *waylandCandidateWindow =
+                static_cast<QtWaylandClient::QWaylandWindow *>(handle());
+            QRect nativeGeometry =
+                waylandCandidateWindow->windowContentGeometry();
+            positioner->set_size(nativeGeometry.width(),
+                                 nativeGeometry.height());
             positioner->set_reactive();
             positioner->set_constraint_adjustment(
                 QtWayland::xdg_positioner::constraint_adjustment_slide_x |
@@ -593,7 +601,8 @@ void FcitxCandidateWindow::updateClientSideUI(
         cursorRect.moveTo(pos);
     }
 
-    int x = cursorRect.left(), y = cursorRect.bottom();
+    int x = cursorRect.left();
+    int y = cursorRect.bottom();
     if (cursorRect.left() + sizeWithoutShadow.width() >
         screenGeometry.right()) {
         x = screenGeometry.right() - sizeWithoutShadow.width() + 1;

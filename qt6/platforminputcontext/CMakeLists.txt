@@ -57,6 +57,7 @@ endif()
 if (ENABLE_QT6_WAYLAND_WORKAROUND)
     target_compile_definitions(fcitx5platforminputcontextplugin-qt6 PRIVATE "-DFCITX_ENABLE_QT6_WAYLAND_WORKAROUND")
     target_link_libraries(fcitx5platforminputcontextplugin-qt6
+        Qt6::GuiPrivate
         Qt6::WaylandGlobalPrivate
         Qt6::WaylandClient
         Qt6::WaylandClientPrivate)
