@@ -50,8 +50,8 @@ target_link_libraries(fcitx5platforminputcontextplugin-qt6
                           XKBCommon::XKBCommon
                          )
 if (ENABLE_X11)
-    target_link_libraries(fcitx5platforminputcontextplugin XCB::XCB)
-    target_compile_definitions(fcitx5platforminputcontextplugin PRIVATE "-DENABLE_X11")
+    target_link_libraries(fcitx5platforminputcontextplugin-qt6 XCB::XCB)
+    target_compile_definitions(fcitx5platforminputcontextplugin-qt6 PRIVATE "-DENABLE_X11")
 endif()
 
 if (ENABLE_QT6_WAYLAND_WORKAROUND)
