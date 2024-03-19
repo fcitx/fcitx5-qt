@@ -10,12 +10,8 @@
 #include "fcitx5qt5dbusaddons_export.h"
 
 #include "fcitxqtdbustypes.h"
-#include <QDBusConnection>
 #include <QDBusPendingReply>
-#include <QDBusServiceWatcher>
-#include <QObject>
 
-class QDBusPendingCallWatcher;
 
 namespace fcitx {
 

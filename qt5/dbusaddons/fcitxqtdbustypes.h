@@ -11,8 +11,6 @@
 #include "fcitx5qt5dbusaddons_export.h"
 
 #include <QDBusArgument>
-#include <QList>
-#include <QMetaType>
 #include <type_traits>
 
 namespace fcitx {
