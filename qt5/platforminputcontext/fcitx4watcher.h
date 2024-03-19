@@ -11,7 +11,6 @@
 #include <QDBusConnection>
 #include <QObject>
 
-class QDBusConnection;
 class QFileSystemWatcher;
 class QDBusServiceWatcher;
 

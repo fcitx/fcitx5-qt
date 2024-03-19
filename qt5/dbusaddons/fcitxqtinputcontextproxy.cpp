@@ -6,12 +6,6 @@
  */
 
 #include "fcitxqtinputcontextproxy_p.h"
-#include <QCoreApplication>
-#include <QDBusConnectionInterface>
-#include <QDBusInterface>
-#include <QDBusMetaType>
-#include <QFileInfo>
-#include <QTimer>
 
 namespace fcitx {
 

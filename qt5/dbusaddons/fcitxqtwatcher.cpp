@@ -6,9 +6,7 @@
  */
 
 #include "fcitxqtwatcher_p.h"
-#include <QDBusConnection>
 #include <QDBusConnectionInterface>
-#include <QDBusServiceWatcher>
 
 namespace fcitx {
 
