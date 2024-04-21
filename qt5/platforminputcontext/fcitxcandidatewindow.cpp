@@ -522,11 +522,11 @@ void FcitxCandidateWindow::updateClientSideUI(
             }
             if (nativeCursorRect.bottom() < windowGeometry.top()) {
                 nativeCursorRect.setTop(windowGeometry.top());
-                nativeCursorRect.setWidth(1);
+                nativeCursorRect.setHeight(1);
             }
             if (nativeCursorRect.top() > windowGeometry.bottom()) {
                 nativeCursorRect.setTop(windowGeometry.bottom());
-                nativeCursorRect.setWidth(1);
+                nativeCursorRect.setHeight(1);
             }
         }
         bool wasVisible = isVisible();
