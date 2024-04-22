@@ -12,7 +12,6 @@
 #include "fcitxqtdbustypes.h"
 #include <QDBusPendingReply>
 
-
 namespace fcitx {
 
 class FcitxQtWatcher;
