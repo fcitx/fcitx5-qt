@@ -15,9 +15,17 @@ int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
     std::cout << "QT_QPA_PLATFORM=" << app.platformName().toStdString()
               << std::endl;
-    std::cout << "QT_IM_MODULE="
-              << QPlatformInputContextFactory::requested().toStdString()
-              << std::endl;
+    // This should work regardless QPlatformInputContextFactory::requested
+    // returns QString or QStringList
+    QStringList immodules{QPlatformInputContextFactory::requested()};
+    if (immodules.size() > 1) {
+        std::cout << "QT_IM_MODULES=\"" << immodules.join(";").toStdString()
+                  << "\"" << std::endl;
+    } else if (immodules.size() == 1) {
+        std::cout << "QT_IM_MODULE=" << immodules[0].toStdString() << std::endl;
+    } else {
+        std::cout << "QT_IM_MODULE=" << std::endl;
+    }
     auto inputContext =
         QGuiApplicationPrivate::platformIntegration()->inputContext();
     std::cout << "IM_MODULE_CLASSNAME=";
