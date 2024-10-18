@@ -14,6 +14,7 @@
 #include <QWindow>
 #include <fcitx-utils/i18n.h>
 #include <fcitx-utils/standardpath.h>
+#include <qnamespace.h>
 
 namespace fcitx {
 
@@ -69,15 +70,14 @@ void WrapperApp::init() {
         mainWindow_ = new MainWindow(path, widget);
         if (ok && winid) {
             mainWindow_->setParentWindow(winid);
+            mainWindow_->setWindowModality(Qt::WindowModal);
+            mainWindow_->setWindowFlag(Qt::Dialog);
         }
         QMetaObject::invokeMethod(this, "run", Qt::QueuedConnection);
     }
 }
 
-void WrapperApp::run() {
-    mainWindow_->exec();
-    QMetaObject::invokeMethod(this, "quit", Qt::QueuedConnection);
-}
+void WrapperApp::run() { mainWindow_->show(); }
 
 WrapperApp::~WrapperApp() {
     if (mainWindow_) {

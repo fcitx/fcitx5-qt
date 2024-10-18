@@ -9,10 +9,13 @@
 #include "fcitxqtconfiguifactory.h"
 #include "fcitxqtcontrollerproxy.h"
 #include "fcitxqtwatcher.h"
+#include <QCloseEvent>
 #include <QDebug>
 #include <QLocale>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QShowEvent>
+#include <QWidget>
 #include <QWindow>
 #include <fcitx-utils/i18n.h>
 
@@ -20,7 +23,7 @@ namespace fcitx {
 
 MainWindow::MainWindow(const QString &path, FcitxQtConfigUIWidget *pluginWidget,
                        QWidget *parent)
-    : QDialog(parent), path_(path), watcher_(new FcitxQtWatcher(this)),
+    : QWidget(parent), path_(path), watcher_(new FcitxQtWatcher(this)),
       pluginWidget_(pluginWidget), proxy_(0) {
     setupUi(this);
     watcher_->setConnection(QDBusConnection::sessionBus());
@@ -145,6 +148,12 @@ void MainWindow::showEvent(QShowEvent *event) {
     connect(this, &QObject::destroyed, mainWindow, &QObject::deleteLater);
     subWindow->setTransientParent(mainWindow);
 
-    QDialog::showEvent(event);
+    QWidget::showEvent(event);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event) {
+    QWidget::closeEvent(event);
+
+    qApp->quit();
 }
 } // namespace fcitx
