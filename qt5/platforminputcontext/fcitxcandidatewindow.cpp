@@ -452,11 +452,11 @@ void FcitxCandidateWindow::updateClientSideUI(
     doLayout(lowerLayout_);
     labelLayouts_.clear();
     candidateLayouts_.clear();
-    for (int i = 0; i < candidates.size(); i++) {
-        labelLayouts_.emplace_back(std::make_unique<MultilineText>(
-            theme_->font(), candidates[i].key()));
-        candidateLayouts_.emplace_back(std::make_unique<MultilineText>(
-            theme_->font(), candidates[i].value()));
+    for (const auto &candidate : candidates) {
+        labelLayouts_.emplace_back(
+            std::make_unique<MultilineText>(theme_->font(), candidate.key()));
+        candidateLayouts_.emplace_back(
+            std::make_unique<MultilineText>(theme_->font(), candidate.value()));
     }
     highlight_ = candidateIndex;
     hasPrev_ = hasPrev;

@@ -225,8 +225,8 @@ QFutureWatcher<bool> *QuickPhraseModel::save(const QString &file) {
 }
 
 void QuickPhraseModel::saveDataToStream(QTextStream &dev) {
-    for (int i = 0; i < list_.size(); i++) {
-        dev << list_[i].first << "\t" << escapeValue(list_[i].second) << "\n";
+    for (const auto &item : list_) {
+        dev << item.first << "\t" << escapeValue(item.second) << "\n";
     }
 }
 
@@ -263,10 +263,10 @@ bool QuickPhraseModel::saveData(const QString &file,
             if (!tempFile.open(fd, QIODevice::WriteOnly)) {
                 return false;
             }
-            for (int i = 0; i < list.size(); i++) {
-                tempFile.write(list[i].first.toUtf8());
+            for (const auto &item : list) {
+                tempFile.write(item.first.toUtf8());
                 tempFile.write("\t");
-                tempFile.write(escapeValue(list[i].second).toUtf8());
+                tempFile.write(escapeValue(item.second).toUtf8());
                 tempFile.write("\n");
             }
             tempFile.close();
