@@ -116,7 +116,7 @@ public:
                           unsigned int>
             reply(*createInputContextWatcher_);
 
-        QString path = QString("/inputcontext_%1").arg(reply.value());
+        QString path = QStringLiteral("/inputcontext_%1").arg(reply.value());
         icproxy_ = new Fcitx4InputContextProxyImpl(improxy_->service(), path,
                                                    improxy_->connection(), q);
         QObject::connect(icproxy_, &Fcitx4InputContextProxyImpl::CommitString,
