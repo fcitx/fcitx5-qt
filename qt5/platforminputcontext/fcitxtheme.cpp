@@ -39,7 +39,7 @@ QColor readColor(const QSettings &settings, const QString &name,
         } else if (colorString.size() == 9) {
             // Qt accept "#AARRGGBB"
             auto newColorString =
-                QString("#%1%2")
+                QStringLiteral("#%1%2")
                     .arg(colorString.mid(7, 2), colorString.mid(1, 6))
                     .toUpper();
             color = QColor(newColorString);
@@ -55,13 +55,13 @@ void BackgroundImage::load(const QString &name, QSettings &settings) {
     if (auto image = settings.value("Image").toString(); !image.isEmpty()) {
         auto file = QStandardPaths::locate(
             QStandardPaths::GenericDataLocation,
-            QString("fcitx5/themes/%1/%2").arg(name, image));
+            QStringLiteral("fcitx5/themes/%1/%2").arg(name, image));
         image_.load(file);
     }
     if (auto image = settings.value("Overlay").toString(); !image.isEmpty()) {
         auto file = QStandardPaths::locate(
             QStandardPaths::GenericDataLocation,
-            QString("fcitx5/themes/%1/%2").arg(name, image));
+            QStringLiteral("fcitx5/themes/%1/%2").arg(name, image));
         overlay_.load(file);
     }
 
@@ -130,7 +130,7 @@ void ActionImage::load(const QString &name, QSettings &settings) {
     if (auto image = settings.value("Image").toString(); !image.isEmpty()) {
         auto file = QStandardPaths::locate(
             QStandardPaths::GenericDataLocation,
-            QString("fcitx5/themes/%1/%2").arg(name, image));
+            QStringLiteral("fcitx5/themes/%1/%2").arg(name, image));
         image_.load(file);
         valid_ = !image_.isNull();
     }
@@ -185,7 +185,8 @@ void FcitxTheme::themeChanged() {
     if (!themeConfigPath_.isEmpty()) {
         watcher_->removePath(themeConfigPath_);
     }
-    auto themeConfig = QString("/fcitx5/themes/%1/theme.conf").arg(theme_);
+    auto themeConfig =
+        QStringLiteral("/fcitx5/themes/%1/theme.conf").arg(theme_);
     themeConfigPath_ =
         QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation)
             .append(themeConfig);

@@ -48,7 +48,7 @@ int displayNumber() {
 
 QString socketFile() {
     QString filename =
-        QString("%1-%2")
+        QStringLiteral("%1-%2")
             .arg(QString::fromLatin1(QDBusConnection::localMachineId()))
             .arg(displayNumber());
 
@@ -56,7 +56,7 @@ QString socketFile() {
     if (home.isEmpty()) {
         home = QDir::homePath().append(QLatin1String("/.config"));
     }
-    return QString("%1/fcitx/dbus/%2").arg(home).arg(filename);
+    return QStringLiteral("%1/fcitx/dbus/%2").arg(home).arg(filename);
 }
 
 namespace fcitx {
@@ -64,13 +64,13 @@ namespace fcitx {
 QString newUniqueConnectionName() {
     static int idx = 0;
     const auto newIdx = idx++;
-    return QString("_fcitx4_%1").arg(newIdx);
+    return QStringLiteral("_fcitx4_%1").arg(newIdx);
 }
 
 Fcitx4Watcher::Fcitx4Watcher(QDBusConnection sessionBus, QObject *parent)
     : QObject(parent), connection_(nullptr), sessionBus_(sessionBus),
       socketFile_(socketFile()),
-      serviceName_(QString("org.fcitx.Fcitx-%1").arg(displayNumber())),
+      serviceName_(QStringLiteral("org.fcitx.Fcitx-%1").arg(displayNumber())),
       availability_(false), uniqueConnectionName_(newUniqueConnectionName()) {}
 
 Fcitx4Watcher::~Fcitx4Watcher() {
