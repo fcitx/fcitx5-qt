@@ -270,8 +270,12 @@ QFcitxPlatformInputContext::QFcitxPlatformInputContext()
     // Input context may be created without QApplication with wayland, defer it
     // to event loop to ensure event dispatcher is avaiable.
     QTimer::singleShot(0, this, [this]() {
-        watcher_->watch();
-        fcitx4Watcher_->watch();
+        if (watcher_) {
+            watcher_->watch();
+        }
+        if (fcitx4Watcher_) {
+            fcitx4Watcher_->watch();
+        }
     });
 }
 
@@ -281,7 +285,9 @@ QFcitxPlatformInputContext::~QFcitxPlatformInputContext() {
     fcitx4Watcher_->unwatch();
     cleanUp();
     delete watcher_;
+    watcher_ = nullptr;
     delete fcitx4Watcher_;
+    fcitx4Watcher_ = nullptr;
 }
 
 bool QFcitxPlatformInputContext::objectAcceptsInputMethod() const {
