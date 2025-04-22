@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5-qt\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2025-03-22 20:24+0000\n"
+"POT-Creation-Date: 2025-04-22 20:24+0000\n"
 "PO-Revision-Date: 2017-12-20 02:52+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>, 2025\n"
 "Language-Team: Vietnamese (https://app.transifex.com/fcitx/teams/12005/vi/)\n"
@@ -47,7 +47,7 @@ msgstr ""
 
 #: qt5/guiwrapper/mainwindow.cpp:34 qt6/guiwrapper/mainwindow.cpp:34
 msgid "&Close"
-msgstr ""
+msgstr "Đóng"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:74
 #. i18n: ectx: property (text), widget (QPushButton, deleteButton)
@@ -115,7 +115,7 @@ msgstr ""
 
 #: qt5/guiwrapper/wrapperapp.cpp:38 qt6/guiwrapper/wrapperapp.cpp:38
 msgid "Config path"
-msgstr ""
+msgstr "Đường dẫn cấu hình"
 
 #: qt5/quickphrase-editor/editor.cpp:271 qt6/quickphrase-editor/editor.cpp:271
 msgid "Confirm deletion"
@@ -132,12 +132,12 @@ msgstr ""
 #: rc.cpp:21 rc.cpp:48
 #, kde-format
 msgid "De&lete All"
-msgstr ""
+msgstr "Xóa Tất Cả"
 
 #: qt5/quickphrase-editor/filelistmodel.cpp:29
 #: qt6/quickphrase-editor/filelistmodel.cpp:29
 msgid "Default"
-msgstr ""
+msgstr "Mặc định"
 
 #. i18n: file: qt5/quickphrase-editor/editor.ui:114
 #. i18n: ectx: property (text), widget (QPushButton, exportButton)
@@ -194,11 +194,11 @@ msgstr ""
 #: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:179
 #: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:148
 msgid "Key code mode"
-msgstr ""
+msgstr "Chế độ mã phím"
 
 #: qt5/quickphrase-editor/model.cpp:73 qt6/quickphrase-editor/model.cpp:73
 msgid "Keyword"
-msgstr ""
+msgstr "Từ khóa"
 
 #: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:4
 #: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:4
@@ -231,27 +231,29 @@ msgstr ""
 
 #: qt5/quickphrase-editor/editor.cpp:85 qt6/quickphrase-editor/editor.cpp:85
 msgid "Save Changes"
-msgstr ""
+msgstr "Lưu Thay Đổi"
 
 #: qt5/guiwrapper/wrapperapp.cpp:36 qt6/guiwrapper/wrapperapp.cpp:36
 msgid "Test if config exists"
-msgstr ""
+msgstr "Kiểm tra nếu cấu hình tồn tại"
 
 #: qt5/quickphrase-editor/editor.cpp:86 qt6/quickphrase-editor/editor.cpp:86
 msgid ""
 "The content has changed.\n"
 "Do you want to save the changes or discard them?"
 msgstr ""
+"Nội dung đã thay đổi.\n"
+"Bạn có muốn lưu các thay đổi hoặc loại bỏ chúng?"
 
 #: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:390
 #: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:359
 msgid "The key you just pressed is not supported by Qt."
-msgstr ""
+msgstr "Phím bạn vừa nhấn không được Qt hỗ trợ."
 
 #: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:391
 #: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:360
 msgid "Unsupported Key"
-msgstr ""
+msgstr "Phím Không Được Hỗ Trợ"
 
 #. i18n: file: qt5/quickphrase-editor/batchdialog.ui:50
 #. i18n: ectx: property (text), widget (QLabel, infoLabel)
