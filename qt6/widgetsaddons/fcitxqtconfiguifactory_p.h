@@ -11,7 +11,6 @@
 #include <QObject>
 #include <QPluginLoader>
 #include <QString>
-#include <QtClassHelperMacros>
 
 namespace fcitx {
 

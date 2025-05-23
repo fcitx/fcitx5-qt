@@ -14,7 +14,6 @@
 #include <QObject>
 #include <QPluginLoader>
 #include <QStandardPaths>
-#include <QtClassHelperMacros>
 #include <fcitx-utils/i18n.h>
 #include <fcitx-utils/standardpaths.h>
 #include <filesystem>
