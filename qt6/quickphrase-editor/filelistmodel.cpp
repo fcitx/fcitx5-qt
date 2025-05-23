@@ -6,9 +6,14 @@
  */
 
 #include "filelistmodel.h"
+#include <algorithm>
 #include <fcitx-utils/i18n.h>
-#include <fcitx-utils/standardpath.h>
-#include <fcntl.h>
+#include <fcitx-utils/standardpaths.h>
+#include <QObject>
+#include <QAbstractListModel>
+#include <Qt>
+#include <filesystem>
+#include <iterator>
 
 fcitx::FileListModel::FileListModel(QObject *parent)
     : QAbstractListModel(parent) {}
@@ -20,48 +25,44 @@ int fcitx::FileListModel::rowCount(const QModelIndex &parent) const {
 }
 
 QVariant fcitx::FileListModel::data(const QModelIndex &index, int role) const {
-    if (!index.isValid() || index.row() >= fileList_.size())
-        return QVariant();
+    if (!index.isValid() || index.row() >= fileList_.size()) {
+        return {};
+    }
 
     switch (role) {
     case Qt::DisplayRole:
         if (fileList_[index.row()] == QUICK_PHRASE_CONFIG_FILE) {
             return _("Default");
         } else {
-            // remove "data/quickphrase.d/"
-            const size_t length = strlen(QUICK_PHRASE_CONFIG_DIR);
-            return fileList_[index.row()].mid(length + 1,
-                                              fileList_[index.row()].size() -
-                                                  length - strlen(".mb") - 1);
+            return QString::fromStdString(fileList_[index.row()].stem().string());
         }
     case Qt::UserRole:
-        return fileList_[index.row()];
+        return QString::fromStdString(fileList_[index.row()].string());
     default:
         break;
     }
-    return QVariant();
+    return {};
 }
 
 void fcitx::FileListModel::loadFileList() {
     beginResetModel();
     fileList_.clear();
-    fileList_.append(QUICK_PHRASE_CONFIG_FILE);
-    auto files = StandardPath::global().multiOpen(
-        StandardPath::Type::PkgData, QUICK_PHRASE_CONFIG_DIR, O_RDONLY,
-        filter::Suffix(".mb"));
+    fileList_.push_back(QUICK_PHRASE_CONFIG_FILE);
+    auto files = StandardPaths::global().locate(StandardPathsType::PkgData,
+                                                QUICK_PHRASE_CONFIG_DIR,
+                                                pathfilter::extension(".mb"));
 
     for (auto &file : files) {
-        fileList_.append(QString::fromLocal8Bit(
-            stringutils::joinPath(QUICK_PHRASE_CONFIG_DIR, file.first).data()));
+        fileList_.push_back(std::filesystem::path(QUICK_PHRASE_CONFIG_DIR) / file.first);
     }
 
     endResetModel();
 }
 
 int fcitx::FileListModel::findFile(const QString &lastFileName) {
-    int idx = fileList_.indexOf(lastFileName);
-    if (idx < 0) {
+    auto iter = std::ranges::find(fileList_, std::filesystem::path(lastFileName.toStdString()));
+    if (iter == fileList_.end()) {
         return 0;
     }
-    return idx;
+    return std::distance(fileList_.begin(), iter);
 }

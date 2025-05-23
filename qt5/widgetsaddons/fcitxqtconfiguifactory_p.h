@@ -9,14 +9,13 @@
 #include "fcitxqtconfiguifactory.h"
 #include <QObject>
 #include <QPluginLoader>
-#include <qpluginloader.h>
 
 namespace fcitx {
 
 class FcitxQtConfigUIFactoryPrivate : public QObject {
     Q_OBJECT
 public:
-    FcitxQtConfigUIFactoryPrivate(FcitxQtConfigUIFactory *conn);
+    FcitxQtConfigUIFactoryPrivate(FcitxQtConfigUIFactory *factory);
     virtual ~FcitxQtConfigUIFactoryPrivate();
     FcitxQtConfigUIFactory *const q_ptr;
     Q_DECLARE_PUBLIC(FcitxQtConfigUIFactory);

@@ -1,1 +1,0 @@
-../../qt6/quickphrase-editor/main.cpp

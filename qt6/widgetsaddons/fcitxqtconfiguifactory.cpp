@@ -7,14 +7,17 @@
 #include "fcitxqtconfiguifactory.h"
 #include "fcitxqtconfiguifactory_p.h"
 #include "fcitxqtconfiguiplugin.h"
-
 #include <QDebug>
 #include <QDir>
+#include <QLatin1String>
 #include <QLibrary>
+#include <QObject>
 #include <QPluginLoader>
 #include <QStandardPaths>
+#include <QtClassHelperMacros>
 #include <fcitx-utils/i18n.h>
-#include <fcitx-utils/standardpath.h>
+#include <fcitx-utils/standardpaths.h>
+#include <filesystem>
 
 namespace fcitx {
 
@@ -50,12 +53,12 @@ FcitxQtConfigUIWidget *FcitxQtConfigUIFactory::create(const QString &file) {
     Q_D(FcitxQtConfigUIFactory);
 
     auto path = normalizePath(file);
-    auto loader = d->plugins_.value(path);
+    auto *loader = d->plugins_.value(path);
     if (!loader) {
         return nullptr;
     }
 
-    auto instance =
+    auto *instance =
         qobject_cast<FcitxQtConfigUIFactoryInterface *>(loader->instance());
     if (!instance) {
         return nullptr;
@@ -71,39 +74,27 @@ bool FcitxQtConfigUIFactory::test(const QString &file) {
 }
 
 void FcitxQtConfigUIFactoryPrivate::scan() {
-    fcitx::StandardPath::global().scanFiles(
-        fcitx::StandardPath::Type::Addon, "qt6",
-        [this](const std::string &path, const std::string &dirPath, bool user) {
-            do {
-                if (user) {
-                    break;
-                }
+    auto addonFiles = fcitx::StandardPaths::global().locate(
+        fcitx::StandardPathsType::Addon, "qt6",
+        [](const std::filesystem::path &path) {
+            return QLibrary::isLibrary(QString::fromStdString(path));
+        },
+        StandardPathsMode::System);
 
-                QDir dir(QString::fromLocal8Bit(dirPath.c_str()));
-                QFileInfo fi(
-                    dir.filePath(QString::fromLocal8Bit(path.c_str())));
-
-                QString filePath = fi.filePath(); // file name with path
-                QString fileName = fi.fileName(); // just file name
-
-                if (!QLibrary::isLibrary(filePath)) {
-                    break;
-                }
-
-                QPluginLoader *loader = new QPluginLoader(filePath, this);
-                if (loader->metaData().value("IID") !=
-                    QLatin1String(FcitxQtConfigUIFactoryInterface_iid)) {
-                    delete loader;
-                    break;
-                }
-                auto metadata = loader->metaData().value("MetaData").toObject();
-                auto files = metadata.value("files").toVariant().toStringList();
-                auto addon = metadata.value("addon").toVariant().toString();
-                for (const auto &file : files) {
-                    plugins_[addon + "/" + file] = loader;
-                }
-            } while (0);
-            return true;
-        });
+    for (const auto &[_, filePath] : addonFiles) {
+        auto *loader =
+            new QPluginLoader(QString::fromStdString(filePath), this);
+        if (loader->metaData().value("IID") !=
+            QLatin1String(FcitxQtConfigUIFactoryInterface_iid)) {
+            delete loader;
+            continue;
+        }
+        auto metadata = loader->metaData().value("MetaData").toObject();
+        auto files = metadata.value("files").toVariant().toStringList();
+        auto addon = metadata.value("addon").toVariant().toString();
+        for (const auto &file : files) {
+            plugins_[addon + "/" + file] = loader;
+        }
+    }
 }
 } // namespace fcitx

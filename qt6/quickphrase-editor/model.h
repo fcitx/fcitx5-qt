@@ -9,13 +9,18 @@
 
 #include <QAbstractTableModel>
 #include <QFutureWatcher>
+#include <QList>
+#include <QObject>
 #include <QSet>
 #include <QTextStream>
+#include <QVariant>
+#include <Qt>
+#include <utility>
 
 class QFile;
 namespace fcitx {
 
-typedef QList<QPair<QString, QString>> QStringPairList;
+using QStringPairList = QList<std::pair<QString, QString>>;
 
 class QuickPhraseModel : public QAbstractTableModel {
     Q_OBJECT
@@ -39,7 +44,7 @@ public:
     void deleteAllItem();
     QFutureWatcher<bool> *save(const QString &file);
     void saveDataToStream(QTextStream &dev);
-    bool needSave();
+    bool needSave() const;
 
 Q_SIGNALS:
     void needSaveChanged(bool needSave);

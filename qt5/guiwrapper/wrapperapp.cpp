@@ -5,22 +5,24 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  */
 
-#include <QDebug>
-
-#include "fcitxqtconfiguifactory.h"
-#include "mainwindow.h"
 #include "wrapperapp.h"
+#include "fcitxqtconfiguifactory.h"
+#include "fcitxqtconfiguiwidget.h"
+#include "mainwindow.h"
+#include <QApplication>
 #include <QCommandLineParser>
+#include <QDebug>
+#include <QLatin1String>
 #include <QWindow>
+#include <Qt>
+#include <QtGlobal>
 #include <fcitx-utils/i18n.h>
-#include <fcitx-utils/standardpath.h>
-#include <qnamespace.h>
 
 namespace fcitx {
 
 WrapperApp::WrapperApp(int &argc, char **argv)
     : QApplication(argc, argv), factory_(new FcitxQtConfigUIFactory(this)),
-      mainWindow_(0) {
+      mainWindow_(nullptr) {
     setApplicationName(QLatin1String(
         "fcitx5-qt" QT_STRINGIFY(QT_VERSION_MAJOR) "-gui-wrapper"));
     setApplicationVersion(QLatin1String(FCITX5_QT_VERSION));
@@ -79,11 +81,7 @@ void WrapperApp::init() {
 
 void WrapperApp::run() { mainWindow_->show(); }
 
-WrapperApp::~WrapperApp() {
-    if (mainWindow_) {
-        delete mainWindow_;
-    }
-}
+WrapperApp::~WrapperApp() { delete mainWindow_; }
 
 void WrapperApp::errorExit() { exit(1); }
 } // namespace fcitx

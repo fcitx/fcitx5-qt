@@ -9,6 +9,8 @@
 
 #include <QAbstractListModel>
 #include <QStringList>
+#include <filesystem>
+#include <vector>
 
 #define QUICK_PHRASE_CONFIG_DIR "data/quickphrase.d"
 #define QUICK_PHRASE_CONFIG_FILE "data/QuickPhrase.mb"
@@ -29,7 +31,7 @@ public:
     int findFile(const QString &lastFileName);
 
 private:
-    QStringList fileList_;
+    std::vector<std::filesystem::path> fileList_;
 };
 } // namespace fcitx
 

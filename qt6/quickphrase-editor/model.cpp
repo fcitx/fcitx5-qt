@@ -5,16 +5,27 @@
  *
  */
 #include "model.h"
-#include "editor.h"
 #include "filelistmodel.h"
+#include <QAbstractItemModel>
 #include <QApplication>
 #include <QFile>
 #include <QFutureWatcher>
+#include <QObject>
+#include <QString>
+#include <QTextStream>
+#include <QFuture>
+#include <Qt>
 #include <QtConcurrentRun>
+#include <fcitx-utils/fs.h>
 #include <fcitx-utils/i18n.h>
-#include <fcitx-utils/standardpath.h>
+#include <fcitx-utils/macros.h>
+#include <fcitx-utils/standardpaths.h>
+#include <fcitx-utils/stringutils.h>
 #include <fcitx-utils/utf8.h>
-#include <fcntl.h>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <utility>
 
 namespace fcitx {
 
@@ -22,11 +33,10 @@ namespace {
 
 std::optional<std::pair<std::string, std::string>>
 parseLine(const std::string &strBuf) {
-    auto [start, end] = stringutils::trimInplace(strBuf);
-    if (start == end) {
+    auto text = stringutils::trimView(strBuf);
+    if (text.empty()) {
         return std::nullopt;
     }
-    std::string_view text(strBuf.data() + start, end - start);
     if (!utf8::validate(text)) {
         return std::nullopt;
     }
@@ -57,24 +67,26 @@ QString escapeValue(const QString &v) {
 
 } // namespace
 
-typedef QPair<QString, QString> ItemType;
+using ItemType = std::pair<QString, QString>;
 
 QuickPhraseModel::QuickPhraseModel(QObject *parent)
     : QAbstractTableModel(parent), needSave_(false), futureWatcher_(0) {}
 
 QuickPhraseModel::~QuickPhraseModel() {}
 
-bool QuickPhraseModel::needSave() { return needSave_; }
+bool QuickPhraseModel::needSave() const { return needSave_; }
 
 QVariant QuickPhraseModel::headerData(int section, Qt::Orientation orientation,
                                       int role) const {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
-        if (section == 0)
+        if (section == 0) {
             return _("Keyword");
-        else if (section == 1)
+        }
+        if (section == 1) {
             return _("Phrase");
+        }
     }
-    return QVariant();
+    return {};
 }
 
 int QuickPhraseModel::rowCount(const QModelIndex &parent) const {
@@ -93,7 +105,8 @@ QVariant QuickPhraseModel::data(const QModelIndex &index, int role) const {
             index.row() < list_.count()) {
             if (index.column() == 0) {
                 return list_[index.row()].first;
-            } else if (index.column() == 1) {
+            }
+            if (index.column() == 1) {
                 return list_[index.row()].second;
             }
         }
@@ -103,15 +116,16 @@ QVariant QuickPhraseModel::data(const QModelIndex &index, int role) const {
 
 void QuickPhraseModel::addItem(const QString &macro, const QString &word) {
     beginInsertRows(QModelIndex(), list_.size(), list_.size());
-    list_.append(QPair<QString, QString>(macro, word));
+    list_.append({macro, word});
     endInsertRows();
     setNeedSave(true);
 }
 
 void QuickPhraseModel::deleteItem(int row) {
-    if (row >= list_.count())
+    if (row >= list_.count()) {
         return;
-    QPair<QString, QString> item = list_.at(row);
+    }
+    auto item = list_.at(row);
     QString key = item.first;
     beginRemoveRows(QModelIndex(), row, row);
     list_.removeAt(row);
@@ -120,24 +134,27 @@ void QuickPhraseModel::deleteItem(int row) {
 }
 
 void QuickPhraseModel::deleteAllItem() {
-    if (list_.count())
+    if (list_.count()) {
         setNeedSave(true);
+    }
     beginResetModel();
     list_.clear();
     endResetModel();
 }
 
 Qt::ItemFlags QuickPhraseModel::flags(const QModelIndex &index) const {
-    if (!index.isValid())
+    if (!index.isValid()) {
         return {};
+    }
 
     return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
 bool QuickPhraseModel::setData(const QModelIndex &index, const QVariant &value,
                                int role) {
-    if (role != Qt::EditRole)
+    if (role != Qt::EditRole) {
         return false;
+    }
 
     if (index.column() == 0) {
         list_[index.row()].first = value.toString();
@@ -145,14 +162,15 @@ bool QuickPhraseModel::setData(const QModelIndex &index, const QVariant &value,
         Q_EMIT dataChanged(index, index);
         setNeedSave(true);
         return true;
-    } else if (index.column() == 1) {
+    }
+    if (index.column() == 1) {
         list_[index.row()].second = value.toString();
 
         Q_EMIT dataChanged(index, index);
         setNeedSave(true);
         return true;
-    } else
-        return false;
+    }
+    return false;
 }
 
 void QuickPhraseModel::load(const QString &file, bool append) {
@@ -164,8 +182,9 @@ void QuickPhraseModel::load(const QString &file, bool append) {
     if (!append) {
         list_.clear();
         setNeedSave(false);
-    } else
+    } else {
         setNeedSave(true);
+    }
     futureWatcher_ = new QFutureWatcher<QStringPairList>(this);
     futureWatcher_->setFuture(
         QtConcurrent::run([this, file]() { return parse(file); }));
@@ -174,15 +193,14 @@ void QuickPhraseModel::load(const QString &file, bool append) {
 }
 
 QStringPairList QuickPhraseModel::parse(const QString &file) {
-    QByteArray fileNameArray = file.toLocal8Bit();
     QStringPairList list;
 
     do {
-        auto fp = fcitx::StandardPath::global().open(
-            fcitx::StandardPath::Type::PkgData, fileNameArray.constData(),
-            O_RDONLY);
-        if (fp.fd() < 0)
+        auto fp = fcitx::StandardPaths::global().open(
+            fcitx::StandardPathsType::PkgData, file.toStdString());
+        if (!fp.isValid()) {
             break;
+        }
 
         QFile file;
         if (!file.open(fp.fd(), QFile::ReadOnly)) {
@@ -192,8 +210,9 @@ QStringPairList QuickPhraseModel::parse(const QString &file) {
         while (!(line = file.readLine()).isNull()) {
             auto l = line.toStdString();
             auto parsed = parseLine(l);
-            if (!parsed)
+            if (!parsed) {
                 continue;
+            }
             auto [key, value] = *parsed;
             if (key.empty() || value.empty()) {
                 continue;
@@ -203,7 +222,7 @@ QStringPairList QuickPhraseModel::parse(const QString &file) {
         }
 
         file.close();
-    } while (0);
+    } while (false);
 
     return list;
 }
@@ -238,8 +257,9 @@ void QuickPhraseModel::loadData(QTextStream &stream) {
     while (!(s = stream.readLine()).isNull()) {
         auto line = s.toStdString();
         auto parsed = parseLine(line);
-        if (!parsed)
+        if (!parsed) {
             continue;
+        }
         auto [key, value] = *parsed;
         if (key.empty() || value.empty()) {
             continue;
@@ -252,13 +272,11 @@ void QuickPhraseModel::loadData(QTextStream &stream) {
 
 bool QuickPhraseModel::saveData(const QString &file,
                                 const QStringPairList &list) {
-    QByteArray filenameArray = file.toLocal8Bit();
-    fs::makePath(stringutils::joinPath(
-        StandardPath::global().userDirectory(StandardPath::Type::PkgData),
-        QUICK_PHRASE_CONFIG_DIR));
-    return StandardPath::global().safeSave(
-        StandardPath::Type::PkgData, filenameArray.constData(),
-        [&list](int fd) {
+    fs::makePath(
+        StandardPaths::global().userDirectory(StandardPathsType::PkgData) /
+        QUICK_PHRASE_CONFIG_DIR);
+    return StandardPaths::global().safeSave(
+        StandardPathsType::PkgData, file.toStdString(), [&list](int fd) {
             QFile tempFile;
             if (!tempFile.open(fd, QIODevice::WriteOnly)) {
                 return false;
