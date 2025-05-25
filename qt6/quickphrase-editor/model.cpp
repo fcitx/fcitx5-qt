@@ -9,11 +9,11 @@
 #include <QAbstractItemModel>
 #include <QApplication>
 #include <QFile>
+#include <QFuture>
 #include <QFutureWatcher>
 #include <QObject>
 #include <QString>
 #include <QTextStream>
-#include <QFuture>
 #include <Qt>
 #include <QtConcurrentRun>
 #include <fcitx-utils/fs.h>

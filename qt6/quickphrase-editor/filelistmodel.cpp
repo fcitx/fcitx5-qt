@@ -6,12 +6,12 @@
  */
 
 #include "filelistmodel.h"
+#include <QAbstractListModel>
+#include <QObject>
+#include <Qt>
 #include <algorithm>
 #include <fcitx-utils/i18n.h>
 #include <fcitx-utils/standardpaths.h>
-#include <QObject>
-#include <QAbstractListModel>
-#include <Qt>
 #include <filesystem>
 #include <iterator>
 
@@ -34,7 +34,8 @@ QVariant fcitx::FileListModel::data(const QModelIndex &index, int role) const {
         if (fileList_[index.row()] == QUICK_PHRASE_CONFIG_FILE) {
             return _("Default");
         } else {
-            return QString::fromStdString(fileList_[index.row()].stem().string());
+            return QString::fromStdString(
+                fileList_[index.row()].stem().string());
         }
     case Qt::UserRole:
         return QString::fromStdString(fileList_[index.row()].string());
@@ -53,14 +54,16 @@ void fcitx::FileListModel::loadFileList() {
                                                 pathfilter::extension(".mb"));
 
     for (auto &file : files) {
-        fileList_.push_back(std::filesystem::path(QUICK_PHRASE_CONFIG_DIR) / file.first);
+        fileList_.push_back(std::filesystem::path(QUICK_PHRASE_CONFIG_DIR) /
+                            file.first);
     }
 
     endResetModel();
 }
 
 int fcitx::FileListModel::findFile(const QString &lastFileName) {
-    auto iter = std::ranges::find(fileList_, std::filesystem::path(lastFileName.toStdString()));
+    auto iter = std::ranges::find(
+        fileList_, std::filesystem::path(lastFileName.toStdString()));
     if (iter == fileList_.end()) {
         return 0;
     }

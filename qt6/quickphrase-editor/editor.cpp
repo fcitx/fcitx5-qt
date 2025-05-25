@@ -15,11 +15,11 @@
 #include <QInputDialog>
 #include <QMenu>
 #include <QMessageBox>
+#include <QPushButton>
 #include <QtConcurrentRun>
 #include <fcitx-utils/i18n.h>
 #include <fcitx-utils/standardpaths.h>
 #include <filesystem>
-#include <QPushButton>
 
 namespace fcitx {
 
@@ -232,8 +232,8 @@ void ListEditor::addFileTriggered() {
     filename.append(".mb");
     if (!StandardPaths::global().safeSave(
             StandardPathsType::PkgData,
-            std::filesystem::path(QUICK_PHRASE_CONFIG_DIR) / 
-                                  filename.toStdString(),
+            std::filesystem::path(QUICK_PHRASE_CONFIG_DIR) /
+                filename.toStdString(),
             [](int) { return true; })) {
         QMessageBox::warning(
             this, _("File Operation Failed"),
@@ -252,8 +252,9 @@ void ListEditor::refreshListTriggered() { loadFileList(); }
 void ListEditor::removeFileTriggered() {
     QString filename = currentFile();
     QString curName = currentName();
-    auto fullname = 
-        StandardPaths::global().userDirectory(StandardPathsType::PkgData) / filename.toStdString();
+    auto fullname =
+        StandardPaths::global().userDirectory(StandardPathsType::PkgData) /
+        filename.toStdString();
     QFile f(QString::fromStdString(fullname.string()));
     if (!f.exists()) {
         int ret = QMessageBox::question(
