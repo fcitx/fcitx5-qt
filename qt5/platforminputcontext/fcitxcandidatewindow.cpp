@@ -126,8 +126,7 @@ FcitxCandidateWindow::FcitxCandidateWindow(QWindow *window,
 #if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) &&                            \
     QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
         if (auto instance = QtWaylandClient::QWaylandIntegration::instance()) {
-            for (QtWaylandClient::QWaylandDisplay::RegistryGlobal global :
-                 instance->display()->globals()) {
+            for (auto& global : instance->display()->globals()) {
                 if (global.interface == QLatin1String("xdg_wm_base")) {
                     xdgWmBase_.reset(
                         new XdgWmBase(instance->display()->wl_registry(),
