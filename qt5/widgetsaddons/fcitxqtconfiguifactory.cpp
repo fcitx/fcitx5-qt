@@ -72,7 +72,7 @@ bool FcitxQtConfigUIFactory::test(const QString &file) {
 
 void FcitxQtConfigUIFactoryPrivate::scan() {
     auto addonFiles = fcitx::StandardPaths::global().locate(
-        fcitx::StandardPathsType::Addon, "qt6",
+        fcitx::StandardPathsType::Addon, "qt5",
         [](const std::filesystem::path &path) {
             return QLibrary::isLibrary(QString::fromStdString(path));
         },
