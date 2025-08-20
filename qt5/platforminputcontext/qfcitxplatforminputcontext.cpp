@@ -595,6 +595,7 @@ void QFcitxPlatformInputContext::cursorRectChanged() {
     qreal scale = inputWindow->devicePixelRatio();
     if (data.capability & FcitxCapabilityFlag_RelativeRect) {
         auto margins = inputWindow->frameMargins();
+        r.translate(inputWindow->framePosition());
         r.translate(margins.left(), margins.top());
         r = QRect(r.topLeft() * scale, r.size() * scale);
         if (data.rect != r) {
