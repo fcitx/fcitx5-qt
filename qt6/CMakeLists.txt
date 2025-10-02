@@ -1,10 +1,10 @@
 
-find_package(Qt6 ${REQUIRED_QT6_VERSION} CONFIG REQUIRED Core DBus Widgets)
-find_package(Qt6Gui ${REQUIRED_QT6_VERSION} REQUIRED Private)
+set(QT6_REQUIRED_COMPONENTS Core Gui GuiPrivate DBus Widgets)
+
 if (ENABLE_QT6_WAYLAND_WORKAROUND)
-  find_package(Qt6WaylandClient ${REQUIRED_QT6_VERSION} REQUIRED Private)
-  find_package(Qt6WaylandGlobalPrivate ${REQUIRED_QT6_VERSION} REQUIRED)
+  list(APPEND QT6_REQUIRED_COMPONENTS WaylandClient WaylandClientPrivate WaylandGlobalPrivate)
 endif()
+find_package(Qt6 ${REQUIRED_QT6_VERSION} CONFIG REQUIRED COMPONENTS ${QT6_REQUIRED_COMPONENTS})
 
 add_subdirectory(dbusaddons)
 add_subdirectory(platforminputcontext)
