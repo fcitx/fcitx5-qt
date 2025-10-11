@@ -389,6 +389,11 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
         return;
     }
 
+    // Limit the queries to the only ones we care about.
+    queries &=
+        (Qt::ImEnabled | Qt::ImHints | Qt::ImSurroundingText |
+         Qt::ImCursorPosition | Qt::ImAnchorPosition | Qt::ImCursorRectangle);
+
     QInputMethodQueryEvent query(queries);
     QGuiApplication::sendEvent(input, &query);
 
