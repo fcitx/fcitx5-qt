@@ -1,0 +1,254 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the fcitx5-qt package.
+#
+# Translators:
+# Emir SARI, 2025
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: fcitx5-qt\n"
+"Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
+"POT-Creation-Date: 2025-12-25 20:24+0000\n"
+"PO-Revision-Date: 2017-12-20 02:52+0000\n"
+"Last-Translator: Emir SARI, 2025\n"
+"Language-Team: Turkish (https://app.transifex.com/fcitx/teams/12005/tr/)\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: qt6/quickphrase-editor/editor.cpp:262
+msgid "%1 is a system file, do you want to delete all phrases instead?"
+msgstr ""
+"%1 bir sistem dosyası, bunun yerine tüm ifadeleri silmek istiyor musunuz?"
+
+#. i18n: file: qt6/quickphrase-editor/editor.ui:52
+#. i18n: ectx: property (text), widget (QPushButton, addButton)
+#: rc.cpp:12
+#, kde-format
+msgid "&Add"
+msgstr "&Ekle"
+
+#: qt5/guiwrapper/mainwindow.cpp:32 qt6/guiwrapper/mainwindow.cpp:32
+msgid "&Apply"
+msgstr "&Uygula"
+
+#. i18n: file: qt6/quickphrase-editor/editor.ui:63
+#. i18n: ectx: property (text), widget (QPushButton, batchEditButton)
+#: rc.cpp:15
+#, kde-format
+msgid "&Batch Edit"
+msgstr "&Toplu Düzenle"
+
+#: qt5/guiwrapper/mainwindow.cpp:34 qt6/guiwrapper/mainwindow.cpp:34
+msgid "&Close"
+msgstr "&Kapat"
+
+#. i18n: file: qt6/quickphrase-editor/editor.ui:74
+#. i18n: ectx: property (text), widget (QPushButton, deleteButton)
+#: rc.cpp:18
+#, kde-format
+msgid "&Delete"
+msgstr "&Sil"
+
+#. i18n: file: qt6/quickphrase-editor/editor.ui:103
+#. i18n: ectx: property (text), widget (QPushButton, importButton)
+#: rc.cpp:24
+#, kde-format
+msgid "&Import"
+msgstr "İç&e Aktar"
+
+#: qt5/guiwrapper/mainwindow.cpp:31 qt6/guiwrapper/mainwindow.cpp:31
+msgid "&Ok"
+msgstr "&Tamam"
+
+#. i18n: file: qt6/quickphrase-editor/editor.ui:45
+#. i18n: ectx: property (text), widget (QPushButton, operationButton)
+#: rc.cpp:9
+#, kde-format
+msgid "&Operation"
+msgstr "İş&lem"
+
+#: qt5/guiwrapper/mainwindow.cpp:33 qt6/guiwrapper/mainwindow.cpp:33
+msgid "&Reset"
+msgstr "&Sıfırla"
+
+#: qt5/guiwrapper/wrapperapp.cpp:34 qt6/guiwrapper/wrapperapp.cpp:34
+msgid "A launcher for Fcitx Gui plugin."
+msgstr "Fcitx arayüz eklentisi için bir başlatıcı."
+
+#: qt6/quickphrase-editor/editor.cpp:35
+msgid "Add File"
+msgstr "Dosya Ekle"
+
+#: qt6/quickphrase-editor/editor.cpp:274
+msgid "Are you sure to delete %1?"
+msgstr "%1 ögesini silmek istediğinizden emin misiniz?"
+
+#. i18n: file: qt6/quickphrase-editor/batchdialog.ui:14
+#. i18n: ectx: property (windowTitle), widget (QDialog, BatchDialog)
+#: rc.cpp:3
+#, kde-format
+msgid "Batch editing"
+msgstr "Toplu Düzenleniyor"
+
+#: qt6/quickphrase-editor/editor.cpp:240
+msgid "Cannot create file %1."
+msgstr "%1 dosyası oluşturulamıyor."
+
+#: qt6/quickphrase-editor/editor.cpp:261
+msgid "Cannot remove system file"
+msgstr "Sistem dosyası kaldırılamıyor."
+
+#: qt5/guiwrapper/wrapperapp.cpp:40 qt6/guiwrapper/wrapperapp.cpp:40
+msgid "Config path"
+msgstr "Yapılandırma yolu"
+
+#: qt6/quickphrase-editor/editor.cpp:273
+msgid "Confirm deletion"
+msgstr "Silmeyi Onayla"
+
+#: qt6/quickphrase-editor/editor.cpp:223
+msgid "Create new file"
+msgstr "Yeni Dosya Oluştur"
+
+#. i18n: file: qt6/quickphrase-editor/editor.ui:85
+#. i18n: ectx: property (text), widget (QPushButton, clearButton)
+#: rc.cpp:21
+#, kde-format
+msgid "De&lete All"
+msgstr "&Tümünü Sil"
+
+#: qt6/quickphrase-editor/filelistmodel.cpp:35
+msgid "Default"
+msgstr "Öntanımlı"
+
+#. i18n: file: qt6/quickphrase-editor/editor.ui:114
+#. i18n: ectx: property (text), widget (QPushButton, exportButton)
+#: rc.cpp:27
+#, kde-format
+msgid "E&xport"
+msgstr "&Dışa Aktar"
+
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:353
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:322
+msgid "Empty"
+msgstr "Boş"
+
+#: qt6/quickphrase-editor/editor.cpp:282
+msgid "Error while deleting %1."
+msgstr "%1 ögesi silinirken hata."
+
+#: qt5/guiwrapper/mainwindow.cpp:109 qt6/guiwrapper/mainwindow.cpp:109
+msgid "Failed to notify Fcitx"
+msgstr "Fcitx’e bildirilemedi. "
+
+#: qt5/guiwrapper/mainwindow.cpp:110 qt6/guiwrapper/mainwindow.cpp:110
+msgid "Failed to notify Fcitx about the configuration change."
+msgstr "Yapılandırma değişikliği hakkında Fcitx’e bildirim yapılamadı. "
+
+#: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:2
+msgid "Fcitx 5 Qt5 Gui Wrapper"
+msgstr "Fcitx 5 Qt5 Arayüz Sargısı"
+
+#: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:2
+msgid "Fcitx 5 Qt6 Gui Wrapper"
+msgstr "Fcitx 5 Qt6 Arayüz Sargısı"
+
+#: qt6/quickphrase-editor/editor.cpp:239 qt6/quickphrase-editor/editor.cpp:281
+msgid "File Operation Failed"
+msgstr "Dosya İşlemi Başarısız"
+
+#: qt6/quickphrase-editor/editor.cpp:228
+msgid "File name should not contain '/'."
+msgstr "Dosya adı “/” içermemelidir."
+
+#: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:3
+#: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:3
+msgid "Input Method Configuration helper"
+msgstr "Giriş yöntemi yapılandırması yardımcısı"
+
+#: qt6/quickphrase-editor/editor.cpp:227
+msgid "Invalid filename"
+msgstr "Geçersiz dosya adı"
+
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:179
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:148
+msgid "Key code mode"
+msgstr "Düğme kodu kipi"
+
+#: qt6/quickphrase-editor/model.cpp:83
+msgid "Keyword"
+msgstr "Anahtar sözcük"
+
+#: qt5/guiwrapper/org.fcitx.fcitx5-qt5-gui-wrapper.desktop.in.in:4
+#: qt6/guiwrapper/org.fcitx.fcitx5-qt6-gui-wrapper.desktop.in.in:4
+msgid "Load configuration plugin for Fcitx Addon"
+msgstr "Fcitx eklentisi için yapılandırma eklentisini yükle"
+
+#: qt5/guiwrapper/wrapperapp.cpp:37 qt6/guiwrapper/wrapperapp.cpp:37
+msgid "Parent window ID"
+msgstr "Üst pencere kimliği"
+
+#: qt6/quickphrase-editor/model.cpp:86
+msgid "Phrase"
+msgstr "İfade"
+
+#: qt6/quickphrase-editor/editor.cpp:223
+msgid "Please input a filename for newfile"
+msgstr "Yeni dosya için bir ad girin"
+
+#: qt6/quickphrase-editor/editor.cpp:103
+msgid "Quick Phrase Editor"
+msgstr "Tez İfade Düzenleyicisi"
+
+#: qt6/quickphrase-editor/editor.cpp:39
+msgid "Refresh List"
+msgstr "Listeyi Yenile"
+
+#: qt6/quickphrase-editor/editor.cpp:37
+msgid "Remove File"
+msgstr "Dosyayı Kaldır"
+
+#: qt6/quickphrase-editor/editor.cpp:87
+msgid "Save Changes"
+msgstr "Değişiklikleri Kaydet"
+
+#: qt5/guiwrapper/wrapperapp.cpp:38 qt6/guiwrapper/wrapperapp.cpp:38
+msgid "Test if config exists"
+msgstr "Yapılandırma var mı diye sına"
+
+#: qt6/quickphrase-editor/editor.cpp:88
+msgid ""
+"The content has changed.\n"
+"Do you want to save the changes or discard them?"
+msgstr ""
+"İçerik değişti.\n"
+"Değişiklikleri kaydetmek mi yoksa atmak mı istiyorsunuz?"
+
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:390
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:359
+msgid "The key you just pressed is not supported by Qt."
+msgstr "Bastığınız düğme Qt tarafından desteklenmiyor."
+
+#: qt5/widgetsaddons/fcitxqtkeysequencewidget.cpp:391
+#: qt6/widgetsaddons/fcitxqtkeysequencewidget.cpp:360
+msgid "Unsupported Key"
+msgstr "Desteklenmeyen Düğme"
+
+#. i18n: file: qt6/quickphrase-editor/batchdialog.ui:50
+#. i18n: ectx: property (text), widget (QLabel, infoLabel)
+#: rc.cpp:6
+#, kde-format
+msgid "Use <Keyword> <Phrase> format on every line."
+msgstr "Her bir satırda <Keyword> <Phrase> biçimini kullanın."
+
+#: qt5/guiwrapper/wrapperapp.cpp:40 qt6/guiwrapper/wrapperapp.cpp:40
+msgid "path"
+msgstr "yol"
+
+#: qt5/guiwrapper/wrapperapp.cpp:37 qt6/guiwrapper/wrapperapp.cpp:37
+msgid "winid"
+msgstr "pencere kimliği"
