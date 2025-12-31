@@ -546,7 +546,7 @@ void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
         return;
     }
 
-    if (proxy) {
+    if (proxy && !shouldDisableInputMethod()) {
         proxy->focusIn();
         // We need to delegate this otherwise it may cause self-recursion in
         // certain application like libreoffice.
@@ -639,7 +639,7 @@ void QFcitxPlatformInputContext::createInputContextFinished(
 #else
         Q_UNUSED(uuid);
 #endif
-        if (window && window == w) {
+        if (window && window == w && !shouldDisableInputMethod()) {
             cursorRectChanged();
             proxy->focusIn();
         }
