@@ -23,13 +23,18 @@
 
 #if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) &&                            \
     QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+
 #include <QtGui/private/qhighdpiscaling_p.h>
+#include <QtWaylandClient/private/qwaylandwindow_p.h>
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 10, 0)
 #include <QtWaylandClient/private/qwayland-xdg-shell.h>
 #include <QtWaylandClient/private/qwaylanddisplay_p.h>
 #include <QtWaylandClient/private/qwaylandintegration_p.h>
-#include <QtWaylandClient/private/qwaylandwindow_p.h>
 #include <QtWaylandClient/private/wayland-xdg-shell-client-protocol.h>
 #include <qpa/qplatformnativeinterface.h>
+#endif
+
 #endif
 
 namespace fcitx {
@@ -37,7 +42,8 @@ namespace fcitx {
 namespace {
 
 #if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) &&                            \
-    QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+    QT_VERSION >= QT_VERSION_CHECK(6, 6, 0) &&                                 \
+    QT_VERSION < QT_VERSION_CHECK(6, 10, 0)
 class XdgWmBase : public QtWayland::xdg_wm_base {
 public:
     using xdg_wm_base::xdg_wm_base;
@@ -125,6 +131,7 @@ FcitxCandidateWindow::FcitxCandidateWindow(QWindow *window,
         setFlags(Qt::ToolTip | commonFlags);
 #if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) &&                            \
     QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+#if QT_VERSION < QT_VERSION_CHECK(6, 10, 0)
         if (auto instance = QtWaylandClient::QWaylandIntegration::instance()) {
             for (QtWaylandClient::QWaylandDisplay::RegistryGlobal global :
                  instance->display()->globals()) {
@@ -136,6 +143,7 @@ FcitxCandidateWindow::FcitxCandidateWindow(QWindow *window,
                 }
             }
         }
+#endif
         setProperty("_q_waylandPopupAnchor",
                     QVariant::fromValue(Qt::BottomEdge | Qt::LeftEdge));
         setProperty("_q_waylandPopupGravity",
@@ -470,26 +478,20 @@ void FcitxCandidateWindow::updateClientSideUI(
         return;
     }
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-    QSize sizeWithoutShadow = actualSize_.shrunkBy(theme_->shadowMargin());
-#else
-    QSize sizeWithoutShadow =
-        actualSize_ -
-        QSize(theme_->shadowMargin().left() + theme_->shadowMargin().right(),
-              theme_->shadowMargin().top() + theme_->shadowMargin().bottom());
-#endif
-    if (sizeWithoutShadow.width() < 0) {
-        sizeWithoutShadow.setWidth(0);
-    }
-    if (sizeWithoutShadow.height() < 0) {
-        sizeWithoutShadow.setHeight(0);
-    }
-
     if (size() != actualSize_) {
         resize(actualSize_);
     }
     update();
 
+    updatePosition();
+}
+
+void FcitxCandidateWindow::updatePosition() {
+    auto *window = context_->focusWindowWrapper();
+    if (!window) {
+        hide();
+        return;
+    }
     QRect cursorRect = context_->cursorRectangleWrapper();
     QRect screenGeometry;
 
@@ -498,8 +500,6 @@ void FcitxCandidateWindow::updateClientSideUI(
     if (isWayland_) {
         auto *waylandWindow =
             static_cast<QtWaylandClient::QWaylandWindow *>(window->handle());
-        const auto windowMargins = waylandWindow->windowContentMargins() -
-                                   waylandWindow->clientSideMargins();
         auto windowGeometry = waylandWindow->windowContentGeometry();
         if (!cursorRect.isValid()) {
             if (cursorRect.width() <= 0) {
@@ -529,14 +529,22 @@ void FcitxCandidateWindow::updateClientSideUI(
                 nativeCursorRect.setHeight(1);
             }
         }
-        bool wasVisible = isVisible();
+
         bool cursorRectChanged = false;
+        Q_UNUSED(cursorRectChanged);
         if (property("_q_waylandPopupAnchorRect") != nativeCursorRect) {
             cursorRectChanged = true;
             setProperty("_q_waylandPopupAnchorRect", nativeCursorRect);
+            setPosition(cursorRect.topLeft());
         }
-        // This try to ensure xdg_popup is available.
+#if QT_VERSION < QT_VERSION_CHECK(6, 10, 0)
+        const auto windowMargins = waylandWindow->windowContentMargins() -
+                                   waylandWindow->clientSideMargins();
+        bool wasVisible = isVisible();
+#endif
+
         show();
+#if QT_VERSION < QT_VERSION_CHECK(6, 10, 0)
         xdg_popup *xdgPopup = static_cast<xdg_popup *>(
             QGuiApplication::platformNativeInterface()->nativeResourceForWindow(
                 "xdg_popup", this));
@@ -585,12 +593,13 @@ void FcitxCandidateWindow::updateClientSideUI(
             hide();
             show();
         }
+#endif
         return;
     }
 #endif
     // Try to apply the screen edge detection over the window, because if we
-    // intent to use this with wayland. It we have no information above screen
-    // edge.
+    // intent to use this with wayland. It we have no information above
+    // screen edge.
     if (isWayland_) {
         screenGeometry = window->frameGeometry();
         cursorRect.translate(window->framePosition());
@@ -602,6 +611,20 @@ void FcitxCandidateWindow::updateClientSideUI(
         cursorRect.moveTo(pos);
     }
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+    QSize sizeWithoutShadow = actualSize_.shrunkBy(theme_->shadowMargin());
+#else
+    QSize sizeWithoutShadow =
+        actualSize_ -
+        QSize(theme_->shadowMargin().left() + theme_->shadowMargin().right(),
+              theme_->shadowMargin().top() + theme_->shadowMargin().bottom());
+#endif
+    if (sizeWithoutShadow.width() < 0) {
+        sizeWithoutShadow.setWidth(0);
+    }
+    if (sizeWithoutShadow.height() < 0) {
+        sizeWithoutShadow.setHeight(0);
+    }
     int x = cursorRect.left();
     int y = cursorRect.bottom();
     if (cursorRect.left() + sizeWithoutShadow.width() >

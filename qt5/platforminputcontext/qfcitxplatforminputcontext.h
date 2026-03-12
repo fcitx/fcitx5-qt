@@ -35,7 +35,7 @@ public:
     FcitxQtICData(const FcitxQtICData &that) = delete;
     ~FcitxQtICData() override;
 
-    FcitxCandidateWindow *candidateWindow();
+    FcitxCandidateWindow *candidateWindow(bool create);
 
     QWindow *window() { return window_.data(); }
 

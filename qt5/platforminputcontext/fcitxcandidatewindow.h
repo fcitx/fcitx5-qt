@@ -47,6 +47,7 @@ public Q_SLOTS:
                             const FcitxQtStringKeyValueList &candidates,
                             int candidateIndex, int layoutHint, bool hasPrev,
                             bool hasNext);
+    void updatePosition();
 
     QSize sizeHint();
 
@@ -95,7 +96,8 @@ private:
     QPointer<QWindow> parent_;
 
 #if defined(FCITX_ENABLE_QT6_WAYLAND_WORKAROUND) &&                            \
-    QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+    QT_VERSION >= QT_VERSION_CHECK(6, 6, 0) &&                                 \
+    QT_VERSION < QT_VERSION_CHECK(6, 10, 0)
     QScopedPointer<QtWayland::xdg_wm_base> xdgWmBase_;
 #endif
 };

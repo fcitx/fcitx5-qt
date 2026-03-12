@@ -226,8 +226,8 @@ bool FcitxQtICData::eventFilter(QObject * /*watched*/, QEvent *event) {
     return false;
 }
 
-FcitxCandidateWindow *FcitxQtICData::candidateWindow() {
-    if (!candidateWindow_) {
+FcitxCandidateWindow *FcitxQtICData::candidateWindow(bool create) {
+    if (!candidateWindow_ && create) {
         candidateWindow_ = new FcitxCandidateWindow(window(), context_);
         QObject::connect(
             candidateWindow_, &FcitxCandidateWindow::candidateSelected, proxy,
@@ -592,6 +592,12 @@ void QFcitxPlatformInputContext::cursorRectChanged() {
         return;
     }
 
+    if (auto *candidateWindow = data.candidateWindow(/*create=*/false)) {
+        if (candidateWindow->isVisible()) {
+            candidateWindow->updatePosition();
+        }
+    }
+
     // not sure if this is necessary but anyway, qt's screen used to be buggy.
     if (!inputWindow->screen()) {
         return;
@@ -777,9 +783,9 @@ void QFcitxPlatformInputContext::updateClientSideUI(
     auto *w = data->window();
     auto *window = focusWindowWrapper();
     if (window && w == window) {
-        data->candidateWindow()->updateClientSideUI(
-            preedit, cursorpos, auxUp, auxDown, candidates, candidateIndex,
-            layoutHint, hasPrev, hasNext);
+        data->candidateWindow(/*create=*/true)
+            ->updateClientSideUI(preedit, cursorpos, auxUp, auxDown, candidates,
+                                 candidateIndex, layoutHint, hasPrev, hasNext);
     }
 }
 
