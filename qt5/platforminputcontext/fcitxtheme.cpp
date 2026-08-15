@@ -11,6 +11,9 @@
 #include <QPixmap>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QtMath>
+
+#include <algorithm>
 
 namespace fcitx {
 
@@ -300,88 +303,91 @@ void fcitx::FcitxTheme::paint(QPainter *painter,
      * 1 2 3
      */
 
-    if (marginLeft && marginBottom) {
+    // Align the 9-patch tile boundaries to integer device pixels so that
+    // adjacent tiles share exact edges. Otherwise, with a fractional device
+    // pixel ratio, the bilinear filter blends the shared edge against the
+    // transparent background, producing visible dark seams between tiles.
+    const qreal dpr = painter->device()->devicePixelRatio();
+    const int deviceX = qFloor(region.x() * dpr);
+    const int deviceY = qFloor(region.y() * dpr);
+    const int deviceW = qRound(region.width() * dpr);
+    const int deviceH = qRound(region.height() * dpr);
+    const int deviceTop = qRound(marginTop * dpr);
+    const int deviceBottom = qRound(marginBottom * dpr);
+    const int deviceLeft = qRound(marginLeft * dpr);
+    const int deviceRight = qRound(marginRight * dpr);
+    const int centerW = std::max(0, deviceW - deviceLeft - deviceRight);
+    const int centerH = std::max(0, deviceH - deviceTop - deviceBottom);
+
+    auto drawPart = [&](QRect deviceTarget, const QRect &source) {
+        if (deviceTarget.width() <= 0 || deviceTarget.height() <= 0) {
+            return;
+        }
+        QRectF logicalTarget(deviceTarget.x() / dpr, deviceTarget.y() / dpr,
+                             deviceTarget.width() / dpr,
+                             deviceTarget.height() / dpr);
+        painter->drawPixmap(logicalTarget, image.image_, source);
+    };
+
+    if (deviceLeft && deviceBottom) {
         /* part 1 */
-        painter->drawPixmap(
-            QRect(0, region.height() - marginBottom, marginLeft, marginBottom)
-                .translated(region.topLeft()),
-            image.image_,
-            QRect(0, marginTop + resizeHeight, marginLeft, marginBottom));
+        drawPart(QRect(deviceX, deviceY + deviceH - deviceBottom, deviceLeft,
+                       deviceBottom),
+                 QRect(0, marginTop + resizeHeight, marginLeft, marginBottom));
     }
 
-    if (marginRight && marginBottom) {
+    if (deviceRight && deviceBottom) {
         /* part 3 */
-        painter->drawPixmap(
-            QRect(region.width() - marginRight, region.height() - marginBottom,
-                  marginRight, marginBottom)
-                .translated(region.topLeft()),
-            image.image_,
-            QRect(marginLeft + resizeWidth, marginTop + resizeHeight,
-                  marginRight, marginBottom));
+        drawPart(QRect(deviceX + deviceW - deviceRight,
+                       deviceY + deviceH - deviceBottom, deviceRight,
+                       deviceBottom),
+                 QRect(marginLeft + resizeWidth, marginTop + resizeHeight,
+                       marginRight, marginBottom));
     }
 
-    if (marginLeft && marginTop) {
+    if (deviceLeft && deviceTop) {
         /* part 7 */
-        painter->drawPixmap(
-            QRect(0, 0, marginLeft, marginTop).translated(region.topLeft()),
-            image.image_, QRect(0, 0, marginLeft, marginTop));
+        drawPart(QRect(deviceX, deviceY, deviceLeft, deviceTop),
+                 QRect(0, 0, marginLeft, marginTop));
     }
 
-    if (marginRight && marginTop) {
+    if (deviceRight && deviceTop) {
         /* part 9 */
-        painter->drawPixmap(
-            QRect(region.width() - marginRight, 0, marginRight, marginTop)
-                .translated(region.topLeft()),
-            image.image_,
-            QRect(marginLeft + resizeWidth, 0, marginRight, marginTop));
+        drawPart(QRect(deviceX + deviceW - deviceRight, deviceY, deviceRight,
+                       deviceTop),
+                 QRect(marginLeft + resizeWidth, 0, marginRight, marginTop));
     }
 
     /* part 2 & 8 */
-    if (marginTop) {
-        painter->drawPixmap(
-            QRect(marginLeft, 0, region.width() - marginLeft - marginRight,
-                  marginTop)
-                .translated(region.topLeft()),
-            image.image_, QRect(marginLeft, 0, resizeWidth, marginTop));
+    if (deviceTop && centerW > 0) {
+        drawPart(QRect(deviceX + deviceLeft, deviceY, centerW, deviceTop),
+                 QRect(marginLeft, 0, resizeWidth, marginTop));
     }
 
-    if (marginBottom) {
-        painter->drawPixmap(QRect(marginLeft, region.height() - marginBottom,
-                                  region.width() - marginLeft - marginRight,
-                                  marginBottom)
-                                .translated(region.topLeft()),
-                            image.image_,
-                            QRect(marginLeft, marginTop + resizeHeight,
-                                  resizeWidth, marginBottom));
+    if (deviceBottom && centerW > 0) {
+        drawPart(QRect(deviceX + deviceLeft, deviceY + deviceH - deviceBottom,
+                       centerW, deviceBottom),
+                 QRect(marginLeft, marginTop + resizeHeight, resizeWidth,
+                       marginBottom));
     }
 
     /* part 4 & 6 */
-    if (marginLeft) {
-        painter->drawPixmap(QRect(0, marginTop, marginLeft,
-                                  region.height() - marginTop - marginBottom)
-                                .translated(region.topLeft()),
-                            image.image_,
-                            QRect(0, marginTop, marginLeft, resizeHeight));
+    if (deviceLeft && centerH > 0) {
+        drawPart(QRect(deviceX, deviceY + deviceTop, deviceLeft, centerH),
+                 QRect(0, marginTop, marginLeft, resizeHeight));
     }
 
-    if (marginRight) {
-        painter->drawPixmap(QRect(region.width() - marginRight, marginTop,
-                                  marginRight,
-                                  region.height() - marginTop - marginBottom)
-                                .translated(region.topLeft()),
-                            image.image_,
-                            QRect(marginLeft + resizeWidth, marginTop,
-                                  marginRight, resizeHeight));
+    if (deviceRight && centerH > 0) {
+        drawPart(QRect(deviceX + deviceW - deviceRight, deviceY + deviceTop,
+                       deviceRight, centerH),
+                 QRect(marginLeft + resizeWidth, marginTop, marginRight,
+                       resizeHeight));
     }
 
     /* part 5 */
-    {
-        painter->drawPixmap(
-            QRect(marginLeft, marginTop,
-                  region.width() - marginLeft - marginRight,
-                  region.height() - marginTop - marginBottom)
-                .translated(region.topLeft()),
-            image.image_,
+    if (centerW > 0 && centerH > 0) {
+        drawPart(
+            QRect(deviceX + deviceLeft, deviceY + deviceTop, centerW, centerH),
             QRect(marginLeft, marginTop, resizeWidth, resizeHeight));
     }
 

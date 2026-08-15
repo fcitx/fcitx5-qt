@@ -181,6 +181,11 @@ bool FcitxCandidateWindow::event(QEvent *event) {
 }
 
 void FcitxCandidateWindow::render(QPainter *painter) {
+    // Smooth image scaling is required: with a fractional devicePixelRatio the
+    // theme pixmaps get upscaled, and the default nearest-neighbor
+    // interpolation would make them look pixelated.
+    painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
+    painter->setRenderHint(QPainter::Antialiasing, true);
     theme_->paint(painter, theme_->background(),
                   QRect(QPoint(0, 0), actualSize_));
     auto contentMargin = theme_->contentMargin();
