@@ -307,7 +307,7 @@ void fcitx::FcitxTheme::paint(QPainter *painter,
     // adjacent tiles share exact edges. Otherwise, with a fractional device
     // pixel ratio, the bilinear filter blends the shared edge against the
     // transparent background, producing visible dark seams between tiles.
-    const qreal dpr = painter->device()->devicePixelRatio();
+    const qreal dpr = painter->device()->devicePixelRatioF();
     const int deviceX = qFloor(region.x() * dpr);
     const int deviceY = qFloor(region.y() * dpr);
     const int deviceW = qRound(region.width() * dpr);
