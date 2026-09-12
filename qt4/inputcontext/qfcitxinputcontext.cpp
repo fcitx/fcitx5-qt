@@ -201,12 +201,11 @@ void QFcitxInputContext::reset() {
 
 void QFcitxInputContext::update() {
     QWidget *window = qApp->focusWidget();
-    FcitxQtInputContextProxy *proxy = validICByWindow(window);
-    if (!proxy)
+    FcitxQtICData *dataPtr = icDataByWindow(window);
+    if (!dataPtr) {
         return;
-
-    FcitxQtICData &data = *static_cast<FcitxQtICData *>(
-        proxy->property("icData").value<void *>());
+    }
+    auto &data = *dataPtr;
 
     QWidget *input = qApp->focusWidget();
     if (!input)
@@ -278,13 +277,19 @@ void QFcitxInputContext::update() {
                 tempUCS4 = text.left(anchor).toUcs4();
 #endif
                 anchor = tempUCS4.size();
+                auto *proxy = data.validIC();
                 if (data.surroundingText != text) {
                     data.surroundingText = text;
-                    proxy->setSurroundingText(text, cursor, anchor);
+                    if (proxy) {
+                        proxy->setSurroundingText(text, cursor, anchor);
+                    }
                 } else {
                     if (data.surroundingAnchor != anchor ||
-                        data.surroundingCursor != cursor)
-                        proxy->setSurroundingTextPosition(cursor, anchor);
+                        data.surroundingCursor != cursor) {
+                        if (proxy) {
+                            proxy->setSurroundingTextPosition(cursor, anchor);
+                        }
+                    }
                 }
                 data.surroundingCursor = cursor;
                 data.surroundingAnchor = anchor;
@@ -397,10 +402,9 @@ void QFcitxInputContext::createInputContextFinished(const QByteArray &uuid) {
 }
 
 void QFcitxInputContext::updateCapability(const FcitxQtICData &data) {
-    if (!data.proxy || !data.proxy->isValid())
-        return;
-
-    QDBusPendingReply<void> result = data.proxy->setCapability(data.capability);
+    if (auto *proxy = data.validIC()) {
+        proxy->setCapability(data.capability);
+    }
 }
 
 void QFcitxInputContext::commitString(const QString &str) {
@@ -778,6 +782,14 @@ FcitxQtInputContextProxy *QFcitxInputContext::validIC() {
 }
 
 FcitxQtInputContextProxy *QFcitxInputContext::validICByWindow(QWidget *w) {
+    auto data = icDataByWindow(w);
+    if (!data) {
+        return nullptr;
+    }
+    return data->validIC();
+}
+
+FcitxQtICData *QFcitxInputContext::icDataByWindow(QWidget *w) {
     if (!w) {
         return nullptr;
     }
@@ -788,11 +800,7 @@ FcitxQtInputContextProxy *QFcitxInputContext::validICByWindow(QWidget *w) {
     auto iter = icMap_.find(w);
     if (iter == icMap_.end())
         return nullptr;
-    auto &data = iter->second;
-    if (!data.proxy || !data.proxy->isValid()) {
-        return nullptr;
-    }
-    return data.proxy;
+    return &iter->second;
 }
 
 bool QFcitxInputContext::processCompose(unsigned int keyval, unsigned int state,

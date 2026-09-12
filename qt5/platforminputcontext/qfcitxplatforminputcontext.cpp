@@ -376,13 +376,11 @@ void QFcitxPlatformInputContext::reset() {
 
 void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
     QWindow *window = focusWindowWrapper();
-    auto *proxy = validICByWindow(window);
-    if (!proxy) {
+    auto *dataPtr = icDataByWindow(window);
+    if (!dataPtr) {
         return;
     }
-
-    FcitxQtICData &data = *static_cast<FcitxQtICData *>(
-        proxy->property("icData").value<void *>());
+    auto &data = *dataPtr;
 
     QObject *input = focusObjectWrapper();
     if (!input) {
@@ -476,13 +474,18 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
                 cursor = tempUCS4.size();
                 tempUCS4 = text.left(anchor).toUcs4();
                 anchor = tempUCS4.size();
+                auto *proxy = data.validIC();
                 if (data.surroundingText != text) {
                     data.surroundingText = text;
-                    proxy->setSurroundingText(text, cursor, anchor);
+                    if (proxy) {
+                        proxy->setSurroundingText(text, cursor, anchor);
+                    }
                 } else {
                     if (data.surroundingAnchor != anchor ||
                         data.surroundingCursor != cursor) {
-                        proxy->setSurroundingTextPosition(cursor, anchor);
+                        if (proxy) {
+                            proxy->setSurroundingTextPosition(cursor, anchor);
+                        }
                     }
                 }
                 data.surroundingCursor = cursor;
@@ -548,17 +551,17 @@ void QFcitxPlatformInputContext::setFocusObject(QObject *object) {
 
     if (proxy) {
         proxy->focusIn();
-        // We need to delegate this otherwise it may cause self-recursion in
-        // certain application like libreoffice.
-        QTimer::singleShot(0, this,
-                           [this, window = QPointer<QWindow>(lastWindow_)]() {
-                               if (window != lastWindow_) {
-                                   return;
-                               }
-                               update(Qt::ImHints | Qt::ImEnabled);
-                               updateCursorRect();
-                           });
     }
+    // We need to delegate this otherwise it may cause self-recursion in
+    // certain application like libreoffice.
+    QTimer::singleShot(0, this,
+                       [this, window = QPointer<QWindow>(lastWindow_)]() {
+                           if (window != lastWindow_) {
+                               return;
+                           }
+                           update(Qt::ImHints | Qt::ImEnabled);
+                           updateCursorRect();
+                       });
 
     updateInputPanelVisible();
 }
@@ -682,10 +685,9 @@ void QFcitxPlatformInputContext::createInputContextFinished(
 }
 
 void QFcitxPlatformInputContext::updateCapability(const FcitxQtICData &data) {
-    if (!data.proxy || !data.proxy->isValid()) {
-        return;
+    if (auto *proxy = data.validIC()) {
+        proxy->setCapability(data.capability);
     }
-    data.proxy->setCapability(data.capability);
 }
 
 void QFcitxPlatformInputContext::commitString(const QString &str) {
@@ -1188,7 +1190,7 @@ bool QFcitxPlatformInputContext::filterEventFallback(unsigned int keyval,
     return processCompose(keyval, state, isRelease);
 }
 
-HybridInputContext *QFcitxPlatformInputContext::validIC() const {
+HybridInputContext *QFcitxPlatformInputContext::validIC() {
     if (icMap_.empty()) {
         return nullptr;
     }
@@ -1196,8 +1198,15 @@ HybridInputContext *QFcitxPlatformInputContext::validIC() const {
     return validICByWindow(window);
 }
 
-HybridInputContext *
-QFcitxPlatformInputContext::validICByWindow(QWindow *w) const {
+HybridInputContext *QFcitxPlatformInputContext::validICByWindow(QWindow *w) {
+    auto *data = icDataByWindow(w);
+    if (!data) {
+        return nullptr;
+    }
+    return data->validIC();
+}
+
+FcitxQtICData *QFcitxPlatformInputContext::icDataByWindow(QWindow *w) {
     if (!w) {
         return nullptr;
     }
@@ -1209,11 +1218,7 @@ QFcitxPlatformInputContext::validICByWindow(QWindow *w) const {
     if (iter == icMap_.end()) {
         return nullptr;
     }
-    const auto &data = iter->second;
-    if (!data.proxy || !data.proxy->isValid()) {
-        return nullptr;
-    }
-    return data.proxy;
+    return &iter->second;
 }
 
 bool QFcitxPlatformInputContext::processCompose(unsigned int keyval,

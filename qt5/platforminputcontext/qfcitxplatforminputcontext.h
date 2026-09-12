@@ -39,6 +39,13 @@ public:
 
     QWindow *window() { return window_.data(); }
 
+    HybridInputContext *validIC() const {
+        if (proxy && proxy->isValid()) {
+            return proxy;
+        }
+        return nullptr;
+    }
+
     void resetCandidateWindow();
 
     quint64 capability = 0;
@@ -186,8 +193,9 @@ private:
 
     void updateCapability(const FcitxQtICData &data);
     void createICData(QWindow *w);
-    HybridInputContext *validIC() const;
-    HybridInputContext *validICByWindow(QWindow *window) const;
+    HybridInputContext *validIC();
+    HybridInputContext *validICByWindow(QWindow *window);
+    FcitxQtICData *icDataByWindow(QWindow *window);
     bool filterEventFallback(unsigned int keyval, unsigned int keycode,
                              unsigned int state, bool isRelease);
 
