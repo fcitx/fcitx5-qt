@@ -211,8 +211,8 @@ private:
     QString commitPreedit_;
     FcitxQtFormattedPreeditList preeditList_;
     int cursorPos_;
-    bool useSurroundingText_;
-    bool syncMode_;
+    const bool useSurroundingText_;
+    const bool syncMode_;
     std::unordered_map<QWindow *, FcitxQtICData> icMap_;
     QPointer<QWindow> lastWindow_;
     QPointer<QObject> lastObject_;

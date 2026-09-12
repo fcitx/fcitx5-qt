@@ -114,7 +114,8 @@ QFcitxInputContext::QFcitxInputContext()
     : watcher_(new FcitxQtWatcher(
           QDBusConnection::connectToBus(QDBusConnection::SessionBus, "fcitx"),
           this)),
-      cursorPos_(0), useSurroundingText_(false),
+      cursorPos_(0), useSurroundingText_(get_boolean_env(
+                         "FCITX_QT_ENABLE_SURROUNDING_TEXT", true)),
       syncMode_(get_boolean_env("FCITX_QT_USE_SYNC", false)), destroy_(false),
       xkbContext_(_xkb_context_new_helper()),
       xkbComposeTable_(xkbContext_ ? xkb_compose_table_new_from_locale(
@@ -239,16 +240,19 @@ void QFcitxInputContext::update() {
 
     bool setSurrounding = false;
     do {
-        if (!useSurroundingText_)
+        if (!useSurroundingText_) {
             break;
+        }
         if ((data.capability & FcitxCapabilityFlag_Password) ||
-            (data.capability & FcitxCapabilityFlag_Sensitive))
+            (data.capability & FcitxCapabilityFlag_Sensitive)) {
             break;
+        }
         QVariant var = input->inputMethodQuery(Qt::ImSurroundingText);
         QVariant var1 = input->inputMethodQuery(Qt::ImCursorPosition);
         QVariant var2 = input->inputMethodQuery(Qt::ImAnchorPosition);
-        if (!var.isValid() || !var1.isValid())
+        if (!var.isValid() || !var1.isValid()) {
             break;
+        }
         QString text = var.toString();
 /* we don't want to waste too much memory here */
 #define SURROUNDING_THRESHOLD 4096
@@ -296,13 +300,13 @@ void QFcitxInputContext::update() {
                 setSurrounding = true;
             }
         }
-        if (!setSurrounding) {
-            data.surroundingAnchor = -1;
-            data.surroundingCursor = -1;
-            data.surroundingText = QString();
-            removeCapability(data, FcitxCapabilityFlag_SurroundingText);
-        }
-    } while (0);
+    } while (false);
+    if (!setSurrounding) {
+        data.surroundingAnchor = -1;
+        data.surroundingCursor = -1;
+        data.surroundingText = QString();
+        removeCapability(data, FcitxCapabilityFlag_SurroundingText);
+    }
 }
 
 void QFcitxInputContext::setFocusWidget(QWidget *object) {
@@ -393,12 +397,13 @@ void QFcitxInputContext::createInputContextFinished(const QByteArray &uuid) {
     flag |= FcitxCapabilityFlag_GetIMInfoOnFocus;
     flag |= FcitxCapabilityFlag_KeyEventOrderFix;
     flag |= FcitxCapabilityFlag_ReportKeyRepeat;
-    useSurroundingText_ =
-        get_boolean_env("FCITX_QT_ENABLE_SURROUNDING_TEXT", true);
-    if (useSurroundingText_)
-        flag |= FcitxCapabilityFlag_SurroundingText;
 
     addCapability(*data, flag, true);
+    if (data->capability & FcitxCapabilityFlag_SurroundingText) {
+        proxy->setSurroundingText(data->surroundingText,
+                                  data->surroundingCursor,
+                                  data->surroundingAnchor);
+    }
 }
 
 void QFcitxInputContext::updateCapability(const FcitxQtICData &data) {

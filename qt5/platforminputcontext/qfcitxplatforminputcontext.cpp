@@ -253,7 +253,8 @@ QFcitxPlatformInputContext::QFcitxPlatformInputContext()
           QDBusConnection::connectToBus(QDBusConnection::SessionBus, "fcitx"),
           this)),
       fcitx4Watcher_(new Fcitx4Watcher(watcher_->connection(), this)),
-      cursorPos_(0), useSurroundingText_(false),
+      cursorPos_(0), useSurroundingText_(get_boolean_env(
+                         "FCITX_QT_ENABLE_SURROUNDING_TEXT", true)),
       syncMode_(get_boolean_env("FCITX_QT_USE_SYNC", false)), destroy_(false),
       xkbContext_(_xkb_context_new_helper()),
       xkbComposeTable_(xkbContext_ ? xkb_compose_table_new_from_locale(
@@ -493,13 +494,13 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
                 setSurrounding = true;
             }
         }
-        if (!setSurrounding) {
-            data.surroundingAnchor = -1;
-            data.surroundingCursor = -1;
-            data.surroundingText = QString();
-            removeCapability(data, FcitxCapabilityFlag_SurroundingText);
-        }
     } while (false);
+    if (!setSurrounding) {
+        data.surroundingAnchor = -1;
+        data.surroundingCursor = -1;
+        data.surroundingText = QString();
+        removeCapability(data, FcitxCapabilityFlag_SurroundingText);
+    }
 }
 
 void QFcitxPlatformInputContext::commit() {
@@ -662,11 +663,6 @@ void QFcitxPlatformInputContext::createInputContextFinished(
     flag |= FcitxCapabilityFlag_GetIMInfoOnFocus;
     flag |= FcitxCapabilityFlag_KeyEventOrderFix;
     flag |= FcitxCapabilityFlag_ReportKeyRepeat;
-    useSurroundingText_ =
-        get_boolean_env("FCITX_QT_ENABLE_SURROUNDING_TEXT", true);
-    if (useSurroundingText_) {
-        flag |= FcitxCapabilityFlag_SurroundingText;
-    }
 
     if (QGuiApplication::platformName().startsWith("wayland")) {
         flag |= FcitxCapabilityFlag_RelativeRect;
@@ -679,9 +675,13 @@ void QFcitxPlatformInputContext::createInputContextFinished(
 
     // Notify fcitx of the effective bits from 0bit to 40bit
     // (FcitxCapabilityFlag_Disable)
-    data->proxy->setSupportedCapability(0x1ffffffffffULL);
-
+    proxy->setSupportedCapability(0x1ffffffffffULL);
     addCapability(*data, flag, true);
+    if (data->capability & FcitxCapabilityFlag_SurroundingText) {
+        proxy->setSurroundingText(data->surroundingText,
+                                  data->surroundingCursor,
+                                  data->surroundingAnchor);
+    }
 }
 
 void QFcitxPlatformInputContext::updateCapability(const FcitxQtICData &data) {

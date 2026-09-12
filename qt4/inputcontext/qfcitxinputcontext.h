@@ -161,8 +161,8 @@ private:
     QString commitPreedit_;
     FcitxQtFormattedPreeditList preeditList_;
     int cursorPos_;
-    bool useSurroundingText_;
-    bool syncMode_;
+    const bool useSurroundingText_;
+    const bool syncMode_;
     std::unordered_map<QWidget *, FcitxQtICData> icMap_;
     QPointer<QWidget> lastWindow_;
     bool destroy_;
