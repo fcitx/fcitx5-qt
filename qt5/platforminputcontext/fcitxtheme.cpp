@@ -7,15 +7,60 @@
 #include "fcitxtheme.h"
 #include "font.h"
 #include <QDebug>
+#include <QFileInfo>
 #include <QMargins>
 #include <QPixmap>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QtMath>
-
 #include <algorithm>
 
 namespace fcitx {
+
+namespace {
+
+bool isSystemThemeName(const QString &themeName) {
+
+    return themeName == "default" || themeName == "default-dark";
+}
+
+QString pathForTheme(const QString &themeName, const QString &fileName) {
+    return QStringLiteral("fcitx5/themes/%1/%2").arg(themeName, fileName);
+}
+
+QString locateThemeFile(const QString &themeName, const QString &fileName) {
+    QString path = pathForTheme(themeName, fileName);
+    if (isSystemThemeName(themeName)) {
+        QStringList paths = QStandardPaths::standardLocations(
+            QStandardPaths::GenericDataLocation);
+        if (!paths.isEmpty()) {
+            paths.takeFirst();
+        }
+        for (const auto &p : paths) {
+            auto file = p + "/" + path;
+            if (QFileInfo(file).isFile()) {
+                return file;
+            }
+        }
+        return {};
+    }
+
+    return QStandardPaths::locate(QStandardPaths::GenericDataLocation, path);
+}
+
+QString locateThemeConfig(const QString &themeName) {
+    return locateThemeFile(themeName, "theme.conf");
+}
+
+QString userThemeConfigPath(const QString &themeName) {
+    if (isSystemThemeName(themeName)) {
+        return {};
+    }
+    QString path = pathForTheme(themeName, "theme.conf");
+    return QStandardPaths::writableLocation(
+               QStandardPaths::GenericDataLocation) +
+           "/" + path;
+}
 
 bool readBool(const QSettings &settings, const QString &name,
               bool defaultValue) {
@@ -51,20 +96,18 @@ QColor readColor(const QSettings &settings, const QString &name,
     return color;
 }
 
+} // namespace
+
 void BackgroundImage::load(const QString &name, QSettings &settings) {
     settings.allKeys();
     image_ = QPixmap();
     overlay_ = QPixmap();
     if (auto image = settings.value("Image").toString(); !image.isEmpty()) {
-        auto file = QStandardPaths::locate(
-            QStandardPaths::GenericDataLocation,
-            QStringLiteral("fcitx5/themes/%1/%2").arg(name, image));
+        auto file = locateThemeFile(name, image);
         image_.load(file);
     }
     if (auto image = settings.value("Overlay").toString(); !image.isEmpty()) {
-        auto file = QStandardPaths::locate(
-            QStandardPaths::GenericDataLocation,
-            QStringLiteral("fcitx5/themes/%1/%2").arg(name, image));
+        auto file = locateThemeFile(name, image);
         overlay_.load(file);
     }
 
@@ -131,9 +174,7 @@ void ActionImage::load(const QString &name, QSettings &settings) {
     image_ = QPixmap();
     valid_ = false;
     if (auto image = settings.value("Image").toString(); !image.isEmpty()) {
-        auto file = QStandardPaths::locate(
-            QStandardPaths::GenericDataLocation,
-            QStringLiteral("fcitx5/themes/%1/%2").arg(name, image));
+        auto file = locateThemeFile(name, image);
         image_.load(file);
         valid_ = !image_.isNull();
     }
@@ -188,23 +229,17 @@ void FcitxTheme::themeChanged() {
     if (!themeConfigPath_.isEmpty()) {
         watcher_->removePath(themeConfigPath_);
     }
-    auto themeConfig =
-        QStringLiteral("/fcitx5/themes/%1/theme.conf").arg(theme_);
-    themeConfigPath_ =
-        QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation)
-            .append(themeConfig);
-    auto file = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                       themeConfig);
-    if (file.isEmpty()) {
-        file = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                      "fcitx5/themes/default/theme.conf");
-        themeConfigPath_ = QStandardPaths::writableLocation(
-                               QStandardPaths::GenericDataLocation)
-                               .append("fcitx5/themes/default/theme.conf");
+    themeConfigPath_ = userThemeConfigPath(theme_);
+    auto file = locateThemeConfig(theme_);
+    if (file.isEmpty() && theme_ != "default") {
+        themeConfigPath_ = userThemeConfigPath("default");
+        file = locateThemeConfig("default");
         theme_ = "default";
     }
 
-    watcher_->addPath(themeConfigPath_);
+    if (!themeConfigPath_.isEmpty()) {
+        watcher_->addPath(themeConfigPath_);
+    }
 
     // We can not locate default theme.
     if (file.isEmpty()) {
