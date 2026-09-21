@@ -24,6 +24,12 @@ bool isSystemThemeName(const QString &themeName) {
     return themeName == "default" || themeName == "default-dark";
 }
 
+bool isThemeName(const QString &themeName) {
+    const QFileInfo themeFile(themeName);
+    return !themeName.isEmpty() && themeName != "." && themeName != ".." &&
+           themeFile.isRelative() && themeFile.fileName() == themeName;
+}
+
 QString pathForTheme(const QString &themeName, const QString &fileName) {
     return QStringLiteral("fcitx5/themes/%1/%2").arg(themeName, fileName);
 }
@@ -221,6 +227,9 @@ void FcitxTheme::configChanged() {
     wheelForPaging_ =
         settings.value("WheelForPaging", "True").toString() == "True";
     theme_ = settings.value("Theme", "default").toString();
+    if (!isThemeName(theme_)) {
+        theme_ = "default";
+    }
 
     themeChanged();
 }
