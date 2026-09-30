@@ -18,6 +18,7 @@
 #include <qpa/qplatformcursor.h>
 #include <qpa/qplatformnativeinterface.h>
 #include <qpa/qplatformscreen.h>
+#include <qpa/qplatformwindow.h>
 #include <qpa/qwindowsysteminterface.h>
 
 #include <cerrno>
@@ -608,13 +609,15 @@ void QFcitxPlatformInputContext::cursorRectChanged() {
     }
 
     qreal scale = inputWindow->devicePixelRatio();
+    qreal platformScale = inputWindow->handle()->devicePixelRatio();
     if (data.capability & FcitxCapabilityFlag_RelativeRect) {
         auto margins = inputWindow->frameMargins();
         r.translate(margins.left(), margins.top());
         r = QRect(r.topLeft() * scale, r.size() * scale);
         if (data.rect != r) {
             data.rect = r;
-            proxy->setCursorRectV2(r.x(), r.y(), r.width(), r.height(), scale);
+            proxy->setCursorRectV2(r.x(), r.y(), r.width(), r.height(),
+                                   platformScale);
         }
         return;
     }
