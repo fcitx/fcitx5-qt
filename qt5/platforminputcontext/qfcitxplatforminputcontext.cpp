@@ -496,7 +496,14 @@ void QFcitxPlatformInputContext::update(Qt::InputMethodQueries queries) {
             }
         }
     } while (false);
-    if (!setSurrounding) {
+    // An update that did not ask about the surrounding text says nothing
+    // about it; only one that evaluated it may withdraw it. Clearing on
+    // every update (e.g. a cursor-rectangle-only query after a key press)
+    // drops SurroundingText and breaks deleteSurroundingText against the
+    // cleared copy.
+    if (!setSurrounding &&
+        (queries & (Qt::ImSurroundingText | Qt::ImCursorPosition |
+                    Qt::ImAnchorPosition))) {
         data.surroundingAnchor = -1;
         data.surroundingCursor = -1;
         data.surroundingText = QString();
