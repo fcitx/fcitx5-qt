@@ -318,7 +318,14 @@ void QFcitxPlatformInputContext::cleanUp() {
     }
 }
 
-bool QFcitxPlatformInputContext::isValid() const { return true; }
+bool QFcitxPlatformInputContext::isValid() const {
+    // The offscreen platform has no display for input to come from (it runs
+    // tests and headless tools), so a context created there carries no display
+    // hint, and fcitx puts it in the focus group of the session's display.
+    // Each focus change in such an app would then take the input focus from the
+    // real window that has it, cancelling e.g. a pending dead key.
+    return QGuiApplication::platformName() != QLatin1String("offscreen");
+}
 
 void QFcitxPlatformInputContext::invokeAction(QInputMethod::Action imAction,
                                               int cursorPosition) {
